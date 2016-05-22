@@ -1,4 +1,7 @@
 #+TITLE: Very powerful data analysis environment - org mode with ob-ipython
+#+DATE: <2016-05-22 Sun>
+#+AUTHOR: Robert Kozikowski
+#+EMAIL: r.kozikowski@gmail.com
 
 * Introduction
 Emacs =org-mode= with =ob-ipython= is the most powerful data analysis environment I ever used.
@@ -261,7 +264,15 @@ You also need to tell src block to interpret results directly with =:results out
 :END:
 
 Afterwards, you may assign result table to variable, edit it with org spreadsheet capabilities and use in other python script.
+
 ** TODO Shared code
+http://emacs.stackexchange.com/questions/2951/can-i-include-a-common-code-block-in-two-different-code-blocks-in-org-mode
+** TODO Use global constant
+
+#+CONSTANTS: message="Hello world"
+#+BEGIN_SRC ipython :session :results output 
+  print message
+#+END_SRC
 ** TODO Data frame sharing with org tables
 ** TODO Pass data directly between languages
 Create my example based on http://minimallysufficient.github.io/2015/10/24/org-mode-as-an-alternative-to-knitr.html
@@ -281,9 +292,11 @@ This should work:
   (browse-url-emacs "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/pythonbabel.org")
 #+END_SRC
 
+
 #+BEGIN_SRC emacs-lisp
   (browse-url-emacs "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/ipython-babel.org")
 #+END_SRC
+
 * Unresolved problems
 Problems I did not resolve yet:
 ** TODO =ob-ipython-inspect= in popup

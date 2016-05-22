@@ -167,28 +167,22 @@ Add to your Emacs config:
 * My workflow
 I settled on workflow of having two buffers opened side by side.
 On one side I would have opened org file, on the other side I would the have ipython console.
-I would figure out what's the next "correct" step in ipython console and add then add it to the org source buffer.
+
+I am experimenting with commands in the ipython console, and I copy back the permanent results I want to
+remember or share with people into the org src block.
 
 Both windows re-use the same ipython kernel (So they share variables). You may have multiple kernels running.
 I have code completion and python docstrings in the ipython buffer.
 ** Screenshot
 #+attr_html: :width 800px
 [[file:ob-ipython.png]]
-** TODO Capture results from ipython to src block.
-I am experimenting with commands in the ipython console, and I copy back the permanent results I want to
-remember or share with people into the org src block.
-To avoid manual copying, I could implement an =ob-ipython-capture= function, that would add last executed
-command in the ipython console to the src block.
-[[http://stackoverflow.com/questions/27260049/emacs-cross-file-keyboard-macro][Keyboard macros can work cross-buffer]], so this could be simple keyboard macro, but I didn't try it out yet.
-** TODO Re-evaluate the src block
-Sometimes I am in the ipython console, and I changed the value of some common
-variable. I want to re-evaluate the src block (for example, to see the new chart).
-I think this could be done by keyboard macro as well.
-** TODO Default ipython configuration
-From official docs:
-
-Be sure to use ~%matplotlib inline~, otherwise graphics won't work.
-** TODO Configure ipython
+** Default ipython configuration
+If you want to run some code in each ipython block you can add it to =~/.ipython/profile_default/startup=.
+Foe example, to avoid adding =%matplotlib inline= to each source code block:
+#+BEGIN_SRC bash
+  echo "%matplotlib inline" >> ~/.ipython/profile_default/startup/66-matplot.py
+#+END_SRC
+** TODO Configure yasnippet
 From official docs:
 
 I use yasnippet to create src blocks. Here is the snippet I use.
@@ -204,8 +198,6 @@ so I don't have to think about this.
        $0
        ,#+END_SRC
 #+END_SRC
-** TODO Configure the =org-edit-src-code= to use ipython completion.
-** TODO new source blocks. yasnippet?
 * Examples
 ** Org table to pandas and plotting
 #+TBLNAME: data_table
@@ -293,6 +285,16 @@ This should work:
   (browse-url-emacs "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/ipython-babel.org")
 #+END_SRC
 * Unresolved problems
+Problems I did not resolve yet:
+** TODO =ob-ipython-inspect= in popup
+Currently it opens a separate buffer. I would prefer a popup.
+** TODO Configure the =org-edit-src-code= to use ipython completion.
+Currently, I have code completion only working in ipython buffer.
+It seems doable to configure it in the edit source block as well.
+** TODO Capture results from ipython to src block.
+To avoid manual copying between ipython buffer and source code block, I could implement an =ob-ipython-capture= function, that would add last executed
+command in the ipython console to the src block.
+[[http://stackoverflow.com/questions/27260049/emacs-cross-file-keyboard-macro][Keyboard macros can work cross-buffer]], so this could be simple keyboard macro, but I didn't try it out yet.
 ** TODO Figure out why SVG doesn't work
 In order to make a svg graphic rather than png, you may specify the
 output format globally to IPython.
@@ -300,8 +302,6 @@ output format globally to IPython.
 #+BEGIN_EXAMPLE
      %config InlineBackend.figure_format = 'svg'
 #+END_EXAMPLE
-** TODO =ob-ipython-inspect= in popup
-Currently it opens a separate buffer. I would prefer a popup.
 * Further reading
 ** [[http://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html][Official org mode documentation]]
 ** [[https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org][Official documentation of ob-ipython]]

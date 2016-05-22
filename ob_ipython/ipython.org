@@ -1,0 +1,301 @@
+#+TITLE: Very powerful data analysis environment - org mode with ob-ipython
+
+* Introduction
+Emacs =org-mode= with =ob-ipython= is the most powerful data analysis environment I ever used.
+I find it much more powerful than other tools I used, including jupyter and beaker web notebooks or just writing python in PyCharm.
+
+Word "Emacs" may be scary. There are pre-packaged and pre-configured emacs distribution that have much smaller learning curve, my favorite being [[http://spacemacs.org/][Spacemacs]] (I am in progress of rebasing my config with it).
+You can just use 1% of capabilities of Emacs (probably majority of Emacs users do not approach 10% of Emacs capabilities).
+
+If you are going to bring up the common quote of "emacs is fine operating system, but it lacks decent text editor" -
+Emacs now have decent text editor by using the vim emulation =evil-mode=. It's the best vim emulation in existence
+and even many packages from vim are ported. Spacemacs is a nice emacs distribution that bundles evil mode.
+
+I will try to introduce and describe org mode with ob-ipython it for users who never used Emacs before.
+* Features (or "What's that powerful about it")
+** Embed code blocks in any language
+You can embed [[http://orgmode.org/manual/Working-With-Source-Code.html][embeded source code]] long text and evaluate it with =C-c C-c=.
+It supports textual results or results as charts.
+
+What's more You can have separate org file and ipython console open side by side.
+With ipython, reading python docstrings and code completion works well. See [[*Screenshot][my screenshot]].
+
+Since ob-ipython uses jupyter, you can get the same environment for anything that have jupyter kernel, including [[https://github.com/calysto/matlab_kernel][matlab]], [[https://github.com/alexarchambault/jupyter-scala][Scala]], [[https://github.com/apache/incubator-toree][Spark]] or [[http://irkernel.github.io/][R]] and [[https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages][many more]].
+** Results can be exported to many formats, like latex, html or this blog
+This blog post is just an export of org mode file.
+In addition to latex (native and beamer), exporting works to many formats,
+like markdown, jira, some obscure wiki formats, odt (than can be imported to google docs).
+
+Syntax highlighting can be preserved for some exports, like html or latex.
+This blog post is in fact org mode export.
+
+Just learn one way to edit documents and presentations than can be exported to majority of formats on earth.
+** Programmatic documents (aka literate programming)
+Emacs org mode with org babel is a full fledged [[https://en.wikipedia.org/wiki/Literate_programming][literate programming]] environment.
+[[http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/][Some people have published whole books or research papers as a large executable document in org.]]
+
+[[https://github.com/jkitchin/pycse][Python computations in science and engineering]] book supports org mode and
+it's far better book reading experience than anything I ever experienced before.
+I can tweak and re-run code examples, link from other files or tag interesting
+sections.
+
+When writing some latex in college, I recall situations when I am half
+way through writing latex document. I would came up with the idea of
+some parameter tweak, and suddenly I have to re-generate all charts.
+
+With org mode, the document is generated pragmatically. Not only
+you can easily re-generate it, but readers of your paper can tweak
+parameters or supply their own data set and re-generate the whole document.
+
+As soon as you learn org mode all of it is easy and seamless.
+** [[http://orgmode.org/manual/The-spreadsheet.html#The-spreadsheet][Built in spreadsheet application]]
+Sometimes just "manually" editing the data is the most productive thing to do.
+You can do it with org mode spreadsheet capabilities on org tables.
+
+The added benefit is that formulas are written in lisp, that is cooler and more powerful language than Visual basic.
+http://orgmode.org/manual/Translator-functions.html
+*** Export to pandas
+My current Table->Pandas->Table workflow works, but is a bit clunky, but it can be improved.
+[[*Examples][See examples section]].
+*** Other exporters
+You can export org tables to many formats by exporting it to pandas and then
+using pandas exporter.
+Nevertheless, org supports [[https://github.com/stuartsierra/org-mode/blob/master/contrib/lisp/orgtbl-sqlinsert.el][sql]], [[http://orgmode.org/manual/Translator-functions.html][csv, latex, html]] exporters.
+** Pass code between languages
+Similar functionality is offered by [[http://beakernotebook.com/][beaker notebook.]]
+
+I found out that org mode as intermediate format for data sometimes works better for me.
+
+Since intermediate format for a data frame is the org table, I can import data frame to org, edit it as spreadsheet and export it back.
+See [[*Pass data directly between languages][Pass data directly between languages]] in examples section.
+** Outline view is powerful for organizing your work
+Org mode outline view is very handy for organizing your work.
+When working on some larger problem, I am currently focusing on small subset of it.
+Org mode lets me just expand sections that are currently relevant.
+
+I also find adding embedding TODO items in the tree quite handy.
+When I encounter some problem I mark a subtree as TODO, and I can
+later inspect just subtree headlines with TODO items with them.
+See [[file:todo.png][file:~/home_org/blog/ob_ipython/todo.png]].
+** Navigate to code and between org files with ctags.
+You can link to your existing codebase [[http://orgmode.org/w/?p=org-mode.git;a=blob_plain;f=lisp/org-ctags.el;hb=HEAD][with org-ctags.]]
+It seems possible to provide ide-like navigation between
+code defined in org src buffers, but I didn't configure it yet.
+** Many more
+You don't have to use all features offered by org mode.
+*** Embed latex formulas
+*** Fast access to source control
+I like to keep my notes in source control.
+To avoid overheard of additional committing I use =magit-mode=.
+Out of the box you can commit directly from Emacs with 6 keyboard strokes.
+With a few lines of elisp you can auto generate commit messages or automatically commit based on some condition (e.g. save or file closed or =focus-out-hook=).
+
+Everything in org is plain text, including results of eval of code blocks, so it will be treated well by the source control.
+*** Managing papers citations
+[[https://github.com/kyleam/bog][boq]], [[https://github.com/jkitchin/org-ref][org-ref,]] [[https://github.com/tmalsburg/helm-bibtex][helm-bibtex,]] [[http://www.mkbehr.com/posts/a-research-workflow-with-zotero-and-org-mode/][some blog post]]
+*** [[https://play.google.com/store/apps/details?id=com.orgzly&hl=en_GB][Mobile client]]
+*** Calendar
+*** Tagging
+*** Links
+*** Agenda views
+*** [[http://orgmode.org/manual/Capture.html#Capture][Quickly add something to current org, without interruption to flow]]
+*** [[https://www.youtube.com/watch?v=JZ8RK-R9O_g][Do lectures]]
+*** Even more
+I only mentioned features I like. Some more urls that you can take a look at:
+
+#+BEGIN_SRC emacs-lisp
+  (browse-url-emacs "http://kitchingroup.cheme.cmu.edu/org/2014/08/08/What-we-are-using-org-mode-for.org")
+#+END_SRC
+
+- http://doc.norang.ca/org-mode.html
+- http://pages.sachachua.com/.emacs.d/Sacha.html
+- https://github.com/fniessen/emacs-leuven-theme
+- https://github.com/purcell/color-theme-sanityinc-tomorrow
+- http://sachachua.com/blog/2014/01/tips-learning-org-mode-emacs/
+- [[http://minimallysufficient.github.io/2015/10/24/org-mode-as-an-alternative-to-knitr.html][Comparision with knitr]]
+* Installation
+** Install Emacs
+Although I don't use it, I recommend [[http://spacemacs.org/][Spacemacs]], pre-configured emacs distribution, like "Ubuntu" of Emacs.
+** Ensure you have correct python packages
+If you don't run those, you may run into troubles.
+#+BEGIN_SRC bash
+   pip install --upgrade pip
+   pip install --upgrade ipython
+   pip install --upgrade pyzmq
+   pip install --upgrade jupyter
+#+END_SRC
+** Install org mode and ob-ipython
+#+BEGIN_EXAMPLE
+org
+ob-ipython
+#+END_EXAMPLE
+** Elisp configuration
+Add to your Emacs config:
+#+BEGIN_SRC emacs-lisp
+  (require 'org)
+  (require 'ob-ipython)
+
+  ;; don't prompt me to confirm everytime I want to evaluate a block
+  (setq org-confirm-babel-evaluate nil)
+
+  ;;; display/update images in the buffer after I evaluate
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+#+END_SRC
+* My workflow
+I settled on workflow of having two buffers opened side by side.
+On one side I would have opened org file, on the other side I would the have ipython console.
+Both windows re-use the same ipython kernel.
+I have code completion and python docstrings in the ipython buffer.
+** Screenshot
+#+attr_html: :width 800px
+[[file:ob-ipython.png]]
+** TODO Capture results from ipython to src block.
+I am experimenting with commands in the ipython console, and I copy back the permanent results I want to
+remember or share with people into the org src block.
+To avoid manual copying, I could implement an =ob-ipython-capture= function, that would add last executed
+command in the ipython console to the src block.
+[[http://stackoverflow.com/questions/27260049/emacs-cross-file-keyboard-macro][Keyboard macros can work cross-buffer]], so this could be simple keyboard macro, but I didn't try it out yet.
+** TODO Re-evaluate the src block
+Sometimes I am in the ipython console, and I changed the value of some common
+variable. I want to re-evaluate the src block (for example, to see the new chart).
+I think this could be done by keyboard macro as well.
+** TODO Default ipython configuration
+From official docs:
+
+Be sure to use ~%matplotlib inline~, otherwise graphics won't work.
+** TODO Configure ipython
+From official docs:
+
+I use yasnippet to create src blocks. Here is the snippet I use.
+It takes care of generating unique file names (when I want one)
+so I don't have to think about this.
+
+#+BEGIN_SRC snippet
+       # -*- mode: snippet -*-
+       # name: ipython block
+       # key: py
+       # --
+       ,#+BEGIN_SRC ipython :session ${1::file ${2:$$(let ((temporary-file-directory "./")) (make-temp-file "py" nil ".png"))} }:exports ${3:both}
+       $0
+       ,#+END_SRC
+#+END_SRC
+** TODO Configure the =org-edit-src-code= to use ipython completion.
+* Examples
+** Org table to pandas
+#+TBLNAME: data_table
+|------------------+----+---|
+| date             |  x | y |
+|------------------+----+---|
+| <2016-06-15 Wed> |  1 | 1 |
+| <2016-06-16 Thu> |  2 | 2 |
+| <2016-06-17 Fri> |  4 | 3 |
+| <2016-06-18 Sat> |  8 | 4 |
+| <2016-06-19 Sun> | 16 | 5 |
+| <2016-06-20 Mon> | 32 | 6 |
+|------------------+----+---|
+
+#+BEGIN_SRC ipython :session :file plot.png :exports both :var table=data_table
+  import matplotlib.pyplot as plt
+  import numpy as np
+  import pandas as pd
+  %matplotlib inline
+
+  df = pd.DataFrame(table[1:], columns=table[0])
+  df.plot()
+#+END_SRC
+
+#+RESULTS:
+[[file:plot.png]]
+** Org table -> Pandas -> Org table
+You have to write small reusable snippet to print pandas to org format.
+You can add it to your builtin ipython code snippets.
+You also need to tell src block to interpret results directly with =:results output raw drawer :noweb yes=.
+
+#+BEGIN_SRC ipython :session :exports both :var table=data_table :results output raw drawer :noweb yes
+  def arr_to_org(arr):
+    line = "|".join(str(item) for item in arr)
+    return "|{}|".format(line)
+
+  def df_to_org(df):
+    return "\n".join([arr_to_org(df.columns)] +
+    [arr_to_org(row) for row in df.values])
+
+
+  import matplotlib.pyplot as plt
+  import numpy as np
+  import pandas as pd
+  %matplotlib inline
+
+  df = pd.DataFrame(table[1:], columns=table[0])
+  print df_to_org(df)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+| date             |  x | y |
+| <2016-06-15 Wed> |  1 | 1 |
+| <2016-06-16 Thu> |  2 | 2 |
+| <2016-06-17 Fri> |  4 | 3 |
+| <2016-06-18 Sat> |  8 | 4 |
+| <2016-06-19 Sun> | 16 | 5 |
+| <2016-06-20 Mon> | 32 | 6 |
+:END:
+
+Afterwards, you may assign result table to variable, edit it with org spreadsheet capabilities and use in other python script.
+** TODO Shared code
+** TODO Data frame sharing with org tables
+** TODO Pass data directly between languages
+Create my example based on http://minimallysufficient.github.io/2015/10/24/org-mode-as-an-alternative-to-knitr.html
+** Other people examples
+=C-c C-c= block to open org file directly in Emacs:
+#+BEGIN_SRC emacs-lisp
+  (browse-url-emacs "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/pythonbabel.org")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (browse-url-emacs "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/ipython-babel.org")
+#+END_SRC
+
+* Things to fix
+** TODO Other backends than python
+If you wish to use a specific Jupyter kernel, you may pass the
+kernel option. This enables you to use ob-ipython with languages
+other than Python. You need to have the Jupyter kernel installed
+and working before you can use this.
+
+When mixing code from different languages you will need to make use
+of the session argument.
+
+#+BEGIN_SRC org
+     ,#+BEGIN_SRC ipython :session :kernel clojure
+       (+ 1 2)
+     ,#+END_SRC
+
+     ,#+RESULTS:
+     : 3
+#+END_SRC
+** TODO Figure out why SVG doesn't work
+In order to make a svg graphic rather than png, you may specify the
+output format globally to IPython.
+
+#+BEGIN_EXAMPLE
+     %config InlineBackend.figure_format = 'svg'
+#+END_EXAMPLE
+** TODO =ob-ipython-inspect= in popup
+* Debugging
+** Verify that restarting ipython doesn't help.
+#+BEGIN_SRC emacs-lisp
+  (ob-ipython-kill-kernel)
+#+END_SRC
+** Open "Python" buffer to see python errors
+** Toggle elisp debug on error
+#+BEGIN_SRC emacs-lisp
+     (toggle-debug-on-error)
+#+END_SRC
+** [[https://github.com/gregsexton/ob-ipython/issues][Check project issues]]
+* Extra links
+** [[https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org][Official documentation of ob-ipython]]
+Open org directly in Emacs:
+#+BEGIN_SRC emacs-lisp
+  (browse-url-emacs "https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org")
+#+END_SRC

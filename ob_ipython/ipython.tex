@@ -1,0 +1,54 @@
+% Created 2016-05-21 Sat 20:34
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{minted}
+\author{Robert Kozikowski}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={Robert Kozikowski},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 24.5.1 (Org mode 8.3.4)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+\section{Debugging}
+\label{sec:orgheadline1}
+\begin{enumerate}
+\item Open "Python" buffer to see python errors
+\end{enumerate}
+\section{Example block}
+\label{sec:orgheadline2}
+\begin{minted}[]{ipython}
+%matplotlib inline
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+def foo(x):
+    return x + 9
+
+[foo(x) + 9 for x in range(7)]
+
+plt.hist(np.random.randn(20000), bins=200)
+\end{minted}
+
+\includegraphics[width=.9\linewidth]{image.png}
+\end{document}

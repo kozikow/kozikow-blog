@@ -1,4 +1,4 @@
-% Created 2016-05-23 Mon 14:06
+% Created 2016-05-23 Mon 18:33
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -124,7 +124,8 @@ Org mode lets me just expand sections that are currently relevant.
 I also find adding embedding TODO items in the tree quite handy.
 When I encounter some problem I mark a subtree as TODO, and I can
 later inspect just subtree headlines with TODO items with them.
-See \href{todo.png}{\includegraphics[width=.9\linewidth]{/home/rkoziko/home_org/blog/ob_ipython/todo.png}}.
+See:
+\includegraphics[width=.9\linewidth]{todo.png}
 \subsection{Navigate to code and between org files with ctags.}
 \label{sec:orgheadline13}
 You can link to your existing codebase \href{http://orgmode.org/w/?p=org-mode.git;a=blob_plain;f=lisp/org-ctags.el;hb=HEAD}{with org-ctags.}
@@ -148,10 +149,13 @@ Everything in org is plain text, including results of eval of code blocks, so it
 \label{sec:orgheadline16}
 \subsubsection{Spaced repetition framework (remember all those pesky maths formulas)}
 \label{sec:orgheadline17}
-If you are like me, you forgot majority of maths formulas since college.
-\href{https://www.gwern.net/Spaced\%2520repetition}{Very good post about spaced repetition in general from gwern.}
+If you are like me, you forgot a lot of maths formulas since college.
+Spaced repetition is a tool that helps you avoid forgetting important facts like maths formulas.
+\href{https://www.gwern.net/Spaced\%2520repetition}{I recommend this very good post about spaced repetition in general from gwern.}
 
-There are tools like anki or super memo, but as soon as you want advanced features like
+People primarily use spaced repetition for learning words in new languages, but I use it for maths formulas or technical facts.
+
+There are spaced repitition tools like anki or super memo, but as soon as you want advanced features like
 latex support they either not support them, or do it in a very bad way.
 
 \href{http://orgmode.org/worg/org-contrib/org-drill.html}{org-drill} is a spaced repetition framework in drill, that allows you to use all of the org features for creating flash cards.
@@ -338,20 +342,42 @@ date & x & y\\
 \end{center}
 
 Afterwards, you may assign result table to variable, edit it with org spreadsheet capabilities and use in other python script.
+\subsection{{\bfseries\sffamily TODO} Connect to existing ipython kernel}
+\label{sec:orgheadline44}
+How it currently 
+Create kernel with:
+\begin{minted}[]{python}
+#!/usr/bin/env python
+import os
+from IPython.zmq.ipkernel import IPKernelApp
+
+app = IPKernelApp.instance()
+app.initialize([])
+kernel = app.kernel
+kernel.shell.push({'print_me': 'Running in previously started kernel.'})
+app.start()
+\end{minted}
+
+Get json from previous command.
+
+Connect with (somehow pass this to ipython):
+\begin{minted}[]{bash}
+ipython console --existing kernel-509.json
+\end{minted}
 
 \subsection{{\bfseries\sffamily TODO} Shared code}
-\label{sec:orgheadline44}
+\label{sec:orgheadline45}
 \url{http://emacs.stackexchange.com/questions/2951/can-i-include-a-common-code-block-in-two-different-code-blocks-in-org-mode}
 \subsection{{\bfseries\sffamily TODO} Use global constant}
-\label{sec:orgheadline45}
+\label{sec:orgheadline46}
 
 \subsection{{\bfseries\sffamily TODO} Data frame sharing with org tables}
-\label{sec:orgheadline46}
+\label{sec:orgheadline47}
 \subsection{{\bfseries\sffamily TODO} Pass data directly between languages}
 \label{sec:orgheadline10}
 Create my example based on \url{http://minimallysufficient.github.io/2015/10/24/org-mode-as-an-alternative-to-knitr.html}
 \subsection{{\bfseries\sffamily TODO} Different language kernels}
-\label{sec:orgheadline47}
+\label{sec:orgheadline48}
 This should work:
 \begin{minted}[]{org}
 #+BEGIN_SRC ipython :session :kernel clojure
@@ -362,7 +388,7 @@ This should work:
 : 3
 \end{minted}
 \subsection{Examples from other blog posts}
-\label{sec:orgheadline48}
+\label{sec:orgheadline49}
 \texttt{C-c C-c} block to open org file directly in Emacs:
 \begin{minted}[]{common-lisp}
 (browse-url-emacs "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/pythonbabel.org")
@@ -374,22 +400,22 @@ This should work:
 \end{minted}
 
 \section{Unresolved problems}
-\label{sec:orgheadline53}
+\label{sec:orgheadline54}
 Problems I did not resolve yet:
 \subsection{{\bfseries\sffamily TODO} \texttt{ob-ipython-inspect} in popup}
-\label{sec:orgheadline49}
+\label{sec:orgheadline50}
 Currently it opens a separate buffer. I would prefer a popup.
 \subsection{{\bfseries\sffamily TODO} Configure the \texttt{org-edit-src-code} to use ipython completion.}
-\label{sec:orgheadline50}
+\label{sec:orgheadline51}
 Currently, I have code completion only working in ipython buffer.
 It seems doable to configure it in the edit source block as well.
 \subsection{{\bfseries\sffamily TODO} Capture results from ipython to src block.}
-\label{sec:orgheadline51}
+\label{sec:orgheadline52}
 To avoid manual copying between ipython buffer and source code block, I could implement an \texttt{ob-ipython-capture} function, that would add last executed
 command in the ipython console to the src block.
 \href{http://stackoverflow.com/questions/27260049/emacs-cross-file-keyboard-macro}{Keyboard macros can work cross-buffer}, so this could be simple keyboard macro, but I didn't try it out yet.
 \subsection{{\bfseries\sffamily TODO} Figure out why SVG doesn't work}
-\label{sec:orgheadline52}
+\label{sec:orgheadline53}
 In order to make a svg graphic rather than png, you may specify the
 output format globally to IPython.
 
@@ -397,24 +423,24 @@ output format globally to IPython.
 %config InlineBackend.figure_format = 'svg'
 \end{verbatim}
 \section{Further reading}
-\label{sec:orgheadline60}
+\label{sec:orgheadline61}
 \subsection{\href{http://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html}{Official org mode documentation}}
-\label{sec:orgheadline54}
-\subsection{\href{https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org}{Official documentation of ob-ipython}}
 \label{sec:orgheadline55}
+\subsection{\href{https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org}{Official documentation of ob-ipython}}
+\label{sec:orgheadline56}
 Open org directly in Emacs:
 \begin{minted}[]{common-lisp}
 (browse-url-emacs "https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org")
 \end{minted}
 \subsection{\href{http://dl.acm.org/citation.cfm?id=2723881}{Research paper: An Effective Git And Org-Mode Based Workflow For Reproducible Research}}
-\label{sec:orgheadline56}
-Search by DOI 10.1145/2723872.2723881 on sci hub.
-\subsection{\href{http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/}{Run a whole research department on CMU using org mode}}
 \label{sec:orgheadline57}
-\subsection{\href{http://www.howardism.org/Technical/Emacs/literate-devops.html}{Org mode for managing your server configuration}}
+Search by DOI 10.1145/2723872.2723881 on sci hub.
+\subsection{\href{http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/}{Whole research department on CMU ran on org mode}}
 \label{sec:orgheadline58}
-\subsection{Manage your emacs configuration using org mode}
+\subsection{\href{http://www.howardism.org/Technical/Emacs/literate-devops.html}{Org mode for managing your server configuration}}
 \label{sec:orgheadline59}
+\subsection{Manage your emacs configuration using org mode}
+\label{sec:orgheadline60}
 \url{https://github.com/seth/my-emacs-dot-d/blob/master/emacs-init.org}
 \url{http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php}
 \url{http://emacs.stackexchange.com/questions/3143/can-i-use-org-mode-to-structure-my-emacs-or-other-el-configuration-file}

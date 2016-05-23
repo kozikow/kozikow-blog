@@ -63,30 +63,31 @@
 <ul>
 <li><a href="#orgheadline42">6.1. Org table to pandas and plotting</a></li>
 <li><a href="#orgheadline43">6.2. Org table -&gt; Pandas -&gt; Org table</a></li>
-<li><a href="#orgheadline44">6.3. <span class="todo TODO">TODO</span> Shared code</a></li>
-<li><a href="#orgheadline45">6.4. <span class="todo TODO">TODO</span> Use global constant</a></li>
-<li><a href="#orgheadline46">6.5. <span class="todo TODO">TODO</span> Data frame sharing with org tables</a></li>
-<li><a href="#orgheadline10">6.6. <span class="todo TODO">TODO</span> Pass data directly between languages</a></li>
-<li><a href="#orgheadline47">6.7. <span class="todo TODO">TODO</span> Different language kernels</a></li>
-<li><a href="#orgheadline48">6.8. Examples from other blog posts</a></li>
+<li><a href="#orgheadline44">6.3. <span class="todo TODO">TODO</span> Connect to existing ipython kernel</a></li>
+<li><a href="#orgheadline45">6.4. <span class="todo TODO">TODO</span> Shared code</a></li>
+<li><a href="#orgheadline46">6.5. <span class="todo TODO">TODO</span> Use global constant</a></li>
+<li><a href="#orgheadline47">6.6. <span class="todo TODO">TODO</span> Data frame sharing with org tables</a></li>
+<li><a href="#orgheadline10">6.7. <span class="todo TODO">TODO</span> Pass data directly between languages</a></li>
+<li><a href="#orgheadline48">6.8. <span class="todo TODO">TODO</span> Different language kernels</a></li>
+<li><a href="#orgheadline49">6.9. Examples from other blog posts</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline53">7. Unresolved problems</a>
+<li><a href="#orgheadline54">7. Unresolved problems</a>
 <ul>
-<li><a href="#orgheadline49">7.1. <span class="todo TODO">TODO</span> <code>ob-ipython-inspect</code> in popup</a></li>
-<li><a href="#orgheadline50">7.2. <span class="todo TODO">TODO</span> Configure the <code>org-edit-src-code</code> to use ipython completion.</a></li>
-<li><a href="#orgheadline51">7.3. <span class="todo TODO">TODO</span> Capture results from ipython to src block.</a></li>
-<li><a href="#orgheadline52">7.4. <span class="todo TODO">TODO</span> Figure out why SVG doesn't work</a></li>
+<li><a href="#orgheadline50">7.1. <span class="todo TODO">TODO</span> <code>ob-ipython-inspect</code> in popup</a></li>
+<li><a href="#orgheadline51">7.2. <span class="todo TODO">TODO</span> Configure the <code>org-edit-src-code</code> to use ipython completion.</a></li>
+<li><a href="#orgheadline52">7.3. <span class="todo TODO">TODO</span> Capture results from ipython to src block.</a></li>
+<li><a href="#orgheadline53">7.4. <span class="todo TODO">TODO</span> Figure out why SVG doesn't work</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline60">8. Further reading</a>
+<li><a href="#orgheadline61">8. Further reading</a>
 <ul>
-<li><a href="#orgheadline54">8.1. Official org mode documentation</a></li>
-<li><a href="#orgheadline55">8.2. Official documentation of ob-ipython</a></li>
-<li><a href="#orgheadline56">8.3. Research paper: An Effective Git And Org-Mode Based Workflow For Reproducible Research</a></li>
-<li><a href="#orgheadline57">8.4. Run a whole research department on CMU using org mode</a></li>
-<li><a href="#orgheadline58">8.5. Org mode for managing your server configuration</a></li>
-<li><a href="#orgheadline59">8.6. Manage your emacs configuration using org mode</a></li>
+<li><a href="#orgheadline55">8.1. Official org mode documentation</a></li>
+<li><a href="#orgheadline56">8.2. Official documentation of ob-ipython</a></li>
+<li><a href="#orgheadline57">8.3. Research paper: An Effective Git And Org-Mode Based Workflow For Reproducible Research</a></li>
+<li><a href="#orgheadline58">8.4. Whole research department on CMU ran on org mode</a></li>
+<li><a href="#orgheadline59">8.5. Org mode for managing your server configuration</a></li>
+<li><a href="#orgheadline60">8.6. Manage your emacs configuration using org mode</a></li>
 </ul>
 </li>
 </ul>
@@ -195,7 +196,8 @@ Org mode lets me just expand sections that are currently relevant.
 I also find adding embedding TODO items in the tree quite handy.
 When I encounter some problem I mark a subtree as TODO, and I can
 later inspect just subtree headlines with TODO items with them.
-See [![img](/home/rkoziko/home_org/blog/ob_ipython/todo.png)](todo.png).
+See:
+![img](todo.png)
 
 ## Navigate to code and between org files with ctags.<a id="orgheadline13"></a>
 
@@ -224,10 +226,13 @@ Everything in org is plain text, including results of eval of code blocks, so it
 
 ### Spaced repetition framework (remember all those pesky maths formulas)<a id="orgheadline17"></a>
 
-If you are like me, you forgot majority of maths formulas since college.
-[Very good post about spaced repetition in general from gwern.](https://www.gwern.net/Spaced%2520repetition)
+If you are like me, you forgot a lot of maths formulas since college.
+Spaced repetition is a tool that helps you avoid forgetting important facts like maths formulas.
+[I recommend this very good post about spaced repetition in general from gwern.](https://www.gwern.net/Spaced%2520repetition)
 
-There are tools like anki or super memo, but as soon as you want advanced features like
+People primarily use spaced repetition for learning words in new languages, but I use it for maths formulas or technical facts.
+
+There are spaced repitition tools like anki or super memo, but as soon as you want advanced features like
 latex support they either not support them, or do it in a very bad way.
 
 [org-drill](http://orgmode.org/worg/org-contrib/org-drill.html) is a spaced repetition framework in drill, that allows you to use all of the org features for creating flash cards.
@@ -507,19 +512,40 @@ You also need to tell src block to interpret results directly with `:results out
 
 Afterwards, you may assign result table to variable, edit it with org spreadsheet capabilities and use in other python script.
 
-## TODO Shared code<a id="orgheadline44"></a>
+## TODO Connect to existing ipython kernel<a id="orgheadline44"></a>
+
+How it currently 
+Create kernel with:
+
+    #!/usr/bin/env python
+    import os
+    from IPython.zmq.ipkernel import IPKernelApp
+    
+    app = IPKernelApp.instance()
+    app.initialize([])
+    kernel = app.kernel
+    kernel.shell.push({'print_me': 'Running in previously started kernel.'})
+    app.start()
+
+Get json from previous command.
+
+Connect with (somehow pass this to ipython):
+
+    ipython console --existing kernel-509.json
+
+## TODO Shared code<a id="orgheadline45"></a>
 
 <http://emacs.stackexchange.com/questions/2951/can-i-include-a-common-code-block-in-two-different-code-blocks-in-org-mode>
 
-## TODO Use global constant<a id="orgheadline45"></a>
+## TODO Use global constant<a id="orgheadline46"></a>
 
-## TODO Data frame sharing with org tables<a id="orgheadline46"></a>
+## TODO Data frame sharing with org tables<a id="orgheadline47"></a>
 
 ## TODO Pass data directly between languages<a id="orgheadline10"></a>
 
 Create my example based on <http://minimallysufficient.github.io/2015/10/24/org-mode-as-an-alternative-to-knitr.html>
 
-## TODO Different language kernels<a id="orgheadline47"></a>
+## TODO Different language kernels<a id="orgheadline48"></a>
 
 This should work:
 
@@ -530,7 +556,7 @@ This should work:
     #+RESULTS:
     : 3
 
-## Examples from other blog posts<a id="orgheadline48"></a>
+## Examples from other blog posts<a id="orgheadline49"></a>
 
 `C-c C-c` block to open org file directly in Emacs:
 
@@ -538,51 +564,51 @@ This should work:
 
     (browse-url-emacs "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/ipython-babel.org")
 
-# Unresolved problems<a id="orgheadline53"></a>
+# Unresolved problems<a id="orgheadline54"></a>
 
 Problems I did not resolve yet:
 
-## TODO `ob-ipython-inspect` in popup<a id="orgheadline49"></a>
+## TODO `ob-ipython-inspect` in popup<a id="orgheadline50"></a>
 
 Currently it opens a separate buffer. I would prefer a popup.
 
-## TODO Configure the `org-edit-src-code` to use ipython completion.<a id="orgheadline50"></a>
+## TODO Configure the `org-edit-src-code` to use ipython completion.<a id="orgheadline51"></a>
 
 Currently, I have code completion only working in ipython buffer.
 It seems doable to configure it in the edit source block as well.
 
-## TODO Capture results from ipython to src block.<a id="orgheadline51"></a>
+## TODO Capture results from ipython to src block.<a id="orgheadline52"></a>
 
 To avoid manual copying between ipython buffer and source code block, I could implement an `ob-ipython-capture` function, that would add last executed
 command in the ipython console to the src block.
 [Keyboard macros can work cross-buffer](http://stackoverflow.com/questions/27260049/emacs-cross-file-keyboard-macro), so this could be simple keyboard macro, but I didn't try it out yet.
 
-## TODO Figure out why SVG doesn't work<a id="orgheadline52"></a>
+## TODO Figure out why SVG doesn't work<a id="orgheadline53"></a>
 
 In order to make a svg graphic rather than png, you may specify the
 output format globally to IPython.
 
     %config InlineBackend.figure_format = 'svg'
 
-# Further reading<a id="orgheadline60"></a>
+# Further reading<a id="orgheadline61"></a>
 
-## [Official org mode documentation](http://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html)<a id="orgheadline54"></a>
+## [Official org mode documentation](http://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html)<a id="orgheadline55"></a>
 
-## [Official documentation of ob-ipython](https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org)<a id="orgheadline55"></a>
+## [Official documentation of ob-ipython](https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org)<a id="orgheadline56"></a>
 
 Open org directly in Emacs:
 
     (browse-url-emacs "https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org")
 
-## [Research paper: An Effective Git And Org-Mode Based Workflow For Reproducible Research](http://dl.acm.org/citation.cfm?id=2723881)<a id="orgheadline56"></a>
+## [Research paper: An Effective Git And Org-Mode Based Workflow For Reproducible Research](http://dl.acm.org/citation.cfm?id=2723881)<a id="orgheadline57"></a>
 
 Search by DOI 10.1145/2723872.2723881 on sci hub.
 
-## [Run a whole research department on CMU using org mode](http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/)<a id="orgheadline57"></a>
+## [Whole research department on CMU ran on org mode](http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/)<a id="orgheadline58"></a>
 
-## [Org mode for managing your server configuration](http://www.howardism.org/Technical/Emacs/literate-devops.html)<a id="orgheadline58"></a>
+## [Org mode for managing your server configuration](http://www.howardism.org/Technical/Emacs/literate-devops.html)<a id="orgheadline59"></a>
 
-## Manage your emacs configuration using org mode<a id="orgheadline59"></a>
+## Manage your emacs configuration using org mode<a id="orgheadline60"></a>
 
 <https://github.com/seth/my-emacs-dot-d/blob/master/emacs-init.org>
 <http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php>

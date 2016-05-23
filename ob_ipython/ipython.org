@@ -86,7 +86,8 @@ Org mode lets me just expand sections that are currently relevant.
 I also find adding embedding TODO items in the tree quite handy.
 When I encounter some problem I mark a subtree as TODO, and I can
 later inspect just subtree headlines with TODO items with them.
-See [[file:todo.png][file:~/home_org/blog/ob_ipython/todo.png]].
+See:
+[[file:todo.png]]
 ** Navigate to code and between org files with ctags.
 You can link to your existing codebase [[http://orgmode.org/w/?p=org-mode.git;a=blob_plain;f=lisp/org-ctags.el;hb=HEAD][with org-ctags.]]
 It seems possible to provide ide-like navigation between

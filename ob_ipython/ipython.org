@@ -155,7 +155,8 @@ If you don't run those, you may run into troubles.
    pip install --upgrade pyzmq
    pip install --upgrade jupyter
 #+END_SRC
-** Install org mode and ob-ipython
+** Install ob-ipython
+org mode should be bundled with your emacs installation.
 ** Elisp configuration
 Add to your Emacs config:
 #+BEGIN_SRC emacs-lisp

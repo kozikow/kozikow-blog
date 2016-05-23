@@ -1,4 +1,4 @@
-% Created 2016-05-21 Sat 20:34
+% Created 2016-05-23 Mon 10:13
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -16,39 +16,407 @@
 \usepackage{hyperref}
 \usepackage{minted}
 \author{Robert Kozikowski}
-\date{\today}
-\title{}
+\date{\textit{<2016-05-22 Sun>}}
+\title{Very powerful data analysis environment - org mode with ob-ipython}
 \hypersetup{
  pdfauthor={Robert Kozikowski},
- pdftitle={},
+ pdftitle={Very powerful data analysis environment - org mode with ob-ipython},
  pdfkeywords={},
  pdfsubject={},
- pdfcreator={Emacs 24.5.1 (Org mode 8.3.4)}, 
+ pdfcreator={Emacs 24.4.1 (Org mode 8.3.4)}, 
  pdflang={English}}
 \begin{document}
 
+\maketitle
 \tableofcontents
 
-\section{Debugging}
+
+\section{Introduction}
 \label{sec:orgheadline1}
-\begin{enumerate}
-\item Open "Python" buffer to see python errors
-\end{enumerate}
-\section{Example block}
+Emacs \texttt{org-mode} with \texttt{ob-ipython} is the most powerful data analysis environment I ever used.
+I find it much more powerful than other tools I used, including jupyter and beaker web notebooks or just writing python in PyCharm.
+
+Emacs org mode with ob-ipython is like jupyter or beaker notebook, but in Emacs instead of browser and with many more features.
+
+Word "Emacs" may be scary. There are pre-packaged and pre-configured emacs distribution that have much smaller learning curve, my favorite being \href{http://spacemacs.org/}{Spacemacs} (I am in progress of rebasing my config with it).
+You can just use 1\% of capabilities of Emacs (probably majority of Emacs users do not approach 10\% of Emacs capabilities) and still benefit from it.
+
+If you are going to bring up the common quote of "emacs is fine operating system, but it lacks decent text editor" -
+Emacs now have decent text editor by using the vim emulation \texttt{evil-mode}. It's the best vim emulation in existence
+and even many packages from vim are ported. Spacemacs is a nice emacs distribution that bundles evil mode.
+
+I will try to introduce and describe org mode with ob-ipython it for users who never used Emacs before.
+
+Since this blog post have been written in org mode, linear reading experience in exported format is less optimal experience than reading \href{https://github.com/kozikow/kozikow-blog/blob/master/ob_ipython/ipython.org}{the org mode file} directly in org mode.
+\section{Features (aka "What's that powerful about it")}
+\label{sec:orgheadline28}
+\subsection{Embed code blocks in any language}
+\label{sec:orgheadline3}
+You can embed \href{http://orgmode.org/manual/Working-With-Source-Code.html}{embeded source code} long text and evaluate it with \texttt{C-c C-c}.
+It supports textual results or results as charts.
+
+What's more You can have separate org file and ipython console open side by side.
+With ipython, reading python docstrings and code completion works well. See \hyperref[sec:orgheadline2]{my screenshot}.
+
+Since ob-ipython uses jupyter, you can get the same environment for anything that have jupyter kernel, including \href{https://github.com/calysto/matlab_kernel}{matlab}, \href{https://github.com/alexarchambault/jupyter-scala}{Scala}, \href{https://github.com/apache/incubator-toree}{Spark} or \href{http://irkernel.github.io/}{R} and \href{https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages}{many more}.
+\subsection{Results can be exported to many formats, like latex, html or this blog}
+\label{sec:orgheadline4}
+\href{https://github.com/kozikow/kozikow-blog/blob/master/ob_ipython/ipython.org}{This blog post is just an export of org mode file.} All code examples have been written in org mode.
+
+Exporting works to formats like latex (native and beamer), markdown, jira, odt (than can be imported to google docs), wiki formats and many more.
+
+Syntax highlighting can be preserved for some exports, like html or latex.
+
+You can just learn one way to edit documents and presentations than can be exported to majority of formats on earth.
+\subsection{Programmable documents (aka \href{https://en.wikipedia.org/wiki/Literate_programming}{"Literate programming"})}
+\label{sec:orgheadline5}
+Emacs org mode with org babel is a full fledged \href{https://en.wikipedia.org/wiki/Literate_programming}{literate programming} environment.
+\href{http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/}{Some people have published whole books or research papers as a large executable document in org.} There is an even \href{http://dl.acm.org/citation.cfm?id=2723881}{Research paper about it}.
+
+\href{https://github.com/jkitchin/pycse}{Python computations in science and engineering} book supports org mode and
+it's far better book reading experience than anything I ever experienced before.
+I can tweak and re-run code examples, link from my other notes, tag or bookmark interesting
+sections, jump between sections and many more.
+
+When writing some latex in college, I recall situations when I am half
+way through writing latex document. I would came up with the idea of
+some parameter tweak, and suddenly I have to re-generate all charts.
+
+With org mode, the document is generated pragmatically. Not only
+you can easily re-generate it, but readers of your paper can tweak
+parameters or supply their own data set and re-generate the whole document.
+
+Another example is training machine model. You can define your model parameters as \href{http://orgmode.org/manual/In_002dbuffer-settings.html}{org constants}.
+You can tweak some model parameter and have separate org mode headings for "performance statistics",
+"top miss-classified cross validation samples", etc. Added benefit is that you can commit all this to git.
+
+As soon as you learn org mode all of it is easy and seamless.
+\subsection{\href{http://orgmode.org/manual/The-spreadsheet.html#The-spreadsheet}{Built in excel alternative}}
+\label{sec:orgheadline9}
+Sometimes just "manually" editing the data is the most productive thing to do.
+You can do it with org mode spreadsheet capabilities on org tables.
+
+The added benefit is that formulas are written in lisp, that is cooler and more powerful language than Visual basic.
+\url{http://orgmode.org/manual/Translator-functions.html}
+\subsubsection{Export to pandas}
+\label{sec:orgheadline7}
+My current Table->Pandas->Table workflow works, but is a bit clunky, but it can be improved.
+\hyperref[sec:orgheadline6]{See examples section}.
+\subsubsection{Other exporters}
+\label{sec:orgheadline8}
+You can export org tables to many formats by exporting it to pandas and then
+using pandas exporter.
+Nevertheless, org supports \href{https://github.com/stuartsierra/org-mode/blob/master/contrib/lisp/orgtbl-sqlinsert.el}{sql}, \href{http://orgmode.org/manual/Translator-functions.html}{csv, latex, html} exporters.
+\subsection{Pass data between languages}
+\label{sec:orgheadline11}
+Similar functionality is offered by \href{http://beakernotebook.com/}{beaker notebook.}
+
+I found out that org mode as intermediate format for data sometimes works better for me.
+
+Since intermediate format for a data frame is the org table, I can import data frame to org, edit it as spreadsheet and export it back.
+See \hyperref[sec:orgheadline10]{Pass data directly between languages} in examples section.
+\subsection{Outline view is powerful for organizing your work}
+\label{sec:orgheadline12}
+Org mode outline view is very handy for organizing your work.
+When working on some larger problem, I am only focusing on small subset of it.
+Org mode lets me just expand sections that are currently relevant.
+
+I also find adding embedding TODO items in the tree quite handy.
+When I encounter some problem I mark a subtree as TODO, and I can
+later inspect just subtree headlines with TODO items with them.
+See \href{todo.png}{\includegraphics[width=.9\linewidth]{/home/rkoziko/home_org/blog/ob_ipython/todo.png}}.
+\subsection{Navigate to code and between org files with ctags.}
+\label{sec:orgheadline13}
+You can link to your existing codebase \href{http://orgmode.org/w/?p=org-mode.git;a=blob_plain;f=lisp/org-ctags.el;hb=HEAD}{with org-ctags.}
+It seems possible to provide ide-like navigation between
+code defined in org src buffers, but I didn't configure it yet.
+\subsection{Many more}
+\label{sec:orgheadline27}
+You don't have to use all features offered by org mode.
+\subsubsection{Embed latex formulas}
+\label{sec:orgheadline14}
+Also works in html export with \href{https://www.mathjax.org/}{mathjax.}
+\subsubsection{Fast integration with source control}
+\label{sec:orgheadline15}
+I like to keep my notes in source control.
+To avoid overheard of additional committing I use \texttt{magit-mode}.
+Out of the box you can commit directly from Emacs with 6 keyboard strokes.
+With a few lines of elisp you can auto generate commit messages or automatically commit based on some condition (e.g. save or file closed or \texttt{focus-out-hook}).
+
+Everything in org is plain text, including results of eval of code blocks, so it will be treated well by the source control.
+\subsubsection{\href{https://play.google.com/store/apps/details?id=com.orgzly&hl=en_GB}{Mobile client}}
+\label{sec:orgheadline16}
+\subsubsection{Spaced repetition framework (remember all those pesky maths formulas)}
+\label{sec:orgheadline17}
+If you are like me, you forgot majority of maths formulas since college.
+\href{https://www.gwern.net/Spaced\%2520repetition}{Very good post about spaced repetition in general from gwern.}
+
+There are tools like anki or super memo, but as soon as you want advanced features like
+latex support they either not support them, or do it in a very bad way.
+
+\href{http://orgmode.org/worg/org-contrib/org-drill.html}{org-drill} is a spaced repetition framework in drill, that allows you to use all of the org features for creating flash cards.
+\href{http://www.giovannicarmantini.com/2015/07/putting-some-make-up-on-my-org-mode-flashcards}{Also take a look at this interesting blog post}.
+\subsubsection{Calendar}
+\label{sec:orgheadline18}
+\subsubsection{Managing papers citations}
+\label{sec:orgheadline19}
+\href{https://github.com/kyleam/bog}{boq}, \href{https://github.com/jkitchin/org-ref}{org-ref,} \href{https://github.com/tmalsburg/helm-bibtex}{helm-bibtex,} \href{http://www.mkbehr.com/posts/a-research-workflow-with-zotero-and-org-mode/}{some blog post}
+\subsubsection{Tagging}
+\label{sec:orgheadline20}
+\subsubsection{Links}
+\label{sec:orgheadline21}
+\subsubsection{Agenda views}
+\label{sec:orgheadline22}
+\subsubsection{\href{http://orgmode.org/manual/Capture.html#Capture}{Quickly add something to current org, without interruption to flow}}
+\label{sec:orgheadline23}
+\subsubsection{\href{https://www.youtube.com/watch?v=JZ8RK-R9O_g}{Do lectures}}
+\label{sec:orgheadline24}
+\subsubsection{\href{http://emacsporn.tumblr.com/post/4982654361/dieting-theres-an-org-mode-extension-for-that}{Go on a diet}}
+\label{sec:orgheadline25}
+\subsubsection{Even more}
+\label{sec:orgheadline26}
+I only mentioned some of the features. More urls that you can take a look at:
+
+\begin{minted}[]{common-lisp}
+(browse-url-emacs "http://kitchingroup.cheme.cmu.edu/org/2014/08/08/What-we-are-using-org-mode-for.org")
+\end{minted}
+\begin{itemize}
+\item \url{http://orgmode.org/}
+\item \url{http://doc.norang.ca/org-mode.html}
+\item \url{http://pages.sachachua.com/.emacs.d/Sacha.html}
+\item \url{https://github.com/fniessen/emacs-leuven-theme}
+\item \url{https://github.com/purcell/color-theme-sanityinc-tomorrow}
+\item \url{http://sachachua.com/blog/2014/01/tips-learning-org-mode-emacs/}
+\item \href{http://minimallysufficient.github.io/2015/10/24/org-mode-as-an-alternative-to-knitr.html}{Comparision with knitr}
+\end{itemize}
+\section{Installation}
+\label{sec:orgheadline33}
+\subsection{Install Emacs}
+\label{sec:orgheadline29}
+Although I don't use it, I recommend \href{http://spacemacs.org/}{Spacemacs}, pre-configured emacs distribution, like "Ubuntu" of Emacs.
+\subsection{Install python packages}
+\label{sec:orgheadline30}
+If you don't run those, you may run into troubles.
+\begin{minted}[]{bash}
+pip install --upgrade pip
+pip install --upgrade ipython
+pip install --upgrade pyzmq
+pip install --upgrade jupyter
+\end{minted}
+\subsection{Install org mode and ob-ipython}
+\label{sec:orgheadline31}
+\subsection{Elisp configuration}
+\label{sec:orgheadline32}
+Add to your Emacs config:
+\begin{minted}[]{common-lisp}
+(require 'org)
+(require 'ob-ipython)
+
+;; don't prompt me to confirm everytime I want to evaluate a block
+(setq org-confirm-babel-evaluate nil)
+
+;;; display/update images in the buffer after I evaluate
+(add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+\end{minted}
+\section{Troubleshooting if something doesn't work}
+\label{sec:orgheadline38}
+\subsection{Verify that restarting ipython doesn't help.}
+\label{sec:orgheadline34}
+\begin{minted}[]{common-lisp}
+(ob-ipython-kill-kernel)
+\end{minted}
+\subsection{Open "Python" buffer to see python errors}
+\label{sec:orgheadline35}
+\subsection{Toggle elisp debug on error}
+\label{sec:orgheadline36}
+\begin{minted}[]{common-lisp}
+(toggle-debug-on-error)
+\end{minted}
+\subsection{\href{https://github.com/gregsexton/ob-ipython/issues}{Check project issues}}
+\label{sec:orgheadline37}
+\section{My workflow}
+\label{sec:orgheadline41}
+I settled on workflow of having two buffers opened side by side.
+On one side I would have opened org file, on the other side I would the have ipython console.
+
+I am experimenting with commands in the ipython console, and I copy back the permanent results I want to
+remember or share with people into the org src block.
+
+Both windows re-use the same ipython kernel (So they share variables). You may have multiple kernels running.
+I have code completion and python docstrings in the ipython buffer.
+\subsection{Screenshot}
 \label{sec:orgheadline2}
+\includegraphics[width=.9\linewidth]{ob-ipython.png}
+\subsection{Default ipython configuration}
+\label{sec:orgheadline39}
+If you want to run some code in each ipython block you can add it to \texttt{\textasciitilde{}/.ipython/profile\_default/startup}.
+Foe example, to avoid adding \texttt{\%matplotlib inline} to each source code block:
+\begin{minted}[]{bash}
+echo "%matplotlib inline" >> ~/.ipython/profile_default/startup/66-matplot.py
+\end{minted}
+\subsection{{\bfseries\sffamily TODO} Configure yasnippet}
+\label{sec:orgheadline40}
+ob-ipython docs suggest yasnippet for editing code.
+So far I have been using custom elisp code, but a few things can be nicer about yasnippet.
+
+\begin{minted}[]{snippet}
+# -*- mode: snippet -*-
+# name: ipython block
+# key: py
+# --
+#+BEGIN_SRC ipython :session ${1::file ${2:$$(let ((temporary-file-directory "./")) (make-temp-file "py" nil ".png"))} }:exports ${3:both}
+$0
+#+END_SRC
+\end{minted}
+\section{Examples}
+\label{sec:orgheadline6}
+\subsection{Org table to pandas and plotting}
+\label{sec:orgheadline42}
+\begin{center}
+\label{tab:orgtable1}
+\begin{tabular}{lrr}
+\hline
+date & x & y\\
+\hline
+\textit{<2016-06-15 Wed>} & 1 & 1\\
+\textit{<2016-06-16 Thu>} & 2 & 2\\
+\textit{<2016-06-17 Fri>} & 4 & 3\\
+\textit{<2016-06-18 Sat>} & 8 & 4\\
+\textit{<2016-06-19 Sun>} & 16 & 5\\
+\textit{<2016-06-20 Mon>} & 32 & 6\\
+\hline
+\end{tabular}
+\end{center}
+
 \begin{minted}[]{ipython}
-%matplotlib inline
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+%matplotlib inline
 
-
-def foo(x):
-    return x + 9
-
-[foo(x) + 9 for x in range(7)]
-
-plt.hist(np.random.randn(20000), bins=200)
+df = pd.DataFrame(table[1:], columns=table[0])
+df.plot()
 \end{minted}
 
-\includegraphics[width=.9\linewidth]{image.png}
+\includegraphics[width=.9\linewidth]{plot.png}
+\subsection{Org table -> Pandas -> Org table}
+\label{sec:orgheadline43}
+You have to write small reusable snippet to print pandas to org format.
+You can add it to your builtin ipython code snippets.
+You also need to tell src block to interpret results directly with \texttt{:results output raw drawer :noweb yes}.
+
+\begin{minted}[]{ipython}
+def arr_to_org(arr):
+  line = "|".join(str(item) for item in arr)
+  return "|{}|".format(line)
+
+def df_to_org(df):
+  return "\n".join([arr_to_org(df.columns)] +
+  [arr_to_org(row) for row in df.values])
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+%matplotlib inline
+
+df = pd.DataFrame(table[1:], columns=table[0])
+df.y = df.y.apply(lambda y: y*2)
+print df_to_org(df)
+\end{minted}
+
+\begin{center}
+\begin{tabular}{lrr}
+date & x & y\\
+\textit{<2016-06-15 Wed>} & 1 & 2\\
+\textit{<2016-06-16 Thu>} & 2 & 4\\
+\textit{<2016-06-17 Fri>} & 4 & 6\\
+\textit{<2016-06-18 Sat>} & 8 & 8\\
+\textit{<2016-06-19 Sun>} & 16 & 10\\
+\textit{<2016-06-20 Mon>} & 32 & 12\\
+\end{tabular}
+\end{center}
+
+Afterwards, you may assign result table to variable, edit it with org spreadsheet capabilities and use in other python script.
+
+\subsection{{\bfseries\sffamily TODO} Shared code}
+\label{sec:orgheadline44}
+\url{http://emacs.stackexchange.com/questions/2951/can-i-include-a-common-code-block-in-two-different-code-blocks-in-org-mode}
+\subsection{{\bfseries\sffamily TODO} Use global constant}
+\label{sec:orgheadline45}
+
+\subsection{{\bfseries\sffamily TODO} Data frame sharing with org tables}
+\label{sec:orgheadline46}
+\subsection{{\bfseries\sffamily TODO} Pass data directly between languages}
+\label{sec:orgheadline10}
+Create my example based on \url{http://minimallysufficient.github.io/2015/10/24/org-mode-as-an-alternative-to-knitr.html}
+\subsection{{\bfseries\sffamily TODO} Different language kernels}
+\label{sec:orgheadline47}
+This should work:
+\begin{minted}[]{org}
+#+BEGIN_SRC ipython :session :kernel clojure
+  (+ 1 2)
+#+END_SRC
+
+#+RESULTS:
+: 3
+\end{minted}
+\subsection{Examples from other blog posts}
+\label{sec:orgheadline48}
+\texttt{C-c C-c} block to open org file directly in Emacs:
+\begin{minted}[]{common-lisp}
+(browse-url-emacs "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/pythonbabel.org")
+\end{minted}
+
+
+\begin{minted}[]{common-lisp}
+(browse-url-emacs "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/ipython-babel.org")
+\end{minted}
+
+\section{Unresolved problems}
+\label{sec:orgheadline53}
+Problems I did not resolve yet:
+\subsection{{\bfseries\sffamily TODO} \texttt{ob-ipython-inspect} in popup}
+\label{sec:orgheadline49}
+Currently it opens a separate buffer. I would prefer a popup.
+\subsection{{\bfseries\sffamily TODO} Configure the \texttt{org-edit-src-code} to use ipython completion.}
+\label{sec:orgheadline50}
+Currently, I have code completion only working in ipython buffer.
+It seems doable to configure it in the edit source block as well.
+\subsection{{\bfseries\sffamily TODO} Capture results from ipython to src block.}
+\label{sec:orgheadline51}
+To avoid manual copying between ipython buffer and source code block, I could implement an \texttt{ob-ipython-capture} function, that would add last executed
+command in the ipython console to the src block.
+\href{http://stackoverflow.com/questions/27260049/emacs-cross-file-keyboard-macro}{Keyboard macros can work cross-buffer}, so this could be simple keyboard macro, but I didn't try it out yet.
+\subsection{{\bfseries\sffamily TODO} Figure out why SVG doesn't work}
+\label{sec:orgheadline52}
+In order to make a svg graphic rather than png, you may specify the
+output format globally to IPython.
+
+\begin{verbatim}
+%config InlineBackend.figure_format = 'svg'
+\end{verbatim}
+\section{Further reading}
+\label{sec:orgheadline60}
+\subsection{\href{http://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html}{Official org mode documentation}}
+\label{sec:orgheadline54}
+\subsection{\href{https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org}{Official documentation of ob-ipython}}
+\label{sec:orgheadline55}
+Open org directly in Emacs:
+\begin{minted}[]{common-lisp}
+(browse-url-emacs "https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org")
+\end{minted}
+\subsection{\href{http://dl.acm.org/citation.cfm?id=2723881}{Research paper: An Effective Git And Org-Mode Based Workflow For Reproducible Research}}
+\label{sec:orgheadline56}
+Search by DOI 10.1145/2723872.2723881 on sci hub.
+\subsection{\href{http://www.howardism.org/Technical/Emacs/literate-devops.html}{Org mode for managing your server configuration}}
+\label{sec:orgheadline57}
+\subsection{\href{http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/}{What we are using org mode for from John Kitchin}}
+\label{sec:orgheadline58}
+Org mode as an academic research tool
+\subsection{Manage your emacs configuration using org mode}
+\label{sec:orgheadline59}
+\url{https://github.com/seth/my-emacs-dot-d/blob/master/emacs-init.org}
+\url{http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php}
+\url{http://emacs.stackexchange.com/questions/3143/can-i-use-org-mode-to-structure-my-emacs-or-other-el-configuration-file}
 \end{document}

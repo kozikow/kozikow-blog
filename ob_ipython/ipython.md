@@ -84,7 +84,7 @@
 <li><a href="#orgheadline54">8.1. Official org mode documentation</a></li>
 <li><a href="#orgheadline55">8.2. Official documentation of ob-ipython</a></li>
 <li><a href="#orgheadline56">8.3. Research paper: An Effective Git And Org-Mode Based Workflow For Reproducible Research</a></li>
-<li><a href="#orgheadline57">8.4. Run the whole research department on CMU using org mode</a></li>
+<li><a href="#orgheadline57">8.4. Run a whole research department on CMU using org mode</a></li>
 <li><a href="#orgheadline58">8.5. Org mode for managing your server configuration</a></li>
 <li><a href="#orgheadline59">8.6. Manage your emacs configuration using org mode</a></li>
 </ul>
@@ -578,7 +578,7 @@ Open org directly in Emacs:
 
 Search by DOI 10.1145/2723872.2723881 on sci hub.
 
-## [Run the whole research department on CMU using org mode](http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/)<a id="orgheadline57"></a>
+## [Run a whole research department on CMU using org mode](http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/)<a id="orgheadline57"></a>
 
 ## [Org mode for managing your server configuration](http://www.howardism.org/Technical/Emacs/literate-devops.html)<a id="orgheadline58"></a>
 

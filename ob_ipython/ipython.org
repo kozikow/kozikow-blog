@@ -323,7 +323,7 @@ Open org directly in Emacs:
 #+END_SRC
 ** [[http://dl.acm.org/citation.cfm?id=2723881][Research paper: An Effective Git And Org-Mode Based Workflow For Reproducible Research]] 
 Search by DOI 10.1145/2723872.2723881 on sci hub.
-** [[http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/][Run the whole research department on CMU using org mode]]
+** [[http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/][Run a whole research department on CMU using org mode]]
 ** [[http://www.howardism.org/Technical/Emacs/literate-devops.html][Org mode for managing your server configuration]]
 ** Manage your emacs configuration using org mode
 https://github.com/seth/my-emacs-dot-d/blob/master/emacs-init.org

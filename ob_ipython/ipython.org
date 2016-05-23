@@ -157,6 +157,7 @@ If you don't run those, you may run into troubles.
 #+END_SRC
 ** Install ob-ipython
 org mode should be bundled with your emacs installation.
+If you are new to emacs, you can install packages using =M-x package-install=.
 ** Elisp configuration
 Add to your Emacs config:
 #+BEGIN_SRC emacs-lisp

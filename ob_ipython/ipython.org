@@ -170,7 +170,7 @@ Add to your Emacs config:
   ;;; display/update images in the buffer after I evaluate
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 #+END_SRC
-* Troubleshooting if something doesn't work
+* Troubleshooting
 ** Verify that restarting ipython doesn't help.
 #+BEGIN_SRC emacs-lisp
   (ob-ipython-kill-kernel)
@@ -329,7 +329,7 @@ This should work:
   (browse-url-emacs "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/ipython-babel.org")
 #+END_SRC
 
-* Unresolved problems
+* Additional configuration I plan to do
 Problems I did not resolve yet:
 ** TODO =ob-ipython-inspect= in popup
 Currently it opens a separate buffer. I would prefer a popup.

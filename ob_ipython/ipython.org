@@ -1,3 +1,7 @@
+#+BLOG: wordpress
+#+POSTID: 430
+#+OPTIONS: toc:3
+#+OPTIONS: todo:t
 #+TITLE: Very powerful data analysis environment - org mode with ob-ipython
 #+DATE: <2016-05-22 Sun>
 #+AUTHOR: Robert Kozikowski
@@ -28,10 +32,11 @@ What's more You can have separate org file and ipython console open side by side
 With ipython, reading python docstrings and code completion works well. See [[*Screenshot][my screenshot]].
 
 Since ob-ipython uses jupyter, you can get the same environment for anything that have jupyter kernel, including [[https://github.com/calysto/matlab_kernel][matlab]], [[https://github.com/alexarchambault/jupyter-scala][Scala]], [[https://github.com/apache/incubator-toree][Spark]] or [[http://irkernel.github.io/][R]] and [[https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages][many more]].
-** Results can be exported to many formats, like latex [[https://github.com/kozikow/kozikow-blog/blob/master/ob_ipython/ipython.pdf][(demo)]], html [[https://kozikow.wordpress.com/2016/05/22/very-powerful-data-analysis-environment-org-mode-with-ob-ipython/][(this post)]]
-[[https://github.com/kozikow/kozikow-blog/blob/master/ob_ipython/ipython.org][This blog post is just an export of org mode file.]] All code examples have been written in org mode.
+** Results can be exported to many formats, like latex [[https://github.com/kozikow/kozikow-blog/blob/master/ob_ipython/ipython.pdf][(demo)]] 
+[[https://github.com/kozikow/kozikow-blog/blob/master/ob_ipython/ipython.org][This blog post is just an export of org mode file via org2blog.]] 
+All code examples have been written in org mode.
 
-Exporting works to formats like latex (native and beamer), markdown, jira, odt (than can be imported to google docs), wiki formats and many more.
+Exporting works to formats like html, latex (native and beamer), markdown, jira, odt (than can be imported to google docs and word), wiki formats and many more.
 
 Syntax highlighting can be preserved for some exports, like html or latex.
 
@@ -355,3 +360,7 @@ https://github.com/seth/my-emacs-dot-d/blob/master/emacs-init.org
 http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php
 http://emacs.stackexchange.com/questions/3143/can-i-use-org-mode-to-structure-my-emacs-or-other-el-configuration-file
 
+
+# todo.png http://kozikow.files.wordpress.com/2016/05/todo.png
+# ob-ipython.png http://kozikow.files.wordpress.com/2016/05/ob-ipython.png
+# plot.png http://kozikow.files.wordpress.com/2016/05/plot.png

@@ -188,11 +188,8 @@ Foe example, to avoid adding =%matplotlib inline= to each source code block:
   echo "%matplotlib inline" >> ~/.ipython/profile_default/startup/66-matplot.py
 #+END_SRC
 ** TODO Configure yasnippet
-From official docs:
-
-I use yasnippet to create src blocks. Here is the snippet I use.
-It takes care of generating unique file names (when I want one)
-so I don't have to think about this.
+ob-ipython docs suggest yasnippet for editing code.
+So far I have been using custom elisp code, but a few things can be nicer about yasnippet.
 
 #+BEGIN_SRC snippet
        # -*- mode: snippet -*-

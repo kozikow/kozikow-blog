@@ -104,10 +104,13 @@ With a few lines of elisp you can auto generate commit messages or automatically
 Everything in org is plain text, including results of eval of code blocks, so it will be treated well by the source control.
 *** [[https://play.google.com/store/apps/details?id=com.orgzly&hl=en_GB][Mobile client]]
 *** Spaced repetition framework (remember all those pesky maths formulas)
-If you are like me, you forgot majority of maths formulas since college.
-[[https://www.gwern.net/Spaced%2520repetition][Very good post about spaced repetition in general from gwern.]]
+If you are like me, you forgot a lot of maths formulas since college.
+Spaced repetition is a tool that helps you avoid forgetting important facts like maths formulas.
+[[https://www.gwern.net/Spaced%2520repetition][I recommend this very good post about spaced repetition in general from gwern.]]
 
-There are tools like anki or super memo, but as soon as you want advanced features like
+People primarily use spaced repetition for learning words in new languages, but I use it for maths formulas or technical facts.
+
+There are spaced repitition tools like anki or super memo, but as soon as you want advanced features like
 latex support they either not support them, or do it in a very bad way.
 
 [[http://orgmode.org/worg/org-contrib/org-drill.html][org-drill]] is a spaced repetition framework in drill, that allows you to use all of the org features for creating flash cards.
@@ -263,6 +266,27 @@ You also need to tell src block to interpret results directly with =:results out
 :END:
 
 Afterwards, you may assign result table to variable, edit it with org spreadsheet capabilities and use in other python script.
+** TODO Connect to existing ipython kernel
+It will look more or less like this:
+Create kernel with:
+#+BEGIN_SRC python
+  #!/usr/bin/env python
+  import os
+  from IPython.zmq.ipkernel import IPKernelApp
+
+  app = IPKernelApp.instance()
+  app.initialize([])
+  kernel = app.kernel
+  kernel.shell.push({'print_me': 'Running in previously started kernel.'})
+  app.start()
+#+END_SRC
+
+Get json from previous command.
+
+Connect with (somehow pass this to ipython):
+#+BEGIN_SRC bash
+  ipython console --existing kernel-509.json
+#+END_SRC
 
 ** TODO Shared code
 http://emacs.stackexchange.com/questions/2951/can-i-include-a-common-code-block-in-two-different-code-blocks-in-org-mode

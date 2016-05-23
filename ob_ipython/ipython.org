@@ -145,7 +145,7 @@ There are many more. Some urls to look at:
 - http://sachachua.com/blog/2014/01/tips-learning-org-mode-emacs/
 - [[http://minimallysufficient.github.io/2015/10/24/org-mode-as-an-alternative-to-knitr.html][Comparision with knitr]]
 * Installation
-** Install Emacs
+** Install Emacs (with vim emulation)
 Although I don't use it, I recommend [[http://spacemacs.org/][Spacemacs]], pre-configured emacs distribution, like "Ubuntu" of Emacs.
 ** Install python packages
 If you don't run those, you may run into troubles.

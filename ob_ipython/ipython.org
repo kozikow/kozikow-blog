@@ -7,6 +7,8 @@
 Emacs =org-mode= with =ob-ipython= is the most powerful data analysis environment I ever used.
 I find it much more powerful than other tools I used, including jupyter and beaker web notebooks or just writing python in PyCharm.
 
+Emacs org mode with ob-ipython is like jupyter or beaker notebook, but in Emacs instead of browser and with many more features.
+
 Word "Emacs" may be scary. There are pre-packaged and pre-configured emacs distribution that have much smaller learning curve, my favorite being [[http://spacemacs.org/][Spacemacs]] (I am in progress of rebasing my config with it).
 You can just use 1% of capabilities of Emacs (probably majority of Emacs users do not approach 10% of Emacs capabilities) and still benefit from it.
 
@@ -34,9 +36,9 @@ Exporting works to formats like latex (native and beamer), markdown, jira, odt (
 Syntax highlighting can be preserved for some exports, like html or latex.
 
 You can just learn one way to edit documents and presentations than can be exported to majority of formats on earth.
-** Programmable documents (aka [[https://en.wikipedia.org/wiki/Literate_programming]["Literate programming"]] or [[http://dl.acm.org/citation.cfm?id=2723881]["Reproducible Research"]])
+** Programmable documents (aka [[https://en.wikipedia.org/wiki/Literate_programming]["Literate programming"]])
 Emacs org mode with org babel is a full fledged [[https://en.wikipedia.org/wiki/Literate_programming][literate programming]] environment.
-[[http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/][Some people have published whole books or research papers as a large executable document in org.]]
+[[http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/][Some people have published whole books or research papers as a large executable document in org.]] There is an even [[http://dl.acm.org/citation.cfm?id=2723881][Research paper about it]].
 
 [[https://github.com/jkitchin/pycse][Python computations in science and engineering]] book supports org mode and
 it's far better book reading experience than anything I ever experienced before.

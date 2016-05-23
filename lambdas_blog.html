@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2016-05-20 Fri 19:38 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title></title>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="rkoziko" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline1">1. Introduction</a></li>
+<li><a href="#orgheadline2">2. Comparison with C++</a></li>
+<li><a href="#orgheadline3">3. Performance</a></li>
+<li><a href="#orgheadline4">4. Reading an array of ints</a></li>
+<li><a href="#orgheadline5">5. Printing an array of ints</a></li>
+<li><a href="#orgheadline6">6. Initialize the graph</a></li>
+<li><a href="#orgheadline7">7. Less boilerplate Bigints</a></li>
+<li><a href="#orgheadline8">8. Counting objects using groupingBy stream or new Map methods</a></li>
+<li><a href="#orgheadline9">9. Streams on chars in the String</a></li>
+<li><a href="#orgheadline10">10. “Normalize” an array</a></li>
+<li><a href="#orgheadline11">11. Find neighbours in the 2d array</a></li>
+<li><a href="#orgheadline12">12. Caveats</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Java 8 streams and lambdas are a big improvement over Java 7.
+</p>
+
+<p>
+Java 8 streams are like iterators that support transforming intermediate state
+and result of iteration using functions created by lambdas.
+If this sentence seems too foreign,
+you should read more basic introduction to streams first.
+Many common, dull tasks can be implemented using Java 8 streams and lambdas in
+significantly less code than Java 7 or C++. I would even dare to say,
+that in many cases C++ is the more "boilerplate" option now,
+and it's coming from person who used C++ for several years in programming
+contests.
+</p>
+
+<p>
+I will discuss a few code snippets using new Java 8 idioms that I found
+particularly interesting and useful in programming contests like Topcoder.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2"><span class="section-number-2">2</span> Comparison with C++</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Some people are going to say "But C++ 11 have lambdas as well!".
+Even if C++ have lambdas, the standard library wasn't really 
+adapted to use them. Let's look at some contrived example of
+a function returning a new vector/array containing odd 
+elements divided by 2.
+C++11 lambdas look <code>horrible</code>:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-C++"><span style="color: #268bd2;">vector</span><span style="color: #839496;">&lt;</span><span style="color: #268bd2;">int</span><span style="color: #839496;">&gt;</span> <span style="color: #b58900;">get_divided_by_2</span><span style="color: #839496;">(</span><span style="color: #859900;">const</span> <span style="color: #268bd2;">vector</span><span style="color: #2aa198;">&lt;</span><span style="color: #268bd2;">int</span><span style="color: #2aa198;">&gt;</span>&amp; <span style="color: #6c71c4;">v</span><span style="color: #839496;">)</span> <span style="color: #839496;">{</span>
+  <span style="color: #268bd2;">vector</span><span style="color: #2aa198;">&lt;</span><span style="color: #268bd2;">int</span><span style="color: #2aa198;">&gt;</span> <span style="color: #6c71c4;">filtered</span>;
+  copy_if<span style="color: #2aa198;">(</span>v.begin<span style="color: #b58900;">()</span>, v.end<span style="color: #b58900;">()</span>, back_inserter<span style="color: #b58900;">(</span>filtered<span style="color: #b58900;">)</span>, <span style="color: #b58900;">[](</span><span style="color: #268bd2;">int</span> <span style="color: #6c71c4;">x</span><span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span> <span style="color: #859900;">return</span> x % 2 == 0;<span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>;
+  <span style="color: #268bd2;">vector</span><span style="color: #2aa198;">&lt;</span><span style="color: #268bd2;">int</span><span style="color: #2aa198;">&gt;</span> <span style="color: #6c71c4;">transformed</span>;
+  transform<span style="color: #2aa198;">(</span>filtered.begin<span style="color: #b58900;">()</span>, filtered.end<span style="color: #b58900;">()</span>, back_inserter<span style="color: #b58900;">(</span>transformed<span style="color: #b58900;">)</span>, 
+      <span style="color: #b58900;">[](</span><span style="color: #268bd2;">int</span> <span style="color: #6c71c4;">x</span><span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span> <span style="color: #859900;">return</span> x / 2;<span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>;
+  <span style="color: #859900;">return</span> transformed;
+</pre>
+</div>
+
+<p>
+On the other hand, Java 8 lambdas are quite clean:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #268bd2;">int</span><span style="color: #839496;">[]</span> <span style="color: #b58900;">getDividedBy2</span><span style="color: #839496;">(</span><span style="color: #268bd2;">int</span><span style="color: #2aa198;">[]</span> <span style="color: #6c71c4;">arr</span><span style="color: #839496;">)</span> <span style="color: #839496;">{</span>
+  <span style="color: #859900;">return</span> Arrays.stream<span style="color: #2aa198;">(</span>arr<span style="color: #2aa198;">)</span>.filter<span style="color: #2aa198;">(</span>x -&gt; x%2 == 0<span style="color: #2aa198;">)</span>.map<span style="color: #2aa198;">(</span>x -&gt; x/2<span style="color: #2aa198;">)</span>.toArray<span style="color: #2aa198;">()</span>;
+<span style="color: #839496;">}</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3"><span class="section-number-2">3</span> Performance</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Streams are slower than for loops. On the other hand,
+during the last few hundreds programs implemented in Java during the
+programming contests I never hit the time limit because of streams and I used
+them quite heavily.
+</p>
+
+<p>
+Major source of slowness of streams API is their relative newness.
+Compilers have been optimised for years for efficient JITing of imperative
+loops. As the new versions of JVMs will adapt to streams,
+the gap is going to get smaller.
+</p>
+
+<p>
+<a href="http://cs.yale.edu/homes/xs45/pdf/ssgos-vldb2014.pdf">There is an interesting paper from Oracle mentioning framework for executing Java 8 streams on distributed systems, including Spark.
+</a>In dynamic compilation section, it says:
+</p>
+
+<pre class="example">
+This design (JIT compatibility of Java 8 streams) allows the performance of 
+streams to continue to improve as the Java runtime environment improves,
+resulting in highly efficient stream execution. An important design principle
+is to ensure the classes for methods invoked in critical loops can be 
+determined by the JIT when the loop is compiled, as this allows the inner
+methods to be inlined and the loop to be intelligently unrolled.
+</pre>
+
+<p>
+If streams will be intelligently unrolled and JIT-ed,
+the performance overhead of streams is going to be close to zero.
+Given that this sentence is from official paper by Oracle,
+and it plays into their "big data" ambitions,
+I would say we could get streams JITing sooner than later.
+<a href="https://jaxenter.com/java-performance-tutorial-how-fast-are-the-java-8-streams-118830.html">If you are interested in further reading, you may also take a look at this post.</a>
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4"><span class="section-number-2">4</span> Reading an array of ints</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Reading an integer N in the first line, and then reading array of N entries is a chore required in majority of problems. With Java 8 streams, reading array of ints can be simply done by:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #268bd2;">Scanner</span> <span style="color: #6c71c4;">sc</span> = <span style="color: #859900;">new</span> <span style="color: #268bd2;">Scanner</span><span style="color: #839496;">(</span>System.in<span style="color: #839496;">)</span>;
+<span style="color: #268bd2;">int</span> <span style="color: #6c71c4;">n</span> = sc.nextInt<span style="color: #839496;">()</span>;
+<span style="color: #268bd2;">int</span><span style="color: #839496;">[]</span> <span style="color: #6c71c4;">arr</span> = IntStream.generate<span style="color: #839496;">(</span>sc::nextInt<span style="color: #839496;">)</span>.limit<span style="color: #839496;">(</span>n<span style="color: #839496;">)</span>.toArray<span style="color: #839496;">()</span>;
+</pre>
+</div>
+
+<p>
+Note that Scanner is very slow and you may sometimes hit timeouts (
+happened to me during Codeforces). Even if old and rusty,
+BufferedReader is much faster.
+Scanner solves more general problem and it does extra work that we don't need
+to do, like taking encoding into consideration. BufferedReader version:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #268bd2;">BufferedReader</span> <span style="color: #6c71c4;">br</span> = <span style="color: #859900;">new</span> <span style="color: #268bd2;">BufferedReader</span><span style="color: #839496;">(</span><span style="color: #859900;">new</span> <span style="color: #268bd2;">InputStreamReader</span><span style="color: #2aa198;">(</span>System.in<span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>;
+br.readLine<span style="color: #839496;">()</span>; <span style="color: #586e75; font-style: italic;">// </span><span style="color: #586e75; font-style: italic;">We won't use the result.</span>
+<span style="color: #268bd2;">int</span><span style="color: #839496;">[]</span> <span style="color: #6c71c4;">arr</span> = Arrays.stream<span style="color: #839496;">(</span>br.readLine<span style="color: #2aa198;">()</span>.split<span style="color: #2aa198;">(</span><span style="color: #2aa198;">" "</span><span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>.mapToInt<span style="color: #839496;">(</span>Integer::valueOf<span style="color: #839496;">)</span>.toArray<span style="color: #839496;">()</span>;
+</pre>
+</div>
+
+<p>
+String.split is inefficient, as it evaluates the regular expression. We can use another old class, StringTokenizer, to further speed this code up:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #268bd2;">BufferedReader</span> <span style="color: #6c71c4;">br</span> = <span style="color: #859900;">new</span> <span style="color: #268bd2;">BufferedReader</span><span style="color: #839496;">(</span><span style="color: #859900;">new</span> <span style="color: #268bd2;">InputStreamReader</span><span style="color: #2aa198;">(</span>System.in<span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>;
+<span style="color: #268bd2;">int</span> <span style="color: #6c71c4;">n</span> = Integer.valueOf<span style="color: #839496;">(</span>br.readLine<span style="color: #2aa198;">()</span><span style="color: #839496;">)</span>;
+<span style="color: #268bd2;">StringTokenizer</span> <span style="color: #6c71c4;">st</span> = <span style="color: #859900;">new</span> <span style="color: #268bd2;">StringTokenizer</span><span style="color: #839496;">(</span>br.readLine<span style="color: #2aa198;">()</span><span style="color: #839496;">)</span>;
+<span style="color: #268bd2;">int</span><span style="color: #839496;">[]</span> <span style="color: #6c71c4;">arr</span> = Stream.generate<span style="color: #839496;">(</span>st::nextToken<span style="color: #839496;">)</span>.mapToInt<span style="color: #839496;">(</span>Integer::valueOf<span style="color: #839496;">)</span>.limit<span style="color: #839496;">(</span>n<span style="color: #839496;">)</span>.toArray<span style="color: #839496;">()</span>;
+BufferedReader <span style="color: #268bd2;">has</span> <span style="color: #b58900;">a</span> <span style="color: #859900;">new</span> <span style="color: #268bd2;">useful</span> method added in Java 8 - lines<span style="color: #839496;">()</span>. It creates a stream out of all lines found in the <span style="color: #268bd2;">input</span>. We can create a stream out of all ints found in the input, until the EOF character <span style="color: #268bd2;">is</span> <span style="color: #6c71c4;">found</span>:
+</pre>
+</div>
+
+<p>
+<a href="http://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html#lines--">BufferedReader has a new useful method added in Java 8 - lines().</a> It creates a stream out of all lines found in the input. We can create a stream out of all ints found in the input, until the EOF character is found:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900;">public</span> <span style="color: #859900;">static</span> <span style="color: #268bd2;">IntStream</span> <span style="color: #b58900;">streamInts</span><span style="color: #839496;">()</span> <span style="color: #839496;">{</span>
+  <span style="color: #859900;">final</span> <span style="color: #268bd2;">BufferedReader</span> <span style="color: #6c71c4;">br</span> = <span style="color: #859900;">new</span> <span style="color: #268bd2;">BufferedReader</span><span style="color: #2aa198;">(</span><span style="color: #859900;">new</span> <span style="color: #268bd2;">InputStreamReader</span><span style="color: #b58900;">(</span>System.in<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>;
+  <span style="color: #859900;">return</span> br.lines<span style="color: #2aa198;">()</span>.map<span style="color: #2aa198;">(</span>StringTokenizer::<span style="color: #859900;">new</span><span style="color: #2aa198;">)</span>.flatMap<span style="color: #2aa198;">(</span>
+      tok -&gt; Stream.generate<span style="color: #b58900;">(</span>tok::nextToken<span style="color: #b58900;">)</span>.limit<span style="color: #b58900;">(</span>tok.countTokens<span style="color: #859900;">()</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>
+      .mapToInt<span style="color: #2aa198;">(</span>Integer::valueOf<span style="color: #2aa198;">)</span>;
+<span style="color: #839496;">}</span>
+</pre>
+</div>
+<p>
+I am too lazy to do the proper micro benchmark. On codeforces problem <a href="http://codeforces.com/contest/588/problem/C">588C</a>,
+Scanner version exceeded the 1s timelimit,
+BufferedReader version with String.split finished in 550ms,
+BufferedReader with StringTokenizer finished in 400ms,
+method using BufferedReader:
+:lines finished in 450ms, while C++ version with scanf finished in 200ms.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline5" class="outline-2">
+<h2 id="orgheadline5"><span class="section-number-2">5</span> Printing an array of ints</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Let's say you have an array of ints and you want to print it to standard output.
+First thing that comes to mind is repeatedly calling System.out.printf. Equivalent method would be good enough in C++, but it is sometimes too slow in Java, if you have many ints to output. You may consider assembling a String and calling System.out only once.
+With new Java 8 streams you can assemble array of ints into a string with less boilerplate:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java">System.out.println<span style="color: #839496;">(</span>Arrays.stream<span style="color: #2aa198;">(</span>ints<span style="color: #2aa198;">)</span>.mapToObj<span style="color: #2aa198;">(</span>x -&gt; x + <span style="color: #2aa198;">" "</span><span style="color: #2aa198;">)</span>.
+    collect<span style="color: #2aa198;">(</span>StringBuilder::<span style="color: #859900;">new</span>, StringBuilder::append, StringBuilder::append<span style="color: #2aa198;">)</span>.
+    toString<span style="color: #2aa198;">()</span><span style="color: #839496;">)</span>;
+</pre>
+</div>
+
+<p>
+In <a href="http://codeforces.com/problemset/problem/590/A">Codeforces problem 590A</a> method with calling System.out.printf 500000 times exceeds the 2s timelimit, but method with assembling a String got accepted in 200ms!
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6"><span class="section-number-2">6</span> Initialize the graph</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Although in “production” code one would use ArrayList of ArrayLists for
+representing the graph,
+in programming contests I often stick to ArrayList&lt;Integer&gt;[].
+Arrays are faster than ArrayLists.
+Initializing a graph used to require a for loop.
+Initializing a graph with N nodes can now be done by simply:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #268bd2;">ArrayList</span><span style="color: #839496;">&lt;</span><span style="color: #268bd2;">Integer</span><span style="color: #839496;">&gt;[]</span> <span style="color: #6c71c4;">graph</span> = Stream.generate<span style="color: #839496;">(</span><span style="color: #268bd2;">ArrayList</span><span style="color: #2aa198;">&lt;</span><span style="color: #268bd2;">Integer</span><span style="color: #2aa198;">&gt;</span>::<span style="color: #859900;">new</span><span style="color: #839496;">)</span>.limit<span style="color: #839496;">(</span>N + 1<span style="color: #839496;">)</span>.toArray<span style="color: #839496;">(</span>ArrayList<span style="color: #2aa198;">[]</span>::<span style="color: #859900;">new</span><span style="color: #839496;">)</span>;
+</pre>
+</div>
+
+<p>
+If the graph is directed, and you get the list of edges in the input, you can use
+Collectors.groupingBy to initialize and read it in one go. Following snippet 
+relies on undocumented property of  the Collectors::groupingBy – that that 
+classifier will be applied before downstream in collector (but it’s the case in 
+the current implementation of Collectors::groupingBy):
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #268bd2;">Scanner</span> <span style="color: #6c71c4;">sc</span> = <span style="color: #859900;">new</span> <span style="color: #268bd2;">Scanner</span><span style="color: #839496;">(</span>System.in<span style="color: #839496;">)</span>;
+<span style="color: #268bd2;">Map</span><span style="color: #839496;">&lt;</span><span style="color: #268bd2;">Integer</span>, <span style="color: #268bd2;">List</span><span style="color: #2aa198;">&lt;</span><span style="color: #268bd2;">Integer</span><span style="color: #2aa198;">&gt;</span><span style="color: #839496;">&gt;</span> <span style="color: #6c71c4;">graph</span> = IntStream.range<span style="color: #839496;">(</span>0, m<span style="color: #839496;">)</span>.boxed<span style="color: #839496;">()</span>.
+    collect<span style="color: #839496;">(</span>Collectors.groupingBy<span style="color: #2aa198;">(</span>x -&gt; sc.nextInt<span style="color: #b58900;">()</span>,
+        Collectors.mapping<span style="color: #b58900;">(</span>x -&gt; sc.nextInt<span style="color: #859900;">()</span>, Collectors.toList<span style="color: #859900;">()</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>;
+</pre>
+</div>
+
+<p>
+I couldn’t create nice enough looking snippet for initialising the undirected graph, so I would still stick with the for loop.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline7" class="outline-2">
+<h2 id="orgheadline7"><span class="section-number-2">7</span> Less boilerplate Bigints</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Bigints in Java used to be cumbersome,
+as Java does not support operator overloading. They still are,
+but streams in some cases let us save quite a lot of boilerplate.
+For example see this snippet calculating a factorial using bigints:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java">Stream.iterate<span style="color: #839496;">(</span><span style="color: #268bd2;">BigInteger</span>.ONE, x -&gt; x.add<span style="color: #2aa198;">(</span><span style="color: #268bd2;">BigInteger</span>.ONE<span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>.limit<span style="color: #839496;">(</span>n<span style="color: #839496;">)</span>.reduce<span style="color: #839496;">(</span>BigInteger::multiply<span style="color: #839496;">)</span>.get<span style="color: #839496;">()</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline8" class="outline-2">
+<h2 id="orgheadline8"><span class="section-number-2">8</span> Counting objects using groupingBy stream or new Map methods</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Counting elements used to be quite cumbersome. It was especially cumbersome if we couldn’t use an array and we had to use the map. In Java 8 it is much easier:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #268bd2;">Map</span><span style="color: #839496;">&lt;</span><span style="color: #268bd2;">Integer</span>, <span style="color: #268bd2;">Long</span><span style="color: #839496;">&gt;</span> <span style="color: #6c71c4;">m</span> = Arrays.stream<span style="color: #839496;">(</span>arr<span style="color: #839496;">)</span>.boxed<span style="color: #839496;">()</span>.collect<span style="color: #839496;">(</span>
+    Collectors.groupingBy<span style="color: #2aa198;">(</span>Function.identity<span style="color: #b58900;">()</span>, Collectors.counting<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>;
+</pre>
+</div>
+
+<p>
+For example, code that checks whether characters of String s can be re-arranged into palindrome:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java">s.codePoints<span style="color: #839496;">()</span>.boxed<span style="color: #839496;">()</span>.collect<span style="color: #839496;">(</span>
+    Collectors.groupingBy<span style="color: #2aa198;">(</span>Function.identity<span style="color: #b58900;">()</span>, Collectors.counting<span style="color: #b58900;">()</span><span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>.
+    values<span style="color: #839496;">()</span>.stream<span style="color: #839496;">()</span>.filter<span style="color: #839496;">(</span>x -&gt; <span style="color: #2aa198;">(</span>x % 2<span style="color: #2aa198;">)</span> == 1<span style="color: #839496;">)</span>.count<span style="color: #839496;">()</span> &lt;= 1
+</pre>
+</div>
+
+<p>
+In some cases we can’t use group by and we still need to stick to map.
+For example, imagine some dynamic programming problem,
+where we need to both read and update values at the same time.
+In java 7 it used to be quite cumbersome – there were lots of boilerplate
+around checking if key is present.
+<a href="https://blog.jooq.org/2014/02/14/java-8-friday-goodies-map-enhancements/">There are some new Map enhancements that make it easier in Java 8.</a>
+For example see relevant part my solution to TopCoder 671, <a href="https://blog.jooq.org/2014/02/14/java-8-friday-goodies-map-enhancements/">500 points problem BearDarts:</a>
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900;">public</span> <span style="color: #268bd2;">long</span> <span style="color: #b58900;">count</span><span style="color: #839496;">(</span><span style="color: #268bd2;">int</span><span style="color: #2aa198;">[]</span> <span style="color: #6c71c4;">w</span><span style="color: #839496;">)</span> <span style="color: #839496;">{</span>
+    <span style="color: #268bd2;">Map</span><span style="color: #2aa198;">&lt;</span><span style="color: #268bd2;">Pair</span><span style="color: #b58900;">&lt;</span><span style="color: #268bd2;">Integer</span>, <span style="color: #268bd2;">Integer</span><span style="color: #b58900;">&gt;</span>, <span style="color: #268bd2;">Long</span><span style="color: #2aa198;">&gt;</span> <span style="color: #6c71c4;">dynamic</span> = <span style="color: #859900;">new</span> <span style="color: #268bd2;">HashMap</span><span style="color: #2aa198;">&lt;&gt;()</span>;
+    dynamic.put<span style="color: #2aa198;">(</span>getGcdPair<span style="color: #b58900;">(</span>w<span style="color: #859900;">[</span>0<span style="color: #859900;">]</span>, w<span style="color: #859900;">[</span>1<span style="color: #859900;">]</span><span style="color: #b58900;">)</span>, 1L<span style="color: #2aa198;">)</span>;
+    <span style="color: #859900;">return</span> LongStream.range<span style="color: #2aa198;">(</span>2, w.length<span style="color: #2aa198;">)</span>.map<span style="color: #2aa198;">(</span>i -&gt; <span style="color: #b58900;">{</span>
+        <span style="color: #268bd2;">long</span> <span style="color: #6c71c4;">result</span> = LongStream.range<span style="color: #859900;">(</span>i + 1, w.length<span style="color: #859900;">)</span>.map<span style="color: #859900;">(</span>j -&gt; dynamic.getOrDefault<span style="color: #268bd2;">(</span>
+                getGcdPair<span style="color: #839496;">(</span>w<span style="color: #2aa198;">[</span><span style="color: #b58900;">(</span><span style="color: #268bd2;">int</span><span style="color: #b58900;">)</span> j<span style="color: #2aa198;">]</span>, w<span style="color: #2aa198;">[</span><span style="color: #b58900;">(</span><span style="color: #268bd2;">int</span><span style="color: #b58900;">)</span> i<span style="color: #2aa198;">]</span><span style="color: #839496;">)</span>, 0L<span style="color: #268bd2;">)</span><span style="color: #859900;">)</span>.sum<span style="color: #859900;">()</span>;
+        LongStream.range<span style="color: #859900;">(</span>0, i<span style="color: #859900;">)</span>.forEach<span style="color: #859900;">(</span>j -&gt; dynamic.merge<span style="color: #268bd2;">(</span>
+                getGcdPair<span style="color: #839496;">(</span>w<span style="color: #2aa198;">[</span><span style="color: #b58900;">(</span><span style="color: #268bd2;">int</span><span style="color: #b58900;">)</span> j<span style="color: #2aa198;">]</span>, w<span style="color: #2aa198;">[</span><span style="color: #b58900;">(</span><span style="color: #268bd2;">int</span><span style="color: #b58900;">)</span> i<span style="color: #2aa198;">]</span><span style="color: #839496;">)</span>, 1L, Long::sum<span style="color: #268bd2;">)</span><span style="color: #859900;">)</span>;
+        <span style="color: #859900;">return</span> result;
+    <span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>.sum<span style="color: #2aa198;">()</span>;
+<span style="color: #839496;">}</span>
+</pre>
+</div>
+
+<p>
+New methods getOrDefault and merge make it much easier to implement a map, that is counting some arbitrary keys. Merge lets you add the value to the map, but if some old value already exists it will merge old and new value using the given function. You can simply pass Integer::sum or Long::sum as the third value.
+For people curious about the solution: getGcdPairs takes two ints x, y and returns pair of ints (x,y), with both values divided by the gcd(x,y).
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline9" class="outline-2">
+<h2 id="orgheadline9"><span class="section-number-2">9</span> Streams on chars in the String</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+Converting characters in the String to a stream is quite useful.
+There are two new methods added in Java 8 – <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/CharSequence.html#chars--">CharSequence::chars</a> and <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/CharSequence.html#codePoints--">CharSequence::codePoints.</a>
+</p>
+
+<p>
+CharSequence::chars method have a weird “quirk”.
+Rather than returning a stream of characters, it return an IntStream.
+<a href="http://stackoverflow.com/questions/22435833/why-is-string-chars-a-stream-of-ints-in-java-8">The reason seems to be that Java 8 designers decided that creating a new type for primitive chars stream is not worth the additional code.</a>
+In the case of dealing with ASCII strings,
+like we do in programming contests those two methods are equivalent and will
+return an int stream of ASCII codes.
+</p>
+
+<p>
+At this point it’s worth to add that there are two types of stream,
+“primitive” streams like IntStream, and “object” streams like Stream&lt;Integer&gt;. 
+There is no CharStream, but there is Stream&lt;Character&gt;.
+If you are willing to pay additional performance cost of boxing,
+at any point you can:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #268bd2;">Stream</span><span style="color: #839496;">&lt;</span><span style="color: #268bd2;">Character</span><span style="color: #839496;">&gt;</span> <span style="color: #b58900;">characterStream</span><span style="color: #839496;">(</span><span style="color: #268bd2;">String</span> <span style="color: #6c71c4;">s</span><span style="color: #839496;">)</span> <span style="color: #839496;">{</span>
+  <span style="color: #859900;">return</span> s.codePoints<span style="color: #2aa198;">()</span>.mapToObj<span style="color: #2aa198;">(</span>c -&gt; <span style="color: #b58900;">(</span><span style="color: #268bd2;">char</span><span style="color: #b58900;">)</span> c<span style="color: #2aa198;">)</span>;
+<span style="color: #839496;">}</span>
+</pre>
+</div>
+
+<p>
+On the other hand, it usually doesn’t make sense to convert an int to Character.
+</p>
+
+<p>
+<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Character.html#toLowerCase-int-">Character utility methods are adapted to work with an int codePoint.</a>
+Therefore, it makes sense to stop working with code points,
+only when printing results or returning the String. For example,
+let’s say we want to print sorted, unique letters in the String.
+If we want to just print results we can cast int to char when printing:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #268bd2;">void</span> <span style="color: #b58900;">printUniqueLetters</span><span style="color: #839496;">(</span><span style="color: #268bd2;">String</span> <span style="color: #6c71c4;">s</span><span style="color: #839496;">)</span> <span style="color: #839496;">{</span>
+  s.codePoints<span style="color: #2aa198;">()</span>.filter<span style="color: #2aa198;">(</span>Character::isLetter<span style="color: #2aa198;">)</span>.map<span style="color: #2aa198;">(</span>Character::toLowerCase<span style="color: #2aa198;">)</span>.
+  sorted<span style="color: #2aa198;">()</span>.distinct<span style="color: #2aa198;">()</span>.forEach<span style="color: #2aa198;">(</span>c -&gt; System.out.print<span style="color: #b58900;">(</span><span style="color: #859900;">(</span><span style="color: #268bd2;">char</span><span style="color: #859900;">)</span> c<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>;
+<span style="color: #839496;">}</span>
+</pre>
+</div>
+
+<p>
+Note that printing strings character by character is inefficient. I, in fact,
+exceeded the 1s time limit in the <a href="https://www.hackerrank.com/challenges/sherlock-and-the-beast">Sherlock and The Beast hackerrank problem</a> by
+calling System.out.print on 10^5 chars, but passed all tests in 0.
+5s when printing a string assembled using the StringBuilder.
+There is no nice built in utility for assembling a stream back to String.
+The best way I found uses the StringBuilder – <a href="http://stackoverflow.com/questions/20266422/simplest-way-to-print-an-intstream-as-a-string">see discussion on stack overflow.</a>
+Version of previous snippet that returns the String:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900;">static</span> <span style="color: #268bd2;">String</span> <span style="color: #b58900;">uniqueLetters</span><span style="color: #839496;">(</span><span style="color: #268bd2;">String</span> <span style="color: #6c71c4;">s</span><span style="color: #839496;">)</span> <span style="color: #839496;">{</span>
+  <span style="color: #859900;">return</span> s.codePoints<span style="color: #2aa198;">()</span>.filter<span style="color: #2aa198;">(</span>Character::isLetter<span style="color: #2aa198;">)</span>.map<span style="color: #2aa198;">(</span>Character::toLowerCase<span style="color: #2aa198;">)</span>.
+      sorted<span style="color: #2aa198;">()</span>.distinct<span style="color: #2aa198;">()</span>.
+      collect<span style="color: #2aa198;">(</span>StringBuilder::<span style="color: #859900;">new</span>, StringBuilder::appendCodePoint, StringBuilder::append<span style="color: #2aa198;">)</span>.
+      toString<span style="color: #2aa198;">()</span>;
+<span style="color: #839496;">}</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline10" class="outline-2">
+<h2 id="orgheadline10"><span class="section-number-2">10</span> “Normalize” an array</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+Sometimes we are faced with an array consisting of big numbers, for example
+</p>
+<pre class="example">
+1000000007 13 100000000000000007 1000000007 13
+</pre>
+
+<p>
+We do not care about the absolute value of the entry, but we care about the relative “lower than” relation between entries. E.g. we want to transform the above array into:
+</p>
+<pre class="example">
+1 0 2 1 0
+</pre>
+<p>
+Example of relatively short Java 8 snippet solving this problem:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #268bd2;">int</span><span style="color: #839496;">[]</span> <span style="color: #b58900;">normalizePreservingOrder</span><span style="color: #839496;">(</span><span style="color: #268bd2;">int</span><span style="color: #2aa198;">[]</span> <span style="color: #6c71c4;">arr</span><span style="color: #839496;">)</span> <span style="color: #839496;">{</span>
+  <span style="color: #268bd2;">int</span><span style="color: #2aa198;">[]</span> <span style="color: #6c71c4;">distinct</span> = Arrays.stream<span style="color: #2aa198;">(</span>arr<span style="color: #2aa198;">)</span>.sorted<span style="color: #2aa198;">()</span>.distinct<span style="color: #2aa198;">()</span>.toArray<span style="color: #2aa198;">()</span>;
+  <span style="color: #268bd2;">Map</span><span style="color: #2aa198;">&lt;</span><span style="color: #268bd2;">Integer</span>, <span style="color: #268bd2;">Integer</span><span style="color: #2aa198;">&gt;</span> <span style="color: #6c71c4;">m</span> = IntStream.range<span style="color: #2aa198;">(</span>0, distinct.length<span style="color: #2aa198;">)</span>.boxed<span style="color: #2aa198;">()</span>.collect<span style="color: #2aa198;">(</span>
+      Collectors.toMap<span style="color: #b58900;">(</span>i -&gt; distinct<span style="color: #859900;">[</span>i<span style="color: #859900;">]</span>, Function.identity<span style="color: #859900;">()</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>;
+  <span style="color: #859900;">return</span> Arrays.stream<span style="color: #2aa198;">(</span>arr<span style="color: #2aa198;">)</span>.map<span style="color: #2aa198;">(</span>m::get<span style="color: #2aa198;">)</span>.toArray<span style="color: #2aa198;">()</span>;
+<span style="color: #839496;">}</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline11" class="outline-2">
+<h2 id="orgheadline11"><span class="section-number-2">11</span> Find neighbours in the 2d array</h2>
+<div class="outline-text-2" id="text-11">
+<p>
+Quite often, we want to iterate neighbouring cells in the array. So for indexes i,j we want to visit (i-1,j), (i+1,j), (i,j-1) and (i,j+1). It makes sense to generate a list of “moves”, containing four allowed vectors. I use following snippet:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #268bd2;">List</span><span style="color: #839496;">&lt;</span><span style="color: #268bd2;">Pair</span><span style="color: #2aa198;">&lt;</span><span style="color: #268bd2;">Integer</span>, <span style="color: #268bd2;">Integer</span><span style="color: #2aa198;">&gt;</span><span style="color: #839496;">&gt;</span> <span style="color: #6c71c4;">moves</span> = IntStream.range<span style="color: #839496;">(</span>-1, 2<span style="color: #839496;">)</span>.boxed<span style="color: #839496;">()</span>.
+    flatMap<span style="color: #839496;">(</span>x -&gt; IntStream.range<span style="color: #2aa198;">(</span>-1, 2<span style="color: #2aa198;">)</span>.boxed<span style="color: #2aa198;">()</span>.map<span style="color: #2aa198;">(</span>y -&gt; pairOf<span style="color: #b58900;">(</span>x, y<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>.
+    filter<span style="color: #839496;">(</span>x -&gt; Math.abs<span style="color: #2aa198;">(</span>x.first + x.second<span style="color: #2aa198;">)</span> == 1<span style="color: #839496;">)</span>.
+    collect<span style="color: #839496;">(</span>Collectors.toList<span style="color: #2aa198;">()</span><span style="color: #839496;">)</span>;
+</pre>
+</div>
+
+<p>
+Even if java does not have built in pair I found out that javafx.util.Pair gets accepted on topcoder.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline12" class="outline-2">
+<h2 id="orgheadline12"><span class="section-number-2">12</span> Caveats</h2>
+<div class="outline-text-2" id="text-12">
+<p>
+Java 8 is still far away from being functional language. It’s missing many features comparing to functional languages like Scala, Ocaml or Haskell. Not all features are equally useful, and some are only useful in “production”, but not in a small algorithmic problem. I solved a few codeforces and hackerrank problems in Ocaml and Scala, and the features I miss the most are:
+</p>
+
+<ol class="org-ol">
+<li>Type inference. It’s not that big of a deal as people make it to be, as IntelliJ auto-generates majority of the type code.
+For example, instead of <code>val x = function()</code>, you can type <code>function()</code>, and call <a href="https://en.wikipedia.org/wiki/Project_Valhalla_(Java_language)">Extract variable IntelliJ function,</a> that will transform it to <code>CorrectType x = function()</code>.</li>
+<li>Pattern matching, case classes, unpacking and built in tuples.</li>
+<li><a href="https://en.wikipedia.org/wiki/Project_Valhalla_(Java_language)">Value types.</a> <a href="https://en.wikipedia.org/wiki/Project_Valhalla_(Java_language)">Value types are planned for Java 10.</a></li>
+</ol>
+
+<p>
+Some other features, like good support for currying or partial application are sometimes useful in the “real” production code, but not that often in programming contests. Java 8 somewhat supports them, but all attempts I have seen look worse than equivalent code in real functional languages.
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

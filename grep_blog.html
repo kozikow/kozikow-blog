@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2016-05-18 Wed 08:15 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title></title>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Robert Kozikowski" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline3">1. Ease of installation</a>
+<ul>
+<li><a href="#orgheadline1">1.1. Installation on Windows</a></li>
+<li><a href="#orgheadline2">1.2. Installation on Linux without access to apt-get</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline15">2. One regex flavor to rule them all - PCRE</a>
+<ul>
+<li><a href="#orgheadline14">2.1. Perl regex support in various tools</a>
+<ul>
+<li><a href="#orgheadline4">2.1.1. grep and git-grep</a></li>
+<li><a href="#orgheadline5">2.1.2. ag</a></li>
+<li><a href="#orgheadline6">2.1.3. ack</a></li>
+<li><a href="#orgheadline7">2.1.4. pt</a></li>
+<li><a href="#orgheadline8">2.1.5. Command line</a></li>
+<li><a href="#orgheadline12">2.1.6. Editors</a></li>
+<li><a href="#orgheadline13">2.1.7. Different programming languages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline16">3. <span class="todo TODO">TODO</span> Multi line regexp support</a></li>
+<li><a href="#orgheadline17">4. <span class="todo TODO">TODO</span> My speed benchmarks</a></li>
+<li><a href="#orgheadline18">5. <span class="todo TODO">TODO</span> Custom file filters</a></li>
+<li><a href="#orgheadline19">6. <span class="todo TODO">TODO</span> Customizable ignore patterns</a></li>
+<li><a href="#orgheadline9">7. <span class="todo TODO">TODO</span> Emacs integration</a>
+<ul>
+<li><a href="#orgheadline20">7.1. Ack and ag frontends</a></li>
+<li><a href="#orgheadline21">7.2. Use PCRE everywhere in emacs</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline22">8. Summary table</a></li>
+<li><a href="#orgheadline23">9. Conclusion</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3"><span class="section-number-2">1</span> Ease of installation</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+All tools I am investigating are easy to install on Linux and Mac using apt-get/yum/brew/etc.
+</p>
+</div>
+<div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.1</span> Installation on Windows</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+With new Windows 10 "Ubuntu" compatibility installation of all tools should be as easy as on Linux.
+</p>
+
+<p>
+If you have perl installed (comes with cygwin) ack installation is quite easy.
+Just download single perl file mentioned in <a href="http://beyondgrep.com/install/">http://beyondgrep.com/install/</a> and put it somewhere in $PATH.
+</p>
+
+<p>
+If you don't have or want cygwin installed, pt should be easy to install, but I did not try it.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">1.2</span> Installation on Linux without access to apt-get</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+grep and git grep should be already accessible on any Linux.
+You can try to build pt and ag from source, but you may hit some missing libraries.
+</p>
+
+<p>
+ack installation in is quite easy, just download single perl file mentioned in
+<a href="http://beyondgrep.com/install/">http://beyondgrep.com/install/</a> and put it somewhere in $PATH.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline15" class="outline-2">
+<h2 id="orgheadline15"><span class="section-number-2">2</span> One regex flavor to rule them all - PCRE</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+One annoying thing about regular expression is that every language implements them in their own way.
+It's enough to look at the table at <a href="https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines">wikipedia.</a> 
+</p>
+
+<p>
+Thankfully, there is a way out - use PCRE or perl regular expressions as often as possible.
+<a href="https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions#Differences_from_Perl">Perl or PCRE regexp differences are minimal.
+</a>Almost all tools and languages support perl regular expressions nowadays in some form, mainly thanks to PCRE.
+The same can't be said about any other regex engine.
+What's more, perl regexps are one of the most powerful regex flavors.
+</p>
+</div>
+
+<div id="outline-container-orgheadline14" class="outline-3">
+<h3 id="orgheadline14"><span class="section-number-3">2.1</span> Perl regex support in various tools</h3>
+<div class="outline-text-3" id="text-2-1">
+</div><div id="outline-container-orgheadline4" class="outline-4">
+<h4 id="orgheadline4"><span class="section-number-4">2.1.1</span> grep and git-grep</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+Newer versions of grep and git-grep have a -P flag. 
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline5" class="outline-4">
+<h4 id="orgheadline5"><span class="section-number-4">2.1.2</span> ag</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+ag "natively" supports PCRE.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline6" class="outline-4">
+<h4 id="orgheadline6"><span class="section-number-4">2.1.3</span> ack</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<p>
+ack "natively" supports perl regexps (it's written in perl).
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline7" class="outline-4">
+<h4 id="orgheadline7"><span class="section-number-4">2.1.4</span> pt</h4>
+<div class="outline-text-4" id="text-2-1-4">
+<p>
+pt is the only investigated grep-like tool that does not support perl regexps.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline8" class="outline-4">
+<h4 id="orgheadline8"><span class="section-number-4">2.1.5</span> Command line</h4>
+<div class="outline-text-4" id="text-2-1-5">
+<p>
+Even if perl gets lots of hate, <a href="http://lifecs.likai.org/2008/10/using-perl-like-awk-and-sed.html">you can use it as a better sed and awk replacement on the command line.</a>
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline12" class="outline-4">
+<h4 id="orgheadline12"><span class="section-number-4">2.1.6</span> Editors</h4>
+<div class="outline-text-4" id="text-2-1-6">
+</div><ol class="org-ol"><li><a id="orgheadline10"></a>Emacs<br  /><div class="outline-text-5" id="text-2-1-6-1">
+<p>
+<a href="#orgheadline9">I will be talking about emacs in particular in the later section.</a>
+</p>
+</div></li>
+<li><a id="orgheadline11"></a>Vim<br  /><div class="outline-text-5" id="text-2-1-6-2">
+<p>
+<a href="http://vim.wikia.com/wiki/Perl_compatible_regular_expressions">Wiki mentions PCRE support in some form, but I did not try it, as I primarily use evil mode in emacs.</a>
+</p>
+</div></li></ol>
+</div>
+<div id="outline-container-orgheadline13" class="outline-4">
+<h4 id="orgheadline13"><span class="section-number-4">2.1.7</span> Different programming languages</h4>
+<div class="outline-text-4" id="text-2-1-7">
+<ul class="org-ul">
+<li><a href="https://pypi.python.org/pypi/python-pcre/0.6">Python</a> and <a href="http://www.pcre.org/original/doc/html/pcrecpp.html">C++</a> have pcre wrappers.</li>
+<li><a href="http://jregex.sourceforge.net/doc-index.html">Java library JRegex</a> claims perl regex support.</li>
+<li>As PCRE is a C library, you can always just call native code to use the PCRE directly (e.g. JNI in Java).</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline16" class="outline-2">
+<h2 id="orgheadline16"><span class="section-number-2">3</span> <span class="todo TODO">TODO</span> Multi line regexp support</h2>
+</div>
+<div id="outline-container-orgheadline17" class="outline-2">
+<h2 id="orgheadline17"><span class="section-number-2">4</span> <span class="todo TODO">TODO</span> My speed benchmarks</h2>
+</div>
+<div id="outline-container-orgheadline18" class="outline-2">
+<h2 id="orgheadline18"><span class="section-number-2">5</span> <span class="todo TODO">TODO</span> Custom file filters</h2>
+</div>
+<div id="outline-container-orgheadline19" class="outline-2">
+<h2 id="orgheadline19"><span class="section-number-2">6</span> <span class="todo TODO">TODO</span> Customizable ignore patterns</h2>
+</div>
+<div id="outline-container-orgheadline9" class="outline-2">
+<h2 id="orgheadline9"><span class="section-number-2">7</span> <span class="todo TODO">TODO</span> Emacs integration</h2>
+<div class="outline-text-2" id="text-7">
+</div><div id="outline-container-orgheadline20" class="outline-3">
+<h3 id="orgheadline20"><span class="section-number-3">7.1</span> Ack and ag frontends</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+Write about projectile
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline21" class="outline-3">
+<h3 id="orgheadline21"><span class="section-number-3">7.2</span> Use PCRE everywhere in emacs</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+<a href="http://stackoverflow.com/questions/15856154/perl-style-regular-expressions-in-emacs">Stack overflow post</a>
+<a href="https://github.com/joddie/pcre2el">Package translating between emacs and pcre regexps</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline22" class="outline-2">
+<h2 id="orgheadline22"><span class="section-number-2">8</span> Summary table</h2>
+<div class="outline-text-2" id="text-8">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">Filter files to grep in</th>
+<th scope="col" class="org-left">Multiline regex</th>
+<th scope="col" class="org-left">Pcre or perl</th>
+<th scope="col" class="org-left">Ease of installation</th>
+<th scope="col" class="org-left">Speed</th>
+<th scope="col" class="org-left">Customizable ignore patterns</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">regex support</th>
+<th scope="col" class="org-left">and portability</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">ag</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Yes</td>
+<td class="org-left">The hardest</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">ack</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Yes</td>
+<td class="org-left">Easy and portable</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">git grep</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Flag -P if</td>
+<td class="org-left">Very easy - comes</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">git built</td>
+<td class="org-left">with git.</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">"&#x2013;with-pcre"</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">pt</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">No</td>
+<td class="org-left">Binary for all</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">OS.</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">grep</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Flag -P</td>
+<td class="org-left">Very easy - comes</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">in newer</td>
+<td class="org-left">with every linux,</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">greps or</td>
+<td class="org-left">but not always with</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pcregrep</td>
+<td class="org-left">-P</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orgheadline23" class="outline-2">
+<h2 id="orgheadline23"><span class="section-number-2">9</span> Conclusion</h2>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Robert Kozikowski</p>
+<p class="date">Created: 2016-05-18 Wed 08:15</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

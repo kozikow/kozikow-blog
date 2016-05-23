@@ -1,0 +1,78 @@
+* Ease of installation
+All tools I am investigating are easy to install on Linux and Mac using apt-get/yum/brew/etc.
+** Installation on Windows
+With new Windows 10 "Ubuntu" compatibility installation of all tools should be as easy as on Linux.
+
+If you have perl installed (comes with cygwin) ack installation is quite easy.
+Just download single perl file mentioned in http://beyondgrep.com/install/ and put it somewhere in $PATH.
+
+If you don't have or want cygwin installed, pt should be easy to install, but I did not try it.
+** Installation on Linux without access to apt-get
+grep and git grep should be already accessible on any Linux.
+You can try to build pt and ag from source, but you may hit some missing libraries.
+
+ack installation in is quite easy, just download single perl file mentioned in
+http://beyondgrep.com/install/ and put it somewhere in $PATH.
+* One regex flavor to rule them all - PCRE
+One annoying thing about regular expression is that every language implements them in their own way.
+It's enough to look at the table at [[https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines][wikipedia.]] 
+
+Thankfully, there is a way out - use PCRE or perl regular expressions as often as possible.
+[[https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions#Differences_from_Perl][Perl or PCRE regexp differences are minimal.
+]]Almost all tools and languages support perl regular expressions nowadays in some form, mainly thanks to PCRE.
+The same can't be said about any other regex engine.
+What's more, perl regexps are one of the most powerful regex flavors.
+
+** Perl regex support in various tools
+*** grep and git-grep
+Newer versions of grep and git-grep have a -P flag. 
+*** ag
+ag "natively" supports PCRE.
+*** ack
+ack "natively" supports perl regexps (it's written in perl).
+*** pt
+pt is the only investigated grep-like tool that does not support perl regexps.
+*** Command line
+Even if perl gets lots of hate, [[http://lifecs.likai.org/2008/10/using-perl-like-awk-and-sed.html][you can use it as a better sed and awk replacement on the command line.]]
+*** Editors
+**** Emacs
+[[*Emacs integration][I will be talking about emacs in particular in the later section.]]
+**** Vim
+[[http://vim.wikia.com/wiki/Perl_compatible_regular_expressions][Wiki mentions PCRE support in some form, but I did not try it, as I primarily use evil mode in emacs.]]
+*** Different programming languages
+- [[https://pypi.python.org/pypi/python-pcre/0.6][Python]] and [[http://www.pcre.org/original/doc/html/pcrecpp.html][C++]] have pcre wrappers.
+- [[http://jregex.sourceforge.net/doc-index.html][Java library JRegex]] claims perl regex support.
+- As PCRE is a C library, you can always just call native code to use the PCRE directly (e.g. JNI in Java).
+* TODO Multi line regexp support
+* TODO My speed benchmarks
+* TODO Custom file filters
+* TODO Customizable ignore patterns
+* TODO Emacs integration
+** Ack and ag frontends
+Write about projectile
+** Use PCRE everywhere in emacs
+[[http://stackoverflow.com/questions/15856154/perl-style-regular-expressions-in-emacs][Stack overflow post]]
+[[https://github.com/joddie/pcre2el][Package translating between emacs and pcre regexps]]
+* Summary table
+|----------+-------------------------+-----------------+---------------+----------------------+-------+------------------------------|
+|          | Filter files to grep in | Multiline regex | Pcre or perl  | Ease of installation | Speed | Customizable ignore patterns |
+|          |                         |                 | regex support | and portability      |       |                              |
+|          |                         |                 |               |                      |       |                              |
+|----------+-------------------------+-----------------+---------------+----------------------+-------+------------------------------|
+| ag       |                         |                 | Yes           | The hardest          |       |                              |
+|----------+-------------------------+-----------------+---------------+----------------------+-------+------------------------------|
+| ack      |                         |                 | Yes           | Easy and portable    |       |                              |
+|----------+-------------------------+-----------------+---------------+----------------------+-------+------------------------------|
+| git grep |                         |                 | Flag -P if    | Very easy - comes    |       |                              |
+|          |                         |                 | git built     | with git.            |       |                              |
+|          |                         |                 | "--with-pcre" |                      |       |                              |
+|----------+-------------------------+-----------------+---------------+----------------------+-------+------------------------------|
+| pt       |                         |                 | No            | Binary for all       |       |                              |
+|          |                         |                 |               | OS.                  |       |                              |
+|----------+-------------------------+-----------------+---------------+----------------------+-------+------------------------------|
+| grep     |                         |                 | Flag -P       | Very easy - comes    |       |                              |
+|          |                         |                 | in newer      | with every linux,    |       |                              |
+|          |                         |                 | greps or      | but not always with  |       |                              |
+|          |                         |                 | pcregrep      | -P                   |       |                              |
+|----------+-------------------------+-----------------+---------------+----------------------+-------+------------------------------|
+* Conclusion

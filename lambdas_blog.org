@@ -1,0 +1,323 @@
+#+OPTIONS: html5-fancy:nil
+#+HTML_DOCTYPE: xhtml-strict
+#+HTML_CONTAINER: div
+* Introduction
+Java 8 streams and lambdas are a big improvement over Java 7.
+
+Java 8 streams are like iterators that support transforming intermediate state
+and result of iteration using functions created by lambdas.
+If this sentence seems too foreign,
+you should read more basic introduction to streams first.
+Many common, dull tasks can be implemented using Java 8 streams and lambdas in
+significantly less code than Java 7 or C++. I would even dare to say,
+that in many cases C++ is the more "boilerplate" option now,
+and it's coming from person who used C++ for several years in programming
+contests.
+
+I will discuss a few code snippets using new Java 8 idioms that I found
+particularly interesting and useful in programming contests like Topcoder.
+* Comparison with C++
+Some people are going to say "But C++ 11 have lambdas as well!".
+Even if C++ have lambdas, the standard library wasn't really 
+adapted to use them. Let's look at some contrived example of
+a function returning a new vector/array containing odd 
+elements divided by 2.
+C++11 lambdas look =horrible=:
+#+BEGIN_SRC C++
+  vector<int> get_divided_by_2(const vector<int>& v) {
+    vector<int> filtered;
+    copy_if(v.begin(), v.end(),
+            back_inserter(filtered), [](int x) { return x % 2 == 0;});
+    vector<int> transformed;
+    transform(filtered.begin(), filtered.end(), back_inserter(transformed), 
+        [](int x) { return x / 2;});
+    return transformed;
+#+END_SRC
+
+On the other hand, Java 8 lambdas are quite clean:
+#+BEGIN_SRC java
+  int[] getDividedBy2(int[] arr) {
+    return Arrays.stream(arr)
+        .filter(x -> x%2 == 0)
+        .map(x -> x/2)
+        .toArray();
+  }
+#+END_SRC
+* Performance
+Streams are slower than for loops. On the other hand,
+during the last few hundreds programs implemented in Java during the
+programming contests I never hit the time limit because of streams and I used
+them quite heavily.
+
+Major source of slowness of streams API is their relative newness.
+Compilers have been optimised for years for efficient JITing of imperative
+loops. As the new versions of JVMs will adapt to streams,
+the gap is going to get smaller.
+
+[[http://cs.yale.edu/homes/xs45/pdf/ssgos-vldb2014.pdf][There is an interesting paper from Oracle mentioning framework for executing Java 8 streams on distributed systems, including Spark.
+]]In dynamic compilation section, it says:
+
+#+BEGIN_EXAMPLE
+This design (JIT compatibility of Java 8 streams) allows the performance of 
+streams to continue to improve as the Java runtime environment improves,
+resulting in highly efficient stream execution. An important design principle
+is to ensure the classes for methods invoked in critical loops can be 
+determined by the JIT when the loop is compiled, as this allows the inner
+methods to be inlined and the loop to be intelligently unrolled.
+#+END_EXAMPLE
+
+If streams will be intelligently unrolled and JIT-ed,
+the performance overhead of streams is going to be close to zero.
+Given that this sentence is from official paper by Oracle,
+and it plays into their "big data" ambitions,
+I would say we could get streams JITing sooner than later.
+[[https://jaxenter.com/java-performance-tutorial-how-fast-are-the-java-8-streams-118830.html][If you are interested in further reading, you may also take a look at this post.]]
+* Reading an array of ints
+Reading an integer N in the first line, and then reading array of N entries is a chore required in majority of problems. With Java 8 streams, reading array of ints can be simply done by:
+#+BEGIN_SRC java
+  Scanner sc = new Scanner(System.in);
+  int n = sc.nextInt();
+  int[] arr = IntStream.generate(sc::nextInt)
+      .limit(n)
+      .toArray();
+#+END_SRC
+
+Note that Scanner is very slow and you may sometimes hit timeouts (
+happened to me during Codeforces). Even if old and rusty,
+BufferedReader is much faster.
+Scanner solves more general problem and it does extra work that we don't need
+to do, like taking encoding into consideration. BufferedReader version:
+#+BEGIN_SRC java
+  BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+  br.readLine(); // We won't use the result.
+  int[] arr = Arrays.stream(br.readLine().split(" "))
+      .mapToInt(Integer::valueOf).toArray();
+#+END_SRC
+
+String.split is inefficient, as it evaluates the regular expression. We can use another old class, StringTokenizer, to further speed this code up:
+#+BEGIN_SRC java
+  BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+  int n = Integer.valueOf(br.readLine());
+  StringTokenizer st = new StringTokenizer(br.readLine());
+  int[] arr = Stream
+      .generate(st::nextToken)
+      .mapToInt(Integer::valueOf)
+      .limit(n)
+      .toArray();
+#+END_SRC
+
+[[http://docs.oracle.com/javase/8/docs/api/java/io/BufferedReader.html#lines--][BufferedReader has a new useful method added in Java 8 - lines().]] It creates a stream out of all lines found in the input. We can create a stream out of all ints found in the input, until the EOF character is found:
+#+BEGIN_SRC java
+  public static IntStream streamInts() {
+      final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+      return br.lines().map(StringTokenizer::new)
+          .flatMap(tok -> Stream.generate(tok::nextToken).limit(tok.countTokens()))
+          .mapToInt(Integer::valueOf);
+  }
+#+END_SRC
+I am too lazy to do the proper micro benchmark. On codeforces problem [[http://codeforces.com/contest/588/problem/C][588C]],
+Scanner version exceeded the 1s timelimit,
+BufferedReader version with String.split finished in 550ms,
+BufferedReader with StringTokenizer finished in 400ms,
+method using BufferedReader:
+:lines finished in 450ms, while C++ version with scanf finished in 200ms.
+* Printing an array of ints
+Let's say you have an array of ints and you want to print it to standard output.
+First thing that comes to mind is repeatedly calling System.out.printf. Equivalent method would be good enough in C++, but it is sometimes too slow in Java, if you have many ints to output. You may consider assembling a String and calling System.out only once.
+With new Java 8 streams you can assemble array of ints into a string with less boilerplate:
+#+BEGIN_SRC java
+  System.out.println(Arrays.stream(ints).mapToObj(x -> x + " ")
+                     .collect(StringBuilder::new, StringBuilder::append,
+                              StringBuilder::append)
+                     .toString());
+#+END_SRC
+
+In [[http://codeforces.com/problemset/problem/590/A][Codeforces problem 590A]] method with calling System.out.printf 500000 times exceeds the 2s timelimit, but method with assembling a String got accepted in 200ms!
+* Initialize the graph
+Although in “production” code one would use ArrayList of ArrayLists for
+representing the graph,
+in programming contests I often stick to ArrayList<Integer>[].
+Arrays are faster than ArrayLists.
+Initializing a graph used to require a for loop.
+Initializing a graph with N nodes can now be done by simply:
+
+#+BEGIN_SRC java
+  ArrayList<Integer>[] graph = Stream.generate(ArrayList<Integer>::new)
+      .limit(N + 1).toArray(ArrayList[]::new);
+#+END_SRC
+
+If the graph is directed, and you get the list of edges in the input, you can use
+Collectors.groupingBy to initialize and read it in one go. Following snippet 
+relies on undocumented property of  the Collectors::groupingBy – that that 
+classifier will be applied before downstream in collector (but it’s the case in 
+the current implementation of Collectors::groupingBy):
+#+BEGIN_SRC java
+  Scanner sc = new Scanner(System.in);
+  Map<Integer, List<Integer>> graph = IntStream.range(0, m).boxed().
+      collect(Collectors.groupingBy(x -> sc.nextInt(),
+          Collectors.mapping(x -> sc.nextInt(), Collectors.toList())));
+#+END_SRC
+
+I couldn’t create nice enough looking snippet for initialising the undirected graph, so I would still stick with the for loop.
+* Less boilerplate Bigints
+Bigints in Java used to be cumbersome,
+as Java does not support operator overloading. They still are,
+but streams in some cases let us save quite a lot of boilerplate.
+For example see this snippet calculating a factorial using bigints:
+
+#+BEGIN_SRC java
+  Stream.iterate(BigInteger.ONE, x -> x.add(BigInteger.ONE))
+      .limit(n)
+      .reduce(BigInteger::multiply).get()
+#+END_SRC
+* Counting objects using groupingBy stream or new Map methods
+Counting elements used to be quite cumbersome. It was especially cumbersome if we couldn’t use an array and we had to use the map. In Java 8 it is much easier:
+#+BEGIN_SRC java
+  Map<Integer, Long> m = Arrays.stream(arr).boxed().collect(
+      Collectors.groupingBy(Function.identity(), Collectors.counting()));
+#+END_SRC
+
+For example, code that checks whether characters of String s can be re-arranged into palindrome:
+#+BEGIN_SRC java
+  s.codePoints().boxed().collect(
+      Collectors.groupingBy(Function.identity(), Collectors.counting())).
+      values().stream().filter(x -> (x % 2) == 1).count() <= 1
+#+END_SRC
+
+In some cases we can’t use group by and we still need to stick to map.
+For example, imagine some dynamic programming problem,
+where we need to both read and update values at the same time.
+In java 7 it used to be quite cumbersome – there were lots of boilerplate
+around checking if key is present.
+[[https://blog.jooq.org/2014/02/14/java-8-friday-goodies-map-enhancements/][There are some new Map enhancements that make it easier in Java 8.]]
+For example see relevant part my solution to TopCoder 671, [[https://blog.jooq.org/2014/02/14/java-8-friday-goodies-map-enhancements/][500 points problem BearDarts:]]
+#+BEGIN_SRC java
+  public long count(int[] w) {
+      Map<Pair<Integer, Integer>, Long> dynamic = new HashMap<>();
+      dynamic.put(getGcdPair(w[0], w[1]), 1L);
+      return LongStream.range(2, w.length).map(i -> {
+              long result = LongStream
+                  .range(i + 1, w.length)
+                  .map(j -> dynamic.getOrDefault(getGcdPair(w[(int) j],
+                                                            w[(int) i]),
+                                                 0L))
+                  .sum();
+              LongStream.range(0, i)
+                  .forEach(j -> dynamic.merge(getGcdPair(w[(int) j],
+                                                         w[(int) i]),
+                                              1L,
+                                              Long::sum));
+              return result;
+          })
+          .sum();
+  }
+#+END_SRC
+
+New methods getOrDefault and merge make it much easier to implement a map, that is counting some arbitrary keys. Merge lets you add the value to the map, but if some old value already exists it will merge old and new value using the given function. You can simply pass Integer::sum or Long::sum as the third value.
+For people curious about the solution: getGcdPairs takes two ints x, y and returns pair of ints (x,y), with both values divided by the gcd(x,y).
+* Streams on chars in the String
+Converting characters in the String to a stream is quite useful.
+There are two new methods added in Java 8 – [[https://docs.oracle.com/javase/8/docs/api/java/lang/CharSequence.html#chars--][CharSequence::chars]] and [[https://docs.oracle.com/javase/8/docs/api/java/lang/CharSequence.html#codePoints--][CharSequence::codePoints.]]
+
+CharSequence::chars method have a weird “quirk”.
+Rather than returning a stream of characters, it return an IntStream.
+[[http://stackoverflow.com/questions/22435833/why-is-string-chars-a-stream-of-ints-in-java-8][The reason seems to be that Java 8 designers decided that creating a new type for primitive chars stream is not worth the additional code.]]
+In the case of dealing with ASCII strings,
+like we do in programming contests those two methods are equivalent and will
+return an int stream of ASCII codes.
+
+At this point it’s worth to add that there are two types of stream,
+“primitive” streams like IntStream, and “object” streams like Stream<Integer>. 
+There is no CharStream, but there is Stream<Character>.
+If you are willing to pay additional performance cost of boxing,
+at any point you can:
+#+BEGIN_SRC java
+  Stream<Character> characterStream(String s) {
+    return s.codePoints().mapToObj(c -> (char) c);
+  }
+#+END_SRC
+
+On the other hand, it usually doesn’t make sense to convert an int to Character.
+
+[[https://docs.oracle.com/javase/8/docs/api/java/lang/Character.html#toLowerCase-int-][Character utility methods are adapted to work with an int codePoint.]]
+Therefore, it makes sense to stop working with code points,
+only when printing results or returning the String. For example,
+let’s say we want to print sorted, unique letters in the String.
+If we want to just print results we can cast int to char when printing:
+#+BEGIN_SRC java
+  void printUniqueLetters(String s) {
+    s.codePoints()
+        .filter(Character::isLetter)
+        .map(Character::toLowerCase).
+    sorted()
+        .distinct()
+        .forEach(c -> System.out.print((char) c));
+  }
+#+END_SRC
+
+Note that printing strings character by character is inefficient. I, in fact,
+exceeded the 1s time limit in the [[https://www.hackerrank.com/challenges/sherlock-and-the-beast][Sherlock and The Beast hackerrank problem]] by
+calling System.out.print on 10^5 chars, but passed all tests in 0.
+5s when printing a string assembled using the StringBuilder.
+There is no nice built in utility for assembling a stream back to String.
+The best way I found uses the StringBuilder – [[http://stackoverflow.com/questions/20266422/simplest-way-to-print-an-intstream-as-a-string][see discussion on stack overflow.]]
+Version of previous snippet that returns the String:
+#+BEGIN_SRC java
+  static String uniqueLetters(String s) {
+    return s.codePoints()
+        .filter(Character::isLetter)
+        .map(Character::toLowerCase)
+        .sorted().distinct().
+        collect(StringBuilder::new,
+                StringBuilder::appendCodePoint, StringBuilder::append).
+        toString();
+  }
+#+END_SRC
+* “Normalize” an array
+Sometimes we are faced with an array consisting of big numbers, for example
+#+BEGIN_EXAMPLE
+1000000007 13 100000000000000007 1000000007 13    
+#+END_EXAMPLE
+
+We do not care about the absolute value of the entry, but we care about the relative “lower than” relation between entries. E.g. we want to transform the above array into:
+#+BEGIN_EXAMPLE
+1 0 2 1 0
+#+END_EXAMPLE
+Example of relatively short Java 8 snippet solving this problem:
+#+BEGIN_SRC java
+  int[] normalizePreservingOrder(int[] arr) {
+    int[] distinct = Arrays.stream(arr)
+        .sorted().distinct()
+        .toArray();
+    Map<Integer, Integer> m = IntStream
+        .range(0, distinct.length).boxed()
+        .collect(Collectors.toMap(i -> distinct[i],
+                                  Function.identity()));
+    return Arrays.stream(arr).map(m::get).toArray();
+  }
+#+END_SRC
+* Find neighbours in the 2d array
+Quite often, we want to iterate neighbouring cells in the array. So for indexes i,j we want to visit (i-1,j), (i+1,j), (i,j-1) and (i,j+1). It makes sense to generate a list of “moves”, containing four allowed vectors. I use following snippet:
+#+BEGIN_SRC java
+  List<Pair<Integer, Integer>> moves = IntStream
+      .range(-1, 2).boxed()
+      .flatMap(x -> IntStream.range(-1, 2).boxed().map(y -> pairOf(x, y)))
+      .filter(x -> Math.abs(x.first + x.second) == 1)
+      .collect(Collectors.toList());
+#+END_SRC
+
+Even if java does not have built in pair I found out that javafx.util.Pair gets accepted on topcoder.
+* Caveats
+Java 8 is still far away from being functional language. It’s missing many features comparing to functional languages like Scala, Ocaml or Haskell. Not all features are equally useful, and some are only useful in “production”, but not in a small algorithmic problem. I solved a few codeforces and hackerrank problems in Ocaml and Scala, and the features I miss the most are:
+
+1. Type inference. It’s not that big of a deal as people make it to be, as IntelliJ auto-generates majority of the type code.
+   For example, instead of =val x = function()=, you can type =function()=, and call [[https://en.wikipedia.org/wiki/Project_Valhalla_(Java_language)][Extract variable IntelliJ function,]] that will transform it to =CorrectType x = function()=.
+2. Pattern matching, case classes, unpacking and built in tuples.
+3. [[https://en.wikipedia.org/wiki/Project_Valhalla_(Java_language)][Value types.]] [[https://en.wikipedia.org/wiki/Project_Valhalla_(Java_language)][Value types are planned for Java 10.]]
+
+Some other features, like good support for currying or partial application are sometimes useful in the “real” production code, but not that often in programming contests. Java 8 somewhat supports them, but all attempts I have seen look worse than equivalent code in real functional languages.
+ 
+
+
+
+

@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2016-05-22 Sun 17:42 -->
+<!-- 2016-05-23 Mon 08:06 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title>Very powerful data analysis environment - org mode with ob-ipython</title>
 <meta  name="generator" content="Org-mode" />
-<meta  name="author" content="Robert Kozikowski \\ r.kozikowski@gmail.com \\ [[https://kozikow.wordpress.com]]" />
+<meta  name="author" content="Robert Kozikowski" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
   .title  { text-align: center;
@@ -153,14 +153,14 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#orgheadline3">2.1. Embed code blocks in any language</a></li>
 <li><a href="#orgheadline4">2.2. Results can be exported to many formats, like latex, html or this blog</a></li>
-<li><a href="#orgheadline5">2.3. Programmable documents (aka "Literate programming" or "Reproducible Research")</a></li>
+<li><a href="#orgheadline5">2.3. Programmable documents (aka "Literate programming")</a></li>
 <li><a href="#orgheadline9">2.4. Built in excel alternative</a>
 <ul>
 <li><a href="#orgheadline7">2.4.1. Export to pandas</a></li>
 <li><a href="#orgheadline8">2.4.2. Other exporters</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline11">2.5. Pass code between languages</a></li>
+<li><a href="#orgheadline11">2.5. Pass data between languages</a></li>
 <li><a href="#orgheadline12">2.6. Outline view is powerful for organizing your work</a></li>
 <li><a href="#orgheadline13">2.7. Navigate to code and between org files with ctags.</a></li>
 <li><a href="#orgheadline27">2.8. Many more</a>
@@ -210,27 +210,28 @@ for the JavaScript code in this tag.
 <li><a href="#orgheadline42">6.1. Org table to pandas and plotting</a></li>
 <li><a href="#orgheadline43">6.2. Org table -&gt; Pandas -&gt; Org table</a></li>
 <li><a href="#orgheadline44">6.3. <span class="todo TODO">TODO</span> Shared code</a></li>
-<li><a href="#orgheadline45">6.4. <span class="todo TODO">TODO</span> Data frame sharing with org tables</a></li>
-<li><a href="#orgheadline10">6.5. <span class="todo TODO">TODO</span> Pass data directly between languages</a></li>
-<li><a href="#orgheadline46">6.6. <span class="todo TODO">TODO</span> Different language kernels</a></li>
-<li><a href="#orgheadline47">6.7. Examples from other blog posts</a></li>
+<li><a href="#orgheadline45">6.4. <span class="todo TODO">TODO</span> Use global constant</a></li>
+<li><a href="#orgheadline46">6.5. <span class="todo TODO">TODO</span> Data frame sharing with org tables</a></li>
+<li><a href="#orgheadline10">6.6. <span class="todo TODO">TODO</span> Pass data directly between languages</a></li>
+<li><a href="#orgheadline47">6.7. <span class="todo TODO">TODO</span> Different language kernels</a></li>
+<li><a href="#orgheadline48">6.8. Examples from other blog posts</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline52">7. Unresolved problems</a>
+<li><a href="#orgheadline53">7. Unresolved problems</a>
 <ul>
-<li><a href="#orgheadline48">7.1. <span class="todo TODO">TODO</span> <code>ob-ipython-inspect</code> in popup</a></li>
-<li><a href="#orgheadline49">7.2. <span class="todo TODO">TODO</span> Configure the <code>org-edit-src-code</code> to use ipython completion.</a></li>
-<li><a href="#orgheadline50">7.3. <span class="todo TODO">TODO</span> Capture results from ipython to src block.</a></li>
-<li><a href="#orgheadline51">7.4. <span class="todo TODO">TODO</span> Figure out why SVG doesn't work</a></li>
+<li><a href="#orgheadline49">7.1. <span class="todo TODO">TODO</span> <code>ob-ipython-inspect</code> in popup</a></li>
+<li><a href="#orgheadline50">7.2. <span class="todo TODO">TODO</span> Configure the <code>org-edit-src-code</code> to use ipython completion.</a></li>
+<li><a href="#orgheadline51">7.3. <span class="todo TODO">TODO</span> Capture results from ipython to src block.</a></li>
+<li><a href="#orgheadline52">7.4. <span class="todo TODO">TODO</span> Figure out why SVG doesn't work</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline58">8. Further reading</a>
+<li><a href="#orgheadline59">8. Further reading</a>
 <ul>
-<li><a href="#orgheadline53">8.1. Official org mode documentation</a></li>
-<li><a href="#orgheadline54">8.2. Official documentation of ob-ipython</a></li>
-<li><a href="#orgheadline55">8.3. Research paper: An Effective Git And Org-Mode Based Workflow For Reproducible Research</a></li>
-<li><a href="#orgheadline56">8.4. Org mode for managing your server configuration</a></li>
-<li><a href="#orgheadline57">8.5. What we are using org mode for from John Kitchin</a></li>
+<li><a href="#orgheadline54">8.1. Official org mode documentation</a></li>
+<li><a href="#orgheadline55">8.2. Official documentation of ob-ipython</a></li>
+<li><a href="#orgheadline56">8.3. Research paper: An Effective Git And Org-Mode Based Workflow For Reproducible Research</a></li>
+<li><a href="#orgheadline57">8.4. Org mode for managing your server configuration</a></li>
+<li><a href="#orgheadline58">8.5. What we are using org mode for from John Kitchin</a></li>
 </ul>
 </li>
 </ul>
@@ -243,6 +244,10 @@ for the JavaScript code in this tag.
 <p>
 Emacs <code>org-mode</code> with <code>ob-ipython</code> is the most powerful data analysis environment I ever used.
 I find it much more powerful than other tools I used, including jupyter and beaker web notebooks or just writing python in PyCharm.
+</p>
+
+<p>
+Emacs org mode with ob-ipython is like jupyter or beaker notebook, but in Emacs instead of browser and with many more features.
 </p>
 
 <p>
@@ -307,11 +312,11 @@ You can just learn one way to edit documents and presentations than can be expor
 </div>
 </div>
 <div id="outline-container-orgheadline5" class="outline-3">
-<h3 id="orgheadline5"><span class="section-number-3">2.3</span> Programmable documents (aka <a href="https://en.wikipedia.org/wiki/Literate_programming">"Literate programming"</a> or <a href="http://dl.acm.org/citation.cfm?id=2723881">"Reproducible Research"</a>)</h3>
+<h3 id="orgheadline5"><span class="section-number-3">2.3</span> Programmable documents (aka <a href="https://en.wikipedia.org/wiki/Literate_programming">"Literate programming"</a>)</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 Emacs org mode with org babel is a full fledged <a href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a> environment.
-<a href="http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/">Some people have published whole books or research papers as a large executable document in org.</a>
+<a href="http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/">Some people have published whole books or research papers as a large executable document in org.</a> There is an even <a href="http://dl.acm.org/citation.cfm?id=2723881">Research paper about it</a>.
 </p>
 
 <p>
@@ -378,7 +383,7 @@ Nevertheless, org supports <a href="https://github.com/stuartsierra/org-mode/blo
 </div>
 </div>
 <div id="outline-container-orgheadline11" class="outline-3">
-<h3 id="orgheadline11"><span class="section-number-3">2.5</span> Pass code between languages</h3>
+<h3 id="orgheadline11"><span class="section-number-3">2.5</span> Pass data between languages</h3>
 <div class="outline-text-3" id="text-2-5">
 <p>
 Similar functionality is offered by <a href="http://beakernotebook.com/">beaker notebook.</a>
@@ -654,13 +659,8 @@ Foe example, to avoid adding <code>%matplotlib inline</code> to each source code
 <h3 id="orgheadline40"><span class="section-number-3">5.3</span> <span class="todo TODO">TODO</span> Configure yasnippet</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
-From official docs:
-</p>
-
-<p>
-I use yasnippet to create src blocks. Here is the snippet I use.
-It takes care of generating unique file names (when I want one)
-so I don't have to think about this.
+ob-ipython docs suggest yasnippet for editing code.
+So far I have been using custom elisp code, but a few things can be nicer about yasnippet.
 </p>
 
 <div class="org-src-container">
@@ -849,23 +849,33 @@ Afterwards, you may assign result table to variable, edit it with org spreadshee
 </p>
 </div>
 </div>
+
 <div id="outline-container-orgheadline44" class="outline-3">
 <h3 id="orgheadline44"><span class="section-number-3">6.3</span> <span class="todo TODO">TODO</span> Shared code</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+<a href="http://emacs.stackexchange.com/questions/2951/can-i-include-a-common-code-block-in-two-different-code-blocks-in-org-mode">http://emacs.stackexchange.com/questions/2951/can-i-include-a-common-code-block-in-two-different-code-blocks-in-org-mode</a>
+</p>
+</div>
 </div>
 <div id="outline-container-orgheadline45" class="outline-3">
-<h3 id="orgheadline45"><span class="section-number-3">6.4</span> <span class="todo TODO">TODO</span> Data frame sharing with org tables</h3>
+<h3 id="orgheadline45"><span class="section-number-3">6.4</span> <span class="todo TODO">TODO</span> Use global constant</h3>
+</div>
+
+<div id="outline-container-orgheadline46" class="outline-3">
+<h3 id="orgheadline46"><span class="section-number-3">6.5</span> <span class="todo TODO">TODO</span> Data frame sharing with org tables</h3>
 </div>
 <div id="outline-container-orgheadline10" class="outline-3">
-<h3 id="orgheadline10"><span class="section-number-3">6.5</span> <span class="todo TODO">TODO</span> Pass data directly between languages</h3>
-<div class="outline-text-3" id="text-6-5">
+<h3 id="orgheadline10"><span class="section-number-3">6.6</span> <span class="todo TODO">TODO</span> Pass data directly between languages</h3>
+<div class="outline-text-3" id="text-6-6">
 <p>
 Create my example based on <a href="http://minimallysufficient.github.io/2015/10/24/org-mode-as-an-alternative-to-knitr.html">http://minimallysufficient.github.io/2015/10/24/org-mode-as-an-alternative-to-knitr.html</a>
 </p>
 </div>
 </div>
-<div id="outline-container-orgheadline46" class="outline-3">
-<h3 id="orgheadline46"><span class="section-number-3">6.6</span> <span class="todo TODO">TODO</span> Different language kernels</h3>
-<div class="outline-text-3" id="text-6-6">
+<div id="outline-container-orgheadline47" class="outline-3">
+<h3 id="orgheadline47"><span class="section-number-3">6.7</span> <span class="todo TODO">TODO</span> Different language kernels</h3>
+<div class="outline-text-3" id="text-6-7">
 <p>
 This should work:
 </p>
@@ -881,9 +891,9 @@ This should work:
 </div>
 </div>
 </div>
-<div id="outline-container-orgheadline47" class="outline-3">
-<h3 id="orgheadline47"><span class="section-number-3">6.7</span> Examples from other blog posts</h3>
-<div class="outline-text-3" id="text-6-7">
+<div id="outline-container-orgheadline48" class="outline-3">
+<h3 id="orgheadline48"><span class="section-number-3">6.8</span> Examples from other blog posts</h3>
+<div class="outline-text-3" id="text-6-8">
 <p>
 <code>C-c C-c</code> block to open org file directly in Emacs:
 </p>
@@ -893,6 +903,7 @@ This should work:
 </pre>
 </div>
 
+
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp"><span style="color: #839496;">(</span>browse-url-emacs <span style="color: #2aa198;">"https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/ipython-babel.org"</span><span style="color: #839496;">)</span>
@@ -901,23 +912,24 @@ This should work:
 </div>
 </div>
 </div>
-<div id="outline-container-orgheadline52" class="outline-2">
-<h2 id="orgheadline52"><span class="section-number-2">7</span> Unresolved problems</h2>
+
+<div id="outline-container-orgheadline53" class="outline-2">
+<h2 id="orgheadline53"><span class="section-number-2">7</span> Unresolved problems</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 Problems I did not resolve yet:
 </p>
 </div>
-<div id="outline-container-orgheadline48" class="outline-3">
-<h3 id="orgheadline48"><span class="section-number-3">7.1</span> <span class="todo TODO">TODO</span> <code>ob-ipython-inspect</code> in popup</h3>
+<div id="outline-container-orgheadline49" class="outline-3">
+<h3 id="orgheadline49"><span class="section-number-3">7.1</span> <span class="todo TODO">TODO</span> <code>ob-ipython-inspect</code> in popup</h3>
 <div class="outline-text-3" id="text-7-1">
 <p>
 Currently it opens a separate buffer. I would prefer a popup.
 </p>
 </div>
 </div>
-<div id="outline-container-orgheadline49" class="outline-3">
-<h3 id="orgheadline49"><span class="section-number-3">7.2</span> <span class="todo TODO">TODO</span> Configure the <code>org-edit-src-code</code> to use ipython completion.</h3>
+<div id="outline-container-orgheadline50" class="outline-3">
+<h3 id="orgheadline50"><span class="section-number-3">7.2</span> <span class="todo TODO">TODO</span> Configure the <code>org-edit-src-code</code> to use ipython completion.</h3>
 <div class="outline-text-3" id="text-7-2">
 <p>
 Currently, I have code completion only working in ipython buffer.
@@ -925,8 +937,8 @@ It seems doable to configure it in the edit source block as well.
 </p>
 </div>
 </div>
-<div id="outline-container-orgheadline50" class="outline-3">
-<h3 id="orgheadline50"><span class="section-number-3">7.3</span> <span class="todo TODO">TODO</span> Capture results from ipython to src block.</h3>
+<div id="outline-container-orgheadline51" class="outline-3">
+<h3 id="orgheadline51"><span class="section-number-3">7.3</span> <span class="todo TODO">TODO</span> Capture results from ipython to src block.</h3>
 <div class="outline-text-3" id="text-7-3">
 <p>
 To avoid manual copying between ipython buffer and source code block, I could implement an <code>ob-ipython-capture</code> function, that would add last executed
@@ -935,8 +947,8 @@ command in the ipython console to the src block.
 </p>
 </div>
 </div>
-<div id="outline-container-orgheadline51" class="outline-3">
-<h3 id="orgheadline51"><span class="section-number-3">7.4</span> <span class="todo TODO">TODO</span> Figure out why SVG doesn't work</h3>
+<div id="outline-container-orgheadline52" class="outline-3">
+<h3 id="orgheadline52"><span class="section-number-3">7.4</span> <span class="todo TODO">TODO</span> Figure out why SVG doesn't work</h3>
 <div class="outline-text-3" id="text-7-4">
 <p>
 In order to make a svg graphic rather than png, you may specify the
@@ -949,14 +961,14 @@ output format globally to IPython.
 </div>
 </div>
 </div>
-<div id="outline-container-orgheadline58" class="outline-2">
-<h2 id="orgheadline58"><span class="section-number-2">8</span> Further reading</h2>
+<div id="outline-container-orgheadline59" class="outline-2">
+<h2 id="orgheadline59"><span class="section-number-2">8</span> Further reading</h2>
 <div class="outline-text-2" id="text-8">
-</div><div id="outline-container-orgheadline53" class="outline-3">
-<h3 id="orgheadline53"><span class="section-number-3">8.1</span> <a href="http://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html">Official org mode documentation</a></h3>
+</div><div id="outline-container-orgheadline54" class="outline-3">
+<h3 id="orgheadline54"><span class="section-number-3">8.1</span> <a href="http://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html">Official org mode documentation</a></h3>
 </div>
-<div id="outline-container-orgheadline54" class="outline-3">
-<h3 id="orgheadline54"><span class="section-number-3">8.2</span> <a href="https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org">Official documentation of ob-ipython</a></h3>
+<div id="outline-container-orgheadline55" class="outline-3">
+<h3 id="orgheadline55"><span class="section-number-3">8.2</span> <a href="https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org">Official documentation of ob-ipython</a></h3>
 <div class="outline-text-3" id="text-8-2">
 <p>
 Open org directly in Emacs:
@@ -968,19 +980,19 @@ Open org directly in Emacs:
 </div>
 </div>
 </div>
-<div id="outline-container-orgheadline55" class="outline-3">
-<h3 id="orgheadline55"><span class="section-number-3">8.3</span> <a href="http://dl.acm.org/citation.cfm?id=2723881">Research paper: An Effective Git And Org-Mode Based Workflow For Reproducible Research</a></h3>
+<div id="outline-container-orgheadline56" class="outline-3">
+<h3 id="orgheadline56"><span class="section-number-3">8.3</span> <a href="http://dl.acm.org/citation.cfm?id=2723881">Research paper: An Effective Git And Org-Mode Based Workflow For Reproducible Research</a></h3>
 <div class="outline-text-3" id="text-8-3">
 <p>
 Search by DOI 10.1145/2723872.2723881 on sci hub.
 </p>
 </div>
 </div>
-<div id="outline-container-orgheadline56" class="outline-3">
-<h3 id="orgheadline56"><span class="section-number-3">8.4</span> <a href="http://www.howardism.org/Technical/Emacs/literate-devops.html">Org mode for managing your server configuration</a></h3>
-</div>
 <div id="outline-container-orgheadline57" class="outline-3">
-<h3 id="orgheadline57"><span class="section-number-3">8.5</span> <a href="http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/">What we are using org mode for from John Kitchin</a></h3>
+<h3 id="orgheadline57"><span class="section-number-3">8.4</span> <a href="http://www.howardism.org/Technical/Emacs/literate-devops.html">Org mode for managing your server configuration</a></h3>
+</div>
+<div id="outline-container-orgheadline58" class="outline-3">
+<h3 id="orgheadline58"><span class="section-number-3">8.5</span> <a href="http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/">What we are using org mode for from John Kitchin</a></h3>
 <div class="outline-text-3" id="text-8-5">
 <p>
 Org mode as an academic research tool

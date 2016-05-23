@@ -71,7 +71,7 @@ My current Table->Pandas->Table workflow works, but is a bit clunky, but it can 
 You can export org tables to many formats by exporting it to pandas and then
 using pandas exporter.
 Nevertheless, org supports [[https://github.com/stuartsierra/org-mode/blob/master/contrib/lisp/orgtbl-sqlinsert.el][sql]], [[http://orgmode.org/manual/Translator-functions.html][csv, latex, html]] exporters.
-** Pass code between languages
+** Pass data between languages
 Similar functionality is offered by [[http://beakernotebook.com/][beaker notebook.]]
 
 I found out that org mode as intermediate format for data sometimes works better for me.
@@ -268,10 +268,10 @@ Afterwards, you may assign result table to variable, edit it with org spreadshee
 http://emacs.stackexchange.com/questions/2951/can-i-include-a-common-code-block-in-two-different-code-blocks-in-org-mode
 ** TODO Use global constant
 
-#+CONSTANTS: message="Hello world"
-#+BEGIN_SRC ipython :session :results output 
-  print message
-#+END_SRC
+# #+CONSTANTS: message="Hello world"
+# #+BEGIN_SRC ipython :session :results output 
+#   print message
+# #+END_SRC
 ** TODO Data frame sharing with org tables
 ** TODO Pass data directly between languages
 Create my example based on http://minimallysufficient.github.io/2015/10/24/org-mode-as-an-alternative-to-knitr.html

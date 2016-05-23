@@ -25,16 +25,17 @@ I will try to introduce and describe org mode with ob-ipython it for users who n
 Since this blog post have been written in org mode, linear reading experience in exported format is less optimal experience than reading [[https://github.com/kozikow/kozikow-blog/blob/master/ob_ipython/ipython.org][the org mode file]] directly in org mode.
 * Features (aka "What's that powerful about it")
 ** Embed code blocks in any language
-You can embed [[http://orgmode.org/manual/Working-With-Source-Code.html][embeded source code]] long text and evaluate it with =C-c C-c=.
-It supports textual results or results as charts.
+You can embed [[http://orgmode.org/manual/Working-With-Source-Code.html][embeded source code]] and evaluate it with =C-c C-c=.
+Results of evaluation of your source code are appended after the source code block.
+Result can be text (including org table) or image (charts).
 
 What's more You can have separate org file and ipython console open side by side.
 With ipython, reading python docstrings and code completion works well. See [[*Screenshot][my screenshot]].
 
 Since ob-ipython uses jupyter, you can get the same environment for anything that have jupyter kernel, including [[https://github.com/calysto/matlab_kernel][matlab]], [[https://github.com/alexarchambault/jupyter-scala][Scala]], [[https://github.com/apache/incubator-toree][Spark]] or [[http://irkernel.github.io/][R]] and [[https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages][many more]].
-** Results can be exported to many formats, like latex [[https://github.com/kozikow/kozikow-blog/blob/master/ob_ipython/ipython.pdf][(demo)]] 
+** Results can be exported to many formats, like latex [[https://github.com/kozikow/kozikow-blog/blob/master/ob_ipython/ipython.pdf][(demo)]] or [[https://kozikow.wordpress.com/2016/05/21/very-powerful-data-analysis-environment-org-mode-with-ob-ipython/][this post.]]
 [[https://github.com/kozikow/kozikow-blog/blob/master/ob_ipython/ipython.org][This blog post is just an export of org mode file via org2blog.]] 
-All code examples have been written in org mode.
+All code examples have been written in org mode using workflow described in this post.
 
 Exporting works to formats like html, latex (native and beamer), markdown, jira, odt (than can be imported to google docs and word), wiki formats and many more.
 
@@ -43,7 +44,8 @@ Syntax highlighting can be preserved for some exports, like html or latex.
 You can just learn one way to edit documents and presentations than can be exported to majority of formats on earth.
 ** Programmable documents (aka [[https://en.wikipedia.org/wiki/Literate_programming]["Literate programming"]])
 Emacs org mode with org babel is a full fledged [[https://en.wikipedia.org/wiki/Literate_programming][literate programming]] environment.
-[[http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/][Some people have published whole books or research papers as a large executable document in org.]] There is an even [[http://dl.acm.org/citation.cfm?id=2723881][Research paper about it]].
+[[http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/][Some people have published whole books or research papers as a large executable document in org.
+]]There is an even [[http://dl.acm.org/citation.cfm?id=2723881][Research paper about it]].
 
 [[https://github.com/jkitchin/pycse][Python computations in science and engineering]] book supports org mode and
 it's far better book reading experience than anything I ever experienced before.
@@ -55,11 +57,11 @@ way through writing latex document. I would came up with the idea of
 some parameter tweak, and suddenly I have to re-generate all charts.
 
 With org mode, the document is generated pragmatically. Not only
-you can easily re-generate it, but readers of your paper can tweak
+you can easily re-generate it, but readers of your document can tweak
 parameters or supply their own data set and re-generate the whole document.
 
 Another example is training machine model. You can define your model parameters as [[http://orgmode.org/manual/In_002dbuffer-settings.html][org constants]].
-You can tweak some model parameter and have separate org mode headings for "performance statistics",
+You can tweak some model parameter and have separate org mode headings for things like "performance statistics",
 "top miss-classified cross validation samples", etc. Added benefit is that you can commit all this to git.
 
 As soon as you learn org mode all of it is easy and seamless.
@@ -69,10 +71,10 @@ You can do it with org mode spreadsheet capabilities on org tables.
 
 The added benefit is that formulas are written in lisp, that is cooler and more powerful language than Visual basic.
 http://orgmode.org/manual/Translator-functions.html
-*** Export to pandas
-My current Table->Pandas->Table workflow works, but is a bit clunky, but it can be improved.
+*** Integration with pandas
+My current Table->Pandas->Table workflow works. It is somewhat clunky, but it can be improved.
 [[*Examples][See examples section]].
-*** Other exporters
+*** Integration with other formats
 You can export org tables to many formats by exporting it to pandas and then
 using pandas exporter.
 Nevertheless, org supports [[https://github.com/stuartsierra/org-mode/blob/master/contrib/lisp/orgtbl-sqlinsert.el][sql]], [[http://orgmode.org/manual/Translator-functions.html][csv, latex, html]] exporters.
@@ -111,13 +113,13 @@ Everything in org is plain text, including results of eval of code blocks, so it
 *** [[https://play.google.com/store/apps/details?id=com.orgzly&hl=en_GB][Mobile client]]
 *** Spaced repetition framework (remember all those pesky maths formulas)
 If you are like me, you forgot a lot of maths formulas since college.
-Spaced repetition is a tool that helps you avoid forgetting important facts like maths formulas.
+Spaced repetition is a learning methodology that helps you avoid forgetting important facts like maths formulas.
 [[https://www.gwern.net/Spaced%2520repetition][I recommend this very good post about spaced repetition in general from gwern.]]
 
 People primarily use spaced repetition for learning words in new languages, but I use it for maths formulas or technical facts.
 
 There are spaced repitition tools like anki or super memo, but as soon as you want advanced features like
-latex support they either not support them, or do it in a very bad way.
+latex support they support them very badly (IMO) or not at all.
 
 [[http://orgmode.org/worg/org-contrib/org-drill.html][org-drill]] is a spaced repetition framework in drill, that allows you to use all of the org features for creating flash cards.
 [[http://www.giovannicarmantini.com/2015/07/putting-some-make-up-on-my-org-mode-flashcards][Also take a look at this interesting blog post]].
@@ -127,11 +129,10 @@ latex support they either not support them, or do it in a very bad way.
 *** Tagging
 *** Links
 *** Agenda views
-*** [[http://orgmode.org/manual/Capture.html#Capture][Quickly add something to current org, without interruption to flow]]
-*** [[https://www.youtube.com/watch?v=JZ8RK-R9O_g][Do lectures]]
 *** [[http://emacsporn.tumblr.com/post/4982654361/dieting-theres-an-org-mode-extension-for-that][Go on a diet]]
 *** Even more
-I only mentioned some of the features. More urls that you can take a look at:
+I only mentioned some of the features I use or plan to use soon.
+There are many more. Some urls to look at:
 
 #+BEGIN_SRC emacs-lisp
   (browse-url-emacs "http://kitchingroup.cheme.cmu.edu/org/2014/08/08/What-we-are-using-org-mode-for.org")

@@ -1,4 +1,8 @@
-#+DATE: [2016-05-24 Tue 00:04]
+#+DATE: [2016-01-21 Tue 00:04]
+#+TITLE: Java 8 in programming contests
+#+DATE: <2016-05-22 Sun>
+#+AUTHOR: Robert Kozikowski
+#+EMAIL: r.kozikowski@gmail.com
 #+BLOG: wordpress
 #+POSTID: 186
 #+OPTIONS: toc:2
@@ -24,7 +28,7 @@ adapted to use them. Let's look at some contrived example of
 a function returning a new vector/array containing odd 
 elements divided by 2.
 C++11 lambdas look *horrible*:
-#+BEGIN_SRC C++
+#+BEGIN_SRC cpp
   vector<int> get_divided_by_2(const vector<int>& v) {
     vector<int> filtered;
     copy_if(v.begin(), v.end(),
@@ -309,7 +313,7 @@ Quite often, we want to iterate neighbouring cells in the array. So for indexes 
 #+END_SRC
 
 Even if java does not have built in pair I found out that javafx.util.Pair gets accepted on topcoder.
-* Caveats
+* Summary
 Java 8 is still far away from being functional language. It’s missing many features comparing to functional languages like Scala, Ocaml or Haskell. Not all features are equally useful, and some are only useful in “production”, but not in a small algorithmic problem. I solved a few codeforces and hackerrank problems in Ocaml and Scala, and the features I miss the most are:
 
 1. Type inference. It’s not that big of a deal as people make it to be, as IntelliJ auto-generates majority of the type code. 

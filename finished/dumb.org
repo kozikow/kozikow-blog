@@ -8,7 +8,7 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 
-I really like the new emacs package I just found on Hacker news, dumb jump: https://news.ycombinator.com/item?id=11780168.
+I really like the new emacs package I just found on [[https://news.ycombinator.com/item?id=11780168][Hacker news,]] [[https://github.com/jacktasia/dumb-jump][dumb jump.]]
 Even if I use some "specialized" plugins like [[https://github.com/tkf/emacs-jedi][Jedi]] or [[https://github.com/abingham/emacs-ycmd][emacs-ycmd]], ggtags supposed to be "open a random repo in a language I don't use regularly, and navigate effectively".
 ggtags have failed me at this and dumb-jump seems promising.
 

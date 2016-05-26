@@ -59,7 +59,7 @@ Demote some "junk" extensions like .csv towards the bottom of the list.
 Define some order for remaining extensions (e.g. how often they occur together on all github repos).
 Provide way of jumping to the next extension group in the helm buffer.
 **** 2. Compare by longest common path
-Find the lowest common ancestor of current file, and file returned by ag.
+Find the [[https://en.wikipedia.org/wiki/Lowest_common_ancestor][lowest common ancestor]] of current file, and file returned by ag.
 **** 3. Compare by path length
 Less nested paths are shown on the top.
 ** TODO Possible generalization 

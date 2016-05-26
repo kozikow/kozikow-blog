@@ -28,7 +28,7 @@ I don't have to think about rebuilding ctags and it reuses my ag configuration.
 Since dump-jump is built on two things I know well - elisp and regular expressions.
 It is much easier to navigate elisp, since I know debugger and language well. Debugging ctags/ggtags required me to learn tools I didn't use in years
 The fact that dumb-jump uses familiar and "simple" tools it opens room for customizations like adapting regex to your custom Scala setup at your company.
-* Tweak ag command used by dumb-jump based on current directory. 
+* Usage tip: Tweak ag command used by dumb-jump based on current directory. 
 Through defadvice you can tweak flags to ag based on your directory. In particular you can use it as an alternative to .dumbjump file.
 #+BEGIN_SRC emacs-lisp
   (require 's)

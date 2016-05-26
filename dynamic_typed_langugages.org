@@ -1,0 +1,6 @@
+#+TITLE: Dynamic typed languages are the sweet spot of productivity, safety and performance
+#+AUTHOR: Robert Kozikowski
+#+EMAIL: r.kozikowski@gmail.com
+* Type inference for experimenting
+Try things out, fix other places afterwards.
+Copy not always possible

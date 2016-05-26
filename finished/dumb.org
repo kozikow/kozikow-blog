@@ -24,10 +24,15 @@ I use ag anyway, since it's the best "grep" alternative.
 This lets me reuse my ag configuration.
 ** Don't have to rebuild ctags
 I don't have to think about rebuilding ctags and it reuses my ag configuration.
-** Easier to debug, since it uses familiar tools
+** Easier to debug and tweak, since it uses familiar tools
 Since dump-jump is built on two things I know well - elisp and regular expressions.
 It is much easier to navigate elisp, since I know debugger and language well. Debugging ctags/ggtags required me to learn tools I didn't use in years
 The fact that dumb-jump uses familiar and "simple" tools it opens room for customizations like adapting regex to your custom Scala setup at your company.
+*** Example debugging session
+When I noticed that some completion of dumb-jump does not work well I have much easier debugging experience than ctags:
+- Make the same query with plain ag,a if it was returned the bug is with dumb-nump regexps.
+- If it failed the ag is removing results, if it failed make query with fallback ack.
+- If ack failed make query with plain grep.
 * Usage tip: Tweak ag command used by dumb-jump based on current directory. 
 Through defadvice you can tweak flags to ag based on your directory. In particular you can use it as an alternative to .dumbjump file.
 #+BEGIN_SRC emacs-lisp

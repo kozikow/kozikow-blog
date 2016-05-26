@@ -30,9 +30,9 @@ It is much easier to navigate elisp, since I know debugger and language well. De
 The fact that dumb-jump uses familiar and "simple" tools it opens room for customizations like adapting regex to your custom Scala setup at your company.
 *** Example debugging session
 When I noticed that some completion of dumb-jump does not work well I have much easier debugging experience than ctags:
-- Make the same query with plain ag,a if it was returned the bug is with dumb-nump regexps.
-- If it failed the ag is removing results, if it failed make query with fallback ack.
-- If ack failed make query with plain grep.
+- Make the same query with plain ag, if it was returned the bug is with dumb-nump regexps. Use elips debugger to diagnose.
+- If it failed, it is a problem with ag.
+- Try the query with other tools like grep and ack.
 * Usage tip: Tweak ag command used by dumb-jump based on current directory. 
 Through defadvice you can tweak flags to ag based on your directory. In particular you can use it as an alternative to .dumbjump file.
 #+BEGIN_SRC emacs-lisp

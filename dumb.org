@@ -10,26 +10,26 @@
 
 I really like the new emacs package I just found on [[https://news.ycombinator.com/item?id=11780168][Hacker news,]] [[https://github.com/jacktasia/dumb-jump][dumb jump.]]
 Even if I use some "specialized" plugins like [[https://github.com/tkf/emacs-jedi][Jedi]], ggtags supposed to be "open a random repo in a language I don't use regularly, and navigate effectively".
-ggtags have failed me at this and dumb-jump seems promising.
+ggtags have failed me at this and dumb-jump is promising.
 
 * Why is it better than ctags/ggtags?
 So far dumb-jump works quickly and accurately on a few repos I tried it.
-I got upset a few times by weird errors of ctags/ggtags.
+On the other hand, I got upset a few times by weird errors of ctags/ggtags.
 ** No additional per OS configuration (assuming that you use ag anyway)
 I switch between Mac/Linux and inconsistent ggtags/ctags configuration annoys me.
 The same .ctags and gtags.conf files do not work between OSes.
 This seems to be not a problem for dumb-jump
-** Reuses ag configuration
+** Reuse the ag configuration
 I use ag anyway, since it's the best "grep" alternative.
-This lets me reuse my ag configuration.
-** Don't have to rebuild ctags
+This lets me to reuse my ag configuration.
+** I don't have to rebuild ctags
 I don't have to think about rebuilding ctags.
-** Easier to debug, since it uses familiar tool
-Since dump-jump is built on two things I know well - elisp and regular expressions.
-It is much easier to navigate elisp, since I know debugger and language well. Debugging ctags/ggtags required me to learn tools I didn't use in years
+** Easier to debug, since it uses familiar tools
+dump-jump is built on two things I know well - elisp and regular expressions.
+It is much easier to navigate elisp, since I know debugger and language well. Debugging ctags/ggtags required me to learn tools I didn't use in years.
 The fact that dumb-jump uses familiar and "simple" tools it opens room for customizations like adapting regex to your custom Scala setup at your company.
 * Tip: Tweak ag command used by dumb-jump based on current directory. 
-Through defadvice you can tweak flags to ag based on your directory. In particular you can use it as an alternative to .dumbjump file.
+Through Emacs advice system you can tweak flags to ag based on your directory. In particular you can use it as an alternative to .dumbjump file.
 #+BEGIN_SRC emacs-lisp
   (require 's)
 

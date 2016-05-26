@@ -52,7 +52,7 @@ I have been toying with an idea of better sorting completions returned by ag/tag
 I plan to implement smarter sorting for helm one day.
 It could work with ag,dumb-jump, helm-projectile-find-file, completions, etc.
 *** Comparison hierarchy
-The comparison would be hierarchical, with the following rules priority:
+The comparison would be hierarchical, with the following rules precedence:
 **** 1. Compare by file extension
 Firstly show files with the same extension as currently visited file.
 Demote some "junk" extensions like .csv towards the bottom of the list.

@@ -1,0 +1,6 @@
+* Primary/secondary completion and references
+** secondary is ctags for go to definition
+** secondary is ag for look up references
+* Smart sort ctags/grep results
+* Preserve cursor position when results change position
+* If more secondary than primary results, put a separator between them

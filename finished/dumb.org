@@ -39,7 +39,7 @@ After following those steps I will have an idea where the problem is:
 ** Do not ask about saving files
 Dumb jump asks about saving files. I personally like to not have to save files, but commit often using git.
 You can tell emacs to save all files before calling dumb jump, or focus out (if you care only about dumb jump remove the focus out).
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC lisp
   (defun synchronize-like-intellij () (interactive) (save-some-buffers t))
   (add-hook 'focus-out-hook 'synchronize-like-intellij)
   (advice-add 'dumb-jump-go :before #'synchronize-like-intellij)
@@ -48,11 +48,11 @@ You can tell emacs to save all files before calling dumb jump, or focus out (if 
 Through Emacs advice system you can tweak ag command before calling dumb jump and ag.
 What's more, you can reuse flags between your helm-projectile-ag and dumb-jump-go.
 You can treat it as more powerful alternative to .dumbjump and .agignore.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC lisp
   (setq my-ag-ignored-patterns '("*.bak" "*.out" "*.csv" "*.pyc" "*.pdf" "*.png"))
   (setq my-ag-flags (mapconcat  (lambda (ext) (concat "--ignore " ext)) my-ag-ignored-patterns " "))
 
-  (setq my-helm-ag-base-ag (concat "ag --nocolor --nogroup -W 100 " my-ag-flags))
+  (setq my-helm-ag-base-ag (concat "ag --nocolor --nogroup -W 100 " my-ag-flags " "))
   (setq my-dumb-jump-base-ag (concat "ag " my-ag-flags " "))
 
   (defun my-tweak-ag-per-project (&rest not-used-args)
@@ -73,7 +73,7 @@ You can treat it as more powerful alternative to .dumbjump and .agignore.
 ** Slightly unrelated plug - Equivalent of IntelliJ Show Usages
 Since the HN post mentions IntelliJ and ag - I was missing ability of helm-projectile-ag to search "symbol at point".
 I wrote an elisp that does it, but it's a bit hacky:
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC lisp
   ;; http://emacs.stackexchange.com/questions/10393/how-can-i-answer-a-minibuffer-prompt-from-elisp
   (defun insert-symbol-at-point ()
     (if (> (length cached-symbol-at-point) 0)

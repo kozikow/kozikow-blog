@@ -40,7 +40,7 @@ Through defadvice you can tweak flags to ag based on your directory. In particul
 
   (defun tweak-dumb-ag-per-project (&rest not-used-args)
     "Tweak the ag advice before dumbjump"
-    (if (s-contains-p "/dotfiles/" (my-buffer-file-name))
+    (if (s-contains-p "/dotfiles/" (file-truename (expand-file-name buffer-file-name)))
         (setq dumb-jump-ag-cmd "ag --hidden")
       (setq dumb-jump-ag-cmd "ag"))
     )

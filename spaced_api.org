@@ -13,3 +13,10 @@ http://lesswrong.com/lw/h3z/anki_decks_by_lw_users/
 * Prototype with pandas and scikit-learn, some python sdk
 * Get top usages from Github or somewhere else
 * Create for org-drill
+* Discussion with Will
+(14:34:40) Robert Kozikowski: I plan to write something that will:
+1. Extract pydocs from python library
+2. Look up top 25% used methods from this library from github
+3. Create flash cards :D
+(14:35:15) Robert Kozikowski: I think it could be more effective than adhoc googling I have been doing so far
+(14:35:26) Robert Kozikowski: It would give you an idea what to look for before you start googling

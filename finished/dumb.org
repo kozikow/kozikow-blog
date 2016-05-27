@@ -20,8 +20,8 @@ I switch between Mac/Linux and inconsistent ggtags/ctags configuration annoys me
 The same .ctags and gtags.conf files do not work between OSes.
 This seems to be not a problem for dumb-jump
 ** Reuses ag configuration
-I use ag anyway, since it's the best "grep" alternative.
-This lets me reuse my ag configuration.
+I use ag anyway, since it's the best "grep" alternative and it can always fall-back to grep.
+Dumb jump lets me reuse my configuration.
 ** Don't have to rebuild ctags
 I don't have to think about rebuilding ctags.
 ** Easier to debug and tweak, since it uses familiar tools
@@ -31,8 +31,8 @@ The fact that dumb-jump uses familiar and "simple" tools it opens room for custo
 *** Example debugging session
 When I noticed that some completion of dumb-jump does not work well I have much easier debugging experience than ctags.
 After following those steps I will have an idea where the problem is:
-- If dumb-jump-go fails, search the same string with helm-projectile-ag.
-- If helm-projectile-ag, see =helm-ag--last-command= and make it from command line.
+- If dumb-jump-go fails, search the same string with =helm-projectile-ag=.
+- If =helm-projectile-ag= fails, see =helm-ag--last-command= and make it from command line.
 - If it fails, try it with plain ag without all the flags.
 - If it fails, try it with alternative tool like grep or ack.
 * My configuration
@@ -92,12 +92,12 @@ I wrote an elisp that does it, but it's a bit hacky:
   (global-set-key (kbd "C-s") 'helm-projectile-ag-symbol-at-point)
   (global-set-key (kbd "C-S-f") 'helm-projectile-ag)
 #+END_SRC
-* Things I may improve one day
+* Things that could be improved
 ** TODO Bug: Sometimes jumps to comments
 [[http://ergoemacs.org/emacs/elisp_determine_cursor_inside_string_or_comment.html][Emacs have generalized function checking if you are in the comment, =syntax-ppss=.
 ]]It could be a good idea to implement it on top of it.
-** TODO Adapt to scala
-I think that just adapting regex configuration from https://leonard.io/blog/2013/04/editing-scala-with-vim/ should work.
+** TODO Adapt to scala and java
+I think that adapting regex from https://leonard.io/blog/2013/04/editing-scala-with-vim/ should work.
 ** TODO It would be nice to use helm
 For example, I like to be able to call =helm-resume= to switch to other completion, if i went to wrong place.
 ** TODO Better sorting after adding helm
@@ -115,7 +115,20 @@ Provide way of jumping to the next extension group in the helm buffer.
 Find the [[https://en.wikipedia.org/wiki/Lowest_common_ancestor][lowest common ancestor]] of current file, and file returned by ag.
 **** 3. Compare by path length
 Less nested paths are shown on the top.
-** TODO Possible generalization 
+** TODO Possible generalization
 dumb-jump runs additional regular expressions on result of your ag command.
 Such concept does not have to be unique to jumping to definition.
 I can't think of good example where it could be useful, but I'll write it down if I find something.
+** TODO More advanced fall-back hierarchy than just grep.
+*** Hierarchy
+I think the following fallback hierarchy would be better:
+- ag
+- ack
+- pt
+- gitgrep -P
+- gitgrep
+- grep -P
+- grep
+*** Why?
+Flag -P lets you reuse same flavour of regex as ag, but it's not available on all systems.
+ack is almost as good as ag (some people prefer ack, I tried both and I prefer ag).

@@ -1,0 +1,15 @@
+#+TITLE: Idea - Generate flash cards from python docstrings
+
+* General links
+https://www.gwern.net/Spaced%20repetition
+https://news.ycombinator.com/item?id=8184293
+https://wiki.lesswrong.com/wiki/Spaced_repetition
+Wow such less much wrong:
+http://lesswrong.com/lw/h3z/anki_decks_by_lw_users/
+* Versus just ad-hoc look up for code
+* Use cases
+** Learn new branch of mathematics
+** Prepare for interviews
+* Prototype with pandas and scikit-learn, some python sdk
+* Get top usages from Github or somewhere else
+* Create for org-drill

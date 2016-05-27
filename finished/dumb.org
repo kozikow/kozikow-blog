@@ -61,7 +61,6 @@ You can treat it as more powerful alternative to .dumbjump and .agignore.
       (progn
         (setq helm-ag-base-command (concat my-helm-ag-base-ag my-ag-project-flags))
         (setq dumb-jump-ag-cmd (concat my-dumb-jump-base-ag my-ag-project-flags))
-        (message "%s" dumb-jump-ag-cmd)
         )
       )
     )

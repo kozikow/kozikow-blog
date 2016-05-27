@@ -38,15 +38,18 @@ Through defadvice you can tweak flags to ag based on your directory. In particul
 #+BEGIN_SRC emacs-lisp
   (require 's)
 
-  (defun tweak-dumb-per-project (&rest not-used-args)
+  (defun tweak-dumb-ag-per-project (&rest not-used-args)
     "Tweak the ag advice before dumbjump"
     (if (s-contains-p "/dotfiles/" (my-buffer-file-name))
         (setq dumb-jump-ag-cmd "ag --hidden")
       (setq dumb-jump-ag-cmd "ag"))
     )
 
-  (advice-add 'dumb-jump-go :before #'tweak-ag-per-project)
+  (advice-add 'dumb-jump-go :before #'tweak-dumb-ag-per-project)
 #+END_SRC
+
+#+RESULTS:
+
 * Things I may improve one day
 ** TODO Adapt to scala
 I think that just adapting regex configuration from https://leonard.io/blog/2013/04/editing-scala-with-vim/ should work.

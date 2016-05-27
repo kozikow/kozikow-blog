@@ -23,7 +23,7 @@ This seems to be not a problem for dumb-jump
 I use ag anyway, since it's the best "grep" alternative.
 This lets me reuse my ag configuration.
 ** Don't have to rebuild ctags
-I don't have to think about rebuilding ctags and it reuses my ag configuration.
+I don't have to think about rebuilding ctags.
 ** Easier to debug and tweak, since it uses familiar tools
 Since dump-jump is built on two things I know well - elisp and regular expressions.
 It is much easier to navigate elisp, since I know debugger and language well. Debugging ctags/ggtags required me to learn tools I didn't use in years

@@ -4,3 +4,9 @@
 * Type inference for experimenting
 Try things out, fix other places afterwards.
 Copy not always possible
+* Long project
+1 hour gws
+20 minutes gsa
+Huge investments into compilation time.
+* Interpreter/Compiler pair
+* VM with JIT

@@ -281,14 +281,17 @@ Create kernel with:
 #+BEGIN_SRC python
   #!/usr/bin/env python
   import os
-  from IPython.zmq.ipkernel import IPKernelApp
+  from ipykernel.kernelapp import IPKernelApp
 
   app = IPKernelApp.instance()
   app.initialize([])
   kernel = app.kernel
   kernel.shell.push({'print_me': 'Running in previously started kernel.'})
+
   app.start()
 #+END_SRC
+
+#+RESULTS:
 
 Get json from previous command.
 

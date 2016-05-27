@@ -118,7 +118,7 @@ Less nested paths are shown on the top.
 ** TODO Possible generalization
 dumb-jump runs additional regular expressions on result of your ag command.
 Such concept does not have to be unique to jumping to definition.
-I can't think of good example where it could be useful, but I'll write it down if I find something.
+I can't think of good example where it could be useful, but I'll update this post if I find something.
 ** TODO More advanced fall-back hierarchy than just grep.
 *** Hierarchy
 I think the following fallback hierarchy would be better:

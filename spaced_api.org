@@ -7,6 +7,7 @@ https://wiki.lesswrong.com/wiki/Spaced_repetition
 Wow such less much wrong:
 http://lesswrong.com/lw/h3z/anki_decks_by_lw_users/
 * Versus just ad-hoc look up for code
+More efficient than googling - gives you idea what to Google for.
 * Use cases
 ** Learn new branch of mathematics
 ** Prepare for interviews

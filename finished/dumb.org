@@ -49,15 +49,15 @@ Through Emacs advice system you can tweak ag command before calling dumb jump an
 What's more, you can reuse flags between your helm-projectile-ag and dumb-jump-go.
 You can treat it as more powerful alternative to .dumbjump and .agignore.
 #+BEGIN_SRC emacs-lisp
-  (setq my-ag-ignored-extensions '("bak" "out" "csv" "pyc" "pdf" "png"))
-  (setq my-ag-flags (mapconcat (lambda (ext) (concat "--ignore=\"*" ext "\"")) my-ag-ignored-extensions " "))
+  (setq my-ag-ignored-patterns '("*.bak" "*.out" "*.csv" "*.pyc" "*.pdf" "*.png"))
+  (setq my-ag-flags (mapconcat  (lambda (ext) (concat "--ignore " ext)) my-ag-ignored-patterns " "))
 
-  (setq my-helm-ag-base-ag (concat "ag --nocolor --nogroup " my-ag-flags " "))
+  (setq my-helm-ag-base-ag (concat "ag --nocolor --nogroup -W 100 " my-ag-flags))
   (setq my-dumb-jump-base-ag (concat "ag " my-ag-flags " "))
 
   (defun my-tweak-ag-per-project (&rest not-used-args)
     "Tweak the ag flags based on current file name"
-    (let ((my-ag-project-flags (if (s-contains-p "/dotfiles/" (expand-file-name buffer-file-name))
+    (let ((my-ag-project-flags (if (s-contains-p "/dotfiles/" (my-buffer-file-name))
                                    "--hidden"
                                  "")))
       (progn

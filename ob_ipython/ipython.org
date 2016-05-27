@@ -34,7 +34,7 @@ With ipython, reading python docstrings and code completion works well. See [[*S
 
 Since ob-ipython uses jupyter, you can get the same environment for anything that have jupyter kernel, including [[https://github.com/calysto/matlab_kernel][matlab]], [[https://github.com/alexarchambault/jupyter-scala][Scala]], [[https://github.com/apache/incubator-toree][Spark]] or [[http://irkernel.github.io/][R]] and [[https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages][many more]].
 ** Results can be exported to many formats, like latex [[https://github.com/kozikow/kozikow-blog/blob/master/ob_ipython/ipython.pdf][(demo)]] or [[https://kozikow.wordpress.com/2016/05/21/very-powerful-data-analysis-environment-org-mode-with-ob-ipython/][this post.]]
-[[https://github.com/kozikow/kozikow-blog/blob/master/ob_ipython/ipython.org][This blog post is just an export of org mode file via org2blog.]] 
+[[https://github.com/kozikow/kozikow-blog/blob/master/ob_ipython/ipython.org][This blog post is just an export of org mode file via org2blog.]]
 All code examples have been written in org mode using workflow described in this post.
 
 Exporting works to formats like html, latex (native and beamer), markdown, jira, odt (than can be imported to google docs and word), wiki formats and many more.
@@ -135,7 +135,8 @@ I only mentioned some of the features I use or plan to use soon.
 There are many more. Some urls to look at:
 
 #+BEGIN_SRC emacs-lisp
-  (browse-url-emacs "http://kitchingroup.cheme.cmu.edu/org/2014/08/08/What-we-are-using-org-mode-for.org")
+  (browse-url-emacs
+   "http://kitchingroup.cheme.cmu.edu/org/2014/08/08/What-we-are-using-org-mode-for.org")
 #+END_SRC
 - http://orgmode.org/
 - http://doc.norang.ca/org-mode.html
@@ -170,7 +171,7 @@ Add to your Emacs config:
   ;;; display/update images in the buffer after I evaluate
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 #+END_SRC
-* Troubleshooting if something doesn't work
+* Troubleshooting
 ** Verify that restarting ipython doesn't help.
 #+BEGIN_SRC emacs-lisp
   (ob-ipython-kill-kernel)
@@ -215,16 +216,16 @@ So far I have been using custom elisp code, but a few things can be nicer about 
 * Examples
 ** Org table to pandas and plotting
 #+TBLNAME: data_table
-|------------------+----+---|
-| date             |  x | y |
-|------------------+----+---|
-| <2016-06-15 Wed> |  1 | 1 |
-| <2016-06-16 Thu> |  2 | 2 |
-| <2016-06-17 Fri> |  4 | 3 |
-| <2016-06-18 Sat> |  8 | 4 |
-| <2016-06-19 Sun> | 16 | 5 |
-| <2016-06-20 Mon> | 32 | 6 |
-|------------------+----+---|
+|------------------+----+---+----|
+| date             |  x | y |  z |
+|------------------+----+---+----|
+| <2016-06-15 Wed> |  1 | 1 |  1 |
+| <2016-06-16 Thu> |  2 | 2 |  2 |
+| <2016-06-17 Fri> |  4 | 3 |  3 |
+| <2016-06-18 Sat> |  8 | 4 |  4 |
+| <2016-06-19 Sun> | 16 | 5 | 30 |
+| <2016-06-20 Mon> | 32 | 6 | 40 |
+|------------------+----+---+----|
 
 #+BEGIN_SRC ipython :session :file plot.png :exports both :var table=data_table
   import matplotlib.pyplot as plt
@@ -275,8 +276,8 @@ You also need to tell src block to interpret results directly with =:results out
 :END:
 
 Afterwards, you may assign result table to variable, edit it with org spreadsheet capabilities and use in other python script.
-** TODO Connect to existing ipython kernel
-How it currently 
+** TODO [#A] Connect to existing ipython kernel
+How it currently
 Create kernel with:
 #+BEGIN_SRC python
   #!/usr/bin/env python
@@ -305,7 +306,7 @@ http://emacs.stackexchange.com/questions/2951/can-i-include-a-common-code-block-
 ** TODO Use global constant
 
 # #+CONSTANTS: message="Hello world"
-# #+BEGIN_SRC ipython :session :results output 
+# #+BEGIN_SRC ipython :session :results output
 #   print message
 # #+END_SRC
 ** TODO Data frame sharing with org tables
@@ -324,15 +325,17 @@ This should work:
 ** Examples from other blog posts
 =C-c C-c= block to open org file directly in Emacs:
 #+BEGIN_SRC emacs-lisp
-  (browse-url-emacs "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/pythonbabel.org")
+  (browse-url-emacs
+   "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/pythonbabel.org")
 #+END_SRC
 
 
 #+BEGIN_SRC emacs-lisp
-  (browse-url-emacs "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/ipython-babel.org")
+  (browse-url-emacs
+   "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/ipython-babel.org")
 #+END_SRC
 
-* Unresolved problems
+* Additional configuration I plan to do
 Problems I did not resolve yet:
 ** TODO =ob-ipython-inspect= in popup
 Currently it opens a separate buffer. I would prefer a popup.
@@ -355,12 +358,16 @@ output format globally to IPython.
 ** [[https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org][Official documentation of ob-ipython]]
 Open org directly in Emacs:
 #+BEGIN_SRC emacs-lisp
-  (browse-url-emacs "https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org")
+  (browse-url-emacs
+   "https://raw.githubusercontent.com/gregsexton/ob-ipython/master/README.org")
 #+END_SRC
-** [[http://dl.acm.org/citation.cfm?id=2723881][Research paper: An Effective Git And Org-Mode Based Workflow For Reproducible Research]] 
+** [[http://dl.acm.org/citation.cfm?id=2723881][Research paper: An Effective Git And Org-Mode Based Workflow For Reproducible Research]]
 Search by DOI 10.1145/2723872.2723881 on sci hub.
 ** [[http://kitchingroup.cheme.cmu.edu/blog/2014/08/08/What-we-are-using-org-mode-for/][Whole research department on CMU ran on org mode]]
+Interesting case of Chemical Engineering department on CMU managed by John R. Kitchin,
+ran mostly using org mode, with papers, assignments and books written in org mode.
 ** [[http://www.howardism.org/Technical/Emacs/literate-devops.html][Org mode for managing your server configuration]]
+"Literate devops"
 ** Manage your emacs configuration using org mode
 https://github.com/seth/my-emacs-dot-d/blob/master/emacs-init.org
 http://mescal.imag.fr/membres/arnaud.legrand/misc/init.php

@@ -1,0 +1,98 @@
+#+BLOG: wordpress
+#+POSTID: 458
+#+BLOG: wordpress
+#+OPTIONS: toc:3
+#+OPTIONS: todo:t
+#+TITLE: Nice new emacs package - dumb-jump.el
+#+DATE: <2016-05-22 Sun>
+#+AUTHOR: Robert Kozikowski
+#+EMAIL: r.kozikowski@gmail.com
+
+I really like the new emacs package I just found on [[https://news.ycombinator.com/item?id=11780168][Hacker news,]] [[https://github.com/jacktasia/dumb-jump][dumb jump.]]
+Even if I use some "specialized" plugins like [[https://github.com/tkf/emacs-jedi][Jedi]] or [[https://github.com/abingham/emacs-ycmd][emacs-ycmd]], ggtags supposed to be "open a random repo in a language I don't use regularly, and navigate effectively".
+ggtags have failed me at this and dumb-jump seems promising.
+
+* Why is it better than ctags/ggtags?
+So far dumb-jump works quickly and accurately on a few repos I tried it.
+I got upset a few times by weird errors of ctags/ggtags.
+** No additional per OS configuration (assuming that you use ag anyway)
+I switch between Mac/Linux and inconsistent ggtags/ctags configuration annoys me.
+The same .ctags and gtags.conf files do not work between OSes.
+This seems to be not a problem for dumb-jump
+** Reuses ag configuration
+I use ag anyway, since it's the best "grep" alternative.
+This lets me reuse my ag configuration.
+** Don't have to rebuild ctags
+I don't have to think about rebuilding ctags.
+** Easier to debug and tweak, since it uses familiar tools
+Since dump-jump is built on two things I know well - elisp and regular expressions.
+It is much easier to navigate elisp, since I know debugger and language well. Debugging ctags/ggtags required me to learn tools I didn't use in years
+The fact that dumb-jump uses familiar and "simple" tools it opens room for customizations like adapting regex to your custom Scala setup at your company.
+*** Example debugging session
+When I noticed that some completion of dumb-jump does not work well I have much easier debugging experience than ctags:
+- Make the same query with plain ag, if it was returned the bug is with dumb-nump regexps. Use elips debugger to diagnose.
+- If it failed, it is a problem with ag.
+- Try the query with other tools like grep and ack.
+* Usage tip: Tweak ag command used by dumb-jump based on current directory. 
+Through defadvice you can tweak flags to ag based on your directory. In particular you can use it as an alternative to .dumbjump file.
+#+BEGIN_SRC emacs-lisp
+  (require 's)
+
+  (defun tweak-dumb-ag-per-project (&rest not-used-args)
+    "Tweak the ag advice before dumbjump"
+    (if (s-contains-p "/dotfiles/" (file-truename (expand-file-name buffer-file-name)))
+        (setq dumb-jump-ag-cmd "ag --hidden")
+      (setq dumb-jump-ag-cmd "ag"))
+    )
+
+  (advice-add 'dumb-jump-go :before #'tweak-dumb-ag-per-project)
+#+END_SRC
+
+#+RESULTS:
+
+* Things I may improve one day
+** TODO Adapt to scala
+I think that just adapting regex configuration from https://leonard.io/blog/2013/04/editing-scala-with-vim/ should work.
+** TODO It would be nice to use helm
+For example, I like to be able to call =helm-resume= to switch to other completion, if i went to wrong place.
+** TODO Better sorting after adding helm
+I have been toying with an idea of better sorting completions returned by ag/tags/projectile.
+I plan to implement smarter sorting for helm one day.
+It could work with ag,dumb-jump, helm-projectile-find-file, completions, etc.
+*** Comparison hierarchy
+The comparison would be hierarchical, with the following rules precedence:
+**** 1. Compare by file extension
+Firstly show files with the same extension as currently visited file.
+Demote some "junk" extensions like .csv towards the bottom of the list.
+Define some order for remaining extensions (e.g. how often they occur together on all github repos).
+Provide way of jumping to the next extension group in the helm buffer.
+**** 2. Compare by longest common path
+Find the [[https://en.wikipedia.org/wiki/Lowest_common_ancestor][lowest common ancestor]] of current file, and file returned by ag.
+**** 3. Compare by path length
+Less nested paths are shown on the top.
+** TODO Possible generalization 
+dumb-jump runs additional regular expressions on result of your ag command.
+Such concept does not have to be unique to jumping to definition.
+I can't think of good example where it could be useful, but I'll write it down if I find something.
+* Slightly unrelated plug - Equivalent of IntelliJ Show Usages
+Since the HN post mentions IntelliJ and ag - I was missing ability of helm-projectile-ag to search "symbol at point".
+I wrote an elisp that does it, but it's a bit hacky:
+#+BEGIN_SRC emacs-lisp
+  ;; http://emacs.stackexchange.com/questions/10393/how-can-i-answer-a-minibuffer-prompt-from-elisp
+  (defun insert-symbol-at-point ()
+    (if (> (length cached-symbol-at-point) 0)
+        (insert cached-symbol-at-point))
+    (remove-hook 'post-command-hook 'insert-symbol-at-point)
+    )
+
+  (defun helm-projectile-ag-symbol-at-point ()
+    "Search for number at point using helm-projectile-ag"
+    (interactive)
+    (setq cached-symbol-at-point (thing-at-point `symbol))
+    (add-hook 'post-command-hook 'insert-symbol-at-point)
+    (helm-projectile-ag)
+    )
+
+  (global-set-key (kbd "C-s") 'helm-projectile-ag-symbol-at-point)
+  (global-set-key (kbd "C-S-f") 'helm-projectile-ag)
+#+END_SRC

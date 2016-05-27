@@ -33,24 +33,68 @@ When I noticed that some completion of dumb-jump does not work well I have much 
 - Make the same query with plain ag, if it was returned the bug is with dumb-nump regexps. Use elips debugger to diagnose.
 - If it failed, it is a problem with ag.
 - Try the query with other tools like grep and ack.
-* Usage tip: Tweak ag command used by dumb-jump based on current directory. 
-Through defadvice you can tweak flags to ag based on your directory. In particular you can use it as an alternative to .dumbjump file.
+* My configuration
+** Do not ask about saving files
+Dumb jump asks about saving files. I personally like to not have to save files, but commit often using git.
+You can tell emacs to save all files before calling dumb jump, or focus out (if you care only about dumb jump remove the focus out).
 #+BEGIN_SRC emacs-lisp
-  (require 's)
+  (defun synchronize-like-intellij () (interactive) (save-some-buffers t))
+  (add-hook 'focus-out-hook 'synchronize-like-intellij)
+  (advice-add 'dumb-jump-go :before #'synchronize-like-intellij)
+#+END_SRC
+** Configure your ignore flags via Emacs config, tweak ag flags based on current file
+Through Emacs advice system you can tweak ag command before calling dumb jump and ag.
+What's more, you can reuse flags between your helm-projectile-ag and dumb-jump-go.
+You can treat it as more powerful alternative to .dumbjump and .agignore.
+#+BEGIN_SRC emacs-lisp
+  (setq my-ag-ignored-extensions '("bak" "out" "csv" "pyc" "pdf" "png"))
+  (setq my-ag-flags (mapconcat (lambda (ext) (concat "--ignore=\"*" ext "\"")) my-ag-ignored-extensions " "))
 
-  (defun tweak-dumb-ag-per-project (&rest not-used-args)
-    "Tweak the ag advice before dumbjump"
-    (if (s-contains-p "/dotfiles/" (file-truename (expand-file-name buffer-file-name)))
-        (setq dumb-jump-ag-cmd "ag --hidden")
-      (setq dumb-jump-ag-cmd "ag"))
+  (setq my-helm-ag-base-ag (concat "ag --nocolor --nogroup " my-ag-flags " "))
+  (setq my-dumb-jump-base-ag (concat "ag " my-ag-flags " "))
+
+  (defun my-tweak-ag-per-project (&rest not-used-args)
+    "Tweak the ag flags based on current file name"
+    (let ((my-ag-project-flags (if (s-contains-p "/dotfiles/" (expand-file-name buffer-file-name))
+                                   "--hidden"
+                                 "")))
+      (progn
+        (setq helm-ag-base-command (concat my-helm-ag-base-ag my-ag-project-flags))
+        (setq dumb-jump-ag-cmd (concat my-dumb-jump-base-ag my-ag-project-flags))
+        (message "%s" dumb-jump-ag-cmd)
+        )
+      )
     )
 
-  (advice-add 'dumb-jump-go :before #'tweak-dumb-ag-per-project)
+  (advice-add 'helm-projectile-ag :before #'my-tweak-ag-per-project)
+  (advice-add 'dumb-jump-go :before #'my-tweak-ag-per-project)
 #+END_SRC
+** Slightly unrelated plug - Equivalent of IntelliJ Show Usages
+Since the HN post mentions IntelliJ and ag - I was missing ability of helm-projectile-ag to search "symbol at point".
+I wrote an elisp that does it, but it's a bit hacky:
+#+BEGIN_SRC emacs-lisp
+  ;; http://emacs.stackexchange.com/questions/10393/how-can-i-answer-a-minibuffer-prompt-from-elisp
+  (defun insert-symbol-at-point ()
+    (if (> (length cached-symbol-at-point) 0)
+        (insert cached-symbol-at-point))
+    (remove-hook 'post-command-hook 'insert-symbol-at-point)
+    )
 
-#+RESULTS:
+  (defun helm-projectile-ag-symbol-at-point ()
+    "Search for number at point using helm-projectile-ag"
+    (interactive)
+    (setq cached-symbol-at-point (thing-at-point `symbol))
+    (add-hook 'post-command-hook 'insert-symbol-at-point)
+    (helm-projectile-ag)
+    )
 
+  (global-set-key (kbd "C-s") 'helm-projectile-ag-symbol-at-point)
+  (global-set-key (kbd "C-S-f") 'helm-projectile-ag)
+#+END_SRC
 * Things I may improve one day
+** TODO Bug: Sometimes jumps to comments
+[[http://ergoemacs.org/emacs/elisp_determine_cursor_inside_string_or_comment.html][Emacs have generalized function checking if you are in the comment, =syntax-ppss=.
+]]It could be a good idea to implement it on top of it.
 ** TODO Adapt to scala
 I think that just adapting regex configuration from https://leonard.io/blog/2013/04/editing-scala-with-vim/ should work.
 ** TODO It would be nice to use helm
@@ -74,25 +118,3 @@ Less nested paths are shown on the top.
 dumb-jump runs additional regular expressions on result of your ag command.
 Such concept does not have to be unique to jumping to definition.
 I can't think of good example where it could be useful, but I'll write it down if I find something.
-* Slightly unrelated plug - Equivalent of IntelliJ Show Usages
-Since the HN post mentions IntelliJ and ag - I was missing ability of helm-projectile-ag to search "symbol at point".
-I wrote an elisp that does it, but it's a bit hacky:
-#+BEGIN_SRC emacs-lisp
-  ;; http://emacs.stackexchange.com/questions/10393/how-can-i-answer-a-minibuffer-prompt-from-elisp
-  (defun insert-symbol-at-point ()
-    (if (> (length cached-symbol-at-point) 0)
-        (insert cached-symbol-at-point))
-    (remove-hook 'post-command-hook 'insert-symbol-at-point)
-    )
-
-  (defun helm-projectile-ag-symbol-at-point ()
-    "Search for number at point using helm-projectile-ag"
-    (interactive)
-    (setq cached-symbol-at-point (thing-at-point `symbol))
-    (add-hook 'post-command-hook 'insert-symbol-at-point)
-    (helm-projectile-ag)
-    )
-
-  (global-set-key (kbd "C-s") 'helm-projectile-ag-symbol-at-point)
-  (global-set-key (kbd "C-S-f") 'helm-projectile-ag)
-#+END_SRC

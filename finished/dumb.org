@@ -29,10 +29,12 @@ Since dump-jump is built on two things I know well - elisp and regular expressio
 It is much easier to navigate elisp, since I know debugger and language well. Debugging ctags/ggtags required me to learn tools I didn't use in years
 The fact that dumb-jump uses familiar and "simple" tools it opens room for customizations like adapting regex to your custom Scala setup at your company.
 *** Example debugging session
-When I noticed that some completion of dumb-jump does not work well I have much easier debugging experience than ctags:
-- Make the same query with plain ag, if it was returned the bug is with dumb-nump regexps. Use elips debugger to diagnose.
-- If it failed, it is a problem with ag.
-- Try the query with other tools like grep and ack.
+When I noticed that some completion of dumb-jump does not work well I have much easier debugging experience than ctags.
+After following those steps I will have an idea where the problem is:
+- If dumb-jump-go fails, search the same string with helm-projectile-ag.
+- If helm-projectile-ag, see =helm-ag--last-command= and make it from command line.
+- If it fails, try it with plain ag without all the flags.
+- If it fails, try it with alternative tool like grep or ack.
 * My configuration
 ** Do not ask about saving files
 Dumb jump asks about saving files. I personally like to not have to save files, but commit often using git.

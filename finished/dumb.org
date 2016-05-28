@@ -20,8 +20,8 @@ I switch between Mac/Linux and inconsistent ggtags/ctags configuration annoys me
 The same .ctags and gtags.conf files do not work between OSes.
 This seems to be not a problem for dumb-jump
 ** Reuses ag configuration
-I use ag anyway, since it's the best "grep" alternative.
-This lets me reuse my ag configuration.
+I use ag anyway, since it's the best "grep" alternative and it can always fall-back to grep.
+Dumb jump lets me reuse my configuration.
 ** Don't have to rebuild ctags
 I don't have to think about rebuilding ctags.
 ** Easier to debug and tweak, since it uses familiar tools
@@ -29,55 +29,51 @@ Since dump-jump is built on two things I know well - elisp and regular expressio
 It is much easier to navigate elisp, since I know debugger and language well. Debugging ctags/ggtags required me to learn tools I didn't use in years
 The fact that dumb-jump uses familiar and "simple" tools it opens room for customizations like adapting regex to your custom Scala setup at your company.
 *** Example debugging session
-When I noticed that some completion of dumb-jump does not work well I have much easier debugging experience than ctags:
-- Make the same query with plain ag, if it was returned the bug is with dumb-nump regexps. Use elips debugger to diagnose.
-- If it failed, it is a problem with ag.
-- Try the query with other tools like grep and ack.
-* Usage tip: Tweak ag command used by dumb-jump based on current directory. 
-Through defadvice you can tweak flags to ag based on your directory. In particular you can use it as an alternative to .dumbjump file.
-#+BEGIN_SRC emacs-lisp
-  (require 's)
+When I noticed that some completion of dumb-jump does not work well I have much easier debugging experience than ctags.
+After following those steps I will have an idea where the problem is:
+- If dumb-jump-go fails, search the same string with =helm-projectile-ag=.
+- If =helm-projectile-ag= fails, see =helm-ag--last-command= and make it from command line.
+- If it fails, try it with plain ag without all the flags.
+- If it fails, try it with alternative tool like grep or ack.
+* My configuration
+** Do not ask about saving files
+Dumb jump asks about saving files. I personally like to not have to save files, but commit often using git.
+You can tell emacs to save all files before calling dumb jump, or focus out (if you care only about dumb jump remove the focus out).
+#+BEGIN_SRC clojure
+  (defun synchronize-like-intellij () (interactive) (save-some-buffers t))
+  (add-hook 'focus-out-hook 'synchronize-like-intellij)
+  (advice-add 'dumb-jump-go :before #'synchronize-like-intellij)
+#+END_SRC
+** Dynamically configure ag flags passed to dumb jumb.
+Through Emacs advice system you can tweak ag command before calling dumb jump and ag.
+What's more, you can reuse flags between your helm-projectile-ag and dumb-jump-go.
+You can treat it as more powerful alternative to .dumbjump and .agignore.
+#+BEGIN_SRC clojure
+  (setq my-ag-ignored-patterns '("*.bak" "*.out" "*.csv" "*.pyc" "*.pdf" "*.png"))
+  (setq my-ag-flags (mapconcat  (lambda (ext) (concat "--ignore " ext)) my-ag-ignored-patterns " "))
 
-  (defun tweak-dumb-ag-per-project (&rest not-used-args)
-    "Tweak the ag advice before dumbjump"
-    (if (s-contains-p "/dotfiles/" (file-truename (expand-file-name buffer-file-name)))
-        (setq dumb-jump-ag-cmd "ag --hidden")
-      (setq dumb-jump-ag-cmd "ag"))
+  (setq my-helm-ag-base-ag (concat "ag --nocolor --nogroup -W 100 " my-ag-flags " "))
+  (setq my-dumb-jump-base-ag (concat "ag " my-ag-flags " "))
+
+  (defun my-tweak-ag-per-project (&rest not-used-args)
+    "Tweak the ag flags based on current file name"
+    (let ((my-ag-project-flags (if (s-contains-p "/dotfiles/" (my-buffer-file-name))
+                                   "--hidden"
+                                 "")))
+      (progn
+        (setq helm-ag-base-command (concat my-helm-ag-base-ag my-ag-project-flags))
+        (setq dumb-jump-ag-cmd (concat my-dumb-jump-base-ag my-ag-project-flags))
+        )
+      )
     )
 
-  (advice-add 'dumb-jump-go :before #'tweak-dumb-ag-per-project)
+  (advice-add 'helm-projectile-ag :before #'my-tweak-ag-per-project)
+  (advice-add 'dumb-jump-go :before #'my-tweak-ag-per-project)
 #+END_SRC
-
-#+RESULTS:
-
-* Things I may improve one day
-** TODO Adapt to scala
-I think that just adapting regex configuration from https://leonard.io/blog/2013/04/editing-scala-with-vim/ should work.
-** TODO It would be nice to use helm
-For example, I like to be able to call =helm-resume= to switch to other completion, if i went to wrong place.
-** TODO Better sorting after adding helm
-I have been toying with an idea of better sorting completions returned by ag/tags/projectile.
-I plan to implement smarter sorting for helm one day.
-It could work with ag,dumb-jump, helm-projectile-find-file, completions, etc.
-*** Comparison hierarchy
-The comparison would be hierarchical, with the following rules precedence:
-**** 1. Compare by file extension
-Firstly show files with the same extension as currently visited file.
-Demote some "junk" extensions like .csv towards the bottom of the list.
-Define some order for remaining extensions (e.g. how often they occur together on all github repos).
-Provide way of jumping to the next extension group in the helm buffer.
-**** 2. Compare by longest common path
-Find the [[https://en.wikipedia.org/wiki/Lowest_common_ancestor][lowest common ancestor]] of current file, and file returned by ag.
-**** 3. Compare by path length
-Less nested paths are shown on the top.
-** TODO Possible generalization 
-dumb-jump runs additional regular expressions on result of your ag command.
-Such concept does not have to be unique to jumping to definition.
-I can't think of good example where it could be useful, but I'll write it down if I find something.
-* Slightly unrelated plug - Equivalent of IntelliJ Show Usages
+** Slightly unrelated plug - Equivalent of IntelliJ Show Usages
 Since the HN post mentions IntelliJ and ag - I was missing ability of helm-projectile-ag to search "symbol at point".
 I wrote an elisp that does it, but it's a bit hacky:
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC clojure
   ;; http://emacs.stackexchange.com/questions/10393/how-can-i-answer-a-minibuffer-prompt-from-elisp
   (defun insert-symbol-at-point ()
     (if (> (length cached-symbol-at-point) 0)
@@ -96,3 +92,43 @@ I wrote an elisp that does it, but it's a bit hacky:
   (global-set-key (kbd "C-s") 'helm-projectile-ag-symbol-at-point)
   (global-set-key (kbd "C-S-f") 'helm-projectile-ag)
 #+END_SRC
+* Things that could be improved
+** TODO Bug: Sometimes jumps to comments
+[[http://ergoemacs.org/emacs/elisp_determine_cursor_inside_string_or_comment.html][Emacs have generalized function checking if you are in the comment, =syntax-ppss=.
+]]It could be a good idea to implement it on top of it.
+** TODO Adapt to scala and java
+I think that adapting regex from https://leonard.io/blog/2013/04/editing-scala-with-vim/ should work.
+** TODO It would be nice to use helm
+For example, I like to be able to call =helm-resume= to switch to other completion, if i went to wrong place.
+** TODO Better sorting after adding helm
+I have been toying with an idea of better sorting completions returned by ag/tags/projectile.
+I plan to implement smarter sorting for helm one day.
+It could work with ag,dumb-jump, helm-projectile-find-file, completions, etc.
+*** Comparison hierarchy
+The comparison would be hierarchical, with the following rules precedence:
+**** 1. Compare by file extension
+Firstly show files with the same extension as currently visited file.
+Demote some "junk" extensions like .csv towards the bottom of the list.
+Define some order for remaining extensions (e.g. how often they occur together on all github repos).
+Provide way of jumping to the next extension group in the helm buffer.
+**** 2. Compare by longest common path
+Find the [[https://en.wikipedia.org/wiki/Lowest_common_ancestor][lowest common ancestor]] of current file, and file returned by ag.
+**** 3. Compare by path length
+Less nested paths are shown on the top.
+** TODO Possible generalization
+dumb-jump runs additional regular expressions on result of your ag command.
+Such concept does not have to be unique to jumping to definition.
+I can't think of good example where it could be useful, but I'll update this post if I find something.
+** TODO More advanced fall-back hierarchy than just grep.
+*** Hierarchy
+I think the following fallback hierarchy would be better:
+- ag
+- ack
+- pt
+- gitgrep -P
+- gitgrep
+- grep -P
+- grep
+*** Why?
+Flag -P lets you reuse same flavour of regex as ag, but it's not available on all systems.
+ack is almost as good as ag (some people prefer ack, I tried both and I prefer ag).

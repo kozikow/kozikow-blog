@@ -111,6 +111,8 @@ With a few lines of elisp you can auto generate commit messages or automatically
 
 Everything in org is plain text, including results of eval of code blocks, so it will be treated well by the source control.
 *** [[https://play.google.com/store/apps/details?id=com.orgzly&hl=en_GB][Mobile client]]
+*** Run a webserver that will let people do basic editing of you org files in the browser
+[[https://github.com/eschulte/org-ehtml][org-ehtml works well for me.]]
 *** Spaced repetition framework (remember all those pesky maths formulas)
 If you are like me, you forgot a lot of maths formulas since college.
 Spaced repetition is a learning methodology that helps you avoid forgetting important facts like maths formulas.

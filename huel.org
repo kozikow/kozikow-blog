@@ -1,0 +1,16 @@
+#+OPTIONS: toc:3
+#+OPTIONS: todo:t
+#+TITLE: On nutritionally complete powdered food - Soylent and Huel
+#+AUTHOR: Robert Kozikowski
+#+EMAIL: r.kozikowski@gmail.com
+
+* Introduction
+* What do I hope to get out of it?
+** Save time
+** Save money
+** Potentially more nutritionally complete than what I normally eat.
+** Lose weight by disassociating eating food with pleasure
+* What am I concerned about?
+** Is it really nutritionally complete?
+** Is not solid food enough to satiate hunger?
+* Conclusion

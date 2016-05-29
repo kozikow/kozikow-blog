@@ -1,20 +1,91 @@
 #+OPTIONS: toc:3
 #+OPTIONS: todo:t
-#+TITLE: On nutritionally complete powdered food (Soylent, Huel)
+#+TITLE: On nutritionally complete powdered food
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 
 * Introduction
-* Investigation of possible benefits
-** Saved time
-** Saved money
-** Potentially more nutritionally complete food than what I normally eat.
+* Possible benefits
+** Save time
+This advantage is pretty obvious.
+Buying ingredients and preparing a healthy meal takes enormous amount of time.
+Fast foods are usually either:
+- Unhealthy
+- Healthy, but relatively expensive (e.g. Leon)
+** Save money
+*** Powdered food cost (1.33 GBP per 500 kcal)
+Among powdered foods, Huel is a clear winner in terms of cost.
+**** Huel (1.33 GBP per 500 kcal)
+The biggest package of 112 meals with recurring order is 56000 kcal for 149.85 GBP from the official website [4].
+Delivery is free to UK.
+#+BEGIN_SRC python :results output
+  print "{} GBP per 500 kcal".format(149.85 / (56000 / 500))
+#+END_SRC
+
+#+RESULTS:
+: 1.33794642857 GBP per 500 kcal
+**** Ambronite (6.68 GBP per 500 kcal)
+Subscription for 10 Ambronite meals costs 75.65 EUR + 11.90 EUR delivery from the official website [3].
+Currently 1 GBP costs 1.31 Eur.
+Each ambronite meal have 500 calories.
+#+BEGIN_SRC python :results output
+  cost_in_gbp = (75.65 + 11.90) / 1.31
+  print "{} GBP per 500 kcal".format(cost_in_gbp / 10)
+#+END_SRC
+
+#+RESULTS:
+: 6.68320610687 GBP per 500 kcal
+**** "actibest" Soylent (2.78 GBP per 500 kcal)
+Official Soylent website do not ship to UK.
+I found some "actibest" soylent on Amazon.
+It does not list kcal per "meal", but 500 is a standard.
+The best I found sells 42 meals for 109 GBP + 7.91 GBP delivery[5].
+#+BEGIN_SRC python :results output
+  print "{} GBP per 500 kcal".format((109 + 7.91) / 42)
+#+END_SRC
+
+#+RESULTS:
+: 2.78357142857 GBP per 500 kcal
+*** UK healthy fast food cost
+**** [[http://leonrestaurants.co.uk/menu/all-day/menu-item/chicken-chorizo-club-2][Leon Chicken and Chorizo club hot box]] (5.20 GBP per 500 kcal)
+667 Calories
+6.95 GBP
+#+BEGIN_SRC python :results output
+  (500 / 667) * 6.95
+  print "{} GBP per 500 kcal".format((500.0 / 667) * 6.95)
+#+END_SRC
+
+#+RESULTS:
+: 5.20989505247 GBP per 500 kcal
+
+** Potentially more nutritious than the meal it is replacing
 ** Lose weight by disassociating food with pleasure
 * Investigation of possible drawbacks
 ** Is it really nutritionally complete?
 ** Can it satiate hunger given that it is not solid?
-** Can the "chemistry" be bad for you in the long term?
+** Unknown long term effects
+Long term effects of Soylent and therefore Huel have not been studied yet[1].
+Some of the chemical components used in Huel could have detrimental long term effect.
+Huel consist mostly of natural components,
+*** Artificial chemical components
+Huel consists mostly of natural ingredients, but there are some 
+- Aspartane. Effects of Aspartane have been well researched, and it seems to not have major negative long term effects [2].
+- Artificial vitamins blends. Some artificial vitamin blends can be as easy to absorb as natural sources, but most of them don't [1]. 
+  I don't know enough about vitamin chemistry to judge in which group Huel vitamins belong.
 * Review of individual products
 ** Huel
 ** Soylent
+** Ambronite
+* Further reading
+** [[http://lesswrong.com/lw/kxu/is_it_a_good_idea_to_use_soylent_oncetwice_a_day/][Less wrong post]]
 * Conclusion
+* Footnotes
+[1] http://biology.stackexchange.com/questions/20995/why-do-we-absorb-vitamins-better-from-whole-foods-than-from-pills/21103#21103
+ "Keep in mind the long-term effects of sticking to such a diet are more or less unknown, but it's as close as we can likely get to an "all-in-one" meal."
+[2] [[http://archinte.jamanetwork.com/article.aspx?articleid=612364][Safety of long term doses of Aspartane, Leon et al]]
+[3] http://ambronite.com/
+[4] https://huel.com/products/huel
+[5] https://www.amazon.co.uk/soylent-meals-actibest-version-vegetarian-y/dp/B0177XACQE/ref=sr_1_5_a_it?ie=UTF8&qid=1464559859&sr=8-5&keywords=soylent
+[] [[http://dl.acm.org/citation.cfm?id=2892586][Deciphering a Meal through Open Source Standards: Soylent and the Rise of Diet Hackers, Dolejšová 2016]]
+
+

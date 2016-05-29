@@ -4,7 +4,7 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 
-* Introduction
+* TODO Introduction
 * Possible benefits
 ** Save time
 This advantage is pretty obvious.
@@ -13,7 +13,7 @@ Fast foods are usually either:
 - Unhealthy
 - Healthy, but relatively expensive (e.g. Leon)
 ** Save money
-*** Powdered food cost (1.33 GBP per 500 kcal)
+*** Powdered food cost (best: 1.33 GBP per 500 kcal)
 Among powdered foods, Huel is a clear winner in terms of cost.
 **** Huel (1.33 GBP per 500 kcal)
 The biggest package of 112 meals with recurring order is 56000 kcal for 149.85 GBP from the official website [4].
@@ -46,7 +46,21 @@ The best I found sells 42 meals for 109 GBP + 7.91 GBP delivery[5].
 
 #+RESULTS:
 : 2.78357142857 GBP per 500 kcal
-*** UK healthy fast food cost
+**** Joylent (1.17 GBP per 500 kcal)
+From the official website[6]:
+150 GBP for the biggest package of 90 meals.
+5 GBP per bag.
+Each bag have 2119 calories.
+Shipping is free.
+
+#+BEGIN_SRC python :results output
+  print "{} GBP per 500 kcal".format((500.0/2119) * 5)
+#+END_SRC
+
+#+RESULTS:
+: 1.1798017933 GBP per 500 kcal
+
+*** UK healthy fast food cost (best: 5.20 gbp per 500 kcal)
 **** [[http://leonrestaurants.co.uk/menu/all-day/menu-item/chicken-chorizo-club-2][Leon Chicken and Chorizo club hot box]] (5.20 GBP per 500 kcal)
 667 Calories
 6.95 GBP
@@ -57,10 +71,10 @@ The best I found sells 42 meals for 109 GBP + 7.91 GBP delivery[5].
 
 #+RESULTS:
 : 5.20989505247 GBP per 500 kcal
-
-** Potentially more nutritious than the meal it is replacing
-** Lose weight by disassociating food with pleasure
-* Investigation of possible drawbacks
+**** TODO Subway
+** TODO Potentially more nutritious than the meal it is replacing
+** TODO Lose weight by disassociating food with pleasure
+* Possible problems
 ** Is it really nutritionally complete?
 ** Can it satiate hunger given that it is not solid?
 ** Unknown long term effects
@@ -72,12 +86,19 @@ Huel consists mostly of natural ingredients, but there are some
 - Aspartane. Effects of Aspartane have been well researched, and it seems to not have major negative long term effects [2].
 - Artificial vitamins blends. Some artificial vitamin blends can be as easy to absorb as natural sources, but most of them don't [1]. 
   I don't know enough about vitamin chemistry to judge in which group Huel vitamins belong.
+** Taste
+*** TODO Further reading
+[[https://www.reddit.com/r/soylent/comments/3e6xz3/huel_vs_soylent_taste/][Huel vs Soylent taste]]
 * Review of individual products
 ** Huel
 ** Soylent
 ** Ambronite
+** Joylent
++ 5 tastes to choose from
 * Further reading
 ** [[http://lesswrong.com/lw/kxu/is_it_a_good_idea_to_use_soylent_oncetwice_a_day/][Less wrong post]]
+** TODO [[https://www.reddit.com/r/soylent/][Soylent subreddit]]
+
 * Conclusion
 * Footnotes
 [1] http://biology.stackexchange.com/questions/20995/why-do-we-absorb-vitamins-better-from-whole-foods-than-from-pills/21103#21103
@@ -86,6 +107,7 @@ Huel consists mostly of natural ingredients, but there are some
 [3] http://ambronite.com/
 [4] https://huel.com/products/huel
 [5] https://www.amazon.co.uk/soylent-meals-actibest-version-vegetarian-y/dp/B0177XACQE/ref=sr_1_5_a_it?ie=UTF8&qid=1464559859&sr=8-5&keywords=soylent
+[6] https://www.joylent.eu/
 [] [[http://dl.acm.org/citation.cfm?id=2892586][Deciphering a Meal through Open Source Standards: Soylent and the Rise of Diet Hackers, Dolejšová 2016]]
 
 

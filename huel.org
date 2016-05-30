@@ -92,6 +92,9 @@ Price: 2GBP if you buy two items at once.
 *** TODO Make your brain not recognise food as available source of pleasure
 ** TODO Potentially more nutritious than alternative fast foods
 * Possible problems
+** Will I get bored by the same taste?
+*** TODO Further reading
+[[https://www.reddit.com/r/soylent/comments/3e6xz3/huel_vs_soylent_taste/][Huel vs Soylent taste]]
 ** Is it really nutritionally complete?
 *** Macro nutrients
 *** Micro nutrients and absorbability
@@ -112,9 +115,6 @@ Medical meal replacements have been around for a while.
 I found a study being performed[8] on UC Berkeley, but it's not ready yet.
 *** Other factors
 Reports of long term users have been generally positive in different areas[9].
-** Taste
-*** TODO Further reading
-[[https://www.reddit.com/r/soylent/comments/3e6xz3/huel_vs_soylent_taste/][Huel vs Soylent taste]]
 * Review of individual products
 |-------------+--------------------+---------+------------+--------+-------------+----------------------------+------------------|
 |             | Price per 500 kcal | % Carbs | % Proteins | % Fats | [[https://en.wikipedia.org/wiki/Glycemic_index][GI]]          | Primary carb               | Primary protein  |

@@ -160,9 +160,7 @@ Reports of long term users have been generally positive in different areas[9].
 ** TODO [[https://www.reddit.com/r/soylent/comments/4aizpg/one_month_trials_of_two_subjects_living_entirely/][One Month Trials of two subjects living entirely off Huel]]
 ** TODO Huel FAQ https://huel.com/pages/faq  
 ** [[http://lesswrong.com/lw/kxu/is_it_a_good_idea_to_use_soylent_oncetwice_a_day/][Less wrong post]]
-
 * Footnotes
-
 [1] http://biology.stackexchange.com/questions/20995/why-do-we-absorb-vitamins-better-from-whole-foods-than-from-pills/21103#21103
  "Keep in mind the long-term effects of sticking to such a diet are more or less unknown, but it's as close as we can likely get to an "all-in-one" meal."
 [2] [[http://archinte.jamanetwork.com/article.aspx?articleid=612364][Safety of long term doses of Aspartane, Leon et al]]

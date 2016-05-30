@@ -92,18 +92,18 @@ Price: 2GBP if you buy two items at once.
 *** TODO Make your brain not recognise food as available source of pleasure
 ** TODO Potentially more nutritious than alternative fast foods
 * Possible problems
-** Will I get bored by the same taste?
+** TODO Will I get bored by the same taste?
 *** TODO Further reading
 [[https://www.reddit.com/r/soylent/comments/3e6xz3/huel_vs_soylent_taste/][Huel vs Soylent taste]]
 ** Is it really nutritionally complete?
-*** Macro nutrients
-*** Micro nutrients and absorbability
+*** TODO Macro nutrients
+*** TODO Micro nutrients and absorbability
 Folk knowledge says that vitamins from raw fruits and vegetables are better absorbable than vitamin blends.
 After some reading[1], it seems to depend on vitamin type. Chelates would be as absorbable as the real thing, but are expensive. 
 I need to read more about vitamin types or find someone knowledgeable to be able to judge vitamin blends used by meal replacement products.
 
 In case of long term usage, it's a good idea to familiarise yourself with vitamin deficiency symptoms[10].
-** Can it satiate hunger (i.e. "fill you up")?
+** TODO Can it satiate hunger (i.e. "fill you up")?
 ** Are there any chemical components that can be dangerous in the long term?
 Those products mostly consists of natural ingredients. They even don't contain preservatives.
 The biggest suspicion is various types of sweeteners. You can always drink it without sweetener, but good luck.

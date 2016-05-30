@@ -18,7 +18,7 @@ You can also read this post in the [[https://raw.githubusercontent.com/kozikow/k
 ** Save time
 This advantage is pretty obvious.
 Buying ingredients and preparing a healthy meal takes enormous amount of time.
-Even buying food sometimes takes time, as you need to decide where to go, or leave a flat and break your coding flow.
+Even buying prepared food sometimes takes time, as you need to decide where to go, or leave a flat and break your coding flow.
 ** Save money
 *** Cost of powdered food
 **** Huel (1.33 GBP per 500 kcal)

@@ -116,15 +116,15 @@ Reports of long term users have been generally positive in different areas[9].
 *** TODO Further reading
 [[https://www.reddit.com/r/soylent/comments/3e6xz3/huel_vs_soylent_taste/][Huel vs Soylent taste]]
 * Review of individual products
-|-------------+--------------------+---------+------------+--------+---------+----------------------------+------------------|
-|             | Price per 500 kcal | % Carbs | % Proteins | % Fats | [[https://en.wikipedia.org/wiki/Glycemic_index][GI]]      | Primary carb               | Primary protein  |
-|             | (London delivery)  |         |            |        |         | source                     | source           |
-|-------------+--------------------+---------+------------+--------+---------+----------------------------+------------------|
-| Soylent 1.5 | 2.78 GBP           |      57 |         20 |     23 | 65[11]  | Maltodextrin (high GI)[13] | Rice[13]         |
-| Joylent     | 1.17 GBP           |      50 |         25 |     25 |         |                            | ? Whey/soy[12]   |
-| Huel        | 1.33 GBP           |      40 |         30 |     30 | [[https://discuss.huel.com/t/glycemic-index-of-huel/89/21][Unknown]] | Oats (low GI)[13]          | Pea and rice[13] |
-| Ambronite   | 6.68 GBP           |      44 |         24 |     32 |         |                            |                  |
-|-------------+--------------------+---------+------------+--------+---------+----------------------------+------------------|
+|-------------+--------------------+---------+------------+--------+-------------+----------------------------+------------------|
+|             | Price per 500 kcal | % Carbs | % Proteins | % Fats | [[https://en.wikipedia.org/wiki/Glycemic_index][GI]]          | Primary carb               | Primary protein  |
+|             | (London delivery)  |         |            |        |             | source                     | source           |
+|-------------+--------------------+---------+------------+--------+-------------+----------------------------+------------------|
+| Soylent 1.5 | 2.78 GBP           |      57 |         20 |     23 | 65[11]      | Maltodextrin (high GI)[13] | Rice[13]         |
+| Joylent     | 1.17 GBP           |      50 |         25 |     25 | Unknown[15] | Maltodextrin/Oats[15]      | ? Whey/soy[12]   |
+| Huel        | 1.33 GBP           |      40 |         30 |     30 | Unknown[14] | Oats (low GI)[13]          | Pea and rice[13] |
+| Ambronite   | 6.68 GBP           |      44 |         24 |     32 |             |                            |                  |
+|-------------+--------------------+---------+------------+--------+-------------+----------------------------+------------------|
 ** Huel
 ** Soylent
 ** Ambronite
@@ -171,4 +171,6 @@ Reports of long term users have been generally positive in different areas[9].
 [11] https://en.wikipedia.org/wiki/Soylent_(drink)
 [12] https://www.reddit.com/r/soylent/comments/3aib82/huel_the_uks_first_nutritionally_complete/csd5yrn
 [13] https://huel.com/pages/comparison-to-soylent
+[14] https://discuss.huel.com/t/glycemic-index-of-huel/89/20
+[15] http://joylent-blog.tumblr.com/post/112037722680/carbohydrates-whats-the-deal
 

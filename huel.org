@@ -126,10 +126,15 @@ Reports of long term users have been generally positive in different areas[9].
 | Ambronite   | 6.68 GBP           |      44 |         24 |     32 |             |                            |                  |
 |-------------+--------------------+---------+------------+--------+-------------+----------------------------+------------------|
 ** Huel
++ Low GI
++ High in protein
 ** Soylent
+- Inaccessible in UK
 ** Ambronite
+- Expensive
 ** Joylent
 + 5 tastes to choose from
+- High GI carb source (Maltodextrin)
 ** TODO Products I not order yet
 [[https://www.reddit.com/r/soylent/comments/3tov83/so_what_is_your_favourite_powdered_food_in_the_eu/][So, what is your favourite powdered food in the EU?]]
 |-----------+-------------------------------|

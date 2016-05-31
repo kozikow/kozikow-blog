@@ -190,7 +190,7 @@ Reports of long term users have been generally positive in different areas[9].
 |-----------+-------------------------------|
 ** Other reviews
 [[https://www.reddit.com/r/soylent/comments/3x750h/my_test_between_veetal_joylent_huel_and_mana/][Veetal/Joylent/Huel/Mana]]
-* Conclusion
+* TODO Conclusion
 - Only replace meals I would be eating alone.
 - Not go 100% Huel, try to have at least one real meal per day.
 - Take a blood test after a few months

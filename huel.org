@@ -175,8 +175,8 @@ Reports of long term users have been generally positive in different areas[9].
 ** TODO Joylent
 + 5 tastes to choose from
 - High GI carb source (Maltodextrin)
-** TODO Products I did not order yet
-[[https://www.reddit.com/r/soylent/comments/3tov83/so_what_is_your_favourite_powdered_food_in_the_eu/][So, what is your favourite powdered food in the EU?]]
+** TODO Other products
+*** [[https://www.reddit.com/r/soylent/comments/3tov83/so_what_is_your_favourite_powdered_food_in_the_eu/][Reddit thread: So, what is your favourite powdered food in the EU?]]
 |-----------+-------------------------------|
 | Product   | Comment threads mentioning it |
 |-----------+-------------------------------|
@@ -189,6 +189,7 @@ Reports of long term users have been generally positive in different areas[9].
 | Purelent  |                             1 |
 | Veetal    |                             1 |
 |-----------+-------------------------------|
+*** [[https://www.blendrunner.com/?carbs-from=0&carbs-to=335&proteins-from=0&proteins-to=208&fats-from=0&fats-to=168&energy-from=0&energy-to=3000&fibre-from=0&fibre-to=81&shipping%255B0%255D=eu&sort-by=lowest-price][Blend runner list of nutritionally complete powders shipping to UK]]
 ** Other reviews
 [[https://www.reddit.com/r/soylent/comments/3x750h/my_test_between_veetal_joylent_huel_and_mana/][Veetal/Joylent/Huel/Mana]]
 * TODO Conclusion
@@ -197,7 +198,6 @@ Reports of long term users have been generally positive in different areas[9].
 - Take a blood test after a few months
 * Further reading
 ** [[https://www.reddit.com/r/soylent/][Soylent subreddit]]
-** [[https://www.blendrunner.com/?carbs-from=0&carbs-to=335&proteins-from=0&proteins-to=208&fats-from=0&fats-to=168&energy-from=0&energy-to=3000&fibre-from=0&fibre-to=81&shipping%255B0%255D=eu&sort-by=lowest-price][Blend runner list of nutritionally complete powders shipping to UK]]
 ** TODO [[https://www.reddit.com/r/soylent/comments/4aizpg/one_month_trials_of_two_subjects_living_entirely/][One Month Trials of two subjects living entirely off Huel]]
 ** TODO Huel FAQ https://huel.com/pages/faq  
 ** [[http://lesswrong.com/lw/kxu/is_it_a_good_idea_to_use_soylent_oncetwice_a_day/][Less wrong post]]

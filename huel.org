@@ -84,7 +84,7 @@ The best I found sells 42 meals for 109 GBP + 7.91 GBP delivery[5].
 
 #+RESULTS:
 : 5.20989505247 GBP per 500 kcal
-**** Microwave ready Tesco Chicken tikka masala & rice 450 G (1.46 GBP per 500 kcal)
+**** Microwave ready Tesco Chicken Tikka Masala & rice 450 G (1.46 GBP per 500 kcal)
 In my local tesco near my house.
 Price: 2GBP if you buy two items at once.
 684 kcal.
@@ -94,12 +94,22 @@ Price: 2GBP if you buy two items at once.
 
 #+RESULTS:
 : 1.46198830409 GBP per 500 kcal
-**** TODO Subway
+**** Subway Italian B.M.T (3.15 GBP per 500 kcal)
+Italian B.M.T. costs 5gbp at my nearby subway.
+It has 792 calories[17].
+
+#+BEGIN_SRC python :results output :exports both
+  print "{} GBP per 500 kcal".format((500.0 / 792) * 5)
+#+END_SRC
+
+#+RESULTS:
+: 3.15656565657 GBP per 500 kcal
+
 ** Lose weight
 *** Easier to count calories
 Window between starving and not losing weight is quite easy to miss without counting calories.
 Writing down how many carrots you have ate and looking up their calories is very tedious task.
-*** Make your brain not recognise food as available source of pleasure
+*** Make your brain not recognise food as a available source of pleasure
 If you don't enjoy your food as much and it's just an efficient calories delivery method,
 you're less likely to experience your brain saying: "come on, order this Lamb Biryani from online takeway".
 ** Potentially more nutritious than alternative fast foods
@@ -110,14 +120,13 @@ However, considering the fast food alternatives they are a good option.
 ** Can it satiate hunger (i.e. "fill you up")?
 I find that eating same amount of calories of "real" food makes me less hungry than Huel and similar products.
 Part of not being hungry is just a feeling of your belly being full.
-Even if Huel have low IG and high protein ratio, it still sometimes leaves my hungry afterwards.
+Even if Huel have low IG and high protein ratio, I am more hungry than after meal with equivalent calories.
 
 In my opinion, it's caused by Huel shake not being "solid" enough.
 I think that adding a single banana to 500 kcal Huel shake could be a good solution - it's just 100 kcal[16].
-
-Banana will increase solidness of the shake and improve the taste,
+Banana will increase the solidness and improve the taste,
 while Huel will add remaining nutrients and provide the lasting feeling of
-fullness by low GI carbs, fats and proteins.
+fullness driven by low GI carbs, fats and proteins.
 ** Will I get bored by the same taste?
 Huel offers product without added taste and you can add your own taste afterwards.
 There are multiple alternative products, e.g. Joylent offer 8 different tastes.
@@ -208,4 +217,5 @@ Reports of long term users have been generally positive in different areas[9].
 [14] https://discuss.huel.com/t/glycemic-index-of-huel/89/20
 [15] http://joylent-blog.tumblr.com/post/112037722680/carbohydrates-whats-the-deal
 [16] http://www.livestrong.com/article/298339-calories-in-1-large-banana/
+[17] http://subway.co.uk/menu/subs/classic/italian-b-m-t-.aspx
 

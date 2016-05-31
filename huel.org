@@ -189,7 +189,7 @@ Reports of long term users have been generally positive in different areas[9].
 | Purelent  |                             1 |
 | Veetal    |                             1 |
 |-----------+-------------------------------|
-*** [[https://www.blendrunner.com/?carbs-from=0&carbs-to=335&proteins-from=0&proteins-to=208&fats-from=0&fats-to=168&energy-from=0&energy-to=3000&fibre-from=0&fibre-to=81&shipping%255B0%255D=eu&sort-by=lowest-price][Blend runner list of nutritionally complete powders shipping to UK]]
+*** [[https://www.blendrunner.com/?carbs-from=0&carbs-to=335&proteins-from=0&proteins-to=208&fats-from=0&fats-to=168&energy-from=0&energy-to=3000&fibre-from=0&fibre-to=81&shipping%255B0%255D=eu&sort-by=lowest-price&currency=GBP][Blend runner list of nutritionally complete powders shipping to UK]]
 ** Other reviews
 [[https://www.reddit.com/r/soylent/comments/3x750h/my_test_between_veetal_joylent_huel_and_mana/][Veetal/Joylent/Huel/Mana]]
 * TODO Conclusion

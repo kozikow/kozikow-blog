@@ -175,6 +175,7 @@ Reports of long term users have been generally positive in different areas[9].
 ** TODO Joylent
 + 5 tastes to choose from
 - High GI carb source (Maltodextrin)
+** TODO Queal
 ** TODO Other products
 *** [[https://www.reddit.com/r/soylent/comments/3tov83/so_what_is_your_favourite_powdered_food_in_the_eu/][Reddit thread: So, what is your favourite powdered food in the EU?]]
 |-----------+-------------------------------|

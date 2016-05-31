@@ -1,4 +1,4 @@
-* Ease of installation
+* Ease of installation
 All tools I am investigating are easy to install on Linux and Mac using apt-get/yum/brew/etc.
 ** Installation on Windows
 With new Windows 10 "Ubuntu" compatibility installation of all tools should be as easy as on Linux.

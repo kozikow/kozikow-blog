@@ -96,13 +96,33 @@ Price: 2GBP if you buy two items at once.
 : 1.46198830409 GBP per 500 kcal
 **** TODO Subway
 ** Lose weight
-*** TODO Easier to count calories
-*** TODO Make your brain not recognise food as available source of pleasure
-** TODO Potentially more nutritious than alternative fast foods
+*** Easier to count calories
+Window between starving and not losing weight is quite easy to miss without counting calories.
+Writing down how many carrots you have ate and looking up their calories is very tedious task.
+*** Make your brain not recognise food as available source of pleasure
+If you don't enjoy your food as much and it's just an efficient calories delivery method,
+you're less likely to experience your brain saying: "come on, order this Lamb Biryani from online takeway".
+** Potentially more nutritious than alternative fast foods
+Powdered meals are still a new area and are not fully developed yet.
+They are probably worse than the cooked meal with vegetables and lean meat.
+However, considering the fast food alternatives they are a good option.
 * Possible problems
-** TODO Will I get bored by the same taste?
-*** TODO Further reading
-[[https://www.reddit.com/r/soylent/comments/3e6xz3/huel_vs_soylent_taste/][Huel vs Soylent taste]]
+** Can it satiate hunger (i.e. "fill you up")?
+I find that eating same amount of calories of "real" food makes me less hungry than Huel and similar products.
+Part of not being hungry is just a feeling of your belly being full.
+Even if Huel have low IG and high protein ratio, it still sometimes leaves my hungry afterwards.
+
+In my opinion, it's caused by Huel shake not being "solid" enough.
+I think that adding a single banana to 500 kcal Huel shake could be a good solution - it's just 100 kcal[16].
+
+Banana will increase solidness of the shake and improve the taste,
+while Huel will add remaining nutrients and provide the lasting feeling of
+fullness by low GI carbs, fats and proteins.
+** Will I get bored by the same taste?
+Huel offers product without added taste and you can add your own taste afterwards.
+There are multiple alternative products, e.g. Joylent offer 8 different tastes.
+I think that solution of Huel/Joylent/etc mixed with a fruit like Banana or
+Mango in a blender could be a good solution for the boring taste.
 ** Is it really nutritionally complete?
 *** TODO Macro nutrients
 *** TODO Micro nutrients and absorbability
@@ -111,7 +131,6 @@ After some reading[1], it seems to depend on vitamin type. Chelates would be as 
 I need to read more about vitamin types or find someone knowledgeable to be able to judge vitamin blends used by meal replacement products.
 
 In case of long term usage, it's a good idea to familiarise yourself with vitamin deficiency symptoms[10].
-** TODO Can it satiate hunger (i.e. "fill you up")?
 ** Are there any chemical components that can be dangerous in the long term?
 Those products mostly consists of natural ingredients. They even don't contain preservatives.
 The biggest suspicion is various types of sweeteners. You can always drink it without sweetener, but good luck.
@@ -120,6 +139,7 @@ The sweeteners used in Huel that I looked at, Aspartame[2] and Sucralose[7], app
 Long term effects of Soylent and therefore Huel have not been studied yet[1].
 Medical meal replacements have been around for a while.
 *** Microbial health
+No variety in various factors like fiber can negatively impact your gut microbial health.
 I found a study being performed[8] on UC Berkeley, but it's not ready yet.
 *** Other factors
 Reports of long term users have been generally positive in different areas[9].
@@ -187,4 +207,5 @@ Reports of long term users have been generally positive in different areas[9].
 [13] https://huel.com/pages/comparison-to-soylent
 [14] https://discuss.huel.com/t/glycemic-index-of-huel/89/20
 [15] http://joylent-blog.tumblr.com/post/112037722680/carbohydrates-whats-the-deal
+[16] http://www.livestrong.com/article/298339-calories-in-1-large-banana/
 

@@ -155,15 +155,15 @@ I found a study being performed[8] on UC Berkeley, but it's not ready yet.
 Reports of long term users have been generally positive in different areas[9].
 * Review of individual products
 #+ATTR_HTML: :border 2 :rules groups
-|-------------+----------------------+---------+------------+--------+----------------------+----------------------+----------------------|
-|             | Price per 500 kcal (London delivery) | % Carbs | % Proteins | % Fats | [[https://en.wikipedia.org/wiki/Glycemic_index][GI]]                   | Primary carb source  | Primary protein source |
-|             | <20>                 |         |            |        | <20>                 | <20>                 | <20>                 |
-|-------------+----------------------+---------+------------+--------+----------------------+----------------------+----------------------|
-| Soylent 1.5 | 2.78 GBP             |      57 |         20 |     23 | 65[11]               | Maltodextrin (high GI)[13] | Rice[13]             |
+|-------------+----------------------+---------+------------+--------+--------------------------------+----------------------+----------------------|
+|             | Price per 500 kcal (London delivery) | % Carbs | % Proteins | % Fats | [[https://en.wikipedia.org/wiki/Glycemic_index][GI]]                             | Primary carb source  | Primary protein source |
+|             | <20>                 |         |            |        | <30>                           | <20>                 | <20>                 |
+|-------------+----------------------+---------+------------+--------+--------------------------------+----------------------+----------------------|
+| Soylent 1.5 | 2.78 GBP             |      57 |         20 |     23 | 65[11]                         | Maltodextrin (high GI)[13] | Rice[13]             |
 | Joylent     | 1.17 GBP             |      50 |         25 |     25 | Unknown, probably similar to soylent[15] | Maltodextrin/Oats[15] | ? Whey/soy[12]       |
-| Huel        | 1.33 GBP             |      40 |         30 |     30 | Unknown, probably low[14] | Oats (low GI)[13]    | Pea and rice[13]     |
-| Ambronite   | 6.68 GBP             |      44 |         24 |     32 | Unknown, probably low | ? Oats[18]           | ? Rice[18]           |
-|-------------+----------------------+---------+------------+--------+----------------------+----------------------+----------------------|
+| Huel        | 1.33 GBP             |      40 |         30 |     30 | Unknown, probably low[14]      | Oats (low GI)[13]    | Pea and rice[13]     |
+| Ambronite   | 6.68 GBP             |      44 |         24 |     32 | Unknown, probably low          | ? Oats[18]           | ? Rice[18]           |
+|-------------+----------------------+---------+------------+--------+--------------------------------+----------------------+----------------------|
 ** Huel
 + Low GI
 + High in protein

@@ -108,7 +108,8 @@ It has 792 calories[17].
 ** Lose weight
 *** Easier to count calories
 Window between starving and not losing weight is quite easy to miss without counting calories.
-Writing down how many carrots you have ate and looking up their calories is very tedious task.
+Writing down how many carrots you just ate and looking up their calories is very tedious task.
+It's much easier with product like Huel.
 *** Make your brain not recognise food as a available source of pleasure
 If you don't enjoy your food as much and it's just an efficient calories delivery method,
 you're less likely to experience your brain saying: "come on, order this Lamb Biryani from online takeway".
@@ -130,8 +131,8 @@ fullness driven by low GI carbs, fats and proteins.
 ** Will I get bored by the same taste?
 Huel offers product without added taste and you can add your own taste afterwards.
 There are multiple alternative products, e.g. Joylent offer 8 different tastes.
-I think that solution of Huel/Joylent/etc mixed with a fruit like Banana or
-Mango in a blender could be a good solution for the boring taste.
+I think that solution of Huel/Joylent/etc mixed with a fruit or vegetable like Banana, 
+Mango or Avocado in a blender could be a good solution for the boring taste.
 ** Is it really nutritionally complete?
 *** TODO Macro nutrients
 *** TODO Micro nutrients and absorbability
@@ -154,15 +155,15 @@ I found a study being performed[8] on UC Berkeley, but it's not ready yet.
 Reports of long term users have been generally positive in different areas[9].
 * Review of individual products
 #+ATTR_HTML: :border 2 :rules groups
-|-------------+----------------------+---------+------------+--------+-------------+----------------------+----------------------|
-|             | Price per 500 kcal (London delivery) | % Carbs | % Proteins | % Fats | [[https://en.wikipedia.org/wiki/Glycemic_index][GI]]          | Primary carb source  | Primary protein source |
-|             | <20>                 |         |            |        |             | <20>                 | <20>                 |
-|-------------+----------------------+---------+------------+--------+-------------+----------------------+----------------------|
-| Soylent 1.5 | 2.78 GBP             |      57 |         20 |     23 | 65[11]      | Maltodextrin (high GI)[13] | Rice[13]             |
-| Joylent     | 1.17 GBP             |      50 |         25 |     25 | Unknown[15] | Maltodextrin/Oats[15] | ? Whey/soy[12]       |
-| Huel        | 1.33 GBP             |      40 |         30 |     30 | Unknown[14] | Oats (low GI)[13]    | Pea and rice[13]     |
-| Ambronite   | 6.68 GBP             |      44 |         24 |     32 |             |                      |                      |
-|-------------+----------------------+---------+------------+--------+-------------+----------------------+----------------------|
+|-------------+----------------------+---------+------------+--------+----------------------+----------------------+----------------------|
+|             | Price per 500 kcal (London delivery) | % Carbs | % Proteins | % Fats | [[https://en.wikipedia.org/wiki/Glycemic_index][GI]]                   | Primary carb source  | Primary protein source |
+|             | <20>                 |         |            |        | <20>                 | <20>                 | <20>                 |
+|-------------+----------------------+---------+------------+--------+----------------------+----------------------+----------------------|
+| Soylent 1.5 | 2.78 GBP             |      57 |         20 |     23 | 65[11]               | Maltodextrin (high GI)[13] | Rice[13]             |
+| Joylent     | 1.17 GBP             |      50 |         25 |     25 | Unknown, probably similar to soylent[15] | Maltodextrin/Oats[15] | ? Whey/soy[12]       |
+| Huel        | 1.33 GBP             |      40 |         30 |     30 | Unknown, probably low[14] | Oats (low GI)[13]    | Pea and rice[13]     |
+| Ambronite   | 6.68 GBP             |      44 |         24 |     32 | Unknown, probably low | ? Oats[18]           | ? Rice[18]           |
+|-------------+----------------------+---------+------------+--------+----------------------+----------------------+----------------------|
 ** Huel
 + Low GI
 + High in protein
@@ -218,4 +219,5 @@ Reports of long term users have been generally positive in different areas[9].
 [15] http://joylent-blog.tumblr.com/post/112037722680/carbohydrates-whats-the-deal
 [16] http://www.livestrong.com/article/298339-calories-in-1-large-banana/
 [17] http://subway.co.uk/menu/subs/classic/italian-b-m-t-.aspx
+[18] http://ambronite.com/pages/ingredients
 

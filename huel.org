@@ -1,0 +1,180 @@
+#+OPTIONS: toc:3
+#+OPTIONS: todo:t
+#+TITLE: On nutritionally complete powdered food (UK focused)
+#+AUTHOR: Robert Kozikowski
+#+EMAIL: r.kozikowski@gmail.com
+
+* Introduction
+Food is currently one of the least optimised areas of my life.
+I spend lots of time and money on it. I very often end up eating too much of unhealthy food.
+Nutritionally complete powdered food is very optimal when you consider time and price.
+It is also relatively healthy, especially considered alternative fast food I would be eating.
+The price you pay is taste - you end up eating the same shake drink every time.
+I still intend to eat normal food in social situations, but possibly replace all of the meals I would be eating alone by nutritionally complete powdered food.
+I will be analysing the powdered food products in general, and looking [[*Review of individual products][at some products in particular]].
+
+You can also read this post in the [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/huel.org][org mode format.]] This post is also just my personal notes about the subject, so I intend to keep updating this post after publishing.
+* Possible benefits
+** Save time
+This advantage is pretty obvious.
+Buying ingredients and preparing a healthy meal takes enormous amount of time.
+Even buying prepared food sometimes takes time, as you need to decide where to go, or leave a flat and break your coding flow.
+** Save money
+*** Cost of powdered food
+**** Huel (1.33 GBP per 500 kcal)
+The biggest package of 112 meals with recurring order is 56000 kcal for 149.85 GBP from the official website[4].
+Delivery is free to UK.
+#+BEGIN_SRC python :results output :exports both
+  print "{} GBP per 500 kcal".format(149.85 / (56000 / 500))
+#+END_SRC
+
+#+RESULTS:
+: 1.33794642857 GBP per 500 kcal
+**** Joylent (1.17 GBP per 500 kcal)
+From the official website[6]:
+150 GBP for the biggest package of 90 meals.
+5 GBP per bag.
+Each bag have 2119 calories.
+Shipping is free.
+
+#+BEGIN_SRC python :results output :exports both
+  print "{} GBP per 500 kcal".format((500.0/2119) * 5)
+#+END_SRC
+
+#+RESULTS:
+: 1.1798017933 GBP per 500 kcal
+**** Ambronite (6.68 GBP per 500 kcal)
+Subscription for 10 Ambronite meals costs 75.65 EUR + 11.90 EUR delivery from the official website[3].
+Currently 1 GBP costs 1.31 Eur.
+Each ambronite meal have 500 calories.
+#+BEGIN_SRC python :results output :exports both
+  cost_in_gbp = (75.65 + 11.90) / 1.31
+  print "{} GBP per 500 kcal".format(cost_in_gbp / 10)
+#+END_SRC
+
+#+RESULTS:
+: 6.68320610687 GBP per 500 kcal
+**** "actibest" Soylent (2.78 GBP per 500 kcal)
+Official Soylent website do not ship to UK.
+I found some "actibest" soylent on Amazon.
+It does not list kcal per "meal", but 500 is a standard.
+The best I found sells 42 meals for 109 GBP + 7.91 GBP delivery[5].
+#+BEGIN_SRC python :results output :exports both
+  print "{} GBP per 500 kcal".format((109 + 7.91) / 42)
+#+END_SRC
+
+#+RESULTS:
+: 2.78357142857 GBP per 500 kcal
+*** Comparison with real fast food cost
+**** [[http://leonrestaurants.co.uk/menu/all-day/menu-item/chicken-chorizo-club-2][Leon Chicken and Chorizo club hot box]] (5.20 GBP per 500 kcal)
+667 Calories
+6.95 GBP
+#+BEGIN_SRC python :results output :exports both
+  (500 / 667) * 6.95
+  print "{} GBP per 500 kcal".format((500.0 / 667) * 6.95)
+#+END_SRC
+
+#+RESULTS:
+: 5.20989505247 GBP per 500 kcal
+**** Microwave ready Tesco Chicken tikka masala & rice 450 G (1.46 GBP per 500 kcal)
+In my local tesco near my house.
+Price: 2GBP if you buy two items at once.
+684 kcal.
+#+BEGIN_SRC python :results output :exports both
+  print "{} GBP per 500 kcal".format((500.0 / 684) * 2)
+#+END_SRC
+
+#+RESULTS:
+: 1.46198830409 GBP per 500 kcal
+**** TODO Subway
+** Lose weight
+*** TODO Easier to count calories
+*** TODO Make your brain not recognise food as available source of pleasure
+** TODO Potentially more nutritious than alternative fast foods
+* Possible problems
+** TODO Will I get bored by the same taste?
+*** TODO Further reading
+[[https://www.reddit.com/r/soylent/comments/3e6xz3/huel_vs_soylent_taste/][Huel vs Soylent taste]]
+** Is it really nutritionally complete?
+*** TODO Macro nutrients
+*** TODO Micro nutrients and absorbability
+Folk knowledge says that vitamins from raw fruits and vegetables are better absorbable than vitamin blends.
+After some reading[1], it seems to depend on vitamin type. Chelates would be as absorbable as the real thing, but are expensive. 
+I need to read more about vitamin types or find someone knowledgeable to be able to judge vitamin blends used by meal replacement products.
+
+In case of long term usage, it's a good idea to familiarise yourself with vitamin deficiency symptoms[10].
+** TODO Can it satiate hunger (i.e. "fill you up")?
+** Are there any chemical components that can be dangerous in the long term?
+Those products mostly consists of natural ingredients. They even don't contain preservatives.
+The biggest suspicion is various types of sweeteners. You can always drink it without sweetener, but good luck.
+The sweeteners used in Huel that I looked at, Aspartame[2] and Sucralose[7], appear to be safe and well researched.
+** Unknown long term effects of eating "not real food"
+Long term effects of Soylent and therefore Huel have not been studied yet[1].
+Medical meal replacements have been around for a while.
+*** Microbial health
+I found a study being performed[8] on UC Berkeley, but it's not ready yet.
+*** Other factors
+Reports of long term users have been generally positive in different areas[9].
+* Review of individual products
+|-------------+--------------------+---------+------------+--------+-------------+----------------------------+------------------|
+|             | Price per 500 kcal | % Carbs | % Proteins | % Fats | [[https://en.wikipedia.org/wiki/Glycemic_index][GI]]          | Primary carb               | Primary protein  |
+|             | (London delivery)  |         |            |        |             | source                     | source           |
+|-------------+--------------------+---------+------------+--------+-------------+----------------------------+------------------|
+| Soylent 1.5 | 2.78 GBP           |      57 |         20 |     23 | 65[11]      | Maltodextrin (high GI)[13] | Rice[13]         |
+| Joylent     | 1.17 GBP           |      50 |         25 |     25 | Unknown[15] | Maltodextrin/Oats[15]      | ? Whey/soy[12]   |
+| Huel        | 1.33 GBP           |      40 |         30 |     30 | Unknown[14] | Oats (low GI)[13]          | Pea and rice[13] |
+| Ambronite   | 6.68 GBP           |      44 |         24 |     32 |             |                            |                  |
+|-------------+--------------------+---------+------------+--------+-------------+----------------------------+------------------|
+** Huel
++ Low GI
++ High in protein
+** Soylent
+- Hard to get in UK. Third party re-sellers with price premium and no Soylent 2.0.
+** Ambronite
+- Expensive
+** Joylent
++ 5 tastes to choose from
+- High GI carb source (Maltodextrin)
+** TODO Products I not order yet
+[[https://www.reddit.com/r/soylent/comments/3tov83/so_what_is_your_favourite_powdered_food_in_the_eu/][So, what is your favourite powdered food in the EU?]]
+|-----------+-------------------------------|
+| Product   | Comment threads mentioning it |
+|-----------+-------------------------------|
+| Joylent   |                            16 |
+| Queal     |                             9 |
+| Jake      |                             7 |
+| Mana      |                             6 |
+| Ambronite |                             4 |
+| Nano      |                             2 |
+| Purelent  |                             1 |
+| Veetal    |                             1 |
+|-----------+-------------------------------|
+** Other reviews
+[[https://www.reddit.com/r/soylent/comments/3x750h/my_test_between_veetal_joylent_huel_and_mana/][Veetal/Joylent/Huel/Mana]]
+* Conclusion
+- Only replace meals I would be eating alone
+- Take a blood test after a few months
+* Further reading
+** [[https://www.reddit.com/r/soylent/][Soylent subreddit]]
+** [[https://www.blendrunner.com/?carbs-from=0&carbs-to=335&proteins-from=0&proteins-to=208&fats-from=0&fats-to=168&energy-from=0&energy-to=3000&fibre-from=0&fibre-to=81&shipping%255B0%255D=eu&sort-by=lowest-price][Blend runner list of nutritionally complete powders shipping to UK]]
+** TODO [[https://www.reddit.com/r/soylent/comments/4aizpg/one_month_trials_of_two_subjects_living_entirely/][One Month Trials of two subjects living entirely off Huel]]
+** TODO Huel FAQ https://huel.com/pages/faq  
+** [[http://lesswrong.com/lw/kxu/is_it_a_good_idea_to_use_soylent_oncetwice_a_day/][Less wrong post]]
+* Footnotes
+[1] http://biology.stackexchange.com/questions/20995/why-do-we-absorb-vitamins-better-from-whole-foods-than-from-pills/21103#21103
+ "Keep in mind the long-term effects of sticking to such a diet are more or less unknown, but it's as close as we can likely get to an "all-in-one" meal."
+[2] [[http://archinte.jamanetwork.com/article.aspx?articleid=612364][Safety of long term doses of Aspartane, Leon et al]]
+[3] http://ambronite.com/
+[4] https://huel.com/products/huel
+[5] https://www.amazon.co.uk/soylent-meals-actibest-version-vegetarian-y/dp/B0177XACQE/ref=sr_1_5_a_it?ie=UTF8&qid=1464559859&sr=8-5&keywords=soylent
+[6] https://www.joylent.eu/
+[7] http://www.nhs.uk/Livewell/Goodfood/Pages/the-truth-about-sucralose.aspx
+[8] https://experiment.com/projects/impact-of-soylent-consumption-on-human-microbiome-composition
+[9] https://www.reddit.com/r/soylent/wiki/faq#wiki_how_will_it_affect_x.3F
+[10] [[https://www.reddit.com/r/soylent/comments/1alybz/vitamins_and_minerals_deficiency_symptoms/][Vitamin deficiency symptoms]]
+[11] https://en.wikipedia.org/wiki/Soylent_(drink)
+[12] https://www.reddit.com/r/soylent/comments/3aib82/huel_the_uks_first_nutritionally_complete/csd5yrn
+[13] https://huel.com/pages/comparison-to-soylent
+[14] https://discuss.huel.com/t/glycemic-index-of-huel/89/20
+[15] http://joylent-blog.tumblr.com/post/112037722680/carbohydrates-whats-the-deal
+

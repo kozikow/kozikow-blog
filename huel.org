@@ -106,6 +106,7 @@ It has 792 calories[17].
 : 3.15656565657 GBP per 500 kcal
 
 ** Lose weight
+It's worth noting that [[*Can it satiate hunger (i.e. "fill you up")?][worse satiation]] can lead to increased weight, if you are not paying attention to calories.
 *** Easier to count calories
 Window between starving and not losing weight is quite easy to miss without counting calories.
 Writing down how many carrots you just ate and looking up their calories is very tedious task.
@@ -115,8 +116,8 @@ If you don't enjoy your food as much and it's just an efficient calories deliver
 you're less likely to experience your brain saying: "come on, order this Lamb Biryani from online takeway".
 ** Potentially more nutritious than alternative fast foods
 Powdered meals are still a new area and are not fully developed yet.
-They are probably worse than the cooked meal with vegetables and lean meat.
-However, considering the fast food alternatives they are a good option.
+They are probably worse than the cooked meal with steamed vegetables and lean meat.
+However, considering the fast food alternatives they are a very attractive option.
 * Possible problems
 ** Can it satiate hunger (i.e. "fill you up")?
 I find that eating same amount of calories of "real" food makes me less hungry than Huel and similar products.
@@ -164,14 +165,14 @@ Reports of long term users have been generally positive in different areas[9].
 | Huel        | 1.33 GBP             |      40 |         30 |     30 | Unknown, probably low[14]      | Oats (low GI)[13]    | Pea and rice[13]     |
 | Ambronite   | 6.68 GBP             |      44 |         24 |     32 | Unknown, probably low          | ? Oats[18]           | ? Rice[18]           |
 |-------------+----------------------+---------+------------+--------+--------------------------------+----------------------+----------------------|
-** Huel
+** TODO Huel
 + Low GI
 + High in protein
-** Soylent
+** TODO Soylent
 - Hard to get in UK. Third party re-sellers with price premium and no Soylent 2.0.
-** Ambronite
+** TODO Ambronite
 - Expensive
-** Joylent
+** TODO Joylent
 + 5 tastes to choose from
 - High GI carb source (Maltodextrin)
 ** TODO Products I did not order yet

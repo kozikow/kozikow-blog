@@ -85,7 +85,7 @@ The best I found sells 42 meals for 109 GBP + 7.91 GBP delivery[5].
 #+RESULTS:
 : 5.20989505247 GBP per 500 kcal
 **** Microwave ready Tesco Chicken Tikka Masala & rice 450 G (1.46 GBP per 500 kcal)
-In my local tesco near my house.
+Probably very unhealthy. I checked the price at my local Tesco near St. James Park in London.
 Price: 2GBP if you buy two items at once.
 684 kcal.
 #+BEGIN_SRC python :results output :exports both

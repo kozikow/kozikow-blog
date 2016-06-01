@@ -295,15 +295,15 @@ Create kernel with:
 #+END_SRC
 
 
-Connect with (somehow pass this to ipython):
-#+BEGIN_SRC bash
-  ipython console --existing kernel-509.json
-#+END_SRC
+# Connect with (somehow pass this to ipython):
+# #+BEGIN_SRC bash
+#   ipython console --existing kernel-509.json
+# #+END_SRC
 
-Get json from previous command.
-#+BEGIN_SRC ipython :existing kernel-12673 :results output
-  print "Hello"
-#+END_SRC
+# Get json from previous command.
+# #+BEGIN_SRC ipython :existing kernel-12673 :results output
+#   print "Hello"
+# #+END_SRC
 
 #+RESULTS:
 

@@ -110,10 +110,12 @@ It's worth noting that [[*Can it satiate hunger (i.e. "fill you up")?][worse sat
 *** Easier to count calories
 Window between starving and not losing weight is quite easy to miss without counting calories.
 Writing down how many carrots you just ate and looking up their calories is very tedious task.
-It's much easier with product like Huel.
+It's much easier with nutritionally complete powdered food.
 *** Make your brain not recognise food as a available source of pleasure
+Yes, I like food. And that's the problem.
 If you don't enjoy your food as much and it's just an efficient calories delivery method,
-you're less likely to experience your brain saying: "come on, order this Lamb Biryani from online takeway".
+you're less likely to experience your brain saying: "come on, order this Lamb Biryani from online takeaway".
+If you only accept such shake as the only accessible evening snack, you're less likely to have the evening snack.
 ** Potentially more nutritious than alternative fast foods
 Powdered meals are still a new area and are not fully developed yet.
 They are probably worse than the cooked meal with steamed vegetables and lean meat.
@@ -121,14 +123,22 @@ However, considering the fast food alternatives they are a very attractive optio
 * Possible problems
 ** Can it satiate hunger (i.e. "fill you up")?
 I find that eating same amount of calories of "real" food makes me less hungry than Huel and similar products.
-Part of not being hungry is just a feeling of your belly being full.
-Even if Huel have low IG and high protein ratio, I am more hungry than after meal with equivalent calories.
+Part of not being hungry is just a feeling of full stomach.
+I am more hungry than after real meal with equivalent calories.
+It's slightly better with Huel than other drinks, due to low GI carbs and high protein ratio.
 
-In my opinion, it's caused by Huel shake not being "solid" enough.
-I think that adding a single banana to 500 kcal Huel shake could be a good solution - it's just 100 kcal[16].
-Banana will increase the solidness and improve the taste,
-while Huel will add remaining nutrients and provide the lasting feeling of
-fullness driven by low GI carbs, fats and proteins.
+Even if I start to feel that my stomach is empty I don't experience other effects of hunger like
+brain fog or worse focus as quickly. Maybe your body needs time to adjust hunger indicators?
+
+In my opinion, one of primary causes of worse satiation is caused by such shake not being "solid" enough.
+Making a denser shake improves situation a bit.
+Also, adding a banana also works well for me.
+Banana is just 100 kcal[16].
+It will increase the solidness, kill the immediate hunger and improve the taste,
+while shake will provide remaining nutrients and the lasting feeling of
+fullness driven by fats, proteins and low GI carbs.
+
+If you are worried by GI of banana, it won't simply "get averaged" with GI of huel[15].
 ** Will I get bored by the same taste?
 Huel offers product without added taste and you can add your own taste afterwards.
 There are multiple alternative products, e.g. Joylent offer 8 different tastes.
@@ -219,6 +229,7 @@ Reports of long term users have been generally positive in different areas[9].
 [13] https://huel.com/pages/comparison-to-soylent
 [14] https://discuss.huel.com/t/glycemic-index-of-huel/89/20
 [15] http://joylent-blog.tumblr.com/post/112037722680/carbohydrates-whats-the-deal
+This post is informative even for other products or how GI works in general.
 [16] http://www.livestrong.com/article/298339-calories-in-1-large-banana/
 [17] http://subway.co.uk/menu/subs/classic/italian-b-m-t-.aspx
 [18] http://ambronite.com/pages/ingredients

@@ -383,3 +383,5 @@ http://emacs.stackexchange.com/questions/3143/can-i-use-org-mode-to-structure-my
 # todo.png http://kozikow.files.wordpress.com/2016/05/todo.png
 # ob-ipython.png http://kozikow.files.wordpress.com/2016/05/ob-ipython.png
 # plot.png http://kozikow.files.wordpress.com/2016/05/plot.png
+
+# /home/rkoziko/github/kozikow-blog/ob_ipython/plot.png http://kozikow.files.wordpress.com/2016/06/plot.png

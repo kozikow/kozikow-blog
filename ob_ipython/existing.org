@@ -1,0 +1,10 @@
+* Kernel driver
+Launched with argsr
+#+BEGIN_SRC python
+  ['/home/kozikow/.emacs.d/elpa/ob-ipython-20160424.1305/driver.py', '--conn-file', 'kernel-9626.json']
+#+END_SRC
+* Client driver
+#+BEGIN_SRC python
+  ['/home/kozikow/.emacs.d/elpa/ob-ipython-20160424.1305/driver.py', '--port', '9988']
+#+END_SRC
+

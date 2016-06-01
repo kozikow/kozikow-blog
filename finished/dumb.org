@@ -24,6 +24,8 @@ I use ag anyway, since it's the best "grep" alternative and it can always fall-b
 Dumb jump lets me reuse my configuration.
 ** Don't have to rebuild ctags
 I don't have to think about rebuilding ctags.
+It's especially relevant when I want to jump to code I just written.
+I don't have to re-generate ctags after every function I just wrote.
 ** Easier to debug and tweak, since it uses familiar tools
 Since dump-jump is built on two things I know well - elisp and regular expressions.
 It is much easier to navigate elisp, since I know debugger and language well. Debugging ctags/ggtags required me to learn tools I didn't use in years

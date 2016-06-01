@@ -294,14 +294,18 @@ Create kernel with:
   app.start()
 #+END_SRC
 
-#+RESULTS:
-
-Get json from previous command.
 
 Connect with (somehow pass this to ipython):
 #+BEGIN_SRC bash
   ipython console --existing kernel-509.json
 #+END_SRC
+
+Get json from previous command.
+#+BEGIN_SRC ipython :existing kernel-12673 :results output
+  print "Hello"
+#+END_SRC
+
+#+RESULTS:
 
 ** TODO Shared code
 http://emacs.stackexchange.com/questions/2951/can-i-include-a-common-code-block-in-two-different-code-blocks-in-org-mode

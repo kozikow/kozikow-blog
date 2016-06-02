@@ -130,7 +130,7 @@ It's slightly better with Huel than other drinks, due to low GI carbs and high p
 Even if I start to feel that my stomach is empty I don't experience other effects of hunger like
 brain fog or worse focus. Maybe your body needs time to adjust the hunger indicators?
 
-*** Satiation hack: mix with a fruit
+*** Satiation hack: Mix with a fruit
 In my opinion, one of primary causes of worse satiation is caused by shake not being "solid" enough.
 Blending a 450 kcal shake with a banana works well for me. Single banana is just 100 kcal[16].
 
@@ -140,7 +140,7 @@ The shake misses the solidness, while banana misses proteins and fats.
 
 If you are worried about the GI of banana, adding it won't simply average the GI of a shake with a GI of banana.
 GI of mix will likely be better than the weighted average of GI of individual components[15].
-*** Satiation hack: make it warm
+*** Satiation hack: Make it warm
 It may be psychological conditioning, but I found out that the warm shake make me
 feel more full. I simply add warm water to my shake. It also reduces lumps and make the powder easier to dissolve.
 *** Satiation hack: Make it denser

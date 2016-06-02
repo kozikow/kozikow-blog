@@ -301,9 +301,12 @@ Create kernel with:
 # #+END_SRC
 
 Get json from previous command.
-#+BEGIN_SRC ipython :session :existing kernel-9626.json :results output
-  print "Hello"
+#+BEGIN_SRC ipython :session :existing kernel-17575.json :results output
+  print print_me
 #+END_SRC
+
+#+RESULTS:
+: Hello
 
 
 ** TODO Shared code

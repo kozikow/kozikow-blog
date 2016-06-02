@@ -124,21 +124,30 @@ However, considering the fast food alternatives they are a very attractive optio
 ** Can it satiate hunger (i.e. "fill you up")?
 I find that eating same amount of calories of "real" food makes me less hungry than Huel and similar products.
 Part of not being hungry is just a feeling of full stomach.
-I am more hungry than after real meal with equivalent calories.
+I am more hungry than after a real meal with equivalent calories.
 It's slightly better with Huel than other drinks, due to low GI carbs and high protein ratio.
 
 Even if I start to feel that my stomach is empty I don't experience other effects of hunger like
-brain fog or worse focus as quickly. Maybe your body needs time to adjust hunger indicators?
+brain fog or worse focus. Maybe your body needs time to adjust the hunger indicators?
 
-In my opinion, one of primary causes of worse satiation is caused by such shake not being "solid" enough.
-Making a denser shake improves situation a bit.
-Also, adding a banana also works well for me.
-Banana is just 100 kcal[16].
-It will increase the solidness, kill the immediate hunger and improve the taste,
-while shake will provide remaining nutrients and the lasting feeling of
-fullness driven by fats, proteins and low GI carbs.
+*** Satiation hack: mix with a fruit
+In my opinion, one of primary causes of worse satiation is caused by shake not being "solid" enough.
+Blending a 450 kcal shake with a banana works well for me. Single banana is just 100 kcal[16].
 
-If you are worried by GI of banana, it won't simply "get averaged" with GI of huel[15].
+I only have my subjective opinion behind this, but I think that shake and banana work together in a "synergy".
+I.e. satiation of those two things together is higher than just a sum of satiation of banana and satiation of a shake.
+The shake misses the solidness, while banana misses proteins and fats. 
+
+If you are worried about the GI of banana, adding it won't simply average the GI of a shake with a GI of banana.
+GI of mix will likely be better than the weighted average of GI of individual components[15].
+*** Satiation hack: make it warm
+It may be psychological conditioning, but I found out that the warm shake make me
+feel more full. I simply add warm water to my shake. It also reduces lumps and make the powder easier to dissolve.
+*** Satiation hack: Make it denser
+IMO the denser the shake the more satiating it feels.
+Sadly, increase density also increase amount of lumps (not dissolved pieces of powder).
+Good blender reduces the lumpiness. 
+I recommend not going for the official water:powder ratio, but going for the smallest water amount that avoids lumps.
 ** Will I get bored by the same taste?
 Huel offers product without added taste and you can add your own taste afterwards.
 There are multiple alternative products, e.g. Joylent offer 8 different tastes.

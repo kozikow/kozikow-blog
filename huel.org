@@ -24,7 +24,7 @@ I will be analysing the powdered food products in general, and looking [[*Review
 You can also read this post in the [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/huel.org][org mode format.]] This post is also just my personal notes about the subject, so I intend to keep updating this post after publishing.
 * Possible benefits
 ** Save time
-This advantage is pretty obvious.
+This advantage is pretty obvious and the main selling point.
 Buying ingredients and preparing a healthy meal takes enormous amount of time.
 Even buying prepared food sometimes takes time, as you need to decide where to go, or leave a flat and break your coding flow.
 ** Save money
@@ -114,8 +114,8 @@ It's much easier with nutritionally complete powdered food.
 *** Make your brain not recognise food as a available source of pleasure
 Yes, I like food. And that's the problem.
 If you don't enjoy your food as much and it's just an efficient calories delivery method,
-you're less likely to experience your brain saying: "come on, order this Lamb Biryani from online takeaway".
-If you only accept Huel et al. shake as the only accessible evening snack, you're less likely to have the evening snack.
+you're less likely to experience your brain saying: "come on, order this Lamb Biryani from online takeaway just today".
+If you only accept Huel et al. shake as the only acceptable evening snack, you're less likely to have the evening snack at all.
 ** Potentially more nutritious than alternative fast foods
 Powdered meals are still a new area and are not fully developed yet.
 Even if they are mostly natural and promise to cover all of the nutrients, they are 
@@ -133,6 +133,7 @@ It's slightly better with Huel than other drinks, due to low GI carbs and high p
 Even if I start to feel that my stomach is empty I don't experience other effects of hunger like
 brain fog or worse focus. Maybe your body needs time to adjust the hunger indicators?
 
+I found a few hacks that make such shakes more satiating for me.
 *** Satiation hack: Mix it with a fruit
 In my opinion, one of primary causes of worse satiation is the shake not being "solid" enough.
 Blending a 450 kcal shake with a banana works well for me. Single banana is just 100 kcal[16].
@@ -177,6 +178,7 @@ No variety in various factors like fiber can negatively impact your gut microbia
 I found a study being performed[8] on UC Berkeley, but it's not ready yet.
 *** Other factors
 Reports of long term users have been generally positive in different areas[9].
+There may be some more factors that only appear after many months of usage and have not been reported yet.
 * Review of individual products
 #+ATTR_HTML: :border 2 :rules groups
 |-------------+----------------------+---------+------------+--------+--------------------------------+----------------------+----------------------|

@@ -130,24 +130,25 @@ It's slightly better with Huel than other drinks, due to low GI carbs and high p
 Even if I start to feel that my stomach is empty I don't experience other effects of hunger like
 brain fog or worse focus. Maybe your body needs time to adjust the hunger indicators?
 
-*** Satiation hack: Mix with a fruit
-In my opinion, one of primary causes of worse satiation is caused by shake not being "solid" enough.
+*** Satiation hack: Mix it with a fruit
+In my opinion, one of primary causes of worse satiation is the shake not being "solid" enough.
 Blending a 450 kcal shake with a banana works well for me. Single banana is just 100 kcal[16].
 
 I only have my subjective opinion behind this, but I think that shake and banana work together in a "synergy".
 I.e. satiation of those two things together is higher than just a sum of satiation of banana and satiation of a shake.
-The shake misses the solidness, while banana misses proteins and fats. 
+The shake misses the solidness, while banana misses proteins and fats. Banana gives initial sugars and something solid
+to process, while proteins and fats increase the processing time.
 
 If you are worried about the GI of banana, adding it won't simply average the GI of a shake with a GI of banana.
-GI of mix will likely be better than the weighted average of GI of individual components[15].
+GI of the mix will likely be better than the weighted average of GI of individual components[15].
 *** Satiation hack: Make it warm
-It may be psychological conditioning, but I found out that the warm shake make me
-feel more full. I simply add warm water to my shake. It also reduces lumps and make the powder easier to dissolve.
+It may be psychological conditioning, but I found out that the warm shake makes me
+feel more full. I simply add warm water to my shake. It also reduces lumps and makes the powder easier to dissolve.
 *** Satiation hack: Make it denser
 IMO the denser the shake the more satiating it feels.
-Sadly, increase density also increase amount of lumps (not dissolved pieces of powder).
+Sadly, increased density leads to increased amount of lumps (not dissolved pieces of powder).
 Good blender reduces the lumpiness. 
-I recommend not going for the official water:powder ratio, but going for the smallest water amount that avoids lumps.
+I recommend not going for the official water:powder ratio, but using blender and going for the smallest water amount that avoids lumps.
 ** Will I get bored by the same taste?
 Huel offers product without added taste and you can add your own taste afterwards.
 There are multiple alternative products, e.g. Joylent offer 8 different tastes.

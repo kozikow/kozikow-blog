@@ -4,3 +4,8 @@
 * Smart sort ctags/grep results
 * Preserve cursor position when results change position
 * If more secondary than primary results, put a separator between them
+* Code completion
+There are two competing code completion frameworks for Emacs - [[https://github.com/auto-complete/auto-complete][auto-complete]] and [[https://github.com/company-mode/company-mode][company-mode]].
+* Some links
+http://stackoverflow.com/questions/4704748/emacs-completion-autocomplete-or-company
+https://www.emacswiki.org/emacs/CompanyMode

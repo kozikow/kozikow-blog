@@ -1,0 +1,67 @@
+#+TITLE: Installing and configuring Arch Linux on Thinkpad X1 Carbon (4th generation)
+#+DATE: <2016-06-04 Sat>
+#+AUTHOR: Robert Kozikowski
+#+EMAIL: r.kozikowski@gmail.com
+* Prepare USB stick (on other computer with Ubuntu Linux 14.04)
+** Download
+Downloaded the =2016.06.01= image via torrent from https://www.archlinux.org/download/.
+** Upload it to the usb stick
+Article: https://wiki.archlinux.org/index.php/USB_flash_installation_media
+*** Find out the name of your USB drive with lsblk
+#+BEGIN_SRC bash :results output :exports both
+  lsblk | grep media
+#+END_SRC
+
+#+RESULTS:
+: └─sdb1   8:17   1  14.6G  0 part /media/kozikow/1567-24FC
+*** Make sure that it is not mounted.
+#+BEGIN_SRC bash :results output
+  umount /dev/sdb1
+#+END_SRC
+*** Burn the image with dd
+#+BEGIN_SRC bash :results output
+  cd ~/Downloads
+  sudo dd bs=4M if=archlinux-2016.06.01-dual.iso of=/dev/sdb && sync
+#+END_SRC
+*** Verify
+Re-plug the usb and:
+#+BEGIN_SRC bash :results output
+  ls /media/kozikow/ARCH*
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+ arch EFI isolinux loader
+#+END_EXAMPLE
+* Boot
+** Disable secure boot
+It prevents Arch from booting.
+1. Restart computer
+2. Enter->F1->Security->Secure Boot
+3. Change to disabled
+4. Save and restart
+** Boot
+1. Press Enter
+2. F12
+3. Choose usb stick
+4. Arch
+* Prepare partitions for dual booting with Windows (for gaming)
+Dual boot with Windows wiki link: https://wiki.archlinux.org/index.php/Dual_boot_with_Windows
+** Windows boots into the UEFI/GPT mode
+You can check it on Windows in System Information->System information->BIOS mode
+** Resize Windows partition from Windows
+Even if partition resizing is also supported from Linux, I feel like it's safer to do it from Windows.
+1. Start
+2. Create and format hard disk partitions
+3. Right click C:/ and "Shrink Volume"
+*** Recovery partition is only 1gb
+Even if older Thinkpad x1 carbon shipped huge partition, in gen 4 it only takes 1gb, so I feel fine with leaving it
+*** Shrinking limitations
+Windows only let me to reclaim 233 gb out of 474 gb.
+I think it's not that bad, since I can mount this ntfs partition from arch.
+Therefore, I can keep the most space hungry files like movies on this partition.
+* Extra links
+** Thinkpad Carbon arch wiki entries
+https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon
+https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_2)
+https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_3)
+

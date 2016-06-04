@@ -3,7 +3,7 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
-I recently configured Arch Linux on the new Thinkpad X1 Carbon (4th generation), dual booting with pre-installed Windows 10.
+I recently configured Arch Linux on the new Thinkpad X1 Carbon (4th generation) with dual booting to the pre-installed Windows 10 (for games I occasionally play).
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
 * Prepare USB stick (on other computer with Ubuntu Linux 14.04)
 ** Download
@@ -32,19 +32,7 @@ Re-plug the usb and:
 #+BEGIN_EXAMPLE
  arch EFI isolinux loader
 #+END_EXAMPLE
-* Boot
-** Disable secure boot
-It prevents Arch from booting.
-1. Restart computer
-2. Enter->F1->Security->Secure Boot
-3. Change to disabled
-4. Save and restart
-** Boot
-1. Press Enter
-2. F12
-3. Choose usb stick
-4. Arch
-* Prepare partitions for dual booting with Windows (for gaming)
+* Prepare Windows 10 for dual booting
 Dual boot with Windows wiki link: https://wiki.archlinux.org/index.php/Dual_boot_with_Windows
 ** Shrink the Windows partition from Windows
 Even if partition resizing is also supported from Linux, I feel like it's safer to do it from Windows.
@@ -56,11 +44,31 @@ Windows only lets me to reclaim 233 gb out of 474 gb.
 I tried defragmentation or cleaning up some unnecessary files with no luck.
 I think it's not that bad, since I can mount the NTFS partition from arch.
 Therefore, I can keep the most space hungry files like movies on this partition.
-** Windows boots into the UEFI/GPT mode
+** Check that Windows boots into the UEFI/GPT mode
 You can check it on Windows in System Information->BIOS mode
 You may consider reading about [[https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface][UEFI]] and [[https://wiki.archlinux.org/index.php/GUID_Partition_Table][GPT]].
 If we want to dual boot with the existing Windows we need to use UEFI for Arch as well.
-** Create partition for arch with [[https://wiki.archlinux.org/index.php/Fdisk#GPT_.28gdisk.29][gdisk]]
+** [[https://wiki.archlinux.org/index.php/Dual_boot_with_Windows#Fast_Start-Up][Disable Fast Startup]]
+If you don't, Linux NTFS driver may damage the NTFS disk.
+[[http://www.tenforums.com/tutorials/4189-fast-startup-turn-off-windows-10-a.html][Windows 10 instructions.]]
+* Boot Arch Linux
+** Disable secure boot
+It prevents Arch from booting.
+1. Restart computer
+2. Press Enter
+3. F1->Security->Secure Boot
+4. Change to disabled
+5. Save and restart
+** Boot
+1. Press Enter
+2. F12
+3. Choose usb stick
+4. Arch
+* Create the partition
+** [[*Shrink the Windows partition from Windows][Shrink the Windows partition from Windows]]
+** No swap
+Since the laptop have 8 GB of RAM it's not necessary, and if I decide I need it I can always use a [[https://wiki.archlinux.org/index.php/swap#Swap_file][swap file]].
+** Create partition for Arch with [[https://wiki.archlinux.org/index.php/Fdisk#GPT_.28gdisk.29][gdisk]]
 I decided I'll go with a single Linux partition, since my movies and music will be stored on the Windows partition.
 I used gdisk to create a new partition. gdisk is installed by default on the usb stick.
 #+BEGIN_SRC bash 
@@ -69,11 +77,39 @@ I used gdisk to create a new partition. gdisk is installed by default on the usb
 *p* to list all partition tables. Based on this I found that my new partition should be placed between sectors 507793408 and 998166527.
 *n* to create a new partition. All default options were reasonable.
 *w* to save
-Verify you partition is there:
+*** Verify that the new partition is there
 #+BEGIN_SRC bash :results output
   lsblk
 #+END_SRC
-* Configure Boot manager (x86_64 [[https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface][UEFI]])
+* Format the partition with ext4
+[[https://wiki.archlinux.org/index.php/Solid_State_Drives][You may want to read an arch wiki about SSDs.]]
+
+I was contemplating trying out the [[https://wiki.archlinux.org/index.php/F2FS][F2FS]], but it's only [[https://www.phoronix.com/scan.php?page=news_item&px=Linux-4.4-FS-4-Way][slightly faster according to some benchmarks]], so I decided to go with the ext4.
+** Install ext4
+#+BEGIN_SRC bash :results output
+  lsblk /dev/sda
+  mkfs.ext4 /dev/sda5
+  mount /dev/sda5 /mnt
+#+END_SRC
+** TODO /boot partition
+From [[https://wiki.archlinux.org/index.php/beginners'_guide#Format_the_file_systems_and_enable_swap][wiki]]:
+If a new UEFI system partition has been created on a UEFI/GPT system, it must be formatted with a fat32 file system:
+# mkfs.fat -F32 /dev/sdxY
+/mnt/boot is also recommended for mounting the (formatted or already existing) EFI System Partition on a UEFI/GPT system. See EFISTUB and related articles for alternatives.
+** TODO [[https://www.archlinux.org/packages/extra/x86_64/ntfs-3g/][ntfs-3g]]
+Alternative to kernel ntfs implementation. Better supports SSDs.
+** TODO [[https://wiki.archlinux.org/index.php/Solid_State_Drives#Apply_periodic_TRIM_via_fstrim][Apply trim]]
+* Connect to internet
+#+BEGIN_SRC bash
+  iw dev
+  wifi-menu -o wlp4s0
+#+END_SRC
+* Install
+#+BEGIN_SRC bash :results output
+  pacstrap -i /mnt base base-devel
+#+END_SRC
+* Boot Loader
+After brief investigation, I decided that I prefer the [[https://wiki.archlinux.org/index.php/Systemd-boot][systemd-boot]] as an x86_64 [[https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface][UEFI]] bootloader.
 * Additional links
 ** Thinkpad Carbon arch wiki entries
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon

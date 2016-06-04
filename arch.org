@@ -82,9 +82,9 @@ I used gdisk to create a new partition. gdisk is installed by default on the usb
   lsblk
 #+END_SRC
 * Format the partition with ext4
-[[https://wiki.archlinux.org/index.php/Solid_State_Drives][You may want to read an arch wiki about SSDs.]]
-
-I was contemplating trying out the [[https://wiki.archlinux.org/index.php/F2FS][F2FS]], but it's only [[https://www.phoronix.com/scan.php?page=news_item&px=Linux-4.4-FS-4-Way][slightly faster according to some benchmarks]], so I decided to go with the ext4.
+Since the laptop have the SSD, I was contemplating trying out the [[https://wiki.archlinux.org/index.php/F2FS][F2FS]].
+It's only [[https://www.phoronix.com/scan.php?page=news_item&px=Linux-4.4-FS-4-Way][slightly faster according to some benchmarks]], so I decided to go with the ext4, since it's more mature.
+[[https://wiki.archlinux.org/index.php/Solid_State_Drives][You may also want to read an arch wiki about SSDs.]]
 ** Install ext4
 #+BEGIN_SRC bash :results output
   lsblk /dev/sda

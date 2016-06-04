@@ -1,7 +1,10 @@
-#+TITLE: Installing and configuring Arch Linux on Thinkpad X1 Carbon (4th generation)
+#+TITLE: Installing and configuring Arch Linux on Thinkpad X1 Carbon
 #+DATE: <2016-06-04 Sat>
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
+* Introduction
+I recently configured Arch Linux on the new Thinkpad X1 Carbon (4th generation), dual booting with pre-installed Windows 10.
+[[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
 * Prepare USB stick (on other computer with Ubuntu Linux 14.04)
 ** Download
 Downloaded the =2016.06.01= image via torrent from https://www.archlinux.org/download/.
@@ -58,13 +61,18 @@ You can check it on Windows in System Information->BIOS mode
 You may consider reading about [[https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface][UEFI]] and [[https://wiki.archlinux.org/index.php/GUID_Partition_Table][GPT]].
 If we want to dual boot with the existing Windows we need to use UEFI for Arch as well.
 ** Create partition for arch with [[https://wiki.archlinux.org/index.php/Fdisk#GPT_.28gdisk.29][gdisk]]
-I decided I'll go with a single Linux partition, since my movies and music will be preserved on Windows partition.
+I decided I'll go with a single Linux partition, since my movies and music will be stored on the Windows partition.
 I used gdisk to create a new partition. gdisk is installed by default on the usb stick.
 #+BEGIN_SRC bash 
   gdisk /dev/sda
 #+END_SRC
 *p* to list all partition tables. Based on this I found that my new partition should be placed between sectors 507793408 and 998166527.
 *n* to create a new partition. All default options were reasonable.
+*w* to save
+Verify you partition is there:
+#+BEGIN_SRC bash :results output
+  lsblk
+#+END_SRC
 * Configure Boot manager (x86_64 [[https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface][UEFI]])
 * Additional links
 ** Thinkpad Carbon arch wiki entries

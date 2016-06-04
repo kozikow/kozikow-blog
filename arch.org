@@ -8,12 +8,9 @@ Downloaded the =2016.06.01= image via torrent from https://www.archlinux.org/dow
 ** Upload it to the usb stick
 Article: https://wiki.archlinux.org/index.php/USB_flash_installation_media
 *** Find out the name of your USB drive with lsblk
-#+BEGIN_SRC bash :results output :exports both
+#+BEGIN_SRC bash :results output 
   lsblk | grep media
 #+END_SRC
-
-#+RESULTS:
-: └─sdb1   8:17   1  14.6G  0 part /media/kozikow/1567-24FC
 *** Make sure that it is not mounted.
 #+BEGIN_SRC bash :results output
   umount /dev/sdb1
@@ -46,20 +43,30 @@ It prevents Arch from booting.
 4. Arch
 * Prepare partitions for dual booting with Windows (for gaming)
 Dual boot with Windows wiki link: https://wiki.archlinux.org/index.php/Dual_boot_with_Windows
-** Windows boots into the UEFI/GPT mode
-You can check it on Windows in System Information->System information->BIOS mode
-** Resize Windows partition from Windows
+** Shrink the Windows partition from Windows
 Even if partition resizing is also supported from Linux, I feel like it's safer to do it from Windows.
-1. Start
+1. Press start button
 2. Create and format hard disk partitions
 3. Right click C:/ and "Shrink Volume"
-*** Recovery partition is only 1gb
-Even if older Thinkpad x1 carbon shipped huge partition, in gen 4 it only takes 1gb, so I feel fine with leaving it
 *** Shrinking limitations
-Windows only let me to reclaim 233 gb out of 474 gb.
-I think it's not that bad, since I can mount this ntfs partition from arch.
+Windows only lets me to reclaim 233 gb out of 474 gb.
+I tried defragmentation or cleaning up some unnecessary files with no luck.
+I think it's not that bad, since I can mount the NTFS partition from arch.
 Therefore, I can keep the most space hungry files like movies on this partition.
-* Extra links
+** Windows boots into the UEFI/GPT mode
+You can check it on Windows in System Information->BIOS mode
+You may consider reading about [[https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface][UEFI]] and [[https://wiki.archlinux.org/index.php/GUID_Partition_Table][GPT]].
+If we want to dual boot with the existing Windows we need to use UEFI for Arch as well.
+** Create partition for arch with [[https://wiki.archlinux.org/index.php/Fdisk#GPT_.28gdisk.29][gdisk]]
+I decided I'll go with a single Linux partition, since my movies and music will be preserved on Windows partition.
+I used gdisk to create a new partition. gdisk is installed by default on the usb stick.
+#+BEGIN_SRC bash 
+  gdisk /dev/sda
+#+END_SRC
+*p* to list all partition tables. Based on this I found that my new partition should be placed between sectors 507793408 and 998166527.
+*n* to create a new partition. All default options were reasonable.
+* Configure Boot manager (x86_64 [[https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface][UEFI]])
+* Additional links
 ** Thinkpad Carbon arch wiki entries
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_2)

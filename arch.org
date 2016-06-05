@@ -7,11 +7,11 @@ I recently configured Arch Linux on the new Thinkpad X1 Carbon (4th generation) 
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
 * Prepare USB stick (on other computer with Ubuntu Linux 14.04)
 ** Download
-Downloaded the =2016.06.01= image via torrent from https://www.archlinux.org/download/.
+I downloaded the =2016.06.01= image via torrent from https://www.archlinux.org/download/.
 ** Upload it to the usb stick
 Article: https://wiki.archlinux.org/index.php/USB_flash_installation_media
 *** Find out the name of your USB drive with lsblk
-#+BEGIN_SRC bash :results output 
+#+BEGIN_SRC bash :results output
   lsblk | grep media
 #+END_SRC
 *** Make sure that it is not mounted.
@@ -33,11 +33,11 @@ Re-plug the usb and:
  arch EFI isolinux loader
 #+END_EXAMPLE
 * Prepare Windows 10 for dual booting
-Dual boot with Windows wiki link: https://wiki.archlinux.org/index.php/Dual_boot_with_Windows
+You may want to take a look at [[https://wiki.archlinux.org/index.php/Dual_boot_with_Windows][Dual boot with Windows wiki entry]].
 ** Shrink the Windows partition from Windows
 Even if partition resizing is also supported from Linux, I feel like it's safer to do it from Windows.
 1. Press start button
-2. Create and format hard disk partitions
+2. Search for "Create and format hard disk partitions"
 3. Right click C:/ and "Shrink Volume"
 *** Shrinking limitations
 Windows only lets me to reclaim 233 gb out of 474 gb.
@@ -64,14 +64,22 @@ It prevents Arch from booting.
 2. F12
 3. Choose usb stick
 4. Arch
-* Create the partition
+* Create partitions
 ** [[*Shrink the Windows partition from Windows][Shrink the Windows partition from Windows]]
-** No swap
+** No swap partition
 Since the laptop have 8 GB of RAM it's not necessary, and if I decide I need it I can always use a [[https://wiki.archlinux.org/index.php/swap#Swap_file][swap file]].
+** [[https://wiki.archlinux.org/index.php/EFI_System_Partition][EFI system partition]] already exists
+Since laptop came with the UEFI support, the EFI system partition already exists.
+You can check it by
+#+BEGIN_SRC bash
+  gdisk /dev/sda
+#+END_SRC
+*p* to list partition table.
+See that the first entry (/dev/sda1) is the "EFI system partition"
 ** Create partition for Arch with [[https://wiki.archlinux.org/index.php/Fdisk#GPT_.28gdisk.29][gdisk]]
-I decided I'll go with a single Linux partition, since my movies and music will be stored on the Windows partition.
+I decided I'll go with a single Linux partition, since my movies and music will be stored on the NTFS partition.
 I used gdisk to create a new partition. gdisk is installed by default on the usb stick.
-#+BEGIN_SRC bash 
+#+BEGIN_SRC bash
   gdisk /dev/sda
 #+END_SRC
 *p* to list all partition tables. Based on this I found that my new partition should be placed between sectors 507793408 and 998166527.
@@ -81,21 +89,28 @@ I used gdisk to create a new partition. gdisk is installed by default on the usb
 #+BEGIN_SRC bash :results output
   lsblk
 #+END_SRC
-* Format the partition with ext4
+* Format and mount partitions
 Since the laptop have the SSD, I was contemplating trying out the [[https://wiki.archlinux.org/index.php/F2FS][F2FS]].
-It's only [[https://www.phoronix.com/scan.php?page=news_item&px=Linux-4.4-FS-4-Way][slightly faster according to some benchmarks]], so I decided to go with the ext4, since it's more mature.
+It's only [[https://www.phoronix.com/scan.php?page=news_item&px=Linux-4.4-FS-4-Way][slightly faster according to some benchmarks]], so I decided to go with the ext4, since it's more standard.
 [[https://wiki.archlinux.org/index.php/Solid_State_Drives][You may also want to read an arch wiki about SSDs.]]
-** Install ext4
+** Format and mount the Linux partition
 #+BEGIN_SRC bash :results output
   lsblk /dev/sda
   mkfs.ext4 /dev/sda5
   mount /dev/sda5 /mnt
 #+END_SRC
-** TODO /boot partition
-From [[https://wiki.archlinux.org/index.php/beginners'_guide#Format_the_file_systems_and_enable_swap][wiki]]:
-If a new UEFI system partition has been created on a UEFI/GPT system, it must be formatted with a fat32 file system:
-# mkfs.fat -F32 /dev/sdxY
-/mnt/boot is also recommended for mounting the (formatted or already existing) EFI System Partition on a UEFI/GPT system. See EFISTUB and related articles for alternatives.
+** /boot partition
+Section about EFISTUB may be a bit confusing.
+Note that most EFI boot loaders are EFISTUBs themselves (they both create EFI
+entries). Bootling Linux using the kernel EFISTUB means you just skip the
+bootloader.
+
+Since I don't plan to use EFISTUB as a bootloader and use systemd-boot,
+I just need to mount our EFI system partition at /mnt/boot.
+#+BEGIN_SRC bash :results output
+  mkdir -p /mnt/boot
+  mount /dev/sda1 /mnt/boot
+#+END_SRC
 ** TODO [[https://www.archlinux.org/packages/extra/x86_64/ntfs-3g/][ntfs-3g]]
 Alternative to kernel ntfs implementation. Better supports SSDs.
 ** TODO [[https://wiki.archlinux.org/index.php/Solid_State_Drives#Apply_periodic_TRIM_via_fstrim][Apply trim]]
@@ -104,15 +119,66 @@ Alternative to kernel ntfs implementation. Better supports SSDs.
   iw dev
   wifi-menu -o wlp4s0
 #+END_SRC
-* Install
+* Install and configure still from the USB stick
+Mostly following steps 4 and 5 from [[https://wiki.archlinux.org/index.php/beginners'_guide#Installation][beginners guide]].
+** Base install
 #+BEGIN_SRC bash :results output
   pacstrap -i /mnt base base-devel
 #+END_SRC
-* Boot Loader
-After brief investigation, I decided that I prefer the [[https://wiki.archlinux.org/index.php/Systemd-boot][systemd-boot]] as an x86_64 [[https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface][UEFI]] bootloader.
+** Misc configs
+#+BEGIN_SRC bash :results output
+  genfstab -U /mnt >> /mnt/etc/fstab
+  cp -R /etc/netctl /mnt/etc/netctl
+  arch-chroot /mnt /bin/bash
+  # Uncomment en_GB.UTF-8 UTF-8 in /etc/locale.gen
+  locale-gen
+  echo "LANG=en_GB.UTF-8" > /etc/locale.conf
+  tzselect
+  ln -s /usr/share/zoneinfo/Europe/London /etc/localtime
+  hwclock --systohc --utc
+#+END_SRC
+** [[https://wiki.archlinux.org/index.php/beginners'_guide#Initramfs][initramfs]]
+Run:
+#+BEGIN_SRC bash :results output
+  mkinitcpio -p linux
+#+END_SRC
+
+Initially I have been getting an error:
+#+BEGIN_EXAMPLE
+ERROR: specified kernel image does not exist; /boot/vmlinuz-linux
+#+END_EXAMPLE
+
+The problem was that I mounted the /mnt/boot after running the pacstrap.
+The guide does those steps in the correct order.
+*** TODO Warning: Possibly missing firmware wd719x
+*** TODO Warning: Possibly missing firmware aic94xx
+** Boot Loader
+After brief investigation, I decided that I prefer the [[https://wiki.archlinux.org/index.php/Systemd-boot][systemd-boot]] 
+as an x86_64 [[https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface][UEFI]] bootloader.
+To install it, simply:
+#+BEGIN_SRC bash :results output
+  bootctl install
+#+END_SRC
+** Network
+Configured the network as described in https://wiki.archlinux.org/index.php/beginners'_guide#Configure_the_network
+
+* TODO Window manager
+Try: https://github.com/ch11ng/exwm
+<DrCFrankenstein> does anybody use xmonad?
+<DrCFrankenstein> i guess it needs a lot of config to make it usable
+*** Join: papey (~papey@andarta.libricks.net, papey: papey)
+<tetero> DrCFrankenstein: I've used it briefly. Mostly use other
+    tiling wm's though
+<tetero> DrCFrankenstein: Yeah. If you want a simple tiling wm try out
+    i3
+<pruf> Or bspwm
+<tetero> DrCFrankenstein: xmonad/bspwm etc require a bit more
+    configuration
+<tetero> Aye, bspwm is my goto
+<tetero> DrCFrankenstein: http://sysv.se/ss.png <- that's my bspwm
+    config
 * Additional links
 ** Thinkpad Carbon arch wiki entries
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_2)
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_3)
-

@@ -1,0 +1,36 @@
+#+BLOG: wordpress
+#+POSTID: 520
+#+OPTIONS: toc:3
+#+TITLE: Globally unique internal links exported by org mode
+#+DATE: <2016-06-06 Mon>
+#+AUTHOR: Robert Kozikowski
+#+EMAIL: r.kozikowski@gmail.com
+* Problem
+Org mode when exporting to html auto generates internal links by the sequence number, e.g. =#orgheadline23=.
+It causes a few problems:
+1. If multiple blog posts are posted on the same html page, like word press home page, internal links are not unique.
+2. Links change when re-exporting the document and you re-ordered some entries.
+3. Even if it is possible to add the custom heading via =CUSTOM_ID= property, it's cumbersome to generate it for all headings. Auto-generating it with yasnippet would not be backwards compatible.
+* Solution
+Stick this anywhere in your Emacs config. This post demos this behaviour. It replaces internal org function:
+#+BEGIN_SRC clojure
+(defun org-export-get-reference (datum info)
+  "My version of unique org headline."
+  (let ((type (org-element-type datum))
+        (cache (or (plist-get info :internal-references)
+                   (let ((h (make-hash-table :test #'eq)))
+                     (plist-put info :internal-references h)
+                     h)))
+        (auto-headline (replace-regexp-in-string "[^a-zA-Z0-9]+" "-" (org-element-property :raw-value datum)))
+        )
+    (or (gethash datum cache)
+        (puthash datum auto-headline cache))))
+#+END_SRC
+The function generating new headlines is simply the:
+#+BEGIN_SRC clojure :results output
+  (replace-regexp-in-string "[^a-zA-Z0-9]+" "-" (org-element-property :raw-value datum))
+#+END_SRC
+
+When I have time I may try to make it less hacky and merge it with upstream.
+It simply picks current heading org mode heading title, only leaves alphanumeric characters and replaces everything else with a single =-=.
+Works well for all of my org files and it's "backward compatible" comparing to solutions like auto-generating CUSTOM_ID via yasnippet.

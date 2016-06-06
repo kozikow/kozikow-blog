@@ -228,15 +228,19 @@ alternatives were from nvidia and this thinkpad has an integrated intel graphics
 I had a choice between =x86-input-evdev= and =x86-input-libinput=.
 After reading [[https://wiki.archlinux.org/index.php/Libinput][two]] [[https://www.reddit.com/r/archlinux/comments/48tqj9/difference_between_libinput_and_evdev/][articles]] I decided to go with =x86-input-libinput=.
 [[https://www.reddit.com/r/archlinux/comments/48tqj9/difference_between_libinput_and_evdev/d0o266t][Some user mentioned: "With xf86-input-libinput, the trackpoint(and middle button scrolling) works out of the box on my ThinkPad, while xf86-input-evdev requires some additional settings".]]
-
+*** Adjust trackpoint sensitivity
 With libinput touch pad and track point worked without additional configuration.
 The only annoyance was too slow trackpoint.
-[[https://bugzilla.redhat.com/show_bug.cgi?id=1200717#c2][As this comment mentions]], this will increase touchpad speed:
 #+BEGIN_SRC bash :results output
-  su
-  echo 250 > /sys/bus/serio/devices/serio2/sensitivity
+  pacman -S xorg-xinput
+  xinput list | grep TrackPoint # Find an id of tracpoint. 12 in my case.
+  xinput --set-prop 12 'libinput Accel Speed' 1.0
 #+END_SRC
 Methods from arch wiki didn't work for me, probably since they were meant for the old evdev.
+[[https://bugzilla.redhat.com/show_bug.cgi?id=1200717#c2][Another option is:]]
+#+BEGIN_SRC bash :results output
+  echo 250 > /sys/bus/serio/devices/serio2/sensitivity
+#+END_SRC
 Even if there are multiple devices in /sys/bus/serio/devices/, only the touchpad sensitivity file present.
 ** (optional) xorg and gnome
 #+BEGIN_SRC bash :results output

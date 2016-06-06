@@ -77,7 +77,7 @@ You can adjust it with:
   ls | grep -P "[2-9]\d+\.ps" # Find big fonts
   setfont latarcyrheb-sun32
 #+END_SRC
-It's a good idea to persist the font. Add it to =/etc/vconsole.conf=:
+It's a good idea to persist the font. Add it later to =/etc/vconsole.conf=, after you install a new OS:
 #+BEGIN_SRC bash :results output
   KEYMAP=us
   FONT=latarcyrheb-sun32

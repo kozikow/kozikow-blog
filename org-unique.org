@@ -12,24 +12,19 @@ It causes a few problems:
 2. Links change when re-exporting the document and you re-ordered some entries.
 3. Even if it is possible to add the custom heading via =CUSTOM_ID= property, it's cumbersome to generate it for all headings. Auto-generating it with yasnippet would not be backwards compatible.
 * Solution
-Stick this anywhere in your Emacs config. It replaces internal org function:
+Stick this anywhere in your Emacs config. This post demos this behaviour. It replaces internal org function:
 #+BEGIN_SRC clojure
-  (defun org-export-get-reference (datum info)
-    "My version of unique org headline."
-    (let ((type (org-element-type datum))
-      (cache (or (plist-get info :internal-references)
-             (let ((h (make-hash-table :test #'eq)))
-               (plist-put info :internal-references h)
-               h)))
-      (auto-headline (replace-regexp-in-string "[^a-zA-Z0-9]+" "-" (org-element-property :raw-value datum)))
-      )
-      ;; (message "got headline %s wwith length %d" auto-headline (length auto-headline))
-      (or (gethash datum cache)
-      (puthash datum
-                   (progn
-                     (message "choosing headline %s" auto-headline)
-                   auto-headline)
-           cache))))
+(defun org-export-get-reference (datum info)
+  "My version of unique org headline."
+  (let ((type (org-element-type datum))
+        (cache (or (plist-get info :internal-references)
+                   (let ((h (make-hash-table :test #'eq)))
+                     (plist-put info :internal-references h)
+                     h)))
+        (auto-headline (replace-regexp-in-string "[^a-zA-Z0-9]+" "-" (org-element-property :raw-value datum)))
+        )
+    (or (gethash datum cache)
+        (puthash datum auto-headline cache))))
 #+END_SRC
 The function generating new headlines is simply the:
 #+BEGIN_SRC clojure :results output

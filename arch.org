@@ -231,17 +231,21 @@ After reading [[https://wiki.archlinux.org/index.php/Libinput][two]] [[https://w
 *** Adjust trackpoint sensitivity
 With libinput touch pad and track point worked without additional configuration.
 The only annoyance was too slow trackpoint.
+Methods from arch wiki didn't work for me, probably since they were meant for the old evdev.
+**** Xinput method
+I prefer this method, since I can just add it to .xinitrc to persist it.
 #+BEGIN_SRC bash :results output
   pacman -S xorg-xinput
   xinput list | grep TrackPoint # Find an id of tracpoint. 12 in my case.
   xinput --set-prop 12 'libinput Accel Speed' 1.0
 #+END_SRC
-Methods from arch wiki didn't work for me, probably since they were meant for the old evdev.
-[[https://bugzilla.redhat.com/show_bug.cgi?id=1200717#c2][Another option is:]]
+**** Device parameters method
+Persisting this method requires a systemd service.
 #+BEGIN_SRC bash :results output
   echo 250 > /sys/bus/serio/devices/serio2/sensitivity
 #+END_SRC
 Even if there are multiple devices in /sys/bus/serio/devices/, only the touchpad sensitivity file present.
+[[https://bugzilla.redhat.com/show_bug.cgi?id=1200717#c2][Also see this post]].
 ** (optional) xorg and gnome
 #+BEGIN_SRC bash :results output
   pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils

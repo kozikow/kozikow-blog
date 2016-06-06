@@ -7,7 +7,7 @@ I recently configured Arch Linux on the new Thinkpad X1 Carbon (4th generation) 
 It should be mostly similar on modern laptops with GPT/UEFI.
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
 * Base installation
-Mostly steps from https://wiki.archlinux.org/index.php/beginners'_guide.
+Mostly steps from https://wiki.archlinux.org/index.php/beginners'_guide, with customization for uefi and gpt.
 ** Prepare USB stick (on other computer with Ubuntu Linux 14.04)
 *** Download
 I downloaded the =2016.06.01= image via torrent from https://www.archlinux.org/download/.

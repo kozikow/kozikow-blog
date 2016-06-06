@@ -171,7 +171,6 @@ ERROR: specified kernel image does not exist; /boot/vmlinuz-linux
 #+END_EXAMPLE
 
 The problem was that I mounted the /mnt/boot after running the pacstrap.
-The guide does those steps in the correct order.
 I got some warnings I did not diagnose yet:
 *** TODO Warning: Possibly missing firmware wd719x
 *** TODO Warning: Possibly missing firmware aic94xx

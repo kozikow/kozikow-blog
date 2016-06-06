@@ -1,5 +1,7 @@
 #+BLOG: wordpress
 #+POSTID: 513
+#+OPTIONS: toc:3
+#+OPTIONS: todo:t
 #+TITLE: Installing and configuring Arch Linux on Thinkpad X1 Carbon
 #+DATE: <2016-06-04 Sat>
 #+AUTHOR: Robert Kozikowski

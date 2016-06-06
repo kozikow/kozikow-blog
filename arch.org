@@ -255,7 +255,8 @@ Even if there are multiple devices in /sys/bus/serio/devices/, only the touchpad
 ** Other hardware
 So far, other hardware components I used (e.g. graphics and music) worked without any additional setup.
 * You are on your own now
-From this point, everything is up to the personal preference.
+From this point, you should be at the point where distribution with graphical installer like ubuntu leave you.
+From now on, everything is up to the personal preference.
 * Additional links
 ** Thinkpad Carbon arch wiki entries
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon

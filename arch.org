@@ -255,14 +255,12 @@ At some point later I noticed a suspcious device when running "iw dev":
   addr ...
   type P2P-device
 #+END_EXAMPLE
-Don't be worried, your machine have not been compromised.
-I found this post about it:
+[[https://growworkinghard.com/2016/04/01/iw-dev-unnamednon-netdev-interface/][There is a post about it. It's probably harmless.]]
 
-I disabled the p2p interface:
+Just in case, I disabled the p2p interface:
 #+BEGIN_SRC bash :results output
   sudo echo "p2p_disabled=1" >> /etc/wpa_supplicant/wpa_supplicant.conf
 #+END_SRC
-**** TODO Link
 ** Set password
 #+BEGIN_SRC bash :results output
   passwd
@@ -330,7 +328,10 @@ It requires some initial adjustment, but afterwards is more efficient.
   echo "exec gnome-session" >> ~/.xinitrc
   startx
 #+END_SRC
-*** TODO Termite
+*** gnome-terminal hangs
+ gnome-terminal for some reason was refusing to start.
+ In case you run into the same problem I strongly recommend [[https://wiki.archlinux.org/index.php/Termite][termite]] as an alternative.
+ My ~/.config/termite/config.
 ** Other hardware
 So far, other hardware components I used (e.g. graphics and music) worked without any additional setup.
 * You are on your own now

@@ -178,9 +178,9 @@ I just need to mount our EFI system partition at /mnt/boot.
 #+END_SRC
 I must admit that I had some issues with GB locale after the installation.
 I switched to US locale and I did not have problems with it yet.
-I recommend US locale, since many programs support it better, while you don't get much benefit from GB locale even in UK.
+IMO, even if you are in the UK, more things will work as you expect when you go with the US locale.
 
-Also, if you install gnome, it stores it's own locale settings.
+Also, if you install gnome, it stores it's own locale settings and you need to set them later.
 To set it, I recommend installing =gnome-initial-setup= and restarting the X server.
 ** [[https://wiki.archlinux.org/index.php/beginners'_guide#Initramfs][initramfs]]
 Run:

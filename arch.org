@@ -279,7 +279,7 @@ It requires some initial adjustment, but afterwards is more efficient.
 So far, other hardware components I used (e.g. graphics and music) worked without any additional setup.
 * You are on your own now
 At this point, you should be close to the point where distribution with graphical installer like ubuntu leave you,
-but without all the adware.
+but without all the adware and unwated software.
 From now on, everything is up to the personal preference.
 * Additional links
 ** Thinkpad Carbon arch wiki entries

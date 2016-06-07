@@ -187,22 +187,22 @@ Probably the modules got pulled by something like xorg after I enabled AUR (exte
 As [[https://bbs.archlinux.org/viewtopic.php?id=194977][this post mentions]], missing firmware can be found in AUR.
 *** Warning: Possibly missing firmware wd719x
 After it is installed:
-#+BEGIN_SRC bash :results output :exports both
+#+BEGIN_SRC bash :results output 
   modinfo wd719x | grep description
 #+END_SRC
 
-#+RESULTS:
-: description:    Western Digital WD7193/7197/7296 SCSI driver
-
+#+BEGIN_EXAMPLE
+description:    Western Digital WD7193/7197/7296 SCSI driver
+#+END_EXAMPLE
 *** Warning: Possibly missing firmware aic94xx
 After it is installed:
-#+BEGIN_SRC bash :results output :exports both
+#+BEGIN_SRC bash :results output
   modinfo aic94xx | grep description
 #+END_SRC
 
-#+RESULTS:
-: description:    Adaptec aic94xx SAS/SATA driver
-
+#+BEGIN_EXAMPLE
+description:    Adaptec aic94xx SAS/SATA driver
+#+END_EXAMPLE
 ** Boot Loader
 After brief investigation, I decided that I prefer the [[https://wiki.archlinux.org/index.php/Systemd-boot][systemd-boot]]
 as an x86_64 [[https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface][UEFI]] bootloader.

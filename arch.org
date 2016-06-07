@@ -329,9 +329,9 @@ It requires some initial adjustment, but afterwards is more efficient.
   startx
 #+END_SRC
 *** gnome-terminal hangs
- gnome-terminal for some reason was refusing to start.
- In case you run into the same problem I strongly recommend [[https://wiki.archlinux.org/index.php/Termite][termite]] as an alternative.
- My ~/.config/termite/config.
+gnome-terminal worked initially, but at some time it refused to start.
+In case you run into the same problem I strongly recommend [[https://wiki.archlinux.org/index.php/Termite][termite]] as an alternative.
+[[https://github.com/kozikow/kozikow-blog/blob/master/termite_config][My ~/.config/termite/config.]]
 ** Other hardware
 So far, other hardware components I used (e.g. graphics and music) worked without any additional setup.
 * You are on your own now

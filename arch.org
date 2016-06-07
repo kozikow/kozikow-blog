@@ -247,6 +247,22 @@ systemd-boot auto-detects Windows, so there is no need for the windows entry.
 My =/boot/loader/entries/= directory only contains arch.conf and I can dual boot to Windows.
 ** Network
 [[https://wiki.archlinux.org/index.php/beginners'_guide#Configure_the_network][Follow steps from the wiki.]]
+*** Suspicious Unnamed/non-netdev interface
+At some point later I noticed a suspcious device when running "iw dev":
+#+BEGIN_EXAMPLE
+  Unnamed/non-netdev interface
+  wdev 0x3
+  addr ...
+  type P2P-device
+#+END_EXAMPLE
+Don't be worried, your machine have not been compromised.
+I found this post about it:
+
+I disabled the p2p interface:
+#+BEGIN_SRC bash :results output
+  sudo echo "p2p_disabled=1" >> /etc/wpa_supplicant/wpa_supplicant.conf
+#+END_SRC
+**** TODO Link
 ** Set password
 #+BEGIN_SRC bash :results output
   passwd
@@ -314,6 +330,7 @@ It requires some initial adjustment, but afterwards is more efficient.
   echo "exec gnome-session" >> ~/.xinitrc
   startx
 #+END_SRC
+*** TODO Termite
 ** Other hardware
 So far, other hardware components I used (e.g. graphics and music) worked without any additional setup.
 * You are on your own now

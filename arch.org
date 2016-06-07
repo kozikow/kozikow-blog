@@ -158,7 +158,7 @@ I just need to mount our EFI system partition at /mnt/boot.
 #+BEGIN_SRC bash :results output
   arch-chroot /mnt /bin/bash
 #+END_SRC
-** Local and time zone
+** Locale and time zone
 #+BEGIN_SRC bash :results output
   # Uncomment en_GB.UTF-8 UTF-8 in /etc/locale.gen
   locale-gen
@@ -181,9 +181,28 @@ ERROR: specified kernel image does not exist; /boot/vmlinuz-linux
 #+END_EXAMPLE
 
 The problem was that I mounted the /mnt/boot after running the pacstrap.
-I got some warnings I did not diagnose yet:
-*** TODO Warning: Possibly missing firmware wd719x
-*** TODO Warning: Possibly missing firmware aic94xx
+I also got some warnings about some missing hardware.
+Strangely the problem somehow resolved itself.
+Probably the modules got pulled by something like xorg after I enabled AUR (extended repository of packages).
+As [[https://bbs.archlinux.org/viewtopic.php?id=194977][this post mentions]], missing firmware can be found in AUR.
+*** Warning: Possibly missing firmware wd719x
+After it is installed:
+#+BEGIN_SRC bash :results output :exports both
+  modinfo wd719x | grep description
+#+END_SRC
+
+#+RESULTS:
+: description:    Western Digital WD7193/7197/7296 SCSI driver
+
+*** Warning: Possibly missing firmware aic94xx
+After it is installed:
+#+BEGIN_SRC bash :results output :exports both
+  modinfo aic94xx | grep description
+#+END_SRC
+
+#+RESULTS:
+: description:    Adaptec aic94xx SAS/SATA driver
+
 ** Boot Loader
 After brief investigation, I decided that I prefer the [[https://wiki.archlinux.org/index.php/Systemd-boot][systemd-boot]]
 as an x86_64 [[https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface][UEFI]] bootloader.

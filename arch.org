@@ -501,7 +501,7 @@ Warning: Possibly missing firmware wd719x
 Possibly missing firmware aic94xx
 #+END_EXAMPLE
 Strangely the problem somehow resolved itself.
-Probably the modules got pulled by some big package like xorg after I enabled AUR (extended repository of packages).
+Some installation must have pulled the package.
 As [[https://bbs.archlinux.org/viewtopic.php?id=194977][this post mentions]], missing firmware can be found in AUR.
 
 After it is installed:
@@ -622,7 +622,7 @@ sensitivity ranges between 128 and 250.
 Personally I like my trackpoint quite speedy and I went for 1.0/180.
 It requires some initial adjustment, but afterwards is more efficient.
 *** Graphics
-High resolution graphics worked without any special setup. See:
+High resolution graphics worked with WQHD (2560x1440) without any special setup. See:
 #+BEGIN_SRC bash :results output
   xrandr                                                                                                                           1 ↵
 #+END_SRC
@@ -647,11 +647,16 @@ Video worked out of the box, I didn't test sound yet.
 gnome-terminal worked initially, but then it refused to start.
 I much more prefer [[https://wiki.archlinux.org/index.php/Termite][termite]] as an terminal and it didn't experience the same issue.
 [[https://github.com/kozikow/kozikow-blog/blob/master/termite_config][My ~/.config/termite/config.]]
-** TODO AUR
-https://wiki.archlinux.org/index.php/Arch_User_Repository
-** TODO Screen lock
-sudo pacman -S xscreensaver-arch-logo
-https://wiki.archlinux.org/index.php/XScreenSaver
+** Screen lock
+I just wanted to show arch image as a wallpaper and it took me a bit.
+#+BEGIN_SRC bash :results output
+  pacman -S xscreensaver
+  xscreensaver-demo # configure
+  # http://askubuntu.com/questions/74200/how-do-i-use-a-photos-directory-as-my-screensaver
+  # to lock screen
+  xscreensaver-command -lock 
+#+END_SRC
+[[https://wiki.archlinux.org/index.php/XScreenSaver][Also see XScreenSaver wiki entry.]]
 * You are on your own now
 At this point, you should be close to the point where distribution with graphical installer like ubuntu leave you,
 but you skiped all the adware.

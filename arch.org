@@ -116,8 +116,7 @@ Since the laptop have the SSD, I was contemplating trying out the [[https://wiki
 It's only [[https://www.phoronix.com/scan.php?page=news_item&px=Linux-4.4-FS-4-Way][slightly faster according to some benchmarks]], so I decided to go with the ext4, since it's more standard.
 [[https://wiki.archlinux.org/index.php/Solid_State_Drives][You may also want to read an arch wiki about SSDs.]]
 [[https://en.wikipedia.org/wiki/Ext4#Compatibility_with_Windows_and_Macintosh][There exist some drivers that let windows read and copy files from ext filesystem.]]
-Even if support for using ext4 from Windows does not have as much 
-support as ext3, I won't be using Windows often.
+Even if support for using ext4 from Windows is worse than ext3, I won't be using Windows often.
 If you plan to frequently boot to Windows you
 may consider ext3 for better Windows compatibility. 
 *** Format and mount the Linux partition

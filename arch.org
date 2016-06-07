@@ -231,7 +231,9 @@ alternatives were from nvidia and this thinkpad has an integrated intel graphics
 I had a choice between =x86-input-evdev= and =x86-input-libinput=.
 After reading [[https://wiki.archlinux.org/index.php/Libinput][two]] [[https://www.reddit.com/r/archlinux/comments/48tqj9/difference_between_libinput_and_evdev/][articles]] I decided to go with =x86-input-libinput=.
 [[https://www.reddit.com/r/archlinux/comments/48tqj9/difference_between_libinput_and_evdev/d0o266t][Some user mentioned: "With xf86-input-libinput, the trackpoint(and middle button scrolling) works out of the box on my ThinkPad, while xf86-input-evdev requires some additional settings".]]
-With libinput touch pad and track point worked without additional configuration.
+
+Personally, using libinput everything worked out of the box, including track pad, track point and keyboard "extra" keys (e.g. sound up).
+The only annoyance was too slow track point.
 *** Adjust trackpoint sensitivity
 The only annoyance was too slow trackpoint.
 Methods from arch wiki didn't work for me, probably since they were meant for the old evdev.

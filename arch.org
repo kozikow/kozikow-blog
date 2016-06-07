@@ -651,10 +651,10 @@ I much more prefer [[https://wiki.archlinux.org/index.php/Termite][termite]] as 
 I just wanted to show arch image as a wallpaper and it took me a bit.
 #+BEGIN_SRC bash :results output
   pacman -S xscreensaver
+  # See http://askubuntu.com/questions/74200/how-do-i-use-a-photos-directory-as-my-screensaver
   xscreensaver-demo # configure
-  # http://askubuntu.com/questions/74200/how-do-i-use-a-photos-directory-as-my-screensaver
-  # to lock screen
-  xscreensaver-command -lock 
+  echo "xscreensaver -no-splash &" >> ~/.xinitrc
+  xscreensaver-command -lock # to lock screen
 #+END_SRC
 [[https://wiki.archlinux.org/index.php/XScreenSaver][Also see XScreenSaver wiki entry.]]
 * You are on your own now

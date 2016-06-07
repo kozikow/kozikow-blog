@@ -112,13 +112,21 @@ I used gdisk to create a new partition. gdisk is installed by default on the usb
   lsblk
 #+END_SRC
 ** Format and mount partitions
+*** SSD compatibility
+[[https://wiki.archlinux.org/index.php/Solid_State_Drives][You may want to read an arch wiki about SSDs.]]
+*** I went for ext4
+*** Why not F2FS?
 Since the laptop have the SSD, I was contemplating trying out the [[https://wiki.archlinux.org/index.php/F2FS][F2FS]].
-It's only [[https://www.phoronix.com/scan.php?page=news_item&px=Linux-4.4-FS-4-Way][slightly faster according to some benchmarks]], so I decided to go with the ext4, since it's more standard.
-[[https://wiki.archlinux.org/index.php/Solid_State_Drives][You may also want to read an arch wiki about SSDs.]]
+It's only [[https://www.phoronix.com/scan.php?page=news_item&px=Linux-4.4-FS-4-Way][slightly faster according to some benchmarks]].
+ext4 have [[https://en.wikipedia.org/wiki/Ext4#Features][additional features]] and is more standard so it seems like safer bet.
+
+I have been thinking that maybe F2FS would result in less "SSD tear".
+I have been reading than in "desktop" usage SSD tear is almost never an issue
+and other components in laptop would fail first, so it's not wise to worry about it.
+*** Why not ext3?
 [[https://en.wikipedia.org/wiki/Ext4#Compatibility_with_Windows_and_Macintosh][There exist some drivers that let windows read and copy files from ext filesystem.]]
 Even if support for using ext4 from Windows is worse than ext3, I won't be using Windows often.
-If you plan to frequently boot to Windows you
-may consider ext3 for better Windows compatibility. 
+If you plan to frequently boot to Windows you may consider ext3 for better Windows compatibility. 
 *** Format and mount the Linux partition
 #+BEGIN_SRC bash :results output
   lsblk /dev/sda
@@ -183,7 +191,7 @@ ERROR: specified kernel image does not exist; /boot/vmlinuz-linux
 
 The problem was that I mounted the /mnt/boot after running the pacstrap.
 Pacstrap writes the vmlinuz-linux to /mnt/boot.
-*** Missing firmware
+*** Missing firmware problem
 I also got some warnings about some missing firmware.
 #+BEGIN_EXAMPLE
 Warning: Possibly missing firmware wd719x

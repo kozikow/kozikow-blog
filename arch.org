@@ -240,7 +240,7 @@ I prefer this method, since I can just add it to .xinitrc to persist it.
   xinput --set-prop 12 'libinput Accel Speed' 1.0
 #+END_SRC
 **** Device parameters method
-Persisting this method requires a systemd service.
+Persisting this method requires a systemd service, so I prefer the previous method.
 #+BEGIN_SRC bash :results output
   echo 250 > /sys/bus/serio/devices/serio2/sensitivity
 #+END_SRC

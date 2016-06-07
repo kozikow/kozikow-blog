@@ -9,7 +9,8 @@
 * Introduction
 I recently configured Arch Linux on the new Thinkpad X1 Carbon (4th generation) with dual booting to the pre-installed Windows 10 (for games I occasionally play).
 It should be mostly similar on modern laptops with GPT/UEFI.
-Even if Arch wiki is very comprehensive, it needs a bit of reading to decide what is right for the particular hardware and some of the UEFI/GPT sections are not as well documented at the old methods.
+Even if Arch wiki is very comprehensive, it needs a bit of reading to decide what is right for the particular hardware.
+Dual booting with windows and UEFI/GPT are not as well documented as the plain old linux installations.
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
 * Base installation
 Mostly steps from https://wiki.archlinux.org/index.php/beginners'_guide, with customization for uefi and gpt.
@@ -245,7 +246,7 @@ Methods from arch wiki didn't work for me, probably since they were meant for th
 #+END_SRC
 
 
-Pesisting this method requires adding last the set-prop command to the .xinitrc.
+Pesisting this method requires adding the set-prop command to the .xinitrc.
 **** Device parameters method
 =/usr/local/bin/my_init.sh=:
 #+BEGIN_SRC bash :results output

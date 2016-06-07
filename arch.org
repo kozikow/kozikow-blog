@@ -176,8 +176,12 @@ I just need to mount our EFI system partition at /mnt/boot.
   ln -s /usr/share/zoneinfo/Europe/London /etc/localtime
   hwclock --systohc --utc
 #+END_SRC
-I must admit that I had some issues with GB locale after the installation and I reverted to US locale and I did not have problems with it yet.
-Also, if you install gnome, it stores it's own locale settings and you either need to either set it or install =gnome-initial-setup=.
+I must admit that I had some issues with GB locale after the installation.
+I switched to US locale and I did not have problems with it yet.
+I recommend US locale, since many programs support it better, while you don't get much benefit from GB locale even in UK.
+
+Also, if you install gnome, it stores it's own locale settings.
+To set it, I recommend installing =gnome-initial-setup= and restarting the X server.
 ** [[https://wiki.archlinux.org/index.php/beginners'_guide#Initramfs][initramfs]]
 Run:
 #+BEGIN_SRC bash :results output

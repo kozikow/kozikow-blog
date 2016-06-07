@@ -621,8 +621,22 @@ xinput method ranges between -1.0 and 1.0.
 sensitivity ranges between 128 and 250.
 Personally I like my trackpoint quite speedy and I went for 1.0/180.
 It requires some initial adjustment, but afterwards is more efficient.
-*** Other hardware
-So far, other hardware components I used (e.g. graphics and music) worked without any additional setup.
+*** Graphics
+High resolution graphics worked without any special setup. See:
+#+BEGIN_SRC bash :results output
+  xrandr                                                                                                                           1 ↵
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+Screen 0: minimum 320 x 200, current 2560 x 1440, maximum 8192 x 8192
+eDP-1 connected primary 2560x1440+0+0 (normal left inverted right x axis y axis) 310mm x 174mm
+   2560x1440     60.00*+
+   ...
+#+END_EXAMPLE
+*** Sound
+Sound worked without any special setup.
+*** HDMI
+Video worked out of the box, I didn't test sound yet.
 ** (optional) Install xorg and gnome
 #+BEGIN_SRC bash :results output
   pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils

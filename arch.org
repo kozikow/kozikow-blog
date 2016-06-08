@@ -11,6 +11,7 @@ It should be mostly similar on modern laptops with GPT/UEFI.
 Even if Arch wiki is very comprehensive, it needs a bit of reading to decide what is right for the particular hardware.
 Dual booting with windows and UEFI/GPT are not as well documented as the plain old linux installations.
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
+org-mode is an optimal way to read this document, better than linear reading in wordpress.
 * Hardware specification of the laptop
 ** Serial number
 #+BEGIN_SRC bash :results output

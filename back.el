@@ -13,7 +13,10 @@ is always updated."
     (push (copy-marker (mark-marker)) global-mark-ring)
     (when (> (length global-mark-ring) global-mark-ring-max)
       (move-marker (car (nthcdr global-mark-ring-max global-mark-ring)) nil)
-      (setcdr (nthcdr (1- global-mark-ring-max) global-mark-ring) nil))))
+      (setcdr (nthcdr (1- global-mark-ring-max) global-mark-ring) nil)
+      )
+    )
+  )
 
 
 (defun pop-ring-while-dupe-or-minibuff (el)
@@ -68,7 +71,7 @@ is always updated."
 (global-unset-key (kbd "<C-M-right>"))
 (global-set-key (kbd "<C-M-right>") 'forward-button-or-local-ring)
 
-;; TODO: Find a way to avoid all this copypasta.
+;; TODO: Find a way to avoid all this copypasta. I.e. supply "list of functions to advice on" and iter it later.
 
 ;; Record position before evil window movement
 (advice-add 'evil-window-right :before #'record-global-position-for-back-button)
@@ -87,6 +90,7 @@ is always updated."
 (advice-add 'senator-next-tag :before #'record-global-position-for-back-button)
 
 ;; Record position before helm functions
+;; Many functions, like "Go to tag" pick the position based on it.
 (advice-add 'helm-buffers-list :before #'record-global-position-for-back-button)
 (advice-add 'helm-buffers-list :before #'record-global-position-for-back-button)
 (advice-add 'helm-confirm-and-exit-minibuffer :before #'record-global-position-for-back-button)
@@ -99,3 +103,7 @@ is always updated."
 
 ;; Bookmark
 (advice-add 'bookmark-jump :before #'record-global-position-for-back-button)
+
+;; Ag/Dumb jump
+(advice-add 'helm-projectile-ag :before #'record-global-position-for-back-button)
+(advice-add 'dumb-jump-go :before #'record-global-position-for-back-button)

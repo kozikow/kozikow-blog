@@ -679,7 +679,7 @@ Congratulations, you skiped all the (Ubuntu) adware and understood how your OS w
 
 
 From now on, everything is up to the personal preference.
-On top of the current setup, personally, I just run: Chrome, (Termite + tmux + zsh), Emacs and [[https://github.com/kozikow/keyremaplinux][my keyboard layout]].
+On top of the current setup, personally, I just run: chromium, (Termite + tmux + zsh), Emacs (a lot of things in it) and [[https://github.com/kozikow/keyremaplinux][my keyboard layout]].
 * Additional links
 ** Thinkpad Carbon arch wiki entries
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon

@@ -657,7 +657,8 @@ I just wanted to show arch image as a lock screen image and it was not entirely 
 #+END_SRC
 [[https://wiki.archlinux.org/index.php/XScreenSaver][Also see XScreenSaver wiki entry.]]
 You can bind it to a key in gnome settings->keyboard->custom shortcuts.
-I gave up how to make =gsettings set= work with custom shortcuts.
+I tried to bind it from the console, but custom shortcuts via =gsettings set= are much more complicated
+than just normal keybindings.
 ** Auto-connect to wifi
 It's nice to automatially connect to wifi when you boot, rather than run =wifi-menu= every time.
 #+BEGIN_SRC bash :results output

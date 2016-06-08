@@ -651,6 +651,8 @@ I much more prefer [[https://wiki.archlinux.org/index.php/Termite][termite]] as 
 [[https://github.com/kozikow/kozikow-blog/blob/master/termite_config][My ~/.config/termite/config.]]
 ** Screen lock
 I just wanted to show arch image as a lock screen image and it was not entirely trivial (I tried 4 lockscreen apps).
+
+What eventually worked:
 #+BEGIN_SRC bash :results output
   pacman -S xscreensaver
   # See http://askubuntu.com/questions/74200/how-do-i-use-a-photos-directory-as-my-screensaver

@@ -386,7 +386,7 @@ It's a good idea to persist the font. Add it later to =/etc/vconsole.conf=, afte
 #+END_SRC
 ** Create partitions
 *** [[*Shrink the Windows partition from Windows][I already shrinked the Windows partition from Windows]]
-*** No swap partition
+*** No need for swap partition
 Since the laptop have 8 GB of RAM it's plenty.
 Since 8 GB is more than plenty for a desktop, if OS would run out of 8 GBs it likely means that some program leaks memory and it's better to fail fast.
 If I decide afterwards that I need it for features like hibernation I can always use a [[https://wiki.archlinux.org/index.php/swap#Swap_file][swap file]].

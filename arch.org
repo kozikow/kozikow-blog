@@ -672,6 +672,8 @@ Also see:
 * Conclusion
 At this point, you should be close to the point where distribution with graphical installer, like ubuntu, leave you.
 Congratulations, you skiped all the (Ubuntu) adware and understood how your OS works.
+
+
 From now on, everything is up to the personal preference.
 On top of the current setup, personally, I just run: Chrome, (Termite + tmux + zsh), Emacs and [[https://github.com/kozikow/keyremaplinux][my keyboard layout]].
 * Additional links

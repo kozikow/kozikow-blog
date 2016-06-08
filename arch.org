@@ -577,15 +577,12 @@ A few more things after rebooting:
   reboot
 #+END_SRC
 ** Hardware support
-*** libgl
-There were 4 alternative libgl implementations. I went for mesa-libgl, since 
-alternatives were from nvidia and this thinkpad has an integrated intel graphics card.
-*** x86-input
-I had a choice between =x86-input-evdev= and =x86-input-libinput=.
+*** Input devices
+There are two alternative input libraries =x86-input-evdev= and =x86-input-libinput=.
 After reading [[https://wiki.archlinux.org/index.php/Libinput][two]] [[https://www.reddit.com/r/archlinux/comments/48tqj9/difference_between_libinput_and_evdev/][articles]] I decided to go with =x86-input-libinput=.
 [[https://www.reddit.com/r/archlinux/comments/48tqj9/difference_between_libinput_and_evdev/d0o266t][Some user mentioned: "With xf86-input-libinput, the trackpoint(and middle button scrolling) works out of the box on my ThinkPad, while xf86-input-evdev requires some additional settings".]]
 
-Personally, using libinput everything worked out of the box, including track pad, track point and keyboard "extra" keys (e.g. sound up).
+Indeed, with libinput everything worked after the installation, including track pad, track point and keyboard "extra" keys (e.g. sound or brightness up).
 The only annoyance was too slow track point.
 **** Adjust trackpoint sensitivity
 The only annoyance was too slow trackpoint.
@@ -624,7 +621,10 @@ sensitivity ranges between 128 and 250.
 Personally I like my trackpoint quite speedy and I went for 1.0/180.
 It requires some initial adjustment, but afterwards is more efficient.
 *** Graphics
-High resolution graphics worked with WQHD (2560x1440) without any special setup. See:
+Everything worked as expected after installing xorg.
+I had to choose a libgl library when install xorg. There were 4 alternative libgl implementations.
+I went for mesa-libgl, since alternatives were from nvidia and this thinkpad has an integrated intel graphics card.
+To verify that you are running the best resolution, WQHD (2560x1440), run:
 #+BEGIN_SRC bash :results output
   xrandr                                                                                                                           1 ↵
 #+END_SRC
@@ -664,6 +664,7 @@ What eventually worked:
 [[https://wiki.archlinux.org/index.php/XScreenSaver][Also see XScreenSaver wiki entry.]]
 You can bind it to a key in gnome settings->keyboard->custom shortcuts.
 I tried to bind it from the console, but custom shortcuts via =gsettings set= are more complicated than just predefined keybindings.
+*** TODO Auto lock
 ** Auto-connect to wifi
 It's nice to automatially connect to wifi when you boot, rather than run =wifi-menu= every time.
 #+BEGIN_SRC bash :results output

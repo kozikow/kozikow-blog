@@ -1,7 +1,6 @@
 #+BLOG: wordpress
 #+POSTID: 513
 #+OPTIONS: toc:3
-#+OPTIONS: todo:t
 #+TITLE: Installing and configuring Arch Linux on Thinkpad X1 Carbon
 #+DATE: <2016-06-04 Sat>
 #+AUTHOR: Robert Kozikowski
@@ -9,8 +8,312 @@
 * Introduction
 I recently configured Arch Linux on the new Thinkpad X1 Carbon (4th generation) with dual booting to the pre-installed Windows 10 (for games I occasionally play).
 It should be mostly similar on modern laptops with GPT/UEFI.
+
+Even if Arch wiki is very comprehensive, it needs a bit of reading to decide what is right for the particular hardware.
+Dual booting with windows and UEFI/GPT are not as well documented as the plain old linux installations.
+
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
-* Base installation
+org-mode is the optimal way to read this document, better than the linear reading in wordpress.
+* Hardware specification of the laptop
+** Serial number
+#+BEGIN_SRC bash :results output
+  sudo cat /sys/devices/virtual/dmi/id/product_serial
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+R90KNV08
+#+END_EXAMPLE
+
+** Desktop management information
+Extracted from:
+#+BEGIN_SRC bash :results output
+  sudo dmidecode 
+#+END_SRC
+*** System Information
+#+BEGIN_EXAMPLE
+System Information
+        Manufacturer: LENOVO
+        Product Name: 20FBCTO1WW
+        Version: ThinkPad X1 Carbon 4th
+        Serial Number: R90KNV08
+        UUID: 8648D14C-33F4-11B2-A85C-EDB510BB0156
+        Wake-up Type: Power Switch
+        SKU Number: LENOVO_MT_20FB_BU_Think_FM_ThinkPad X1 Carbon 4th
+        Family: ThinkPad X1 Carbon 4th
+#+END_EXAMPLE
+*** Processor
+#+BEGIN_EXAMPLE
+Handle 0x0007, DMI type 4, 48 bytes
+Processor Information
+        Socket Designation: U3E1
+        Type: Central Processor
+        Family: Core i7
+        Manufacturer: Intel(R) Corporation
+        ID: E3 06 04 00 FF FB EB BF
+        Signature: Type 0, Family 6, Model 78, Stepping 3
+        Flags:
+                FPU (Floating-point unit on-chip)
+                VME (Virtual mode extension)
+                DE (Debugging extension)
+                PSE (Page size extension)
+                TSC (Time stamp counter)
+                MSR (Model specific registers)
+                PAE (Physical address extension)
+                MCE (Machine check exception)
+                CX8 (CMPXCHG8 instruction supported)
+                APIC (On-chip APIC hardware supported)
+                SEP (Fast system call)
+                MTRR (Memory type range registers)
+                PGE (Page global enable)
+                MCA (Machine check architecture)
+                CMOV (Conditional move instruction supported)
+                PAT (Page attribute table)
+                PSE-36 (36-bit page size extension)
+                CLFSH (CLFLUSH instruction supported)
+                DS (Debug store)
+                ACPI (ACPI supported)
+                MMX (MMX technology supported)
+                FXSR (FXSAVE and FXSTOR instructions supported)
+                SSE (Streaming SIMD extensions)
+                SSE2 (Streaming SIMD extensions 2)
+                SS (Self-snoop)
+                HTT (Multi-threading)
+                TM (Thermal monitor supported)
+                PBE (Pending break enabled)
+        Version: Intel(R) Core(TM) i7-6500U CPU @ 2.50GHz
+        Voltage: 1.0 V
+        External Clock: 100 MHz
+        Max Speed: 8300 MHz
+        Current Speed: 2500 MHz
+        Status: Populated, Enabled
+        Upgrade: Other
+        L1 Cache Handle: 0x0004
+        L2 Cache Handle: 0x0005
+        L3 Cache Handle: 0x0006
+        Serial Number: None
+        Asset Tag: None
+        Part Number: None
+        Core Count: 2
+        Core Enabled: 2
+        Thread Count: 4
+        Characteristics:
+                64-bit capable
+                Multi-Core
+                Hardware Thread
+                Execute Protection
+                Enhanced Virtualization
+                Power/Performance Control
+#+END_EXAMPLE
+*** Memory
+8gb in total, 2x of following:
+#+BEGIN_EXAMPLE
+Memory Device
+        Array Handle: 0x0008
+        Error Information Handle: Not Provided
+        Total Width: 64 bits
+        Data Width: 64 bits
+        Size: 4096 MB
+        Form Factor: Chip
+        Set: None
+        Locator: ChannelB-DIMM0
+        Bank Locator: BANK 2
+        Type: LPDDR3
+        Type Detail: Synchronous
+        Speed: 1867 MHz
+        Manufacturer: Samsung
+        Serial Number: None
+        Asset Tag: None
+        Part Number: K4E6E304EE-EGCF
+        Rank: 2
+        Configured Clock Speed: 1867 MHz
+        Minimum Voltage: Unknown
+        Maximum Voltage: Unknown
+        Configured Voltage: 1.2 V
+#+END_EXAMPLE
+*** Motherboard
+#+BEGIN_EXAMPLE
+Base Board Information
+        Manufacturer: LENOVO
+        Product Name: 20FBCTO1WW
+        Version: SDK0J40697 WIN
+        Serial Number: W1KS65P10SY
+        Asset Tag: Not Available
+#+END_EXAMPLE
+*** Plugs
+- HDMI
+- 3 USB (no type C)
+- Mini DisplayPort
+- Mini jack
+- OneLink
+*** Battery
+#+BEGIN_EXAMPLE
+Portable Battery
+        Location: Front
+        Manufacturer: SMP
+        Name: 00HW029
+        Design Capacity: 52060 mWh
+        Design Voltage: 15200 mV
+        SBDS Version: 03.01
+        Maximum Error: Unknown
+        SBDS Serial Number: 057C
+        SBDS Manufacture Date: 2016-05-24
+        SBDS Chemistry: LiP
+        OEM-specific Information: 0x00000000
+#+END_EXAMPLE
+*** Cards slots
+#+BEGIN_EXAMPLE
+Handle 0x0021, DMI type 9, 17 bytes
+System Slot Information
+        Designation: Media Card Slot
+        Type: Other
+        Current Usage: Available
+        Length: Other
+        Characteristics:
+                Hot-plug devices are supported
+        Bus Address: 0000:00:00.0
+
+Handle 0x0022, DMI type 9, 17 bytes
+System Slot Information
+        Designation: SmartCard Slot
+        Type: Other
+        Current Usage: Available
+        Length: Other
+        Characteristics:
+                Hot-plug devices are supported
+        Bus Address: 0000:00:00.0
+
+Handle 0x0023, DMI type 9, 17 bytes
+System Slot Information
+        Designation: SimCard Slot
+        Type: Other
+        Current Usage: Available
+        Length: Other
+        Characteristics: None
+        Bus Address: 0000:00:00.0
+#+END_EXAMPLE
+*** BIOS
+#+BEGIN_EXAMPLE
+BIOS Information
+        Vendor: LENOVO
+        Version: N1FET38W (1.12 )
+        Release Date: 03/30/2016
+        Address: 0xE0000
+        Runtime Size: 128 kB
+        ROM Size: 16384 kB
+        Characteristics:
+                PCI is supported
+                PNP is supported
+                BIOS is upgradeable
+                BIOS shadowing is allowed
+                Boot from CD is supported
+                Selectable boot is supported
+                EDD is supported
+                3.5"/720 kB floppy services are supported (int 13h)
+                Print screen service is supported (int 5h)
+                8042 keyboard services are supported (int 9h)
+                Serial services are supported (int 14h)
+                Printer services are supported (int 17h)
+                CGA/mono video services are supported (int 10h)
+                ACPI is supported
+                USB legacy is supported
+                BIOS boot specification is supported
+                Targeted content distribution is supported
+                UEFI is supported
+        BIOS Revision: 1.12
+        Firmware Revision: 1.8
+#+END_EXAMPLE
+*** No ethernet, but converter is provided
+OneLink to ethernet converter have been provided. I didn't test it on Arch.
+#+BEGIN_EXAMPLE
+Handle 0x0019, DMI type 8, 9 bytes
+Port Connector Information
+        Internal Reference Designator: Not Available
+        Internal Connector Type: None
+        External Reference Designator: Ethernet
+        External Connector Type: RJ-45
+        Port Type: Network Port
+#+END_EXAMPLE
+*** CPU Cache
+#+BEGIN_EXAMPLE
+Handle 0x0003, DMI type 7, 19 bytes
+Cache Information
+        Socket Designation: L1 Cache
+        Configuration: Enabled, Not Socketed, Level 1
+        Operational Mode: Write Back
+        Location: Internal
+        Installed Size: 64 kB
+        Maximum Size: 64 kB
+        Supported SRAM Types:
+                Synchronous
+        Installed SRAM Type: Synchronous
+        Speed: Unknown
+        Error Correction Type: Parity
+        System Type: Data
+        Associativity: 8-way Set-associative
+
+Handle 0x0004, DMI type 7, 19 bytes
+Cache Information
+        Socket Designation: L1 Cache
+        Configuration: Enabled, Not Socketed, Level 1
+        Operational Mode: Write Back
+        Location: Internal
+        Installed Size: 64 kB
+        Maximum Size: 64 kB
+        Supported SRAM Types:
+                Synchronous
+        Installed SRAM Type: Synchronous
+        Speed: Unknown
+        Error Correction Type: Parity
+        System Type: Instruction
+        Associativity: 8-way Set-associative
+
+Handle 0x0005, DMI type 7, 19 bytes
+Cache Information
+        Socket Designation: L2 Cache
+        Configuration: Enabled, Not Socketed, Level 2
+        Operational Mode: Write Back
+        Location: Internal
+        Installed Size: 512 kB
+        Maximum Size: 512 kB
+        Supported SRAM Types:
+                Synchronous
+        Installed SRAM Type: Synchronous
+        Speed: Unknown
+        Error Correction Type: Single-bit ECC
+        System Type: Unified
+        Associativity: 4-way Set-associative
+
+Handle 0x0006, DMI type 7, 19 bytes
+Cache Information
+        Socket Designation: L3 Cache
+        Configuration: Enabled, Not Socketed, Level 3
+        Operational Mode: Write Back
+        Location: Internal
+        Installed Size: 4096 kB
+        Maximum Size: 4096 kB
+        Supported SRAM Types:
+                Synchronous
+        Installed SRAM Type: Synchronous
+        Speed: Unknown
+        Error Correction Type: Multi-bit ECC
+        System Type: Unified
+        Associativity: 16-way Set-associative
+#+END_EXAMPLE
+*** Pointing devices
+#+BEGIN_EXAMPLE
+Handle 0x0034, DMI type 21, 7 bytes
+Built-in Pointing Device
+        Type: Track Point
+        Interface: PS/2
+        Buttons: 3
+
+Handle 0x0035, DMI type 21, 7 bytes
+Built-in Pointing Device
+        Type: Touch Pad
+        Interface: PS/2
+        Buttons: 2
+#+END_EXAMPLE
+* Base installation of Arch Linux
 Mostly steps from https://wiki.archlinux.org/index.php/beginners'_guide, with customization for uefi and gpt.
 ** Prepare USB stick (on other computer with Ubuntu Linux 14.04)
 *** Download
@@ -86,8 +389,10 @@ It's a good idea to persist the font. Add it later to =/etc/vconsole.conf=, afte
 #+END_SRC
 ** Create partitions
 *** [[*Shrink the Windows partition from Windows][I already shrinked the Windows partition from Windows]]
-*** No swap partition
-Since the laptop have 8 GB of RAM it's not necessary, and if I decide I need it I can always use a [[https://wiki.archlinux.org/index.php/swap#Swap_file][swap file]].
+*** No need for swap partition
+Since the laptop have 8 GB of RAM it's plenty.
+Since 8 GB is more than plenty for a desktop, if OS would run out of 8 GBs it likely means that some program leaks memory and it's better to fail fast.
+If I decide afterwards that I need it for features like hibernation I can always use a [[https://wiki.archlinux.org/index.php/swap#Swap_file][swap file]].
 *** [[https://wiki.archlinux.org/index.php/EFI_System_Partition][EFI system partition]] already exists
 Since laptop came with the UEFI support, the EFI system partition already exists.
 You can check it by
@@ -110,9 +415,20 @@ I used gdisk to create a new partition. gdisk is installed by default on the usb
   lsblk
 #+END_SRC
 ** Format and mount partitions
+[[https://wiki.archlinux.org/index.php/Solid_State_Drives][You may want to read an arch wiki about SSDs.]]
+*** I went for ext4.
+*** Why not F2FS?
 Since the laptop have the SSD, I was contemplating trying out the [[https://wiki.archlinux.org/index.php/F2FS][F2FS]].
-It's only [[https://www.phoronix.com/scan.php?page=news_item&px=Linux-4.4-FS-4-Way][slightly faster according to some benchmarks]], so I decided to go with the ext4, since it's more standard.
-[[https://wiki.archlinux.org/index.php/Solid_State_Drives][You may also want to read an arch wiki about SSDs.]]
+It's only [[https://www.phoronix.com/scan.php?page=news_item&px=Linux-4.4-FS-4-Way][slightly faster according to some benchmarks]].
+ext4 have [[https://en.wikipedia.org/wiki/Ext4#Features][additional features]] and is more standard so it seems like safer bet.
+
+I have been thinking that maybe F2FS would result in less "SSD tear".
+I have been reading than in "desktop" usage SSD tear is almost never an issue
+and other components in laptop would fail first, so we don't have to worry about it.
+*** Why not ext3?
+[[https://en.wikipedia.org/wiki/Ext4#Compatibility_with_Windows_and_Macintosh][There exist some drivers that let windows read and copy files from ext filesystem.]]
+Even if support for using ext4 from Windows is worse than ext3, I won't be using Windows often.
+If you plan to frequently boot to Windows you may consider ext3 for better Windows compatibility. 
 *** Format and mount the Linux partition
 #+BEGIN_SRC bash :results output
   lsblk /dev/sda
@@ -136,7 +452,7 @@ I just need to mount our EFI system partition at /mnt/boot.
   iw dev # Find an interfrace
   wifi-menu -o wlp4s0 # pass an interface from the previous command
 #+END_SRC
-** Base install
+** Run the installer
 #+BEGIN_SRC bash :results output
   pacstrap -i /mnt base base-devel
 #+END_SRC
@@ -152,7 +468,7 @@ I just need to mount our EFI system partition at /mnt/boot.
 #+BEGIN_SRC bash :results output
   arch-chroot /mnt /bin/bash
 #+END_SRC
-** Local and time zone
+** Locale and time zone
 #+BEGIN_SRC bash :results output
   # Uncomment en_GB.UTF-8 UTF-8 in /etc/locale.gen
   locale-gen
@@ -161,21 +477,46 @@ I just need to mount our EFI system partition at /mnt/boot.
   ln -s /usr/share/zoneinfo/Europe/London /etc/localtime
   hwclock --systohc --utc
 #+END_SRC
+I must admit that I had some issues with GB locale after the installation.
+I switched to US locale and I did not have problems with it yet.
+IMO, even if you are in the UK, more things will work as you expect when you go with the US locale.
+
+Also, if you install gnome, it stores it's own locale settings and you need to set them later.
+To set it, I recommend installing =gnome-initial-setup= and restarting the X server.
 ** [[https://wiki.archlinux.org/index.php/beginners'_guide#Initramfs][initramfs]]
 Run:
 #+BEGIN_SRC bash :results output
   mkinitcpio -p linux
 #+END_SRC
 
+*** Problem with missing vmlinuz-linux
 Initially I have been getting an error:
 #+BEGIN_EXAMPLE
 ERROR: specified kernel image does not exist; /boot/vmlinuz-linux
 #+END_EXAMPLE
 
 The problem was that I mounted the /mnt/boot after running the pacstrap.
-I got some warnings I did not diagnose yet:
-*** TODO Warning: Possibly missing firmware wd719x
-*** TODO Warning: Possibly missing firmware aic94xx
+Pacstrap writes the vmlinuz-linux to /mnt/boot.
+*** Problem with missing firmware
+I also got some warnings about some missing firmware.
+#+BEGIN_EXAMPLE
+Warning: Possibly missing firmware wd719x
+Possibly missing firmware aic94xx
+#+END_EXAMPLE
+Strangely the problem somehow resolved itself.
+Some installation must have pulled the package.
+As [[https://bbs.archlinux.org/viewtopic.php?id=194977][this post mentions]], missing firmware can be found in AUR.
+
+After it is installed:
+#+BEGIN_SRC bash :results output 
+  modinfo wd719x | grep description
+  modinfo aic94xx | grep description
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+description:    Western Digital WD7193/7197/7296 SCSI driver
+description:    Adaptec aic94xx SAS/SATA driver
+#+END_EXAMPLE
 ** Boot Loader
 After brief investigation, I decided that I prefer the [[https://wiki.archlinux.org/index.php/Systemd-boot][systemd-boot]]
 as an x86_64 [[https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface][UEFI]] bootloader.
@@ -207,47 +548,140 @@ systemd-boot auto-detects Windows, so there is no need for the windows entry.
 My =/boot/loader/entries/= directory only contains arch.conf and I can dual boot to Windows.
 ** Network
 [[https://wiki.archlinux.org/index.php/beginners'_guide#Configure_the_network][Follow steps from the wiki.]]
+*** Suspicious Unnamed/non-netdev interface
+At some point later I noticed a suspcious device when running "iw dev":
+#+BEGIN_EXAMPLE
+  Unnamed/non-netdev interface
+  wdev 0x3
+  addr ...
+  type P2P-device
+#+END_EXAMPLE
+[[https://growworkinghard.com/2016/04/01/iw-dev-unnamednon-netdev-interface/][There is a post about it. It's probably harmless.]]
+
+Just in case, I disabled the p2p interface:
+#+BEGIN_SRC bash :results output
+  sudo echo "p2p_disabled=1" >> /etc/wpa_supplicant/wpa_supplicant.conf
+#+END_SRC
 ** Set password
 #+BEGIN_SRC bash :results output
   passwd
 #+END_SRC
-* After rebooting to the new system
+* Configuring Arch Linux after booting to the new system
 At this point I am able to dual boot to Arch/Windows.
 A few more things after rebooting:
-** Create the user
+** Create the user account
 #+BEGIN_SRC bash :results output
   useradd -m kozikow
   passwd kozikow
   visudo # in this file configure your user as a sudoer
   reboot
 #+END_SRC
-** libgl
-There were 4 alternative libgl implementations. I went for mesa-libgl, since 
-alternatives were from nvidia and this thinkpad has an integrated intel graphics card.
-** x86-input
-I had a choice between =x86-input-evdev= and =x86-input-libinput=.
+** Hardware support
+*** Input devices
+There are two alternative input libraries =x86-input-evdev= and =x86-input-libinput=.
 After reading [[https://wiki.archlinux.org/index.php/Libinput][two]] [[https://www.reddit.com/r/archlinux/comments/48tqj9/difference_between_libinput_and_evdev/][articles]] I decided to go with =x86-input-libinput=.
 [[https://www.reddit.com/r/archlinux/comments/48tqj9/difference_between_libinput_and_evdev/d0o266t][Some user mentioned: "With xf86-input-libinput, the trackpoint(and middle button scrolling) works out of the box on my ThinkPad, while xf86-input-evdev requires some additional settings".]]
 
-With libinput touch pad and track point worked without additional configuration.
+Indeed, with libinput everything worked after the installation, including track pad, track point and keyboard "extra" keys (e.g. sound or brightness up).
+The only annoyance was too slow track point.
+**** Adjust trackpoint sensitivity
 The only annoyance was too slow trackpoint.
-[[https://bugzilla.redhat.com/show_bug.cgi?id=1200717#c2][As this comment mentions]], this will increase touchpad speed:
-#+BEGIN_SRC bash :results output
-  su
-  echo 250 > /sys/bus/serio/devices/serio2/sensitivity
-#+END_SRC
 Methods from arch wiki didn't work for me, probably since they were meant for the old evdev.
-Even if there are multiple devices in /sys/bus/serio/devices/, only the touchpad sensitivity file present.
-** (optional) xorg and gnome
+***** Xinput method
+#+BEGIN_SRC bash :results output
+  pacman -S xorg-xinput
+  xinput list | grep TrackPoint # Find an id of tracpoint. 12 in my case.
+  xinput --set-prop 12 'libinput Accel Speed' 1.0
+#+END_SRC
+
+Pesisting this method requires adding the set-prop command to the .xinitrc.
+***** Device parameters method
+=/usr/local/bin/my_init.sh=:
+#+BEGIN_SRC bash :results output
+  echo 180 > /sys/bus/serio/devices/serio2/sensitivity
+#+END_SRC
+Even if there are multiple devices in /sys/bus/serio/devices/, only the touchpad have a sensitivity file present. [[https://bugzilla.redhat.com/show_bug.cgi?id=1200717#c2][Also see this post]].
+
+
+Persisting this method requires adding a systemd service.
+=/etc/systemd/system/my_init.service=
+#+BEGIN_EXAMPLE
+[Unit]
+Description=My initialization scripts
+
+[Service]
+ExecStart=/usr/local/bin/my_init.sh
+
+[Install]
+WantedBy=multi-user.target 
+#+END_EXAMPLE
+***** Value range
+xinput method ranges between -1.0 and 1.0.
+sensitivity ranges between 128 and 250.
+Personally I like my trackpoint quite speedy and I went for 1.0/180.
+It requires some initial adjustment, but afterwards is more efficient.
+*** Graphics
+Everything worked as expected after installing xorg.
+I had to choose a libgl library when install xorg. There were 4 alternative libgl implementations.
+I went for mesa-libgl, since alternatives were from nvidia and this thinkpad has an integrated intel graphics card.
+To verify that you are running the best resolution, WQHD (2560x1440), run:
+#+BEGIN_SRC bash :results output
+  xrandr                                                                                                                           1 ↵
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+Screen 0: minimum 320 x 200, current 2560 x 1440, maximum 8192 x 8192
+eDP-1 connected primary 2560x1440+0+0 (normal left inverted right x axis y axis) 310mm x 174mm
+   2560x1440     60.00*+
+   ...
+#+END_EXAMPLE
+*** Sound
+Sound worked without any special setup.
+*** HDMI
+Video worked out of the box, I didn't test sound yet.
+** (optional) Install xorg and gnome
 #+BEGIN_SRC bash :results output
   pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils
-  echo "exec gnome-session" >> ~/.xinitrc
+  echo "exec gnome-session" >> ~/.xinitrc # Make sure it's before any exec entry.
   startx
 #+END_SRC
-** Other hardware
-So far, other hardware components I used (e.g. graphics and music) worked without any additional setup.
-* You are on your own now
-From this point, everything is up to the personal preference.
+*** Problem with gnome-terminal not starting
+gnome-terminal worked initially, but then it refused to start.
+I much more prefer [[https://wiki.archlinux.org/index.php/Termite][termite]] as an terminal and it didn't experience the same issue.
+[[https://github.com/kozikow/kozikow-blog/blob/master/termite_config][My ~/.config/termite/config.]]
+** Screen lock
+I just wanted to show arch image as a lock screen image and it was not entirely trivial (I tried 4 lockscreen apps).
+
+What eventually worked:
+#+BEGIN_SRC bash :results output
+  sudo pacman -S xscreensaver
+  sudo pacman -S libgnome # Required if you use gnome. Pacman do not pick it by default.
+  # See http://askubuntu.com/questions/74200/how-do-i-use-a-photos-directory-as-my-screensaver
+  xscreensaver-demo # Opens a GUI to configure
+  echo "xscreensaver -no-splash &" >> ~/.xinitrc # Make sure it's before any exec entry.
+  xscreensaver-command -lock # Command to lock screen
+#+END_SRC
+[[https://wiki.archlinux.org/index.php/XScreenSaver][Also see XScreenSaver wiki entry.]]
+You can bind it to a key in gnome settings->keyboard->custom shortcuts.
+I tried to bind it from the console, but custom shortcuts via =gsettings set= are more complicated than just predefined keybindings.
+*** TODO Auto lock
+** Auto-connect to wifi
+It's nice to automatially connect to wifi when you boot, rather than run =wifi-menu= every time.
+#+BEGIN_SRC bash :results output
+  sudo pacman -S wpa_actiond
+  # find an interface name with iv dev
+  sudo systemctl enable netctl-auto@wlp4s0.service
+#+END_SRC
+Also see:
+[[https://wiki.archlinux.org/index.php/Netctl][Netctl wiki entry]]
+[[https://wiki.archlinux.org/index.php/Wireless_network_configuration][Wireless network configuration wiki entry]]
+* Conclusion
+At this point, you should be close to the point where distributions with graphical installer, like ubuntu, leave you.
+Congratulations, you skiped all the (Ubuntu) adware and understood how your OS works.
+
+
+From now on, everything is up to the personal preference.
+On top of the current setup, personally, I just run: chromium, (Termite + tmux + zsh), Emacs (a lot of things in it) and [[https://github.com/kozikow/keyremaplinux][my keyboard layout]].
 * Additional links
 ** Thinkpad Carbon arch wiki entries
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon

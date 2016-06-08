@@ -11,7 +11,7 @@ It should be mostly similar on modern laptops with GPT/UEFI.
 Even if Arch wiki is very comprehensive, it needs a bit of reading to decide what is right for the particular hardware.
 Dual booting with windows and UEFI/GPT are not as well documented as the plain old linux installations.
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
-* Device specs
+* Hardware specification of the laptop
 ** Serial number
 #+BEGIN_SRC bash :results output
   sudo cat /sys/devices/virtual/dmi/id/product_serial
@@ -310,7 +310,7 @@ Built-in Pointing Device
         Interface: PS/2
         Buttons: 2
 #+END_EXAMPLE
-* Base installation
+* Base installation of Arch Linux
 Mostly steps from https://wiki.archlinux.org/index.php/beginners'_guide, with customization for uefi and gpt.
 ** Prepare USB stick (on other computer with Ubuntu Linux 14.04)
 *** Download
@@ -563,7 +563,7 @@ Just in case, I disabled the p2p interface:
 #+BEGIN_SRC bash :results output
   passwd
 #+END_SRC
-* After rebooting to the new system
+* Configuring Arch Linux after booting to the new system
 At this point I am able to dual boot to Arch/Windows.
 A few more things after rebooting:
 ** Create the user account
@@ -669,10 +669,11 @@ It's nice to automatially connect to wifi when you boot, rather than run =wifi-m
 Also see:
 [[https://wiki.archlinux.org/index.php/Netctl][Netctl wiki entry]]
 [[https://wiki.archlinux.org/index.php/Wireless_network_configuration][Wireless network configuration wiki entry]]
-* You are on your own now
-At this point, you should be close to the point where distribution with graphical installer like ubuntu leave you,
-but you skiped all the adware.
+* Conclusion
+At this point, you should be close to the point where distribution with graphical installer, like ubuntu, leave you.
+Congratulations, you skiped all the (Ubuntu) adware and understood how your OS works.
 From now on, everything is up to the personal preference.
+On top of the current setup, personally, I just run: Chrome, (Termite + tmux + zsh), Emacs and [[https://github.com/kozikow/keyremaplinux][my keyboard layout]].
 * Additional links
 ** Thinkpad Carbon arch wiki entries
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon

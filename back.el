@@ -90,6 +90,7 @@ is always updated."
 (advice-add 'senator-next-tag :before #'record-global-position-for-back-button)
 
 ;; Record position before helm functions
+;; Many functions, like "Go to tag" pick the position based on it.
 (advice-add 'helm-buffers-list :before #'record-global-position-for-back-button)
 (advice-add 'helm-buffers-list :before #'record-global-position-for-back-button)
 (advice-add 'helm-confirm-and-exit-minibuffer :before #'record-global-position-for-back-button)

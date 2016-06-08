@@ -1,0 +1,20 @@
+Sorry for late reply, I don't use twitter regularly and I don't have notifications.
+I need to set up https://github.com/hayamiz/twittering-mode.
+
+The current version, (A bit hacky and uses my crappy, "this is not how you lisp", parentheses):
+
+
+I tried a few alternatives, like https://www.emacswiki.org/emacs/BackButton or https://www.emacswiki.org/emacs/BackButton or global mark ring,
+but all of them either didn't work or required manual adding to the ring.
+I got convinced in the meetup pub that it would be worth it to improve a few things and package it. 
+I may do it this Sunday (on Saturday I'm coming to the Tower).
+Before release:
+1. I want to have "multiple" mark rings, at least "visit" and "edit" mark ring. Emacs already can support it with things like =make-ring=. I actually use it for "forward" button.
+2. Make it more idiomatic lisp and "unhack" a few things. 
+3. Do not add to the ring if the relative line difference is too small.
+
+After release:
+1. Custom pop, i.e. go back to the previous mark within the same projectile project.
+2. Currently, if you use multiple windows and go "back", rather than switch windows it opens position
+from your old buffer in the current window. This may not be as easy to fix, as this is the problem
+on the "go to mark" level, rather than in my code.

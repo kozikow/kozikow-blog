@@ -594,7 +594,6 @@ Methods from arch wiki didn't work for me, probably since they were meant for th
   xinput --set-prop 12 'libinput Accel Speed' 1.0
 #+END_SRC
 
-
 Pesisting this method requires adding the set-prop command to the .xinitrc.
 ***** Device parameters method
 =/usr/local/bin/my_init.sh=:
@@ -640,7 +639,7 @@ Video worked out of the box, I didn't test sound yet.
 ** (optional) Install xorg and gnome
 #+BEGIN_SRC bash :results output
   pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils
-  echo "exec gnome-session" >> ~/.xinitrc
+  echo "exec gnome-session" >> ~/.xinitrc # Make sure it's before any exec entry.
   startx
 #+END_SRC
 *** Problem with gnome-terminal not starting
@@ -648,15 +647,26 @@ gnome-terminal worked initially, but then it refused to start.
 I much more prefer [[https://wiki.archlinux.org/index.php/Termite][termite]] as an terminal and it didn't experience the same issue.
 [[https://github.com/kozikow/kozikow-blog/blob/master/termite_config][My ~/.config/termite/config.]]
 ** Screen lock
-I just wanted to show arch image as a wallpaper and it took me a bit.
+I just wanted to show arch image as a lock screen image and it was not entirely trivial (I tried 4 lockscreen apps).
 #+BEGIN_SRC bash :results output
   pacman -S xscreensaver
   # See http://askubuntu.com/questions/74200/how-do-i-use-a-photos-directory-as-my-screensaver
   xscreensaver-demo # configure
-  echo "xscreensaver -no-splash &" >> ~/.xinitrc
+  echo "xscreensaver -no-splash &" >> ~/.xinitrc # Make sure it's before any exec entry.
   xscreensaver-command -lock # to lock screen
 #+END_SRC
 [[https://wiki.archlinux.org/index.php/XScreenSaver][Also see XScreenSaver wiki entry.]]
+You can bind it to a key in gnome settings->keyboard->custom shortcuts.
+I gave up how to make =gsettings set= work with custom shortcuts.
+** Auto-connect to wifi
+#+BEGIN_SRC bash :results output
+  sudo pacman -S wpa_actiond
+  # find an interface name with iv dev
+  sudo systemctl enable netctl-auto@wlp4s0.service
+#+END_SRC
+Also see:
+[[https://wiki.archlinux.org/index.php/Netctl][Netctl wiki entry]]
+[[https://wiki.archlinux.org/index.php/Wireless_network_configuration][Wireless network configuration wiki entry]]
 * You are on your own now
 At this point, you should be close to the point where distribution with graphical installer like ubuntu leave you,
 but you skiped all the adware.

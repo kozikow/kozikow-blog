@@ -659,6 +659,7 @@ I just wanted to show arch image as a lock screen image and it was not entirely 
 You can bind it to a key in gnome settings->keyboard->custom shortcuts.
 I gave up how to make =gsettings set= work with custom shortcuts.
 ** Auto-connect to wifi
+It's nice to automatially connect to wifi when you boot, rather than run =wifi-menu= every time.
 #+BEGIN_SRC bash :results output
   sudo pacman -S wpa_actiond
   # find an interface name with iv dev

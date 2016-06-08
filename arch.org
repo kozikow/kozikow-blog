@@ -13,7 +13,7 @@ Even if Arch wiki is very comprehensive, it needs a bit of reading to decide wha
 Dual booting with windows and UEFI/GPT are not as well documented as the plain old linux installations.
 
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
-org-mode is the optimal way to read this document, better than linear reading in wordpress.
+org-mode is the optimal way to read this document, better than the linear reading in wordpress.
 * Hardware specification of the laptop
 ** Serial number
 #+BEGIN_SRC bash :results output
@@ -654,11 +654,12 @@ I just wanted to show arch image as a lock screen image and it was not entirely 
 
 What eventually worked:
 #+BEGIN_SRC bash :results output
-  pacman -S xscreensaver
+  sudo pacman -S xscreensaver
+  sudo pacman -S libgnome # Required if you use gnome. Pacman do not pick it by default.
   # See http://askubuntu.com/questions/74200/how-do-i-use-a-photos-directory-as-my-screensaver
-  xscreensaver-demo # configure
+  xscreensaver-demo # Opens a GUI to configure
   echo "xscreensaver -no-splash &" >> ~/.xinitrc # Make sure it's before any exec entry.
-  xscreensaver-command -lock # to lock screen
+  xscreensaver-command -lock # Command to lock screen
 #+END_SRC
 [[https://wiki.archlinux.org/index.php/XScreenSaver][Also see XScreenSaver wiki entry.]]
 You can bind it to a key in gnome settings->keyboard->custom shortcuts.
@@ -674,7 +675,7 @@ Also see:
 [[https://wiki.archlinux.org/index.php/Netctl][Netctl wiki entry]]
 [[https://wiki.archlinux.org/index.php/Wireless_network_configuration][Wireless network configuration wiki entry]]
 * Conclusion
-At this point, you should be close to the point where distribution with graphical installer, like ubuntu, leave you.
+At this point, you should be close to the point where distributions with graphical installer, like ubuntu, leave you.
 Congratulations, you skiped all the (Ubuntu) adware and understood how your OS works.
 
 

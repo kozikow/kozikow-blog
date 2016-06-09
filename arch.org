@@ -39,7 +39,7 @@ Resolving every package manually is too time consuming to be worth it.
 ** Rolling release schedule is good
 If you need to run the same Linux version on 100s of machines in the large organization I get why you wouldn't want rolling release schedule.
 For personal desktop and in the new "containerized" world, rolling releases of recent packages are IMO way better.
-When I used other Linux distributions with big scheduled releases I was much more frequently hit by old version of packages rather than distribution updating too quickly.
+When I used other Linux distributions with big scheduled releases I was much more frequently hit by old version of packages rather than getting something too bleading edge on arch.
 Since upgrades were very big, it was harder to debug broken things after the upgrade.
 ** Arch wiki is awesome
 Even when I was using different Linux distributions I was using Arch wiki as my primary source of Linux knowledge.

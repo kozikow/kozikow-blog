@@ -721,7 +721,8 @@ eDP-1 connected primary 2560x1440+0+0 (normal left inverted right x axis y axis)
    ...
 #+END_EXAMPLE
 **** Some applications have problems with HiDPI
-[[https://wiki.archlinux.org/index.php/HiDPI][See Arch Wiki HiDPI section]].
+[[https://wiki.archlinux.org/index.php/HiDPI][You make take a look first at the Arch Wiki HiDPI section]].
+
 Majority of applications, including chromium, emacs and termite correctly handled the HiDPI.
 Some apps, like xscreensaver or xterm were displaying too small windows, not aware of the HiDPI screen.
 It seems that HiDPI is correctly handled system wide (xdpyinfo reports correct resolution), but just some old apps did not adapt yet.

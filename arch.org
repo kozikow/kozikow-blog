@@ -374,7 +374,7 @@ Re-plug the usb and:
 #+BEGIN_EXAMPLE
  arch EFI isolinux loader
 #+END_EXAMPLE
-** Prepare Windows 10 for dual booting
+** Prepare Windows 10 (for computer games) for dual booting
 You may want to take a look at [[https://wiki.archlinux.org/index.php/Dual_boot_with_Windows][Dual boot with Windows wiki entry]].
 *** Shrink the Windows partition from Windows
 Even if partition resizing is also supported from Linux, I feel like it's safer to do it from Windows.
@@ -578,6 +578,12 @@ You can find it using:
 *** No need for windows entry in =/boot/loader/entries/=
 systemd-boot auto-detects Windows, so there is no need for the windows entry.
 My =/boot/loader/entries/= directory only contains arch.conf and I can dual boot to Windows.
+*** Windows plays along well
+I heard stories that in such setup Windows does not like
+to play along and messes up the EFI system partition.
+
+I did not experience it. I am running "bleeding edge" Windows 10 develop preview,
+so it may have been fixed at some point.
 ** Network
 [[https://wiki.archlinux.org/index.php/beginners'_guide#Configure_the_network][Follow steps from the wiki.]]
 *** Suspicious Unnamed/non-netdev interface

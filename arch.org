@@ -669,6 +669,7 @@ eDP-1 connected primary 2560x1440+0+0 (normal left inverted right x axis y axis)
 #+END_EXAMPLE
 *** Sound
 Sound worked without any special setup.
+It was either configured out of the box or got pulled by gnome.
 *** HDMI
 The laptop comes with built in HDMI port.
 **** Video (4K TV)

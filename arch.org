@@ -1,6 +1,7 @@
 #+BLOG: wordpress
 #+POSTID: 513
 #+OPTIONS: toc:3
+#+OPTIONS: todo:t
 #+TITLE: Installing and configuring Arch Linux on Thinkpad X1 Carbon
 #+DATE: <2016-06-04 Sat>
 #+AUTHOR: Robert Kozikowski
@@ -14,6 +15,37 @@ Dual booting with windows and UEFI/GPT are not as well documented as the plain o
 
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
 org-mode is the optimal way to read this document, better than the linear reading in wordpress.
+* Why Arch Linux?
+** Minimalist distributions are not "masochistic"
+When some people hear that Arch starts without a GIU they think that using it is "masochistic".
+
+Firstly, you probably don't need majority of packages bundled with distributions like ubuntu.
+
+Secondly, while Ubuntu may take you "75%" there, you don't understand how different things got there and treat your OS like magical box, so you can't improve it.
+While Arch starts from "20%", by going "20%->75%" the learning experience allows you to eventually reach "100%" faster than 
+users who want to go from "75% -> 100%". Therefore, majority of users of distributions like Ubuntu are stuck around "80%".
+** Vs Gentoo or Slackware
+*** systemd is the future
+Other "minimalist" distributions like Gentoo or Slackware did not adapt the systemd yet.
+You may not like systemd, but it have already won.
+*** No need to compile packages (Gentoo)
+What's the benefit of waiting a week until all packages compile for your OS?
+Arch also offers efficient way to build from source if you want to do it.
+Why build from source some packages you only use from time to time, or want to check it out?
+*** No manual dependency resolution (Slackware)
+Understanding dependencies of your packages is good.
+You can simply run =pacman -Si gtk3= to see dependencies of a package.
+Resolving every package manually is too time consuming to be worth it.
+** Rolling release schedule is good
+If you need to run the same Linux version on 100s of machines in the large organization I get why you wouldn't want rolling release schedule.
+For personal desktop and in the new "containerized" world, rolling releases of recent packages are IMO way better.
+When I used other Linux distributions with big scheduled releases I was much more frequently hit by old version of packages rather than distribution updating too quickly.
+Since upgrades were very big, it was harder to debug broken things after the upgrade.
+** Arch wiki is awesome
+Even when I was using different Linux distributions I was using Arch wiki as my primary source of Linux knowledge.
+Any other distribution is not nearly as well documented as Arch.
+If you use other distribution you may sometimes get unpleasantly suprised by things working differently than Arch wiki.
+If you end up getting majority of your info about Linux from Arch wiki, why not switch to Arch?
 * Hardware specification of the laptop
 ** Serial number
 #+BEGIN_SRC bash :results output
@@ -342,7 +374,7 @@ Re-plug the usb and:
 #+BEGIN_EXAMPLE
  arch EFI isolinux loader
 #+END_EXAMPLE
-** Prepare Windows 10 for dual booting
+** Prepare Windows 10 (for computer games) for dual booting
 You may want to take a look at [[https://wiki.archlinux.org/index.php/Dual_boot_with_Windows][Dual boot with Windows wiki entry]].
 *** Shrink the Windows partition from Windows
 Even if partition resizing is also supported from Linux, I feel like it's safer to do it from Windows.
@@ -435,18 +467,23 @@ If you plan to frequently boot to Windows you may consider ext3 for better Windo
   mkfs.ext4 /dev/sda5
   mount /dev/sda5 /mnt
 #+END_SRC
-*** /boot partition
+*** Boot partition
+**** What is this EFISTUB about?
 Section about EFISTUB may be a bit confusing.
 Note that most EFI boot loaders are EFISTUBs themselves (they both create EFI
-entries). Bootling Linux using the kernel EFISTUB means you just skip the
-bootloader.
-
+entries). In particular, systemd-boot will create EFISTUB entries for itself.
+Bootling Linux using the kernel EFISTUB means you just skip the bootloader.
+In almost all cases you want to go for bootloader like systemd-boot.
+**** Mount existing [[*%5B%5Bhttps://wiki.archlinux.org/index.php/EFI_System_Partition%5D%5BEFI%20system%20partition%5D%5D%20already%20exists][EFI system partition]] to /mnt/boot
 Since I don't plan to use EFISTUB as a bootloader and use systemd-boot,
 I just need to mount our EFI system partition at /mnt/boot.
 #+BEGIN_SRC bash :results output
   mkdir -p /mnt/boot
   mount /dev/sda1 /mnt/boot
 #+END_SRC
+**** Do not format the /mnt/boot
+systemd-boot will be installed on top of existing Windows boot loader.
+It will detect the existing windows boot loader and set up the dual booting.
 ** Connect to internet
 #+BEGIN_SRC bash
   iw dev # Find an interfrace
@@ -520,6 +557,10 @@ description:    Adaptec aic94xx SAS/SATA driver
 ** Boot Loader
 After brief investigation, I decided that I prefer the [[https://wiki.archlinux.org/index.php/Systemd-boot][systemd-boot]]
 as an x86_64 [[https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface][UEFI]] bootloader.
+*** It will be installed on top of existing bootloader
+[[*Boot partition][I previously mounted EFI system partition to /boot.]]
+This partition has a pre-existing Windows boot loader.
+systemd-boot will be installed on top of that and it will auto-detect and properly handle the previously installed boot loader.
 *** Install systemd-boot
 #+BEGIN_SRC bash :results output
   bootctl install
@@ -546,6 +587,12 @@ You can find it using:
 *** No need for windows entry in =/boot/loader/entries/=
 systemd-boot auto-detects Windows, so there is no need for the windows entry.
 My =/boot/loader/entries/= directory only contains arch.conf and I can dual boot to Windows.
+*** Windows plays along well
+I heard stories that in such setup Windows does not like
+to play along and messes up the EFI system partition.
+
+I did not experience it. I am running "bleeding edge" Windows 10 develop preview,
+so it may have been fixed at some point.
 ** Network
 [[https://wiki.archlinux.org/index.php/beginners'_guide#Configure_the_network][Follow steps from the wiki.]]
 *** Suspicious Unnamed/non-netdev interface
@@ -576,6 +623,23 @@ A few more things after rebooting:
   visudo # in this file configure your user as a sudoer
   reboot
 #+END_SRC
+** (optional) Install xorg and gnome
+#+BEGIN_SRC bash :results output
+  pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils
+  echo "exec gnome-session" >> ~/.xinitrc # Make sure it's before any exec entry.
+  startx
+#+END_SRC
+*** Problem with gnome-terminal not starting
+gnome-terminal worked initially, but then it refused to start.
+I much more prefer [[https://wiki.archlinux.org/index.php/Termite][termite]] as an terminal and it didn't experience the same issue.
+[[https://github.com/kozikow/kozikow-blog/blob/master/termite_config][My ~/.config/termite/config.]]
+*** Tiling window manager
+Personally, I just spend 99% of my time in 3 programs: emacs, chromium and termite+tmux.
+I do the tiling and workspace management inside Emacs or tmux. I would get minimal additional benefit out of a tiling wm.
+The only things I need from the window manager are supplied by plain gnome:
+- Switch focus to emacs/chromium/termite with [[https://www.archlinux.org/packages/community/i686/wmctrl/][wmctrl]].
+- Move window one monitor left (=gsettings set org.gnome.desktop.wm.keybindings move-to-monitor-left=) and right (=move-to-monitor-right=)
+- Maximize window (=org.gnome.desktop.wm.keybindings maximize=)
 ** Hardware support
 *** Input devices
 There are two alternative input libraries =x86-input-evdev= and =x86-input-libinput=.
@@ -637,22 +701,22 @@ eDP-1 connected primary 2560x1440+0+0 (normal left inverted right x axis y axis)
 #+END_EXAMPLE
 *** Sound
 Sound worked without any special setup.
+It was either configured out of the box or got pulled by gnome.
 *** HDMI
-Video worked out of the box, I didn't test sound yet.
-** (optional) Install xorg and gnome
-#+BEGIN_SRC bash :results output
-  pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils
-  echo "exec gnome-session" >> ~/.xinitrc # Make sure it's before any exec entry.
-  startx
-#+END_SRC
-*** Problem with gnome-terminal not starting
-gnome-terminal worked initially, but then it refused to start.
-I much more prefer [[https://wiki.archlinux.org/index.php/Termite][termite]] as an terminal and it didn't experience the same issue.
-[[https://github.com/kozikow/kozikow-blog/blob/master/termite_config][My ~/.config/termite/config.]]
+The laptop comes with built in HDMI port.
+**** Video (4K TV)
+When I plug the HDMI it "just works".
+Resolution is not auto detected and by default I only see "part" of the screen.
+In gnome, I had to go to Settings->Displays and change the resolution of the secondary screen.
+4K resolution (4096x2160) is supported.
+Mirroring displays works as expected on the TV, although I had some issues with mirroring using a projector.
+**** Sound
+By default, sound plays from the laptop speaker.
+In gnome, I can choose to play it over HDMI in Settings->Sound.
 ** Screen lock
-I just wanted to show arch image as a lock screen image and it was not entirely trivial (I tried 4 lockscreen apps).
+gnome-screensaver did not work. I settled on xscreensaver instead.
 
-What eventually worked:
+If you want a xscreensaver with an image as a screensaver:
 #+BEGIN_SRC bash :results output
   sudo pacman -S xscreensaver
   sudo pacman -S libgnome # Required if you use gnome. Pacman do not pick it by default.
@@ -663,8 +727,7 @@ What eventually worked:
 #+END_SRC
 [[https://wiki.archlinux.org/index.php/XScreenSaver][Also see XScreenSaver wiki entry.]]
 You can bind it to a key in gnome settings->keyboard->custom shortcuts.
-I tried to bind it from the console, but custom shortcuts via =gsettings set= are more complicated than just predefined keybindings.
-*** TODO Auto lock
+You may also bind it using =gsettings set= command.
 ** Auto-connect to wifi
 It's nice to automatially connect to wifi when you boot, rather than run =wifi-menu= every time.
 #+BEGIN_SRC bash :results output

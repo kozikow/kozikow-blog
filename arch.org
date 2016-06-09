@@ -14,8 +14,9 @@ Even if Arch wiki is very comprehensive, it needs a bit of reading to decide wha
 Dual booting with windows and UEFI/GPT are not as well documented as the plain old linux installations.
 
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
-org-mode is the optimal way to read this document, better than the linear reading in wordpress.
 * Why Arch Linux?
+This section is for informative purposes only.
+If you are interested in installation only you can skip to [[*Base installation of Arch Linux][Base installation of Arch Linux]].
 ** Minimalist distributions teach you Linux
 When some people hear that Arch starts without a GIU they think that using it is "masochistic".
 
@@ -47,6 +48,8 @@ Any other distribution is not nearly as well documented as Arch.
 If you use other distribution you may sometimes get unpleasantly suprised by things working differently than Arch wiki.
 If you end up getting majority of your info about Linux from Arch wiki, why not switch to Arch?
 * Hardware specification of the laptop
+This section is for informative purposes only.
+If you are interested in installation only you can skip to [[*Base installation of Arch Linux][Base installation of Arch Linux]].
 ** Serial number
 #+BEGIN_SRC bash :results output
   sudo cat /sys/devices/virtual/dmi/id/product_serial

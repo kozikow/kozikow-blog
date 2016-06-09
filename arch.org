@@ -624,9 +624,10 @@ A few more things after rebooting:
   reboot
 #+END_SRC
 ** (optional) Install xorg and gnome
-Mass installing "gnome" package is against arch philosophy
-and if you have extra time you should go for picking packages 
-you need. If you want an easy way out you can just:
+Mass installing "gnome" package is against the arch philosophy,
+as it pulls many unnecessary things with it.
+If you have extra time you should pick invididual gnome packages or go for lighter WM.
+If you want an easy way out you can just:
 #+BEGIN_SRC bash :results output
   pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils
   echo "exec gnome-session" >> ~/.xinitrc # Make sure it's before any exec entry.

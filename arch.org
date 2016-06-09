@@ -16,7 +16,7 @@ Dual booting with windows and UEFI/GPT are not as well documented as the plain o
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
 org-mode is the optimal way to read this document, better than the linear reading in wordpress.
 * Why Arch Linux?
-** Minimalist distributions are not "masochistic"
+** Minimalist distributions teach you Linux
 When some people hear that Arch starts without a GIU they think that using it is "masochistic".
 
 Firstly, you probably don't need majority of packages bundled with distributions like ubuntu.
@@ -24,15 +24,15 @@ Firstly, you probably don't need majority of packages bundled with distributions
 Secondly, while Ubuntu may take you "75%" there, you don't understand how different things got there and treat your OS like magical box, so you can't improve it.
 While Arch starts from "20%", by going "20%->75%" the learning experience allows you to eventually reach "100%" faster than 
 users who want to go from "75% -> 100%". Therefore, majority of users of distributions like Ubuntu are stuck around "80%".
-** Vs Gentoo or Slackware
-*** systemd is the future
+*** Vs other minimalistic distributions - Gentoo and Slackware
+**** systemd is the future
 Other "minimalist" distributions like Gentoo or Slackware did not adapt the systemd yet.
-You may not like systemd, but it have already won.
-*** No need to compile packages (Gentoo)
+You may not like systemd, but it is winning.
+**** No need to compile packages (Gentoo)
 What's the benefit of waiting a week until all packages compile for your OS?
 Arch also offers efficient way to build from source if you want to do it.
 Why build from source some packages you only use from time to time, or want to check it out?
-*** No manual dependency resolution (Slackware)
+**** No manual dependency resolution (Slackware)
 Understanding dependencies of your packages is good.
 You can simply run =pacman -Si gtk3= to see dependencies of a package.
 Resolving every package manually is too time consuming to be worth it.

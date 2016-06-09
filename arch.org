@@ -17,7 +17,7 @@ Dual booting with windows and UEFI/GPT are not as well documented as the plain o
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
 * Why Arch Linux?
 This section is for informative purposes only.
-If you are interested in installation only you can skip to [[*Base installation of Arch Linux][Base installation of Arch Linux]].
+If you are only interested in the installation you can skip to [[*Base installation of Arch Linux][Base installation of Arch Linux]].
 ** Minimalist distributions teach you Linux
 When some people hear that Arch starts without a GIU they think that using it is "masochistic".
 
@@ -50,7 +50,7 @@ If you use other distribution you may sometimes get unpleasantly suprised by thi
 If you end up getting majority of your info about Linux from Arch wiki, why not switch to Arch?
 * Hardware specification of the laptop
 This section is for informative purposes only.
-If you are interested in installation only you can skip to [[*Base installation of Arch Linux][Base installation of Arch Linux]].
+If you are only interested in the installation you can skip to [[*Base installation of Arch Linux][Base installation of Arch Linux]].
 ** Serial number
 #+BEGIN_SRC bash :results output
   sudo cat /sys/devices/virtual/dmi/id/product_serial
@@ -725,7 +725,7 @@ eDP-1 connected primary 2560x1440+0+0 (normal left inverted right x axis y axis)
 
 Majority of applications, including chromium, emacs and termite correctly handled the HiDPI.
 Some apps, like xscreensaver or xterm were displaying too small windows, not aware of the HiDPI screen.
-It seems that HiDPI is correctly handled system wide (xdpyinfo reports correct resolution), but just some old apps did not adapt yet.
+It seems that HiDPI is correctly handled system wide (xdpyinfo reports correct dpi and resolution), but just some old apps did not adapt yet.
 I tried messing with ~/.Xresources. After no success, I decided that it's not worth it, since the only affect app I use is xscreensaver.
 *** Sound
 Sound worked without any special setup.

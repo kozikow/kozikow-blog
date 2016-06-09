@@ -654,10 +654,9 @@ There are two alternative input libraries =x86-input-evdev= and =x86-input-libin
 After reading [[https://wiki.archlinux.org/index.php/Libinput][two]] [[https://www.reddit.com/r/archlinux/comments/48tqj9/difference_between_libinput_and_evdev/][articles]] I decided to go with =x86-input-libinput=.
 [[https://www.reddit.com/r/archlinux/comments/48tqj9/difference_between_libinput_and_evdev/d0o266t][Some user mentioned: "With xf86-input-libinput, the trackpoint(and middle button scrolling) works out of the box on my ThinkPad, while xf86-input-evdev requires some additional settings".]]
 
-Indeed, with libinput everything worked after the installation, including track pad, track point and keyboard "extra" keys (e.g. sound or brightness up).
-The only annoyance was too slow track point.
+Indeed, with libinput everything reasonably worked after the installation.
 **** Keyboard hardware buttons
-Almost all keyboard "hardware" buttons work as expected.
+Almost all keyboard "hardware" buttons work as expected, including sound and brightness.
 There are two minor problems:
 ***** Airplane mode button
 It sucesfully turns on the airplane mode, but turning it off doesn't work well.
@@ -666,7 +665,7 @@ After turning the airplane mode off I have to run:
   sudo systemctl restart netctl-auto@wlp4s0.service
 #+END_SRC
 ***** F11 and F12
-I don't know what these buttons supposed to do, but they currently do nothing.
+I don't know what these buttons supposed to do, but pressing them currently have no effect.
 **** Adjust trackpoint sensitivity
 The only annoyance was too slow trackpoint.
 Methods from arch wiki didn't work for me, probably since they were meant for the old evdev.

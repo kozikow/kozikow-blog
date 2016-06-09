@@ -1,6 +1,7 @@
 #+BLOG: wordpress
 #+POSTID: 513
 #+OPTIONS: toc:3
+#+OPTIONS: todo:t
 #+TITLE: Installing and configuring Arch Linux on Thinkpad X1 Carbon
 #+DATE: <2016-06-04 Sat>
 #+AUTHOR: Robert Kozikowski
@@ -670,6 +671,15 @@ eDP-1 connected primary 2560x1440+0+0 (normal left inverted right x axis y axis)
 Sound worked without any special setup.
 *** HDMI
 Video worked out of the box, I didn't test sound yet.
+**** Video (4K TV)
+When I plug the HDMI it "just works".
+Resolution is not auto detected and by default I only see "part" of the screen.
+In gnome, I had to go to Settings->Displays and change the resolution of the secondary screen.
+4K resolution (4096x2160) is supported.
+Mirroring displays works as expected.
+**** Sound
+By default, sound plays from the laptop speaker.
+In gnome, I can choose to play it over HDMI in Settings->Sound.
 ** (optional) Install xorg and gnome
 #+BEGIN_SRC bash :results output
   pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils

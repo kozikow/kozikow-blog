@@ -676,7 +676,7 @@ When I plug the HDMI it "just works".
 Resolution is not auto detected and by default I only see "part" of the screen.
 In gnome, I had to go to Settings->Displays and change the resolution of the secondary screen.
 4K resolution (4096x2160) is supported.
-Mirroring displays works as expected.
+Mirroring displays works as expected on the TV, although I had some issues with mirroring using a projector.
 **** Sound
 By default, sound plays from the laptop speaker.
 In gnome, I can choose to play it over HDMI in Settings->Sound.

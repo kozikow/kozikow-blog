@@ -608,6 +608,16 @@ A few more things after rebooting:
   visudo # in this file configure your user as a sudoer
   reboot
 #+END_SRC
+** (optional) Install xorg and gnome
+#+BEGIN_SRC bash :results output
+  pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils
+  echo "exec gnome-session" >> ~/.xinitrc # Make sure it's before any exec entry.
+  startx
+#+END_SRC
+*** Problem with gnome-terminal not starting
+gnome-terminal worked initially, but then it refused to start.
+I much more prefer [[https://wiki.archlinux.org/index.php/Termite][termite]] as an terminal and it didn't experience the same issue.
+[[https://github.com/kozikow/kozikow-blog/blob/master/termite_config][My ~/.config/termite/config.]]
 ** Hardware support
 *** Input devices
 There are two alternative input libraries =x86-input-evdev= and =x86-input-libinput=.
@@ -681,16 +691,6 @@ Mirroring displays works as expected on the TV, although I had some issues with 
 **** Sound
 By default, sound plays from the laptop speaker.
 In gnome, I can choose to play it over HDMI in Settings->Sound.
-** (optional) Install xorg and gnome
-#+BEGIN_SRC bash :results output
-  pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils
-  echo "exec gnome-session" >> ~/.xinitrc # Make sure it's before any exec entry.
-  startx
-#+END_SRC
-*** Problem with gnome-terminal not starting
-gnome-terminal worked initially, but then it refused to start.
-I much more prefer [[https://wiki.archlinux.org/index.php/Termite][termite]] as an terminal and it didn't experience the same issue.
-[[https://github.com/kozikow/kozikow-blog/blob/master/termite_config][My ~/.config/termite/config.]]
 ** Screen lock
 I just wanted to show arch image as a lock screen image and it was not entirely trivial (I tried 4 lockscreen apps).
 

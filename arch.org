@@ -350,7 +350,7 @@ Built-in Pointing Device
         Buttons: 2
 #+END_EXAMPLE
 * Base installation of Arch Linux
-Mostly steps from https://wiki.archlinux.org/index.php/beginners'_guide, with customization for uefi and gpt.
+I mostly followed steps from https://wiki.archlinux.org/index.php/beginners'_guide with customization for Windows dual booting, uefi, gpt and HiDPI screen.
 ** Prepare USB stick (on other computer with Ubuntu Linux 14.04)
 *** Download
 I downloaded the =2016.06.01= image via torrent from https://www.archlinux.org/download/.
@@ -613,7 +613,7 @@ Just in case, I disabled the p2p interface:
 #+BEGIN_SRC bash :results output
   sudo echo "p2p_disabled=1" >> /etc/wpa_supplicant/wpa_supplicant.conf
 #+END_SRC
-** Set password
+** Set root password
 #+BEGIN_SRC bash :results output
   passwd
 #+END_SRC
@@ -634,7 +634,7 @@ If you have extra time you should pick invididual gnome packages or go for light
 If you want an easy way out you can just:
 #+BEGIN_SRC bash :results output
   pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils
-  echo "exec gnome-session" >> ~/.xinitrc # Make sure it's before any exec entry.
+  echo "exec gnome-session" >> ~/.xinitrc
   startx
 #+END_SRC
 *** Problem with gnome-terminal not starting
@@ -677,7 +677,7 @@ Methods from arch wiki didn't work for me, probably since they were meant for th
   xinput --set-prop 12 'libinput Accel Speed' 1.0
 #+END_SRC
 
-Pesisting this method requires adding the set-prop command to the .xinitrc.
+Pesisting this method requires adding the set-prop command to the .xinitrc (before =exec gnome-session=).
 ***** Device parameters method
 =/usr/local/bin/my_init.sh=:
 #+BEGIN_SRC bash :results output
@@ -742,7 +742,7 @@ Mirroring displays works as expected on the TV, although I had some issues with 
 By default, sound plays from the laptop speaker.
 In gnome, I can choose to play it over HDMI in Settings->Sound.
 ** Screen lock
-gnome-screensaver did not work. I settled on xscreensaver instead.
+gnome-screensaver was buggy when I tried to use it and I decided to use xscreensaver instead.
 
 If you want a xscreensaver with an image as a screensaver:
 #+BEGIN_SRC bash :results output

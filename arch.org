@@ -648,6 +648,17 @@ After reading [[https://wiki.archlinux.org/index.php/Libinput][two]] [[https://w
 
 Indeed, with libinput everything worked after the installation, including track pad, track point and keyboard "extra" keys (e.g. sound or brightness up).
 The only annoyance was too slow track point.
+**** Keyboard hardware buttons
+Almost all keyboard "hardware" buttons work as expected.
+There are two minor problems:
+***** Airplane mode button
+It sucesfully turns on the airplane mode, but turning it off doesn't work well.
+After turning the airplane mode off I have to run:
+#+BEGIN_SRC bash :results output
+  sudo systemctl restart netctl-auto@wlp4s0.service
+#+END_SRC
+***** F11 and F12
+I don't know what these buttons supposed to do, but they currently do nothing.
 **** Adjust trackpoint sensitivity
 The only annoyance was too slow trackpoint.
 Methods from arch wiki didn't work for me, probably since they were meant for the old evdev.

@@ -278,6 +278,24 @@ You also need to tell src block to interpret results directly with =:results out
 :END:
 
 Afterwards, you may assign result table to variable, edit it with org spreadsheet capabilities and use in other python script.
+
+** Share code between code blocks
+Using the [[http://orgmode.org/manual/Noweb-reference-syntax.html][Noweb reference syntax]]:
+#+NAME: init_block
+#+BEGIN_SRC ipython :session
+  constant=20
+  def some_function(x):
+    return constant * x
+#+END_SRC
+
+#+BEGIN_SRC ipython :session :noweb yes :results output
+  <<init_block>>
+  print some_function(30)
+#+END_SRC
+
+#+RESULTS:
+: 600
+
 ** TODO [#A] Connect to existing ipython kernel
 How it currently
 Create kernel with:
@@ -304,10 +322,6 @@ Create kernel with:
 # #+BEGIN_SRC ipython :session :existing kernel-17575.json :results output
 #   print print_me
 # #+END_SRC
-
-
-** TODO Shared code
-http://emacs.stackexchange.com/questions/2951/can-i-include-a-common-code-block-in-two-different-code-blocks-in-org-mode
 ** TODO Use global constant
 
 # #+CONSTANTS: message="Hello world"

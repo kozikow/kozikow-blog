@@ -468,17 +468,25 @@ If you plan to frequently boot to Windows you may consider ext3 for better Windo
   mount /dev/sda5 /mnt
 #+END_SRC
 *** /boot partition
+
+
+Do not format it - we will be installing systemd-boot on top of existing 
+windows boot configuration.
+**** What is this EFISTUB about?
 Section about EFISTUB may be a bit confusing.
 Note that most EFI boot loaders are EFISTUBs themselves (they both create EFI
-entries). Bootling Linux using the kernel EFISTUB means you just skip the
-bootloader.
-
+entries). In particular, systemd-boot will create EFISTUB entries for itself.
+Bootling Linux using the kernel EFISTUB means you just skip the bootloader.
+**** Mount existing [[*%5B%5Bhttps://wiki.archlinux.org/index.php/EFI_System_Partition%5D%5BEFI%20system%20partition%5D%5D%20already%20exists][EFI system partition]] to /mnt/boot
 Since I don't plan to use EFISTUB as a bootloader and use systemd-boot,
 I just need to mount our EFI system partition at /mnt/boot.
 #+BEGIN_SRC bash :results output
   mkdir -p /mnt/boot
   mount /dev/sda1 /mnt/boot
 #+END_SRC
+**** Do not format the /mnt/boot
+systemd-boot will be installed on top of existing Windows boot loader.
+It will detect the existing windows boot loader and set up the bual booting.
 ** Connect to internet
 #+BEGIN_SRC bash
   iw dev # Find an interfrace

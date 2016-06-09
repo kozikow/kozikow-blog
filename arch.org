@@ -13,6 +13,7 @@ It should be mostly similar on modern laptops with GPT/UEFI.
 Even if Arch wiki is very comprehensive, it needs a bit of reading to decide what is right for the particular hardware.
 Dual booting with windows and UEFI/GPT are not as well documented as the plain old linux installations.
 
+I got close to the 100% of laptop functionality working on Arch Linux, so you can use it as a signal when buying a new laptop.
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
 * Why Arch Linux?
 This section is for informative purposes only.
@@ -410,7 +411,7 @@ It prevents Arch from booting.
 3. Choose usb stick
 4. Arch
 ** Adjust tty font size
-Default tty font size if very small due to the high screen resolution.
+Default tty font size if very small due to the [[https://wiki.archlinux.org/index.php/HiDPI][HiDPI]] resolution.
 You can adjust it with:
 #+BEGIN_SRC bash :results output
   cd /usr/share/kbd/consolefonts
@@ -719,13 +720,12 @@ eDP-1 connected primary 2560x1440+0+0 (normal left inverted right x axis y axis)
    2560x1440     60.00*+
    ...
 #+END_EXAMPLE
-**** Some applications had problems with HiDPI
-[[https://wiki.archlinux.org/index.php/HiDPI][If you have any more problems with HiDPI read through Arch wiki sections.]]
-Majority of applications 
-(gnome applications, chromium, emacs, termite)
-correctly handled HiDPI screen.
-Some apps, like xscreensaver or xterm were displaying very small
-windows not adapted to HiDPI.
+**** Some applications have problems with HiDPI
+[[https://wiki.archlinux.org/index.php/HiDPI][See Arch Wiki HiDPI section]].
+Majority of applications, including chromium, emacs and termite correctly handled the HiDPI.
+Some apps, like xscreensaver or xterm were displaying too small windows, not aware of the HiDPI screen.
+It seems that HiDPI is correctly handled system wide (xdpyinfo reports correct resolution), but just some old apps did not adapt yet.
+I tried messing with ~/.Xresources. After no success, I decided that it's not worth it, since the only affect app I use is xscreensaver.
 *** Sound
 Sound worked without any special setup.
 It was either configured out of the box or got pulled by gnome.

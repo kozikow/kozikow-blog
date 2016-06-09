@@ -620,8 +620,8 @@ I much more prefer [[https://wiki.archlinux.org/index.php/Termite][termite]] as 
 [[https://github.com/kozikow/kozikow-blog/blob/master/termite_config][My ~/.config/termite/config.]]
 *** Tiling window manager
 Personally, I just spend 99% of my time in 3 programs: emacs, chromium and termite+tmux.
-I do the tiling and workspace management inside Emacs or tmux. I would get minimal additional benefit out of tiling wm.
-The only things I use from the window manager layer:
+I do the tiling and workspace management inside Emacs or tmux. I would get minimal additional benefit out of a tiling wm.
+The only things I need from the window manager are supplied by plain gnome:
 - Switch focus to emacs/chromium/termite with [[https://www.archlinux.org/packages/community/i686/wmctrl/][wmctrl]].
 - Move window one monitor left (=gsettings set org.gnome.desktop.wm.keybindings move-to-monitor-left=) and right (=move-to-monitor-right=)
 - Maximize window (=org.gnome.desktop.wm.keybindings maximize=)

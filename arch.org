@@ -703,9 +703,11 @@ sensitivity ranges between 128 and 250.
 Personally I like my trackpoint quite speedy and I went for 1.0/180.
 It requires some initial adjustment, but afterwards is more efficient.
 *** Graphics
-Everything worked as expected after installing xorg.
+Almost everything worked as expected after installing xorg and gnome.
+**** libgl 
 I had to choose a libgl library when install xorg. There were 4 alternative libgl implementations.
 I went for mesa-libgl, since alternatives were from nvidia and this thinkpad has an integrated intel graphics card.
+**** Screen Resolution
 To verify that you are running the best resolution, WQHD (2560x1440), run:
 #+BEGIN_SRC bash :results output
   xrandr                                                                                                                           1 ↵
@@ -717,6 +719,13 @@ eDP-1 connected primary 2560x1440+0+0 (normal left inverted right x axis y axis)
    2560x1440     60.00*+
    ...
 #+END_EXAMPLE
+**** Some applications had problems with HiDPI
+[[https://wiki.archlinux.org/index.php/HiDPI][If you have any more problems with HiDPI read through Arch wiki sections.]]
+Majority of applications 
+(gnome applications, chromium, emacs, termite)
+correctly handled HiDPI screen.
+Some apps, like xscreensaver or xterm were displaying very small
+windows not adapted to HiDPI.
 *** Sound
 Sound worked without any special setup.
 It was either configured out of the box or got pulled by gnome.

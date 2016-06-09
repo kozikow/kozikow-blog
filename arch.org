@@ -467,7 +467,7 @@ If you plan to frequently boot to Windows you may consider ext3 for better Windo
   mkfs.ext4 /dev/sda5
   mount /dev/sda5 /mnt
 #+END_SRC
-*** /boot partition
+*** Boot partition
 **** What is this EFISTUB about?
 Section about EFISTUB may be a bit confusing.
 Note that most EFI boot loaders are EFISTUBs themselves (they both create EFI
@@ -483,7 +483,7 @@ I just need to mount our EFI system partition at /mnt/boot.
 #+END_SRC
 **** Do not format the /mnt/boot
 systemd-boot will be installed on top of existing Windows boot loader.
-It will detect the existing windows boot loader and set up the bual booting.
+It will detect the existing windows boot loader and set up the dual booting.
 ** Connect to internet
 #+BEGIN_SRC bash
   iw dev # Find an interfrace
@@ -557,6 +557,10 @@ description:    Adaptec aic94xx SAS/SATA driver
 ** Boot Loader
 After brief investigation, I decided that I prefer the [[https://wiki.archlinux.org/index.php/Systemd-boot][systemd-boot]]
 as an x86_64 [[https://wiki.archlinux.org/index.php/Unified_Extensible_Firmware_Interface][UEFI]] bootloader.
+*** It will be installed on top of existing bootloader
+[[*Boot partition][I previously mounted EFI system partition to /boot.]]
+This partition has a pre-existing Windows boot loader.
+systemd-boot will be installed on top of that and it will auto-detect and properly handle the previously installed boot loader.
 *** Install systemd-boot
 #+BEGIN_SRC bash :results output
   bootctl install

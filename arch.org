@@ -692,9 +692,9 @@ Mirroring displays works as expected on the TV, although I had some issues with 
 By default, sound plays from the laptop speaker.
 In gnome, I can choose to play it over HDMI in Settings->Sound.
 ** Screen lock
-I just wanted to show arch image as a lock screen image and it was not entirely trivial (I tried 4 lockscreen apps).
+gnome-screensaver did not work. I settled on xscreensaver instead.
 
-What eventually worked:
+If you want a xscreensaver with an image as a screensaver:
 #+BEGIN_SRC bash :results output
   sudo pacman -S xscreensaver
   sudo pacman -S libgnome # Required if you use gnome. Pacman do not pick it by default.
@@ -705,7 +705,7 @@ What eventually worked:
 #+END_SRC
 [[https://wiki.archlinux.org/index.php/XScreenSaver][Also see XScreenSaver wiki entry.]]
 You can bind it to a key in gnome settings->keyboard->custom shortcuts.
-I tried to bind it from the console, but custom shortcuts via =gsettings set= are more complicated than just predefined keybindings.
+You may also bind it using =gsettings set= command.
 ** Auto-connect to wifi
 It's nice to automatially connect to wifi when you boot, rather than run =wifi-menu= every time.
 #+BEGIN_SRC bash :results output

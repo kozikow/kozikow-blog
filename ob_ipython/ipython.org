@@ -178,6 +178,7 @@ Add to your Emacs config:
 #+BEGIN_SRC emacs-lisp
   (ob-ipython-kill-kernel)
 #+END_SRC
+You may also just kill =*python*= buffers.
 ** Open "Python" buffer to see python errors
 ** Toggle elisp debug on error
 #+BEGIN_SRC emacs-lisp
@@ -226,7 +227,7 @@ So far I have been using custom elisp code, but a few things can be nicer about 
 | <2016-06-17 Fri> |  4 | 3 |  3 |
 | <2016-06-18 Sat> |  8 | 4 |  4 |
 | <2016-06-19 Sun> | 16 | 5 | 30 |
-| <2016-06-20 Mon> | 32 | 6 | 40 |
+| <2016-06-20 Mon> | 32 | 6 | 20 |
 |------------------+----+---+----|
 
 #+BEGIN_SRC ipython :session :file plot.png :exports both :var table=data_table
@@ -241,6 +242,7 @@ So far I have been using custom elisp code, but a few things can be nicer about 
 
 #+RESULTS:
 [[file:plot.png]]
+
 ** Org table -> Pandas -> Org table
 You have to write small reusable snippet to print pandas to org format.
 You can add it to your builtin ipython code snippets.

@@ -415,8 +415,8 @@ Default tty font size if very small due to the [[https://wiki.archlinux.org/inde
 You can adjust it with:
 #+BEGIN_SRC bash :results output
   cd /usr/share/kbd/consolefonts
-  ls | grep -P "[2-9]\d+\.ps" # Find big fonts
-  setfont latarcyrheb-sun32
+  ls | grep -P "[2-9]\d+\.ps" # Find big fonts.
+  setfont latarcyrheb-sun32 # The biggest one I found.
 #+END_SRC
 It's a good idea to persist the font. Add it later to =/etc/vconsole.conf=, after you install a new OS:
 #+BEGIN_SRC bash :results output

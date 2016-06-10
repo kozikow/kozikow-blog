@@ -203,6 +203,57 @@ Foe example, to avoid adding =%matplotlib inline= to each source code block:
 #+BEGIN_SRC bash
   echo "%matplotlib inline" >> ~/.ipython/profile_default/startup/66-matplot.py
 #+END_SRC
+** Generating code blocks
+Although author of ob-ipython recommends ya-snippet, I prefer to only put very simple snippets into yasnippet.
+I generate my code blocks with elisp. Added advantage is I automatically open it with =org-edit-src-code= afterwards.
+My code for auto generating code blocks:
+#+BEGIN_SRC clojure :results output
+(defun my-get-unique-str ()
+  "Adapted from http://ergoemacs.org/emacs/elisp_generate_uuid.html"
+  (md5 (format "%s%s%s%s%s%s%s%s%s%s"
+               (user-uid)
+               (emacs-pid)
+               (system-name)
+               (user-full-name)
+               (current-time)
+               (emacs-uptime)
+               (garbage-collect)
+               (buffer-string)
+               (random)
+               (recent-keys)))
+  )
+
+(defun my-org-insert-src-block (src-code-type)
+  "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
+  (interactive
+   (let ((src-code-types
+          '("python" "ipython-stdout" "ipython-plot" "scala" "java" "literal" "quote" "emacs-lisp" "C" "bash" "js" "cpp" "sql" "latex" "matlab" "org" "perl" "xml" "clojure")))
+     (list (completing-read "Source code type: " src-code-types))))
+  (progn
+    (cond
+     ((equal src-code-type "literal")
+      (insert "#+BEGIN_EXAMPLE\n"))
+     ((equal src-code-type "quote")
+      (insert "#+BEGIN_QUOTE\n"))
+     ((equal src-code-type "ipython-stdout")
+      (insert "#+BEGIN_SRC ipython :session :results output :exports both\n"))
+     ((equal src-code-type "ipython-plot")
+      (insert (format "#+BEGIN_SRC ipython :session :file %s.png :exports both\n" (my-get-unique-str))))
+     (t
+      (insert (format "#+BEGIN_SRC %s :results output\n" src-code-type))))
+    (newline-and-indent)
+    (cond
+     ((equal src-code-type "literal")
+      (insert "#+END_EXAMPLE\n"))
+     ((equal src-code-type "quote")
+      (insert "#+END_QUOTE\n"))
+     (t
+      (insert "#+END_SRC\n")))
+    (previous-line 2)
+    (org-edit-src-code)))
+
+#+END_SRC
+
 ** TODO Configure yasnippet
 ob-ipython docs suggest yasnippet for editing code.
 So far I have been using custom elisp code, but a few things can be nicer about yasnippet.

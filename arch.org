@@ -20,7 +20,7 @@ This section is for informative purposes only.
 If you are only interested in the installation you can skip to [[*Base installation of Arch Linux][Base installation of Arch Linux]].
 ** Minimalist distributions teach you Linux
 When some people hear that Arch starts without a GIU they think that using it is "masochistic".
-
+** 
 Firstly, you probably don't need majority of packages bundled with distributions like ubuntu.
 
 Secondly, while Ubuntu may take you "75%" there, you don't understand how different things got there and treat your OS like magical box, so you can't improve it.
@@ -733,6 +733,8 @@ Majority of applications, including chromium, emacs and termite correctly handle
 Some apps, like xscreensaver or xterm were displaying too small windows, not aware of the HiDPI screen.
 It seems that HiDPI is correctly handled system wide (xdpyinfo reports correct dpi and resolution), but just some old apps did not adapt yet.
 I tried messing with ~/.Xresources. After no success, I decided that it's not worth it, since the only affect app I use is xscreensaver.
+***** TODO Try =xrdb ~/.Xresources &=
+I didn't add =&= when adding this line to xrdb.
 *** Sound
 Sound worked without any special setup.
 It was either configured out of the box or got pulled by gnome.
@@ -775,12 +777,18 @@ Also see:
 ** Things I didn't configure yet
 *** TODO [[https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_4)][Verify that SSD trims are aplied.]] Optimize for SSDs
 *** TODO Auto mount windows disk and choose the the ntfs implementation
-Either kernel one or https://wiki.archlinux.org/index.php/NTFS-3G.
+Basic mount works. I did not configure auto mounting yet.
+I've also heard that alternative ntfs impelementation, [[https://wiki.archlinux.org/index.php/NTFS-3G][NTFS-3G]], is better than kernel version.
 *** TODO Figure out sleep/hibernate story
 Currently I just use some settings from xscreensaver
 *** TODO Try fingerprint sensor
-*** TODO Try SIM card reader
-I ordered a sim card.
+*** TODO Try card readers.
+- SimCard
+- SmartCard
+- Media Card
+*** TODO Disk encryption
+*** TODO Benchmark battery
+Althought it seems to last pretty long.
 * Conclusion
 At this point, you should be close to the point where distributions with graphical installer, like ubuntu, leave you.
 Congratulations, you skiped all the (Ubuntu) adware and understood how your OS works.

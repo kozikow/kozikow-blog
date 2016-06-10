@@ -361,7 +361,12 @@ Article: https://wiki.archlinux.org/index.php/USB_flash_installation_media
 #+BEGIN_SRC bash :results output
   lsblk | grep media
 #+END_SRC
-**** Make sure that it is not mounted.
+**** If USB stick got auto-mounted
+***** See that it got auto mounted
+#+BEGIN_SRC bash :results output
+  dmesg -wH
+#+END_SRC
+***** Make sure that it is not mounted.
 #+BEGIN_SRC bash :results output
   umount /dev/sdb1
 #+END_SRC

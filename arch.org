@@ -350,6 +350,7 @@ Built-in Pointing Device
         Buttons: 2
 #+END_EXAMPLE
 * Base installation of Arch Linux
+[[https://wiki.archlinux.org/index.php/Category:Getting_and_installing_Arch][See alternative methods at arch wiki.]]
 I mostly followed steps from https://wiki.archlinux.org/index.php/beginners'_guide with customization for Windows dual booting, uefi, gpt and HiDPI screen.
 ** Prepare USB stick (on other computer with Ubuntu Linux 14.04)
 *** Download
@@ -765,6 +766,15 @@ It's nice to automatially connect to wifi when you boot, rather than run =wifi-m
 Also see:
 [[https://wiki.archlinux.org/index.php/Netctl][Netctl wiki entry]]
 [[https://wiki.archlinux.org/index.php/Wireless_network_configuration][Wireless network configuration wiki entry]]
+** Things I didn't configure yet
+*** TODO [[https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_4)][Verify that SSD trims are aplied.]] Optimize for SSDs
+*** TODO Auto mount windows disk and choose the the ntfs implementation
+Either kernel one or https://wiki.archlinux.org/index.php/NTFS-3G.
+*** TODO Figure out sleep/hibernate story
+Currently I just use some settings from xscreensaver
+*** TODO Try fingerprint sensor
+*** TODO Try SIM card reader
+I ordered a sim card.
 * Conclusion
 At this point, you should be close to the point where distributions with graphical installer, like ubuntu, leave you.
 Congratulations, you skiped all the (Ubuntu) adware and understood how your OS works.

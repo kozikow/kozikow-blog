@@ -357,7 +357,7 @@ I mostly followed steps from https://wiki.archlinux.org/index.php/beginners'_gui
 I downloaded the =2016.06.01= image via torrent from https://www.archlinux.org/download/.
 *** Upload it to the usb stick
 Since the laptop don't have the CD, USB is the best booting option.
-You may also take a look at arch wiki entry about [[https://wiki.archlinux.org/index.php/USB_flash_installation_media][USB flash installation media.]]
+More detailed description is at [[https://wiki.archlinux.org/index.php/USB_flash_installation_media][Arch wiki article about USB flash installation media.]]
 **** Find out the name of your USB drive with lsblk
 #+BEGIN_SRC bash :results output
   lsblk | grep media

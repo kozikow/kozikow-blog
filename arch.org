@@ -8,45 +8,49 @@
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
 I recently configured Arch Linux on the new Thinkpad X1 Carbon (4th generation) with dual booting to the pre-installed Windows 10 (for games I occasionally play).
-It should be mostly similar on modern laptops with GPT/UEFI.
+I got close to the 100% of laptop functionality working on the Arch Linux, confirming the rumor that Thinkpads work well with Linux.
+Setup should be very similar on modern laptops with GPT/UEFI.
 
 Even if Arch wiki is very comprehensive, it needs a bit of reading to decide what is right for the particular hardware.
 Dual booting with windows and UEFI/GPT are not as well documented as the plain old linux installations.
 
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
-org-mode is the optimal way to read this document, better than the linear reading in wordpress.
 * Why Arch Linux?
-** Minimalist distributions are not "masochistic"
+This section is for informative purposes only.
+If you are only interested in the installation you can skip to [[*Base installation of Arch Linux][Base installation of Arch Linux]].
+** Minimalist distributions teach you Linux
 When some people hear that Arch starts without a GIU they think that using it is "masochistic".
-
+** 
 Firstly, you probably don't need majority of packages bundled with distributions like ubuntu.
 
 Secondly, while Ubuntu may take you "75%" there, you don't understand how different things got there and treat your OS like magical box, so you can't improve it.
 While Arch starts from "20%", by going "20%->75%" the learning experience allows you to eventually reach "100%" faster than 
 users who want to go from "75% -> 100%". Therefore, majority of users of distributions like Ubuntu are stuck around "80%".
-** Vs Gentoo or Slackware
-*** systemd is the future
+*** Vs other minimalistic distributions - Gentoo and Slackware
+**** systemd is the future
 Other "minimalist" distributions like Gentoo or Slackware did not adapt the systemd yet.
-You may not like systemd, but it have already won.
-*** No need to compile packages (Gentoo)
+You may not like systemd, but you can't deny it's winning.
+**** No need to compile packages (Gentoo)
 What's the benefit of waiting a week until all packages compile for your OS?
-Arch also offers efficient way to build from source if you want to do it.
-Why build from source some packages you only use from time to time, or want to check it out?
-*** No manual dependency resolution (Slackware)
+On Arch you can choose between pre-installing packages via pacman and building them with makepkg.
+If I want to just check out some program, or use it once per month (e.g. gimp) I wouldn't want to compile it.
+**** No manual dependency resolution (Slackware)
 Understanding dependencies of your packages is good.
 You can simply run =pacman -Si gtk3= to see dependencies of a package.
-Resolving every package manually is too time consuming to be worth it.
+Resolving each package manually is too time consuming to be worth it.
 ** Rolling release schedule is good
 If you need to run the same Linux version on 100s of machines in the large organization I get why you wouldn't want rolling release schedule.
-For personal desktop and in the new "containerized" world, rolling releases of recent packages are IMO way better.
-When I used other Linux distributions with big scheduled releases I was much more frequently hit by old version of packages rather than distribution updating too quickly.
-Since upgrades were very big, it was harder to debug broken things after the upgrade.
+- I was much more frequently hit by missing this "new cool flag" in old distributions, rather than I am hit by the bleeding edge packages in Arch Linux.
+- If something goes wrong, you can always open a bug and [[https://wiki.archlinux.org/index.php/Downgrading_packages][downgrade to older version]].
+- In the new containerised world servers have less "intervined" dependencies, so it's easier to just run the latest software from Arch.
+- Bugs caused by upgrades in distributions with huge releases are harder to debug. Since everything changes at once it's harder to isolate the failure.
 ** Arch wiki is awesome
 Even when I was using different Linux distributions I was using Arch wiki as my primary source of Linux knowledge.
 Any other distribution is not nearly as well documented as Arch.
-If you use other distribution you may sometimes get unpleasantly suprised by things working differently than Arch wiki.
 If you end up getting majority of your info about Linux from Arch wiki, why not switch to Arch?
 * Hardware specification of the laptop
+This section is for informative purposes only.
+If you are only interested in the installation you can skip to [[*Base installation of Arch Linux][Base installation of Arch Linux]].
 ** Serial number
 #+BEGIN_SRC bash :results output
   sudo cat /sys/devices/virtual/dmi/id/product_serial
@@ -346,17 +350,24 @@ Built-in Pointing Device
         Buttons: 2
 #+END_EXAMPLE
 * Base installation of Arch Linux
-Mostly steps from https://wiki.archlinux.org/index.php/beginners'_guide, with customization for uefi and gpt.
+[[https://wiki.archlinux.org/index.php/Category:Getting_and_installing_Arch][See alternative methods at arch wiki.]]
+I mostly followed steps from https://wiki.archlinux.org/index.php/beginners'_guide with customization for Windows dual booting, uefi, gpt and HiDPI screen.
 ** Prepare USB stick (on other computer with Ubuntu Linux 14.04)
 *** Download
 I downloaded the =2016.06.01= image via torrent from https://www.archlinux.org/download/.
 *** Upload it to the usb stick
-Article: https://wiki.archlinux.org/index.php/USB_flash_installation_media
+Since the laptop don't have the CD, USB is the best booting option.
+More detailed description is at [[https://wiki.archlinux.org/index.php/USB_flash_installation_media][Arch wiki article about USB flash installation media.]]
 **** Find out the name of your USB drive with lsblk
 #+BEGIN_SRC bash :results output
   lsblk | grep media
 #+END_SRC
-**** Make sure that it is not mounted.
+**** If USB stick got auto-mounted
+***** See that it got auto mounted
+#+BEGIN_SRC bash :results output
+  dmesg -wH
+#+END_SRC
+***** Make sure that it is not mounted.
 #+BEGIN_SRC bash :results output
   umount /dev/sdb1
 #+END_SRC
@@ -407,12 +418,12 @@ It prevents Arch from booting.
 3. Choose usb stick
 4. Arch
 ** Adjust tty font size
-Default tty font size if very small due to the high screen resolution.
+Default tty font size if very small due to the [[https://wiki.archlinux.org/index.php/HiDPI][HiDPI]] resolution.
 You can adjust it with:
 #+BEGIN_SRC bash :results output
   cd /usr/share/kbd/consolefonts
-  ls | grep -P "[2-9]\d+\.ps" # Find big fonts
-  setfont latarcyrheb-sun32
+  ls | grep -P "[2-9]\d+\.ps" # Find big fonts.
+  setfont latarcyrheb-sun32 # The biggest one I found.
 #+END_SRC
 It's a good idea to persist the font. Add it later to =/etc/vconsole.conf=, after you install a new OS:
 #+BEGIN_SRC bash :results output
@@ -609,7 +620,7 @@ Just in case, I disabled the p2p interface:
 #+BEGIN_SRC bash :results output
   sudo echo "p2p_disabled=1" >> /etc/wpa_supplicant/wpa_supplicant.conf
 #+END_SRC
-** Set password
+** Set root password
 #+BEGIN_SRC bash :results output
   passwd
 #+END_SRC
@@ -624,9 +635,13 @@ A few more things after rebooting:
   reboot
 #+END_SRC
 ** (optional) Install xorg and gnome
+Mass installing "gnome" package is against the arch philosophy,
+as it pulls many unnecessary things with it.
+If you have extra time you should pick invididual gnome packages or go for lighter WM.
+If you want an easy way out you can just:
 #+BEGIN_SRC bash :results output
   pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils
-  echo "exec gnome-session" >> ~/.xinitrc # Make sure it's before any exec entry.
+  echo "exec gnome-session" >> ~/.xinitrc
   startx
 #+END_SRC
 *** Problem with gnome-terminal not starting
@@ -646,8 +661,18 @@ There are two alternative input libraries =x86-input-evdev= and =x86-input-libin
 After reading [[https://wiki.archlinux.org/index.php/Libinput][two]] [[https://www.reddit.com/r/archlinux/comments/48tqj9/difference_between_libinput_and_evdev/][articles]] I decided to go with =x86-input-libinput=.
 [[https://www.reddit.com/r/archlinux/comments/48tqj9/difference_between_libinput_and_evdev/d0o266t][Some user mentioned: "With xf86-input-libinput, the trackpoint(and middle button scrolling) works out of the box on my ThinkPad, while xf86-input-evdev requires some additional settings".]]
 
-Indeed, with libinput everything worked after the installation, including track pad, track point and keyboard "extra" keys (e.g. sound or brightness up).
-The only annoyance was too slow track point.
+Indeed, with libinput everything reasonably worked after the installation.
+**** Keyboard hardware buttons
+Almost all keyboard "hardware" buttons work as expected, including sound and brightness.
+There are two minor problems:
+***** Airplane mode button
+It sucesfully turns on the airplane mode, but turning it off doesn't work well.
+After turning the airplane mode off I have to run:
+#+BEGIN_SRC bash :results output
+  sudo systemctl restart netctl-auto@wlp4s0.service
+#+END_SRC
+***** F11 and F12
+I don't know what these buttons supposed to do, but pressing them currently have no effect.
 **** Adjust trackpoint sensitivity
 The only annoyance was too slow trackpoint.
 Methods from arch wiki didn't work for me, probably since they were meant for the old evdev.
@@ -658,7 +683,7 @@ Methods from arch wiki didn't work for me, probably since they were meant for th
   xinput --set-prop 12 'libinput Accel Speed' 1.0
 #+END_SRC
 
-Pesisting this method requires adding the set-prop command to the .xinitrc.
+Persisting this method requires adding the set-prop command to the .xinitrc (before =exec gnome-session=).
 ***** Device parameters method
 =/usr/local/bin/my_init.sh=:
 #+BEGIN_SRC bash :results output
@@ -685,9 +710,11 @@ sensitivity ranges between 128 and 250.
 Personally I like my trackpoint quite speedy and I went for 1.0/180.
 It requires some initial adjustment, but afterwards is more efficient.
 *** Graphics
-Everything worked as expected after installing xorg.
+Almost everything worked as expected after installing xorg and gnome.
+**** libgl 
 I had to choose a libgl library when install xorg. There were 4 alternative libgl implementations.
 I went for mesa-libgl, since alternatives were from nvidia and this thinkpad has an integrated intel graphics card.
+**** Screen Resolution
 To verify that you are running the best resolution, WQHD (2560x1440), run:
 #+BEGIN_SRC bash :results output
   xrandr                                                                                                                           1 ↵
@@ -699,6 +726,15 @@ eDP-1 connected primary 2560x1440+0+0 (normal left inverted right x axis y axis)
    2560x1440     60.00*+
    ...
 #+END_EXAMPLE
+**** Some applications have problems with HiDPI
+[[https://wiki.archlinux.org/index.php/HiDPI][You make take a look first at the Arch Wiki HiDPI section]].
+
+Majority of applications, including chromium, emacs and termite correctly handled the HiDPI.
+Some apps, like xscreensaver or xterm were displaying too small windows, not aware of the HiDPI screen.
+It seems that HiDPI is correctly handled system wide (xdpyinfo reports correct dpi and resolution), but just some old apps did not adapt yet.
+I tried messing with ~/.Xresources. After no success, I decided that it's not worth it, since the only affect app I use is xscreensaver.
+***** TODO Try =xrdb ~/.Xresources &=
+I didn't add =&= when adding this line to xrdb.
 *** Sound
 Sound worked without any special setup.
 It was either configured out of the box or got pulled by gnome.
@@ -714,7 +750,7 @@ Mirroring displays works as expected on the TV, although I had some issues with 
 By default, sound plays from the laptop speaker.
 In gnome, I can choose to play it over HDMI in Settings->Sound.
 ** Screen lock
-gnome-screensaver did not work. I settled on xscreensaver instead.
+gnome-screensaver was buggy when I tried to use it and I decided to use xscreensaver instead.
 
 If you want a xscreensaver with an image as a screensaver:
 #+BEGIN_SRC bash :results output
@@ -738,15 +774,32 @@ It's nice to automatially connect to wifi when you boot, rather than run =wifi-m
 Also see:
 [[https://wiki.archlinux.org/index.php/Netctl][Netctl wiki entry]]
 [[https://wiki.archlinux.org/index.php/Wireless_network_configuration][Wireless network configuration wiki entry]]
+** Things I didn't configure yet
+*** TODO [[https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_4)][Verify that SSD trims are aplied.]] Optimize for SSDs
+*** TODO Auto mount windows disk and choose the the ntfs implementation
+Basic mount works. I did not configure auto mounting yet.
+I've also heard that alternative ntfs impelementation, [[https://wiki.archlinux.org/index.php/NTFS-3G][NTFS-3G]], is better than kernel version.
+*** TODO Figure out sleep/hibernate story
+Currently I just use some settings from xscreensaver
+*** TODO Try fingerprint sensor
+*** TODO Try card readers.
+- SimCard
+- SmartCard
+- Media Card
+*** TODO Disk encryption
+*** TODO Benchmark battery
+Althought it seems to last pretty long.
 * Conclusion
 At this point, you should be close to the point where distributions with graphical installer, like ubuntu, leave you.
 Congratulations, you skiped all the (Ubuntu) adware and understood how your OS works.
 
-
 From now on, everything is up to the personal preference.
-On top of the current setup, personally, I just run: chromium, (Termite + tmux + zsh), Emacs (a lot of things in it) and [[https://github.com/kozikow/keyremaplinux][my keyboard layout]].
 * Additional links
 ** Thinkpad Carbon arch wiki entries
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_2)
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_3)
+[[https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_4)][https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_4)]]
+** Thinkwiki
+Many links on http://www.thinkwiki.org/wiki/ThinkWiki are interesting, for example:
+http://www.thinkwiki.org/wiki/X1_Linux_Tweaks

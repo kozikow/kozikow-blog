@@ -676,7 +676,7 @@ Methods from arch wiki didn't work for me, probably since they were meant for th
   xinput --set-prop 12 'libinput Accel Speed' 1.0
 #+END_SRC
 
-Pesisting this method requires adding the set-prop command to the .xinitrc (before =exec gnome-session=).
+Persisting this method requires adding the set-prop command to the .xinitrc (before =exec gnome-session=).
 ***** Device parameters method
 =/usr/local/bin/my_init.sh=:
 #+BEGIN_SRC bash :results output

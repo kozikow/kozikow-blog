@@ -29,24 +29,24 @@ users who want to go from "75% -> 100%". Therefore, majority of users of distrib
 *** Vs other minimalistic distributions - Gentoo and Slackware
 **** systemd is the future
 Other "minimalist" distributions like Gentoo or Slackware did not adapt the systemd yet.
-You may not like systemd, but it is winning.
+You may not like systemd, but you can't deny it's winning.
 **** No need to compile packages (Gentoo)
 What's the benefit of waiting a week until all packages compile for your OS?
-Arch also offers efficient way to build from source if you want to do it.
-Why build from source some packages you only use from time to time, or want to check it out?
+On Arch you can choose between pre-installing packages via pacman and building them with makepkg.
+If I want to just check out some program, or use it once per month (e.g. gimp) I wouldn't want to compile it.
 **** No manual dependency resolution (Slackware)
 Understanding dependencies of your packages is good.
 You can simply run =pacman -Si gtk3= to see dependencies of a package.
-Resolving every package manually is too time consuming to be worth it.
+Resolving each package manually is too time consuming to be worth it.
 ** Rolling release schedule is good
 If you need to run the same Linux version on 100s of machines in the large organization I get why you wouldn't want rolling release schedule.
-For personal desktop and in the new "containerized" world, rolling releases of recent packages are IMO way better.
-When I used other Linux distributions with big scheduled releases I was much more frequently hit by old version of packages rather than getting something too bleading edge on arch.
-Since upgrades were very big, it was harder to debug broken things after the upgrade.
+- I was much more frequently hit by missing this "new cool flag" in old distributions, rather than I am hit by the bleeding edge packages in Arch Linux.
+- If something goes wrong, you can always open a bug and [[https://wiki.archlinux.org/index.php/Downgrading_packages][downgrade to older version]].
+- In the new containerised world servers have less "intervined" dependencies, so it's easier to just run the latest software from Arch.
+- Bugs caused by upgrades in distributions with huge releases are harder to debug. Since everything changes at once it's harder to isolate the failure.
 ** Arch wiki is awesome
 Even when I was using different Linux distributions I was using Arch wiki as my primary source of Linux knowledge.
 Any other distribution is not nearly as well documented as Arch.
-If you use other distribution you may sometimes get unpleasantly suprised by things working differently than Arch wiki.
 If you end up getting majority of your info about Linux from Arch wiki, why not switch to Arch?
 * Hardware specification of the laptop
 This section is for informative purposes only.

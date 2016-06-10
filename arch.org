@@ -775,3 +775,6 @@ From now on, everything is up to the personal preference.
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_2)
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_3)
+** Thinkwiki
+Many links on http://www.thinkwiki.org/wiki/ThinkWiki are interesting, for example:
+http://www.thinkwiki.org/wiki/X1_Linux_Tweaks

@@ -14,7 +14,7 @@ ggtags have failed me at this and dumb-jump is promising.
 
 * Why is it better than ctags/ggtags?
 So far dumb-jump works quickly and accurately on a few repos I tried it.
-On the other hand, I got upset a few times by weird errors of ctags/ggtags.
+On the other hand, I got upset a few times by weird errors of ctags/ggtags/etags.
 ** No additional per OS configuration (assuming that you use ag anyway)
 I switch between Mac/Linux and inconsistent ggtags/ctags configuration annoys me.
 The same .ctags and gtags.conf files do not work between OSes.

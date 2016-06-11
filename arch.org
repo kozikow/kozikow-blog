@@ -350,7 +350,6 @@ Built-in Pointing Device
         Buttons: 2
 #+END_EXAMPLE
 * Base installation of Arch Linux
-[[https://wiki.archlinux.org/index.php/Category:Getting_and_installing_Arch][See alternative methods at arch wiki.]]
 I mostly followed steps from https://wiki.archlinux.org/index.php/beginners'_guide with customization for Windows dual booting, uefi, gpt and HiDPI screen.
 ** Prepare USB stick (on other computer with Ubuntu Linux 14.04)
 *** Download

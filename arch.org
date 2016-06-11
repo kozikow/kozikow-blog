@@ -703,11 +703,13 @@ ExecStart=/usr/local/bin/my_init.sh
 [Install]
 WantedBy=multi-user.target 
 #+END_EXAMPLE
-***** Value range
+****** TODO It sometimes doesn't work
+I don't know systemd well. It sometimes does not run at startup and I need to do it manually.
+***** Recomended values
 xinput method ranges between -1.0 and 1.0.
 sensitivity ranges between 128 and 250.
 Personally I like my trackpoint quite speedy and I went for 1.0/180.
-It requires some initial adjustment, but afterwards is more efficient.
+It took me a few days to adjust, but now it's much more efficient and I am considering even increasing it.
 *** Graphics
 Almost everything worked as expected after installing xorg and gnome.
 **** libgl 

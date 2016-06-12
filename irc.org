@@ -17,8 +17,8 @@ and sets up a 2x2 layout with the channels:
 | #ensime/ensime-emacs (gitter)  | #emacs (freenode)     |
 |--------------------------------+-----------------------|
 It saves the layout using the window-configuration-to-register.
-I can jump to this layout with =C-x r j 0=. [[https://www.emacswiki.org/emacs/WindowsAndRegisters][See documentation about window-configuration-to-register]].
-It also saves previous window layout under =C-x r j 9=.
+I can jump to this layout with =C-x r j 9=. [[https://www.emacswiki.org/emacs/WindowsAndRegisters][See documentation about window-configuration-to-register]].
+It also saves previous window layout under =C-x r j 8=.
 You can save an layout at any time with =C-x r w=.
 * Erc support for sasl
 Erc support for sasl is a bit hacky.
@@ -63,7 +63,7 @@ Joining itself my take a few seconds, but you don't need to do anything manually
     (switch-to-buffer "#emacs")
     (call-interactively 'evil-window-up)
     (switch-to-buffer "#archlinux")
-    (window-configuration-to-register ?0))
+    (window-configuration-to-register ?9))
 
   (defun my-freenode-force-join ()
     (switch-to-buffer "irc.freenode.net:6667")
@@ -84,13 +84,24 @@ Joining itself my take a few seconds, but you don't need to do anything manually
 
   (defun my-join-irc ()
     (interactive)
-    (window-configuration-to-register ?9)
+    (window-configuration-to-register ?8)
     (erc-tls :server "irc.gitter.im" :port 6697 :nick "kozikow" :password "")
     (erc :server "irc.freenode.net" :port 6667 :nick "kozikow" :password ""))
 #+END_SRC
 * Adapting to your needs
-If you want different channels just change variable values.
+** Different channels and account
+I choose servers to connect to and auth method in my-join-irc.
+Channels are a bit scattered due to freenode connection bug.
+** Different layout
 If you want different layout take a look at =my-setup-window-layout=.
 I just call the methods I would be calling when setting this layout up and calling them with =call-interactively=.
 I would set up an layout manually, and just look up functions using =C-h k=, and put them in elisp with =call-interactively=.
 Similar concept is offered by [[https://www.emacswiki.org/emacs/KeyboardMacros][Emacs keyboard macros]], but we depend on hooks for timing, so we can't just use the macro.
+** Line length
+Default line wrapping and timestamps does not work well with windowed IRC layout.
+I disabled the timestamp "on the right" and disabled the line wrapping by adding the big value.
+
+#+BEGIN_SRC clojure :results output
+  (setq erc-split-line-length 9999)
+  (setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
+#+END_SRC

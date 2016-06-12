@@ -709,6 +709,7 @@ Currently I just use some settings from xscreensaver
 - SmartCard
 - Media Card
 *** TODO Disk encryption
+https://wiki.archlinux.org/index.php/disk_encryption
 *** TODO Benchmark battery
 Althought it seems to last pretty long.
 * Conclusion

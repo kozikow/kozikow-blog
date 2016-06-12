@@ -8,7 +8,7 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
-I've set up an Emacs function =my-irc-setup= that connects to all IRC channels I am interested in
+I've set up an Emacs function =my-open-irc= that connects to all IRC channels I am interested in
 and sets up a 2x2 layout with the channels:
 #+ATTR_HTML: :border 2 :rules all :frame all
 |--------------------------------+-----------------------|
@@ -17,9 +17,11 @@ and sets up a 2x2 layout with the channels:
 | #ensime/ensime-emacs (gitter)  | #emacs (freenode)     |
 |--------------------------------+-----------------------|
 It saves the layout using the window-configuration-to-register.
-I can jump to this layout with =C-x r j 9=. [[https://www.emacswiki.org/emacs/WindowsAndRegisters][See documentation about window-configuration-to-register]].
 It also saves previous window layout under =C-x r j 8=.
-You can save an layout at any time with =C-x r w=.
+It lets me to quickly check out the IRC and go back to what I was doing before.
+Calling the =my-open-irc= again will just display the saved layout.
+Optionally, I also provided an elisp to re-connect if an ERC lost connection, that you can add to =my-open-irc=.
+[[https://www.emacswiki.org/emacs/WindowsAndRegisters][See documentation about window-configuration-to-register]].
 * Erc support for sasl
 Erc support for sasl is a bit hacky.
 circe supports it better, but it didn't work with gitter.
@@ -127,7 +129,7 @@ It have some quirks, but generally it works:
 *** TODO Try alternative
 Someone recommended https://gist.github.com/sg2002/c3dca176be521c743fc03846a033b008 on #emacs.
 * How I use it
-- Start emacs and call =my-open-irc=.
+- Start emacs and call =my-open-irc=. It opens 2x2 layout with 4 irc chanels.
 - Go back to old windows using =C-x r j 8=.
-- Calling =my-open-irc= again opens the 2x2 irc windows layout and saves existing layout under =C-x r j 8=.
+- Calling =my-open-irc= opens the same 2x2 windows layout and saves current layout under =C-x r j 8=.
 

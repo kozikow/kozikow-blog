@@ -35,11 +35,11 @@ Follow instructions from https://irc.gitter.im/ to get the irc password.
 * Problem with auto connection
 For some reason, even if config tells erc to auto connect to freenode channels it doesn't.
 I had to manually join them in =my-freenode-force-join=.
-* Configuration
-Code is quite hacky, but it's single purpose.
+* Base configuration
+Code is quite hacky, but it's single purpose. I know I shouldn't hardcode passwords in my .el config.
 
 Just add below to your emacs config, add your nick/password in my-join-irc, and call my-join-irc.
-Joining itself my take a few seconds, but you don't need to do anything manually.
+Joining my take a few seconds, but you don't need to do anything manually.
 #+BEGIN_SRC clojure :results output
   (require 'erc-sasl)
   (setq
@@ -86,7 +86,7 @@ Joining itself my take a few seconds, but you don't need to do anything manually
     (erc-tls :server "irc.gitter.im" :port 6697 :nick "kozikow" :password "")
     (erc :server "irc.freenode.net" :port 6667 :nick "kozikow" :password ""))
 #+END_SRC
-* Adapting to your needs
+* Adapting config to your needs
 ** Different channels and account
 I choose servers to connect to and auth method in my-join-irc.
 Channels are a bit scattered due to freenode connection bug.
@@ -108,3 +108,15 @@ I don't want to be disturbed while coding by the freenode irc channels. I added:
 #+BEGIN_SRC clojure :results output
   (setq erc-track-exclude '("irc.freenode.net"))
 #+END_SRC
+* How I use it
+- Start emacs and call =my-join-irc=.
+- I browse through different channels and go back to what I was doing before =C-x r j 8=.
+- When I want to open IRC again I call a function that saves my work under 8 and opens irc:
+  #+BEGIN_SRC clojure :results output
+    (defun my-open-irc ()
+      (interactive)
+      (window-configuration-to-register ?8)
+      (jump-to-register ?9))
+  #+END_SRC
+- Go back to work with =C-x r j 8=.
+

@@ -107,10 +107,24 @@ I disabled the timestamp "on the right" and disabled the line wrapping.
   (setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
 #+END_SRC
 ** Adjust notifications
-I don't want to be disturbed while coding by the freenode irc channels. I added:
+ERC by default have quite noisy notifications, especially for freenode chanells.
+See https://www.emacswiki.org/emacs/ErcChannelTracking#toc6 .
+** Auto re-connect
+It have some quirks, but I use following code to auto connect>
+I have it as a part of my-open-irc.
 #+BEGIN_SRC clojure :results output
-  (setq erc-track-exclude '("irc.freenode.net"))
+  (setq erc-join-buffer 'bury)
+
+  (defun my-maybe-reconnect-buffer (buffer)
+    (switch-to-buffer buffer)
+    (when (not erc-server-connected)
+      (erc-server-reconnect)))
+
+  (defun my-maybe-reconnect-irc ()
+    (mapc #'my-maybe-reconnect-buffer '("#emacs" "#ensime/ensime-server" "#archlinux" "#ensime/ensime-emacs")))
+
 #+END_SRC
+
 * How I use it
 - Start emacs and call =my-open-irc=.
 - Go back to old windows using =C-x r j 8=.

@@ -2,19 +2,19 @@
 #+POSTID: 513
 #+OPTIONS: toc:3
 #+OPTIONS: todo:t
-#+TITLE: Installing and configuring Arch Linux on Thinkpad X1 Carbon
+#+TITLE: Installing and configuring Arch Linux on Thinkpad X1 Carbon (gen 4)
 #+DATE: <2016-06-04 Sat>
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
 I recently configured Arch Linux on the new Thinkpad X1 Carbon (4th generation) with dual booting to the pre-installed Windows 10 (for games I occasionally play).
-I got close to the 100% of laptop functionality working on the Arch Linux, confirming the rumor that Thinkpads work well with Linux.
-Setup should be very similar on modern laptops with GPT/UEFI.
+I got close to the 100% of laptop functionality working on the Arch Linux. Setup should be very similar on modern laptops with GPT/UEFI.
 
-Even if Arch wiki is very comprehensive, it needs a bit of reading to decide what is right for the particular hardware.
+Even if Arch wiki is very comprehensive, it needs reading to decide what is right for the particular hardware and use case.
+You may find interesting what people chose in the similar situation.
 Dual booting with windows and UEFI/GPT are not as well documented as the plain old linux installations.
 
-[[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
+[[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]]. It's also source controled in the org format.
 * Why Arch Linux?
 This section is for informative purposes only.
 If you are only interested in the installation you can skip to [[*Base installation of Arch Linux][Base installation of Arch Linux]].

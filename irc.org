@@ -80,11 +80,14 @@ Joining my take a few seconds, but you don't need to do anything manually.
     )
   (add-hook 'erc-join-hook 'my-maybe-setup-irc-windows)
 
-  (defun my-join-irc ()
+  (defun my-open-irc ()
     (interactive)
     (window-configuration-to-register ?8)
-    (erc-tls :server "irc.gitter.im" :port 6697 :nick "kozikow" :password "")
-    (erc :server "irc.freenode.net" :port 6667 :nick "kozikow" :password ""))
+    (if (> 4 irc-joined-count)
+        (progn
+          (erc-tls :server "irc.gitter.im" :port 6697 :nick "kozikow" :password "")
+          (erc :server "irc.freenode.net" :port 6667 :nick "kozikow" :password ""))
+      (jump-to-register ?9)))
 #+END_SRC
 * Adapting config to your needs
 ** Different channels and account
@@ -109,14 +112,7 @@ I don't want to be disturbed while coding by the freenode irc channels. I added:
   (setq erc-track-exclude '("irc.freenode.net"))
 #+END_SRC
 * How I use it
-- Start emacs and call =my-join-irc=.
-- I browse through different channels and go back to what I was doing before =C-x r j 8=.
-- When I want to open IRC again I call a function that saves my work under 8 and opens irc:
-  #+BEGIN_SRC clojure :results output
-    (defun my-open-irc ()
-      (interactive)
-      (window-configuration-to-register ?8)
-      (jump-to-register ?9))
-  #+END_SRC
-- Go back to work with =C-x r j 8=.
+- Start emacs and call =my-open-irc=.
+- Go back to old windows using =C-x r j 8=.
+- Calling =my-open-irc= again opens the 2x2 irc windows layout and saves existing layout under =C-x r j 8=.
 

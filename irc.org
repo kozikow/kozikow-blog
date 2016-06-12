@@ -88,3 +88,9 @@ Joining itself my take a few seconds, but you don't need to do anything manually
     (erc-tls :server "irc.gitter.im" :port 6697 :nick "kozikow" :password "")
     (erc :server "irc.freenode.net" :port 6667 :nick "kozikow" :password ""))
 #+END_SRC
+* Adapting to your needs
+If you want different channels just change variable values.
+If you want different layout take a look at =my-setup-window-layout=.
+I just call the methods I would be calling when setting this layout up and calling them with =call-interactively=.
+I would set up an layout manually, and just look up functions using =C-h k=, and put them in elisp with =call-interactively=.
+Similar concept is offered by [[https://www.emacswiki.org/emacs/KeyboardMacros][Emacs keyboard macros]], but we depend on hooks for timing, so we can't just use the macro.

@@ -737,8 +737,7 @@ I tried messing with ~/.Xresources. After no success, I decided that it's not wo
 ***** TODO Try =xrdb ~/.Xresources &=
 I didn't add =&= when adding this line to xrdb.
 *** Sound
-Sound worked without any special setup.
-It was either configured out of the box or got pulled by gnome.
+Sound and microphone worked without any special setup.
 *** HDMI
 The laptop comes with built in HDMI port.
 **** Video (4K TV)
@@ -747,7 +746,7 @@ Resolution is not auto detected and by default I only see "part" of the screen.
 In gnome, I had to go to Settings->Displays and change the resolution of the secondary screen.
 4K resolution (4096x2160) is supported.
 Mirroring displays works as expected on the TV, although I had some issues with mirroring using a projector.
-**** Sound
+**** Sound over HDMI
 By default, sound plays from the laptop speaker.
 In gnome, I can choose to play it over HDMI in Settings->Sound.
 ** Screen lock

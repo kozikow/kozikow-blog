@@ -10,10 +10,11 @@
 * Introduction
 I've set up an Emacs function =my-irc-setup= that connects to all IRC channels I am interested in
 and sets up a 2x2 layout with the channels:
+#+ATTR_HTML: :border 2 :rules all :frame all
 |--------------------------------+-----------------------|
 | #ensime/ensime-server (gitter) | #archlinux (freenode) |
 |--------------------------------+-----------------------|
-| #ensime/ensime-emacs (gitter)  | #emacs (freenode      |
+| #ensime/ensime-emacs (gitter)  | #emacs (freenode)     |
 |--------------------------------+-----------------------|
 It saves the layout using the window-configuration-to-register.
 I can jump to this layout with =C-x r j 0=. [[https://www.emacswiki.org/emacs/WindowsAndRegisters][See documentation about window-configuration-to-register]].

@@ -1,0 +1,89 @@
+#+BLOG: wordpress
+#+POSTID: 603
+#+DATE: [2016-06-11 Sat 23:34]
+#+BLOG: wordpress
+#+OPTIONS: toc:3
+#+OPTIONS: todo:t
+#+TITLE: Irc auto window layout setup
+#+AUTHOR: Robert Kozikowski
+#+EMAIL: r.kozikowski@gmail.com
+* Introduction
+I've set up an Emacs function =my-irc-setup= that connects to all IRC channels I am interested in
+and sets up a 2x2 layout with the channels:
+|--------------------------------+-----------------------|
+| #ensime/ensime-server (gitter) | #archlinux (freenode) |
+|--------------------------------+-----------------------|
+| #ensime/ensime-emacs (gitter)  | #emacs (freenode      |
+|--------------------------------+-----------------------|
+It saves the layout using the window-configuration-to-register.
+I can jump to this layout with =C-x r j 0=. [[https://www.emacswiki.org/emacs/WindowsAndRegisters][See documentation about window-configuration-to-register]].
+It also saves previous window layout under =C-x r j 9=.
+You can save an layout at any time with =C-x r w=.
+* Erc support for sasl
+Erc support for sasl is a bit hacky.
+circe supports it better, but it didn't work with gitter.
+
+Install erc-sasl: https://github.com/joseph-gay/erc-sasl/blob/sasl/erc-sasl.el .
+Rather than installing whole erc-sasl, I installed standard ERC via =package-install=,
+and just checked in above file to my emacs config and added =(require 'erc)=.
+* Needs adaptation for non-evil.
+I used evil functions for things like =evil-window-vsplit=. Non-evil should be quite easy to find, like =split-window-vertically=.
+Let me know if you adapt it to non-evil.
+* gitter irc support.
+Follow instructions from https://irc.gitter.im/ to get the irc password.
+* Problem with auto connection
+For some reason, even if config tells erc to auto connect to freenode channels it doesn't.
+I had to manually join them in =my-freenode-force-join=.
+* Configuration
+Code is quite hacky, but it's single purpose.
+
+Just add below to your emacs config, add your nick/password in my-join-irc, and call my-join-irc.
+Joining itself my take a few seconds, but you don't need to do anything manually.
+#+BEGIN_SRC clojure :results output
+  (require 'erc-sasl)
+  (setq
+   erc-prompt-for-password nil
+   erc-hide-list '("JOIN" "PART" "QUIT")
+   erc-autojoin-channels-alist
+   '(("irc.freenode.net" "#emacs" "#archlinux")
+     ("irc.gitter.im" "#ensime/ensime-server" "#ensime/ensime-emacs")))
+
+  (setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
+
+  (defun my-setup-window-layout ()
+    (call-interactively 'delete-other-windows)
+    (switch-to-buffer "#ensime/ensime-server")
+    (call-interactively 'evil-window-split)
+    (call-interactively 'evil-window-vsplit) ;; Split window vertically
+    (call-interactively 'evil-window-down)
+    (call-interactively 'evil-window-vsplit)
+    (switch-to-buffer "#ensime/ensime-emacs")
+    (call-interactively 'evil-window-right)
+    (switch-to-buffer "#emacs")
+    (call-interactively 'evil-window-up)
+    (switch-to-buffer "#archlinux")
+    (window-configuration-to-register ?0))
+
+  (defun my-freenode-force-join ()
+    (switch-to-buffer "irc.freenode.net:6667")
+    (erc-cmd-JOIN "#emacs")
+    (switch-to-buffer "irc.freenode.net:6667")
+    (erc-cmd-JOIN "#archlinux"))
+
+  (setq irc-joined-count 0) ;; so hack.
+  (defun my-maybe-setup-irc-windows ()
+    (setq irc-joined-count (+ 1 irc-joined-count))
+    (message "Got joined count: %s" irc-joined-count)
+    (when (equal irc-joined-count 2)
+      (my-freenode-force-join))
+    (when (equal irc-joined-count 4)
+      (my-setup-window-layout))
+    )
+  (add-hook 'erc-join-hook 'my-maybe-setup-irc-windows)
+
+  (defun my-join-irc ()
+    (interactive)
+    (window-configuration-to-register ?9)
+    (erc-tls :server "irc.gitter.im" :port 6697 :nick "kozikow" :password "")
+    (erc :server "irc.freenode.net" :port 6667 :nick "kozikow" :password ""))
+#+END_SRC

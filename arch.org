@@ -20,7 +20,6 @@ This section is for informative purposes only.
 If you are only interested in the installation you can skip to [[*Base installation of Arch Linux][Base installation of Arch Linux]].
 ** Minimalist distributions teach you Linux
 When some people hear that Arch starts without a GIU they think that using it is "masochistic".
-** 
 Firstly, you probably don't need majority of packages bundled with distributions like ubuntu.
 
 Secondly, while Ubuntu may take you "75%" there, you don't understand how different things got there and treat your OS like magical box, so you can't improve it.

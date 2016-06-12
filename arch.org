@@ -2,19 +2,19 @@
 #+POSTID: 513
 #+OPTIONS: toc:3
 #+OPTIONS: todo:t
-#+TITLE: Installing and configuring Arch Linux on Thinkpad X1 Carbon (gen 4)
+#+TITLE: Installing and configuring Arch Linux on Thinkpad X1 Carbon
 #+DATE: <2016-06-04 Sat>
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
 I recently configured Arch Linux on the new Thinkpad X1 Carbon (4th generation) with dual booting to the pre-installed Windows 10 (for games I occasionally play).
-I got close to the 100% of laptop functionality working on the Arch Linux. Setup should be very similar on modern laptops with GPT/UEFI.
+I got close to the 100% of laptop functionality working on the Arch Linux, confirming the rumor that Thinkpads work well with Linux.
+Setup should be very similar on modern laptops with GPT/UEFI.
 
-Even if Arch wiki is very comprehensive, it needs reading to decide what is right for the particular hardware and use case.
-You may find interesting what people chose in the similar situation.
+Even if Arch wiki is very comprehensive, it needs a bit of reading to decide what is right for the particular hardware.
 Dual booting with windows and UEFI/GPT are not as well documented as the plain old linux installations.
 
-[[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]]. It's also source controled in the org format.
+[[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
 * Why Arch Linux?
 This section is for informative purposes only.
 If you are only interested in the installation you can skip to [[*Base installation of Arch Linux][Base installation of Arch Linux]].
@@ -670,7 +670,86 @@ After turning the airplane mode off I have to run:
 #+BEGIN_SRC bash :results output
   sudo systemctl restart netctl-auto@wlp4s0.service
 #+END_SRC
-[[https://wiki.archlinux.org/index.php/netctl#Problems_with_netctl-auto_on_resume][Rather than call this manually you can automate it with systemd]]
+***** F11 and F12
+I don't know what these buttons supposed to do, but pressing them currently have no effect.
+**** Adjust trackpoint sensitivity
+The only annoyance was too slow trackpoint.
+Methods from arch wiki didn't work for me, probably since they were meant for the old evdev.
+***** Xinput method
+#+BEGIN_SRC bash :results output
+  pacman -S xorg-xinput
+  xinput list | grep TrackPoint # Find an id of tracpoint. 12 in my case.
+  xinput --set-prop 12 'libinput Accel Speed' 1.0
+#+END_SRC
+
+Persisting this method requires adding the set-prop command to the .xinitrc (before =exec gnome-session=).
+***** Device parameters method
+=/usr/local/bin/my_init.sh=:
+#+BEGIN_SRC bash :results output
+  echo 180 > /sys/bus/serio/devices/serio2/sensitivity
+#+END_SRC
+Even if there are multiple devices in /sys/bus/serio/devices/, only the touchpad have a sensitivity file present. [[https://bugzilla.redhat.com/show_bug.cgi?id=1200717#c2][Also see this post]].
+
+
+Persisting this method requires adding a systemd service.
+=/etc/systemd/system/my_init.service=
+#+BEGIN_EXAMPLE
+[Unit]
+Description=My initialization scripts
+
+[Service]
+ExecStart=/usr/local/bin/my_init.sh
+
+[Install]
+WantedBy=multi-user.target 
+#+END_EXAMPLE
+****** TODO It sometimes doesn't work
+I don't know systemd well. It sometimes does not run at startup and I need to do it manually.
+***** Recomended values
+xinput method ranges between -1.0 and 1.0.
+sensitivity ranges between 128 and 250.
+Personally I like my trackpoint quite speedy and I went for 1.0/180.
+It took me a few days to adjust, but now it's much more efficient and I am considering even increasing it.
+*** Graphics
+Almost everything worked as expected after installing xorg and gnome.
+**** libgl 
+I had to choose a libgl library when install xorg. There were 4 alternative libgl implementations.
+I went for mesa-libgl, since alternatives were from nvidia and this thinkpad has an integrated intel graphics card.
+**** Screen Resolution
+To verify that you are running the best resolution, WQHD (2560x1440), run:
+#+BEGIN_SRC bash :results output
+  xrandr                                                                                                                           1 ↵
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+Screen 0: minimum 320 x 200, current 2560 x 1440, maximum 8192 x 8192
+eDP-1 connected primary 2560x1440+0+0 (normal left inverted right x axis y axis) 310mm x 174mm
+   2560x1440     60.00*+
+   ...
+#+END_EXAMPLE
+**** Some applications have problems with HiDPI
+[[https://wiki.archlinux.org/index.php/HiDPI][You make take a look first at the Arch Wiki HiDPI section]].
+
+Majority of applications, including chromium, emacs and termite correctly handled the HiDPI.
+Some apps, like xscreensaver or xterm were displaying too small windows, not aware of the HiDPI screen.
+It seems that HiDPI is correctly handled system wide (xdpyinfo reports correct dpi and resolution), but just some old apps did not adapt yet.
+I tried messing with ~/.Xresources. After no success, I decided that it's not worth it, since the only affect app I use is xscreensaver.
+***** TODO Try =xrdb ~/.Xresources &=
+I didn't add =&= when adding this line to xrdb.
+*** Sound
+Sound worked without any special setup.
+It was either configured out of the box or got pulled by gnome.
+*** HDMI
+The laptop comes with built in HDMI port.
+**** Video (4K TV)
+When I plug the HDMI it "just works".
+Resolution is not auto detected and by default I only see "part" of the screen.
+In gnome, I had to go to Settings->Displays and change the resolution of the secondary screen.
+4K resolution (4096x2160) is supported.
+Mirroring displays works as expected on the TV, although I had some issues with mirroring using a projector.
+**** Sound
+By default, sound plays from the laptop speaker.
+In gnome, I can choose to play it over HDMI in Settings->Sound.
 ** Screen lock
 gnome-screensaver was buggy when I tried to use it and I decided to use xscreensaver instead.
 

@@ -123,9 +123,9 @@ It have some quirks, but generally it works:
 
   (defun my-maybe-reconnect-irc ()
     (mapc #'my-maybe-reconnect-buffer '("#emacs" "#ensime/ensime-server" "#archlinux" "#ensime/ensime-emacs")))
-
 #+END_SRC
-
+*** TODO Try alternative
+Someone recommended https://gist.github.com/sg2002/c3dca176be521c743fc03846a033b008 on #emacs.
 * How I use it
 - Start emacs and call =my-open-irc=.
 - Go back to old windows using =C-x r j 8=.

@@ -4,7 +4,7 @@
 #+BLOG: wordpress
 #+OPTIONS: toc:3
 #+OPTIONS: todo:t
-#+TITLE: Irc auto window layout setup
+#+TITLE: Set up ERC, Emacs IRC client, with automated windowed layout and connection
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
@@ -48,8 +48,6 @@ Joining itself my take a few seconds, but you don't need to do anything manually
    erc-autojoin-channels-alist
    '(("irc.freenode.net" "#emacs" "#archlinux")
      ("irc.gitter.im" "#ensime/ensime-server" "#ensime/ensime-emacs")))
-
-  (setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
 
   (defun my-setup-window-layout ()
     (call-interactively 'delete-other-windows)
@@ -99,9 +97,9 @@ I would set up an layout manually, and just look up functions using =C-h k=, and
 Similar concept is offered by [[https://www.emacswiki.org/emacs/KeyboardMacros][Emacs keyboard macros]], but we depend on hooks for timing, so we can't just use the macro.
 ** Line length
 Default line wrapping and timestamps does not work well with windowed IRC layout.
-I disabled the timestamp "on the right" and disabled the line wrapping by adding the big value.
+I disabled the timestamp "on the right" and disabled the line wrapping.
 
 #+BEGIN_SRC clojure :results output
-  (setq erc-split-line-length 9999)
+  (erc-fill-mode -1)
   (setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
 #+END_SRC

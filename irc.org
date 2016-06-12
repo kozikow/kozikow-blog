@@ -103,3 +103,8 @@ I disabled the timestamp "on the right" and disabled the line wrapping.
   (erc-fill-mode -1)
   (setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
 #+END_SRC
+** Adjust notifications
+I don't want to be disturbed while coding by the freenode irc channels. I added:
+#+BEGIN_SRC clojure :results output
+  (setq erc-track-exclude '("irc.freenode.net"))
+#+END_SRC

@@ -197,15 +197,9 @@ I disabled the timestamp "on the right" and disabled the line wrapping.
   (erc-fill-mode -1)
   (setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
 #+END_SRC
-** Problem with connecting to channels on startup
-For some reason, ERC did not auto connect to all channels, even when told so.
-It is quite simple to do it "manually" from elisp, so I went ahead and did it. E.g. for freenode it is:
-#+BEGIN_SRC clojure :results output
-  (switch-to-buffer "irc.freenode.net:6667")
-  (erc-cmd-JOIN channel))
-#+END_SRC
 ** ERC non deterministic buffer names
 ERC sometimes named buffers simply by "#emacs" and sometimes "#emacs@freenode".
+IIUC this behavior changed between emacs version.
 Good enough solution is using regexps. To switch to channel by regex:
 #+BEGIN_SRC clojure :results output
 (defun my-buffer-match-regex (buf)
@@ -214,10 +208,14 @@ Good enough solution is using regexps. To switch to channel by regex:
   (switch-to-buffer (find-if 'my-buffer-match-regex (buffer-list))))
 (my-switch-to-buffer-by-regex "^#emacs")
 #+END_SRC
+** Problem with connecting to channels on startup
+For some reason, ERC did not auto connect to all channels, even when told so.
+It is quite simple to do it "manually" from elisp, so I went ahead and did it. E.g. for freenode it is:
+#+BEGIN_SRC clojure :results output
+  (my-switch-to-buffer-by-regex "^irc.freenode.net")
+  (erc-cmd-JOIN channel))
+#+END_SRC
 * How I use it
 - At any time, when I feel like checking out IRC I call the =my-open-irc= via the keybinding. It either connects, reconnects or opens the existing ERC buffers in 2x2 layout.
 - When I feel like doing some work after chatting on IRC I call =C-x r j 8=.
 - If there are any notifications, =my-open-irc= cleans them all (I still have some bug when it leaves some notifications hanging in mode buffer).
-
-# irc_setup.png http://kozikow.files.wordpress.com/2016/06/irc_setup2.png
-# /home/kozikow/git_repos/github/kozikow-blog/irc_setup.png http://kozikow.files.wordpress.com/2016/06/irc_setup3.png

@@ -26,15 +26,12 @@ You can think of as =my-open-irc= as "turn IRC on" and =C-x r j 8= as "turn IRC 
 I have bind the =my-open-irc= to some key with the =global-set-key=.
 * Erc support for sasl
 Erc support for sasl is a bit hacky.
-circe supports it better, but circe support for gitter irc bridge was buggy.
+circe supports it better, but circe support for gitter didn't work and I gave up after 15 minutes of debugging.
 
-To set up ERC I did:
+To set up ERC with sasl I did:
 - Install erc with package-install. erc-sasl is not in any emacs repo, so I prefered to install erc to avoid manual updates.
 - From erc-sasl repository, copy just erc-sasl file: https://github.com/joseph-gay/erc-sasl/blob/sasl/erc-sasl.el .
 - In erc-sasl add =(require 'erc)= and anywhere in your emacs config =(require 'erc-sasl)=.
-* Needs adaptation for non-evil.
-I used evil functions for things like =evil-window-vsplit=. Non-evil should be quite easy to find, like =split-window-vertically=.
-Let me know if you adapt it to non-evil.
 * gitter irc support.
 Follow instructions from https://irc.gitter.im/ to get the irc password.
 ** Random channel join
@@ -89,22 +86,20 @@ Joining my take a few seconds, but you don't need to do anything manually.
 
   ;;;;; Set up 2x2 layout when getting all 4 channels ;;;;;
 
-  (defun my-setup-windows-in-two-by-two ()
-    (call-interactively 'delete-other-windows)
-
-    (switch-to-buffer (nth 0 my-erc-channels))
-    (call-interactively 'evil-window-split)
-    (call-interactively 'evil-window-vsplit) ;; Split window vertically
-    (call-interactively 'evil-window-down)
-    (call-interactively 'evil-window-vsplit)
-    (switch-to-buffer (nth 1 my-erc-channels))
-    (call-interactively 'evil-window-right)
-    (switch-to-buffer (nth 2 my-erc-channels))
-    (call-interactively 'evil-window-up)
-    (switch-to-buffer (nth 3 my-erc-channels))
-
-    (call-interactively 'evil-window-left)
-    (window-configuration-to-register ?9))
+(defun my-setup-windows-in-two-by-two ()
+  (call-interactively 'delete-other-windows)
+  (switch-to-buffer (nth 0 my-erc-channels))
+  (split-window-vertically)
+  (split-window-horizontally)
+  (windmove-down)
+  (split-window-horizontally)
+  (switch-to-buffer (nth 1 my-erc-channels))
+  (windmove-right)
+  (switch-to-buffer (nth 2 my-erc-channels))
+  (windmove-up)
+  (switch-to-buffer (nth 3 my-erc-channels))
+  (windmove-left)
+  (window-configuration-to-register ?9))
 
   (setq irc-joined-count 0) ;; so hack.
   (defun my-post-join-on-hook ()

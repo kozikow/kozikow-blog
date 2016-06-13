@@ -8,20 +8,21 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
-I've set up an Emacs function =my-open-irc= that connects to all IRC channels I am interested in
-and sets up a 2x2 layout with the channels:
+I've set up an Emacs function =my-open-irc= that connects to all IRC channels I am interested in and sets up a 2x2 layout with the channels:
 #+ATTR_HTML: :border 2 :rules all :frame all
-|--------------------------------+-----------------------|
-| #ensime/ensime-server (gitter) | #archlinux (freenode) |
 |--------------------------------+-----------------------|
 | #ensime/ensime-emacs (gitter)  | #emacs (freenode)     |
 |--------------------------------+-----------------------|
-It saves the layout using the window-configuration-to-register.
-It also saves previous window layout under =C-x r j 8=.
-It lets me to quickly check out the IRC and go back to what I was doing before.
-Calling the =my-open-irc= again will just display the saved layout.
-Optionally, I also provided an elisp to re-connect if an ERC lost connection, that you can add to =my-open-irc=.
-[[https://www.emacswiki.org/emacs/WindowsAndRegisters][See documentation about window-configuration-to-register]].
+| #ensime/ensime-server (gitter) | #archlinux (freenode) |
+|--------------------------------+-----------------------|
+See the screenshot:
+[[file:irc_setup.png][file:~/git_repos/github/kozikow-blog/irc_setup.png]]
+
+=my-open-irc= called at any time either (re)connects to irc and sets up the layout or restores the old buffers.
+It also saves anything I have been doing before under register ?8 so I can come back to it with =C-x r j 8=.
+If you are not aware of this functionality, [[https://www.emacswiki.org/emacs/WindowsAndRegisters][see documentation about window-configuration-to-register]].
+
+You can think of as =my-open-irc= as "turn irc on" and =C-x r j 8= as turn IRC off without exiting emacs.
 * Erc support for sasl
 Erc support for sasl is a bit hacky.
 circe supports it better, but it didn't work with gitter.
@@ -35,61 +36,116 @@ Let me know if you adapt it to non-evil.
 * gitter irc support.
 Follow instructions from https://irc.gitter.im/ to get the irc password.
 * Problem with auto connection
-For some reason, even if config tells erc to auto connect to freenode channels it doesn't.
-I had to manually join them in =my-freenode-force-join=.
-* Base configuration
-Code is quite hacky, but it's single purpose. I know I shouldn't hardcode passwords in my .el config.
+For some reason, even if config tells erc to auto connect to channels it did not.
+It is quite simple to do it manually simply by:
+#+BEGIN_SRC clojure :results output
+  (switch-to-buffer "irc.freenode.net:6667")
+  (erc-cmd-JOIN channel))
+#+END_SRC
+* My configuration
+Code is not production quality, but it's single purpose. I know I shouldn't hardcode passwords in my .el config, but I do not expose my config and irc is not sensitive.
 
 Just add below to your emacs config, add your nick/password in my-join-irc, and call my-join-irc.
 Joining my take a few seconds, but you don't need to do anything manually.
 #+BEGIN_SRC clojure :results output
-  (require 'erc-sasl)
-  (setq
-   erc-prompt-for-password nil
-   erc-hide-list '("JOIN" "PART" "QUIT")
-   erc-autojoin-channels-alist
-   '(("irc.freenode.net" "#emacs" "#archlinux")
-     ("irc.gitter.im" "#ensime/ensime-server" "#ensime/ensime-emacs")))
+  (setq my-freenode-channels '("#archlinux" "#emacs"))
+  (setq my-gitter-channels '("#ensime/ensime-emacs" "#ensime/ensime-server"))
+  (setq my-erc-channels (append my-gitter-channels my-freenode-channels))
 
-  (defun my-setup-window-layout ()
+  (require 'erc-sasl)
+
+  (setq erc-hide-list '("JOIN" "PART" "QUIT"))
+  (setq erc-prompt-for-password nil)
+
+  ;;;;; JOIN Channels after connection ;;;;;
+
+  (defun my-join-freenode-channel (channel)
+    (message "Attempting to connect to freenode channel %s" channel)
+    (switch-to-buffer "irc.freenode.net:6667")
+    (erc-cmd-JOIN channel))
+
+  (defun my-join-gitter-channel (channel)
+    (switch-to-buffer "irc.gitter.im:6697")
+    (debug)
+    (erc-cmd-JOIN channel))
+
+  (defun myerc-autojoin-channels (server nick)
+    (message "Connected to IRC server %s" server)
+    (when (s-contains-p "freenode.net" server)
+      (mapc 'my-join-freenode-channel my-freenode-channels))
+    (when (s-contains-p "gitter.im" server)
+      (mapc 'my-join-freenode-channel my-freenode-channels)))
+
+  (add-hook 'erc-after-connect 'myerc-autojoin-channels)
+
+  ;;;;; Set up 2x2 layout when getting all 4 channels ;;;;;
+
+  (defun my-setup-windows-in-two-by-two ()
     (call-interactively 'delete-other-windows)
-    (switch-to-buffer "#ensime/ensime-server")
+
+    (switch-to-buffer (nth 0 my-erc-channels))
     (call-interactively 'evil-window-split)
     (call-interactively 'evil-window-vsplit) ;; Split window vertically
     (call-interactively 'evil-window-down)
     (call-interactively 'evil-window-vsplit)
-    (switch-to-buffer "#ensime/ensime-emacs")
+    (switch-to-buffer (nth 1 my-erc-channels))
     (call-interactively 'evil-window-right)
-    (switch-to-buffer "#emacs")
+    (switch-to-buffer (nth 2 my-erc-channels))
     (call-interactively 'evil-window-up)
-    (switch-to-buffer "#archlinux")
+    (switch-to-buffer (nth 3 my-erc-channels))
+
+    (call-interactively 'evil-window-left)
     (window-configuration-to-register ?9))
 
-  (defun my-freenode-force-join ()
-    (switch-to-buffer "irc.freenode.net:6667")
-    (erc-cmd-JOIN "#emacs")
-    (switch-to-buffer "irc.freenode.net:6667")
-    (erc-cmd-JOIN "#archlinux"))
-
   (setq irc-joined-count 0) ;; so hack.
-  (defun my-maybe-setup-irc-windows ()
-    (setq irc-joined-count (+ 1 irc-joined-count))
-    (message "Got joined count: %s" irc-joined-count)
-    (when (equal irc-joined-count 2)
-      (my-freenode-force-join))
+  (defun my-post-join-on-hook ()
+    (when (-contains-p my-erc-channels (buffer-name))
+      (progn
+        (setq irc-joined-count (+ 1 irc-joined-count))
+        (message "Connected to IRC channel %s" (buffer-name))))
     (when (equal irc-joined-count 4)
-      (my-setup-window-layout))
-    )
-  (add-hook 'erc-join-hook 'my-maybe-setup-irc-windows)
+      (my-setup-windows-in-two-by-two)))
+  (add-hook 'erc-join-hook 'my-post-join-on-hook)
+
+
+  ;;;;; Auto re-connect function ;;;;;
+
+  (setq erc-join-buffer 'bury)
+
+  (defun my-maybe-reconnect-buffer (buffer)
+    (switch-to-buffer buffer)
+    (when (not erc-server-connected)
+      (erc-server-reconnect)))
+
+  (defun my-maybe-reconnect-irc ()
+    (mapc #'my-maybe-reconnect-buffer ))
+
+  ;;;;; Tie it all together ;;;;;
 
   (defun my-open-irc ()
     (interactive)
-    (window-configuration-to-register ?8)
-    (if (> 4 irc-joined-count)
+    (window-configuration-to-register ?8) ;; Save old layout under 8
+    (erc-fill-mode -1) ;; Do not wrap lines
+    (if (> 2 irc-joined-count)
         (progn
           (erc-tls :server "irc.gitter.im" :port 6697 :nick "kozikow" :password "")
-          (erc :server "irc.freenode.net" :port 6667 :nick "kozikow" :password ""))
-      (jump-to-register ?9)))
+          (erc :server "irc.freenode.net" :port 6667 :nick "kozikow" :password "")
+          (my-freenode-force-join))
+      (progn
+        (my-maybe-reconnect-irc)
+        (jump-to-register ?9)
+        )
+      )
+
+    (setq erc-track-priority-faces-only
+          my-freenode-channels) ;; Only priority notifications from freenode
+    (setq erc-modified-channels-alist nil) ;; Clean up old notifications
+    (erc-modified-channels-update) ;; Update changes
+    )
+
+  (setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
+  (global-set-key (kbd "C-S-c i") 'my-open-irc)
+  (define-key erc-mode-map (kbd "M-b") 'erc-button-press-button)
 #+END_SRC
 * Adapting config to your needs
 ** Different channels and account
@@ -113,23 +169,12 @@ ERC by default have quite noisy notifications, especially for freenode chanells.
 See https://www.emacswiki.org/emacs/ErcChannelTracking#toc6 .
 ** Auto re-connect
 By default you need to guess when ERC lost connection and reconnect it.
-I wrote little elisp that always "maybe" reconnects while calling =my-open-irc=
-It have some quirks, but generally it works:
-#+BEGIN_SRC clojure :results output
-  (setq erc-join-buffer 'bury)
-
-  (defun my-maybe-reconnect-buffer (buffer)
-    (switch-to-buffer buffer)
-    (when (not erc-server-connected)
-      (erc-server-reconnect)))
-
-  (defun my-maybe-reconnect-irc ()
-    (mapc #'my-maybe-reconnect-buffer '("#emacs" "#ensime/ensime-server" "#archlinux" "#ensime/ensime-emacs")))
-#+END_SRC
-*** TODO Try alternative
-Someone recommended https://gist.github.com/sg2002/c3dca176be521c743fc03846a033b008 on #emacs.
+=my-maybe-reconnect-irc= works ok for me.
 * How I use it
 - Start emacs and call =my-open-irc=. It opens 2x2 layout with 4 irc chanels.
 - Go back to old windows using =C-x r j 8=.
-- Calling =my-open-irc= opens the same 2x2 windows layout and saves current layout under =C-x r j 8=.
+- At any time, call =my-open-irc= to inspect irc again and =C-x r j 8= to go back to work.
 
+
+# irc_setup.png http://kozikow.files.wordpress.com/2016/06/irc_setup.png
+# /home/kozikow/git_repos/github/kozikow-blog/irc_setup.png http://kozikow.files.wordpress.com/2016/06/irc_setup1.png

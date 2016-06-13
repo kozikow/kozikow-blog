@@ -24,6 +24,8 @@ If you are not aware of this functionality, [[https://www.emacswiki.org/emacs/Wi
 
 You can think of as =my-open-irc= as "turn IRC on" and =C-x r j 8= as "turn IRC off", all from within emacs.
 I have bind the =my-open-irc= to some key with the =global-set-key=.
+
+It lets me to take a quick glance at "what's going on", and if anything appears interesting investigate it further.
 * Erc support for sasl
 Erc support for sasl is a bit hacky.
 Alternative emacs IRC client, circe, supports it better, but support for gitter didn't work and I gave up after 15 minutes of debugging.
@@ -174,3 +176,6 @@ By default you need to guess when ERC lost connection and reconnect it.
 - At any time, when I feel like checking out IRC I call the =my-open-irc= via the keybinding. It either connects, reconnects or opens the existing ERC buffers in 2x2 layout.
 - When I feel like doing some work after chatting on IRC I call =C-x r j 8=.
 - If there are any notifications, =my-open-irc= cleans them all (I still have some bug when it leaves some notifications hanging in mode buffer).
+
+# irc_setup.png http://kozikow.files.wordpress.com/2016/06/irc_setup2.png
+# /home/kozikow/git_repos/github/kozikow-blog/irc_setup.png http://kozikow.files.wordpress.com/2016/06/irc_setup3.png

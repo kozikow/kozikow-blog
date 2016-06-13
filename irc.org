@@ -35,6 +35,13 @@ I used evil functions for things like =evil-window-vsplit=. Non-evil should be q
 Let me know if you adapt it to non-evil.
 * gitter irc support.
 Follow instructions from https://irc.gitter.im/ to get the irc password.
+** Random channel join
+Beware that gitter joins you to more channels than I want.
+Strangely it didn't auto connect to channels after just connecting to gitter channel, but when I connect to one of the channels it connects me to all of them.
+I suspect it's based on the list or gitter channels I joined through the website.
+
+It caused some bugs with my code on =erc-join-hook=.
+I simply check if joined channels are in my-erc-channel with =(-contains-p my-erc-channels (buffer-name))=.
 * Problem with auto connection
 For some reason, even if config tells erc to auto connect to channels it did not.
 It is quite simple to do it manually simply by:
@@ -118,7 +125,7 @@ Joining my take a few seconds, but you don't need to do anything manually.
       (erc-server-reconnect)))
 
   (defun my-maybe-reconnect-irc ()
-    (mapc #'my-maybe-reconnect-buffer ))
+    (mapc #'my-maybe-reconnect-buffer my-erc-channels))
 
   ;;;;; Tie it all together ;;;;;
 

@@ -26,7 +26,7 @@ You can think of as =my-open-irc= as "turn IRC on" and =C-x r j 8= as "turn IRC 
 I have bind the =my-open-irc= to some key with the =global-set-key=.
 * Erc support for sasl
 Erc support for sasl is a bit hacky.
-circe supports it better, but circe support for gitter didn't work and I gave up after 15 minutes of debugging.
+Alternative emacs IRC client, circe, supports it better, but support for gitter didn't work and I gave up after 15 minutes of debugging.
 
 To set up ERC with sasl I did:
 - Install erc with package-install. erc-sasl is not in any emacs repo, so I prefered to install erc to avoid manual updates.
@@ -36,23 +36,24 @@ To set up ERC with sasl I did:
 Follow instructions from https://irc.gitter.im/ to get the irc password.
 ** Random channel join
 Beware that gitter joins you to more channels than I want.
-Strangely it didn't auto connect to channels after just connecting to gitter channel, but when I connect to one of the channels it connects me to all of them.
-I suspect it's based on the list or gitter channels I joined through the website.
+Initially, gitter did not auto connect me to any channel after just connecting to the gitter server.
+When I connected to at least one of the channels it connected me to all channels I ever joined through the website.
 
-It caused some bugs with my code on =erc-join-hook=.
-I simply check if joined channels are in my-erc-channel with =(-contains-p my-erc-channels (buffer-name))=.
+It caused some bugs in my code running =erc-join-hook=.
+To solve it, I simply check if joined channels are in =my-erc-channels= with =(-contains-p my-erc-channels (buffer-name))=.
 * Problem with auto connection
-For some reason, even if config tells erc to auto connect to channels it did not.
-It is quite simple to do it manually simply by:
+For some reason, erc did not auto connect to all channels.
+It is quite simple to do it "manually" from elisp, so I went ahead and did it. E.g. for freenode it is:
 #+BEGIN_SRC clojure :results output
   (switch-to-buffer "irc.freenode.net:6667")
   (erc-cmd-JOIN channel))
 #+END_SRC
 * My configuration
-Code is not production quality, but it's single purpose. I know I shouldn't hardcode passwords in my .el config, but I do not expose my config and irc is not sensitive.
+Code is not of "production" quality, I may clean it up one day if it becomes problematic.
+I know I shouldn't hardcode passwords in my .el config, but I do not expose my config and irc is not sensitive.
 
-Just add below to your emacs config, add your nick/password in my-join-irc, and call my-join-irc.
-Joining my take a few seconds, but you don't need to do anything manually.
+Just add below to your emacs config, add your nick/password in my-open-irc, and call my-open-irc.
+Joining my take a few seconds, but you don't need to do anything manually besides calling =my-open-irc=.
 #+BEGIN_SRC clojure :results output
   (setq my-freenode-channels '("#archlinux" "#emacs"))
   (setq my-gitter-channels '("#ensime/ensime-emacs" "#ensime/ensime-server"))
@@ -150,13 +151,10 @@ Joining my take a few seconds, but you don't need to do anything manually.
   (setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
 #+END_SRC
 * Adapting config to your needs
-** Different channels and account
-I choose servers to connect to and auth method in my-join-irc.
-Channels are a bit scattered due to freenode connection bug.
 ** Different layout
 If you want different layout take a look at =my-setup-window-layout=.
 I just call the methods I would be calling when setting this layout up and calling them with =call-interactively=.
-I would set up an layout manually, and just look up functions using =C-h k=, and put them in elisp with =call-interactively=.
+I would set up an layout manually, and just look up functions using =C-h k=, and put them in elisp.
 Similar concept is offered by [[https://www.emacswiki.org/emacs/KeyboardMacros][Emacs keyboard macros]], but we depend on hooks for timing, so we can't just use the macro.
 ** Line length
 Default line wrapping and timestamps does not work well with windowed IRC layout.
@@ -171,12 +169,8 @@ ERC by default have quite noisy notifications, especially for freenode chanells.
 See https://www.emacswiki.org/emacs/ErcChannelTracking#toc6 .
 ** Auto re-connect
 By default you need to guess when ERC lost connection and reconnect it.
-=my-maybe-reconnect-irc= works ok for me.
+=my-maybe-reconnect-irc= works ok for me, but it sadly does not preserve IRC history.
 * How I use it
-- Start emacs and call =my-open-irc=. It opens 2x2 layout with 4 irc chanels.
-- Go back to old windows using =C-x r j 8=.
-- At any time, call =my-open-irc= to inspect irc again and =C-x r j 8= to go back to work.
-
-
-# irc_setup.png http://kozikow.files.wordpress.com/2016/06/irc_setup.png
-# /home/kozikow/git_repos/github/kozikow-blog/irc_setup.png http://kozikow.files.wordpress.com/2016/06/irc_setup1.png
+- At any time, when I feel like checking out IRC I call the =my-open-irc= via the keybinding. It either connects, reconnects or opens the existing ERC buffers in 2x2 layout.
+- When I feel like doing some work after chatting on IRC I call =C-x r j 8=.
+- If there are any notifications, =my-open-irc= cleans them all (I still have some bug when it leaves some notifications hanging in mode buffer).

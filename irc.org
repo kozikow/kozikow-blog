@@ -22,7 +22,7 @@ See the screenshot:
 It also saves anything I have been doing before under register ?8 so I can come back to it with =C-x r j 8=.
 If you are not aware of this functionality, [[https://www.emacswiki.org/emacs/WindowsAndRegisters][see documentation about window-configuration-to-register]].
 
-You can think of as =my-open-irc= as "turn irc on" and =C-x r j 8= as turn IRC off without exiting emacs.
+You can think of as =my-open-irc= as "turn IRC on" and =C-x r j 8= as "turn IRC off" all from within emacs.
 * Erc support for sasl
 Erc support for sasl is a bit hacky.
 circe supports it better, but it didn't work with gitter.

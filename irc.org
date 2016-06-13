@@ -153,17 +153,30 @@ Joining my take a few seconds, but you don't need to do anything manually beside
 * Problems I encountered
 ** Erc support for sasl
 Erc support for sasl is a bit hacky.
-Alternative emacs IRC client, circe, supports it better, but support for gitter didn't work and I gave up after 15 minutes of debugging.
+Alternative emacs IRC client, circe, supports sasl "out of the box", but gitter connection was buggy using circe.
+At that point, I didn't try out ERC yet, so after a bit of debugging I decided to try out the ERC.
 
 To set up ERC with sasl I did:
-- Install erc with package-install. erc-sasl is not in any emacs repo, so I prefered to install erc to avoid manual updates.
-- From erc-sasl repository, copy just erc-sasl file: https://github.com/joseph-gay/erc-sasl/blob/sasl/erc-sasl.el .
+- Install erc with package-install. erc-sasl is not in any emacs repo, so I prefered to install plain erc to avoid manual updates.
+- From erc-sasl repository, copy just erc-sasl file: https://github.com/joseph-gay/erc-sasl/blob/sasl/erc-sasl.el to your emacs config.
 - In erc-sasl add =(require 'erc)= and anywhere in your emacs config =(require 'erc-sasl)=.
-** Adjust notifications
+  
+Motivation for such configuration is that erc-sasl is a bit outdated. erc may one day get merged sasl support. 
+Depending only on single erc-sasl file will make it easier to migrate to hypothetical updated erc version.
+** gitter irc support.
+Follow instructions from https://irc.gitter.im/ to get the irc password.
+*** Gitter joining random channels I didn't tell it about
+Beware that gitter joins you to more channels than I want.
+Initially, gitter did not auto connect me to any channel after just connecting to the gitter server.
+When I connected to at least one of the channels it connected me to all channels I ever joined through the website.
+
+It caused some bugs in my code running =erc-join-hook=.
+To solve it, I simply check if joined channels are in =my-erc-channels= with =(-contains-p my-erc-channels (buffer-name))=.
+** erc-track is not easily configurable
 I spent at least half an hour trying to make erc-track do what I want.
-It's much easier to do what you want in erc-insert-pre-hook. You can get message as erc argument
-and irc channel as buffer name. You may install notify that lets you send system notifciations on all
-os and implement your own filtering:
+It's much easier to disable it and do what you want in erc-insert-pre-hook.
+This hook allows you to get the message and channel name.
+I use notify package, that lets me send native system notifications regardless of my host operating system and implement my desired filtering using elisp.
 #+BEGIN_SRC clojure :results output
 (require 'notify)
 (erc-track-disable)
@@ -184,21 +197,12 @@ I disabled the timestamp "on the right" and disabled the line wrapping.
   (setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
 #+END_SRC
 ** Problem with connecting to channels on startup
-For some reason, erc did not auto connect to all channels.
+For some reason, ERC did not auto connect to all channels, even when told so.
 It is quite simple to do it "manually" from elisp, so I went ahead and did it. E.g. for freenode it is:
 #+BEGIN_SRC clojure :results output
   (switch-to-buffer "irc.freenode.net:6667")
   (erc-cmd-JOIN channel))
 #+END_SRC
-** gitter irc support.
-Follow instructions from https://irc.gitter.im/ to get the irc password.
-*** Gitter joining random channels I didn't tell it about
-Beware that gitter joins you to more channels than I want.
-Initially, gitter did not auto connect me to any channel after just connecting to the gitter server.
-When I connected to at least one of the channels it connected me to all channels I ever joined through the website.
-
-It caused some bugs in my code running =erc-join-hook=.
-To solve it, I simply check if joined channels are in =my-erc-channels= with =(-contains-p my-erc-channels (buffer-name))=.
 ** ERC non deterministic buffer names
 ERC sometimes named buffers simply by "#emacs" and sometimes "#emacs@freenode".
 Good enough solution is using regexps. To switch to channel by regex:
@@ -209,7 +213,6 @@ Good enough solution is using regexps. To switch to channel by regex:
   (switch-to-buffer (find-if 'my-buffer-match-regex (buffer-list))))
 (my-switch-to-buffer-by-regex "^#emacs")
 #+END_SRC
-
 * How I use it
 - At any time, when I feel like checking out IRC I call the =my-open-irc= via the keybinding. It either connects, reconnects or opens the existing ERC buffers in 2x2 layout.
 - When I feel like doing some work after chatting on IRC I call =C-x r j 8=.

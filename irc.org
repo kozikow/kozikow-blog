@@ -199,7 +199,7 @@ I disabled the timestamp "on the right" and disabled the line wrapping.
 #+END_SRC
 ** ERC non deterministic buffer names
 ERC sometimes named buffers simply by "#emacs" and sometimes "#emacs@freenode".
-IIUC this behavior changed between emacs version.
+IIUC this behavior changed between emacs versions.
 Good enough solution is using regexps. To switch to channel by regex:
 #+BEGIN_SRC clojure :results output
 (defun my-buffer-match-regex (buf)

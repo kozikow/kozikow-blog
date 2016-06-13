@@ -23,6 +23,7 @@ It also saves anything I have been doing before under register ?8 so I can come 
 If you are not aware of this functionality, [[https://www.emacswiki.org/emacs/WindowsAndRegisters][see the documentation of window-configuration-to-register]].
 
 You can think of as =my-open-irc= as "turn IRC on" and =C-x r j 8= as "turn IRC off", all from within emacs.
+I have bind the =my-open-irc= to some key with the =global-set-key=.
 * Erc support for sasl
 Erc support for sasl is a bit hacky.
 circe supports it better, but circe support for gitter irc bridge was buggy.
@@ -152,8 +153,6 @@ Joining my take a few seconds, but you don't need to do anything manually.
     )
 
   (setq erc-insert-timestamp-function 'erc-insert-timestamp-left)
-  (global-set-key (kbd "C-S-c i") 'my-open-irc)
-  (define-key erc-mode-map (kbd "M-b") 'erc-button-press-button)
 #+END_SRC
 * Adapting config to your needs
 ** Different channels and account

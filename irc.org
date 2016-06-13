@@ -20,16 +20,17 @@ See the screenshot:
 
 =my-open-irc= called at any time either (re)connects to irc and sets up the layout or restores the old buffers.
 It also saves anything I have been doing before under register ?8 so I can come back to it with =C-x r j 8=.
-If you are not aware of this functionality, [[https://www.emacswiki.org/emacs/WindowsAndRegisters][see documentation about window-configuration-to-register]].
+If you are not aware of this functionality, [[https://www.emacswiki.org/emacs/WindowsAndRegisters][see the documentation of window-configuration-to-register]].
 
-You can think of as =my-open-irc= as "turn IRC on" and =C-x r j 8= as "turn IRC off" all from within emacs.
+You can think of as =my-open-irc= as "turn IRC on" and =C-x r j 8= as "turn IRC off", all from within emacs.
 * Erc support for sasl
 Erc support for sasl is a bit hacky.
-circe supports it better, but it didn't work with gitter.
+circe supports it better, but circe support for gitter irc bridge was buggy.
 
-Install erc-sasl: https://github.com/joseph-gay/erc-sasl/blob/sasl/erc-sasl.el .
-Rather than installing whole erc-sasl, I installed standard ERC via =package-install=,
-and just checked in above file to my emacs config and added =(require 'erc)=.
+To set up ERC I did:
+- Install erc with package-install. erc-sasl is not in any emacs repo, so I prefered to install erc to avoid manual updates.
+- From erc-sasl repository, copy just erc-sasl file: https://github.com/joseph-gay/erc-sasl/blob/sasl/erc-sasl.el .
+- In erc-sasl add =(require 'erc)= and anywhere in your emacs config =(require 'erc-sasl)=.
 * Needs adaptation for non-evil.
 I used evil functions for things like =evil-window-vsplit=. Non-evil should be quite easy to find, like =split-window-vertically=.
 Let me know if you adapt it to non-evil.

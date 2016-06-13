@@ -151,6 +151,7 @@ Joining my take a few seconds, but you don't need to do anything manually beside
   (add-hook 'erc-insert-pre-hook 'my-erc-message-on-hook)
 #+END_SRC
 * Problems I encountered
+After all of this I think ERC is more of a library that you implement your own IRC client on, rather than actual IRC client.
 ** Erc support for sasl
 Erc support for sasl is a bit hacky.
 Alternative emacs IRC client, circe, supports sasl "out of the box", but gitter connection was buggy using circe.

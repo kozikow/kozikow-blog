@@ -109,12 +109,11 @@ Joining my take a few seconds, but you don't need to do anything manually beside
   (setq erc-join-buffer 'bury)
 
   (defun my-maybe-reconnect-buffer (buffer)
-    (message "Attempting to reconnect %s" buffer)
+    (message "Attempting to reconnect %s. Connected: %s" buffer erc-server-connected)
     (my-switch-to-buffer-by-regex buffer)
-    ;; (when (not erc-server-connected)
-    ;;   (message "%s not connected ! %s\n" buffer (not erc-server-connected))
-    ;;   (erc-server-reconnect))
-    )
+    (when (not (erc-server-process-alive))
+      (message "%s not connected ! (erc-server-connected: %s)\n" buffer erc-server-connected)
+      (erc-server-reconnect)))
 
   (defun my-maybe-reconnect-irc ()
     (mapc 'my-maybe-reconnect-buffer my-erc-channel-buffer-regexps))

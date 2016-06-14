@@ -632,7 +632,7 @@ A few more things after rebooting:
   visudo # in this file configure your user as a sudoer
   reboot
 #+END_SRC
-** (optional) Install xorg and gnome
+** (optional) Install window manager
 Mass installing "gnome" package is against the arch philosophy,
 as it pulls many unnecessary things with it.
 If you have extra time you should pick invididual gnome packages or go for lighter WM.
@@ -641,6 +641,14 @@ If you want an easy way out you can just:
   pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils
   echo "exec gnome-session" >> ~/.xinitrc
   startx
+#+END_SRC
+
+*** Remove not used gnome packages
+Gnome pulls lots of stuff that I never used.
+You may want to uninstall some packages that you don't use from gnome:
+#+BEGIN_SRC bash :results output
+pacman -Q | grep gnome # See how much things you have just installed.
+pacman -Rc gnome-keyring gnome-contacts gnome-calculator empathy gnome-terminal gnome-online-accounts
 #+END_SRC
 *** Problem with gnome-terminal not starting
 gnome-terminal worked initially, but then it refused to start.
@@ -652,7 +660,8 @@ I do the tiling and workspace management inside Emacs or tmux. I would get minim
 The only things I need from the window manager are supplied by plain gnome:
 - Switch focus to emacs/chromium/termite with [[https://www.archlinux.org/packages/community/i686/wmctrl/][wmctrl]].
 - Move window one monitor left (=gsettings set org.gnome.desktop.wm.keybindings move-to-monitor-left=) and right (=move-to-monitor-right=)
-- Maximize window (=org.gnome.desktop.wm.keybindings maximize=)
+- Auto maximize windows and remove decorations with https://aur.archlinux.org/packages/maximus/.
+
 ** Hardware support
 *** Input devices
 There are two alternative input libraries =x86-input-evdev= and =x86-input-libinput=.

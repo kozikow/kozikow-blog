@@ -642,13 +642,12 @@ If you want an easy way out you can just:
   echo "exec gnome-session" >> ~/.xinitrc
   startx
 #+END_SRC
-
 *** Remove not used gnome packages
 Gnome pulls lots of stuff that I never used.
 You may want to uninstall some packages that you don't use from gnome:
 #+BEGIN_SRC bash :results output
 pacman -Q | grep gnome # See how much things you have just installed.
-pacman -Rc gnome-keyring gnome-contacts gnome-calculator empathy gnome-terminal gnome-online-accounts
+pacman -Rc gnome-keyring gnome-contacts gnome-calculator empathy gnome-terminal 
 #+END_SRC
 *** Problem with gnome-terminal not starting
 gnome-terminal worked initially, but then it refused to start.
@@ -699,25 +698,18 @@ Persisting this method requires adding the set-prop command to the .xinitrc (bef
 Even if there are multiple devices in /sys/bus/serio/devices/, only the touchpad have a sensitivity file present. [[https://bugzilla.redhat.com/show_bug.cgi?id=1200717#c2][Also see this post]].
 
 
-Persisting this method requires adding a systemd service.
-=/etc/systemd/system/my_init.service=
+I tried to persist it using systemd, but it's a wrong way to go in this case. You need [[https://wiki.archlinux.org/index.php/Udev#Writing_udev_rules][udev rule]].
+See https://bbs.archlinux.org/viewtopic.php?id=165213.
+
+You can see existing udev description using =udevadm info -a -p /sys/bus/serio/devices/serio2=.
+My =/etc/udev/rules.d/10-trackpoint.rules=:
 #+BEGIN_EXAMPLE
-[Unit]
-Description=My initialization scripts
-
-[Service]
-ExecStart=/usr/local/bin/my_init.sh
-
-[Install]
-WantedBy=multi-user.target 
+  ACTION=="add",SUBSYSTEM=="input",ATTR{name}=="TPPS/2 IBM TrackPoint",ATTR{device/sensitivity}="180",ATTR{device/speed}="180"
 #+END_EXAMPLE
-****** TODO It sometimes doesn't work
-I don't know systemd well. It sometimes does not run at startup and I need to do it manually.
 ***** Recomended values
-xinput method ranges between -1.0 and 1.0.
-sensitivity ranges between 128 and 250.
-Personally I like my trackpoint quite speedy and I went for 1.0/180.
-It took me a few days to adjust, but now it's much more efficient and I am considering even increasing it.
+xinput method ranges between -1.0 and 1.0. I went for 1.0.
+sensitivity ranges between 128 and 250. I went for 180.
+It is quite speedy and it took me a few days to adjust, but now it's much more efficient.
 *** Graphics
 Almost everything worked as expected after installing xorg and gnome.
 **** libgl 

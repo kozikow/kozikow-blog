@@ -751,11 +751,11 @@ Mirroring displays works as expected on the TV, although I had some issues with 
 By default, sound plays from the laptop speaker.
 In gnome, I can choose to play it over HDMI in Settings->Sound.
 ** Auto starting
-- For init scripts that apply system wide you need to create a [[https://wiki.archlinux.org/index.php/systemd][systemd service]] (Type=oneshot for just init scripts)
+- For init scripts that apply system wide you need to create a [[https://wiki.archlinux.org/index.php/autostarting#Systemd][systemd service]] (Type=oneshot for just init scripts)
 - For init scripts that interact with devices you need to create a [[https://wiki.archlinux.org/index.php/Udev#Writing_udev_rules][udev rule]].
 - For user specific configuration that applies to graphical interface, add it to =~/.xinitrc= .
 - For you shell configuration add it to =~/.bashrc= (or =~/.zshrc= in my case).
-- To auto start gnome apps:
+- To auto start [[https://wiki.archlinux.org/index.php/autostarting#GNOME][gnome apps]]:
 #+BEGIN_SRC bash :results output
   mkdir -p ~/.config/autostart
   cp /usr/share/applications/emacs.desktop ~/.config/autostart

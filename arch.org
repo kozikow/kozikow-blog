@@ -23,7 +23,7 @@ When some people hear that Arch starts without a GIU they think that using it is
 Firstly, you probably don't need majority of packages bundled with distributions like ubuntu.
 
 Secondly, while Ubuntu may take you "75%" there, you don't understand how different things got there and treat your OS like magical box, so you can't improve it.
-While Arch starts from "20%", by going "20%->75%" the learning experience allows you to eventually reach "100%" faster than 
+While Arch starts from "20%", by going "20%->75%" the learning experience allows you to eventually reach "100%" faster than
 users who want to go from "75% -> 100%". Therefore, majority of users of distributions like Ubuntu are stuck around "80%".
 *** Vs other minimalistic distributions - Gentoo and Slackware
 **** systemd is the future
@@ -62,7 +62,7 @@ R90KNV08
 ** Desktop management information
 Extracted from:
 #+BEGIN_SRC bash :results output
-  sudo dmidecode 
+  sudo dmidecode
 #+END_SRC
 *** System Information
 #+BEGIN_EXAMPLE
@@ -469,7 +469,7 @@ and other components in laptop would fail first, so we don't have to worry about
 *** Why not ext3?
 [[https://en.wikipedia.org/wiki/Ext4#Compatibility_with_Windows_and_Macintosh][There exist some drivers that let windows read and copy files from ext filesystem.]]
 Even if support for using ext4 from Windows is worse than ext3, I won't be using Windows often.
-If you plan to frequently boot to Windows you may consider ext3 for better Windows compatibility. 
+If you plan to frequently boot to Windows you may consider ext3 for better Windows compatibility.
 *** Format and mount the Linux partition
 #+BEGIN_SRC bash :results output
   lsblk /dev/sda
@@ -554,7 +554,7 @@ Some installation must have pulled the package.
 As [[https://bbs.archlinux.org/viewtopic.php?id=194977][this post mentions]], missing firmware can be found in AUR.
 
 After it is installed:
-#+BEGIN_SRC bash :results output 
+#+BEGIN_SRC bash :results output
   modinfo wd719x | grep description
   modinfo aic94xx | grep description
 #+END_SRC
@@ -647,7 +647,7 @@ Gnome pulls lots of stuff that I never used.
 You may want to uninstall some packages that you don't use from gnome:
 #+BEGIN_SRC bash :results output
 pacman -Q | grep gnome # See how much things you have just installed.
-pacman -Rc gnome-keyring gnome-contacts gnome-calculator empathy gnome-terminal 
+pacman -Rc gnome-keyring gnome-contacts gnome-calculator empathy gnome-terminal
 #+END_SRC
 *** Problem with gnome-terminal not starting
 gnome-terminal worked initially, but then it refused to start.
@@ -660,6 +660,7 @@ The only things I need from the window manager are supplied by plain gnome:
 - Switch focus to emacs/chromium/termite with [[https://www.archlinux.org/packages/community/i686/wmctrl/][wmctrl]].
 - Move window one monitor left (=gsettings set org.gnome.desktop.wm.keybindings move-to-monitor-left=) and right (=move-to-monitor-right=)
 - Auto maximize windows and remove decorations with https://aur.archlinux.org/packages/maximus/.
+*** Auto start apps
 
 ** Hardware support
 *** Input devices
@@ -712,7 +713,7 @@ sensitivity ranges between 128 and 250. I went for 180.
 It is quite speedy and it took me a few days to adjust, but now it's much more efficient.
 *** Graphics
 Almost everything worked as expected after installing xorg and gnome.
-**** libgl 
+**** libgl
 I had to choose a libgl library when install xorg. There were 4 alternative libgl implementations.
 I went for mesa-libgl, since alternatives were from nvidia and this thinkpad has an integrated intel graphics card.
 **** Screen Resolution
@@ -749,6 +750,16 @@ Mirroring displays works as expected on the TV, although I had some issues with 
 **** Sound over HDMI
 By default, sound plays from the laptop speaker.
 In gnome, I can choose to play it over HDMI in Settings->Sound.
+** Auto starting
+- For init scripts that apply system wide you need to create a [[https://wiki.archlinux.org/index.php/systemd][systemd service]] (Type=oneshot for just init scripts)
+- For init scripts that interact with devices you need to create a [[https://wiki.archlinux.org/index.php/Udev#Writing_udev_rules][udev rule]].
+- For user specific configuration that applies to graphical interface, add it to =~/.xinitrc= .
+- For you shell configuration add it to =~/.bashrc= (or =~/.zshrc= in my case).
+- To auto start gnome apps:
+#+BEGIN_SRC bash :results output
+  mkdir -p ~/.config/autostart
+  cp /usr/share/applications/emacs.desktop ~/.config/autostart
+#+END_SRC
 ** Screen lock
 gnome-screensaver was buggy when I tried to use it and I decided to use xscreensaver instead.
 
@@ -779,8 +790,9 @@ Also see:
 *** TODO Auto mount windows disk and choose the the ntfs implementation
 Basic mount works. I did not configure auto mounting yet.
 I've also heard that alternative ntfs impelementation, [[https://wiki.archlinux.org/index.php/NTFS-3G][NTFS-3G]], is better than kernel version.
-*** TODO Figure out sleep/hibernate story
+*** TODO Figure out power management
 Currently I just use some settings from xscreensaver
+https://wiki.archlinux.org/index.php/Power_management#Power_management_with_systemd
 *** TODO Try fingerprint sensor
 *** TODO Try card readers.
 - SimCard

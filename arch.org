@@ -758,7 +758,7 @@ In gnome, I can choose to play it over HDMI in Settings->Sound.
 - To auto start [[https://wiki.archlinux.org/index.php/autostarting#GNOME][gnome apps]]:
 #+BEGIN_SRC bash :results output
   mkdir -p ~/.config/autostart
-  cp /usr/share/applications/emacs.desktop ~/.config/autostart
+  cp /usr/share/applications/emacs.desktop ~/.config/autostart # Some apps may also be in ~/.local/share/applications
 #+END_SRC
 ** Screen lock
 gnome-screensaver was buggy when I tried to use it and I decided to use xscreensaver instead.
@@ -785,6 +785,15 @@ It's nice to automatially connect to wifi when you boot, rather than run =wifi-m
 Also see:
 [[https://wiki.archlinux.org/index.php/Netctl][Netctl wiki entry]]
 [[https://wiki.archlinux.org/index.php/Wireless_network_configuration][Wireless network configuration wiki entry]]
+To disable the service and add a new wifi entry I simply use this bash alias:
+#+BEGIN_SRC bash :results output
+  wifi() {
+    sudo systemctl disable netctl-auto@wlp4s0.service
+    sudo wifi-menu
+    sudo systemctl enable netctl-auto@wlp4s0.service
+  }
+#+END_SRC
+
 ** Things I didn't configure yet
 *** TODO [[https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_4)][Verify that SSD trims are aplied.]] Optimize for SSDs
 *** TODO Auto mount windows disk and choose the the ntfs implementation

@@ -1,16 +1,19 @@
 #+OPTIONS: toc:3
 #+OPTIONS: todo:t
-#+TITLE: Smartparens is super awesome
+#+TITLE: Smartparens emacs package is super awesome
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
-You must try smartparens. 
-I strongly regret not trying it out earlier.
-It's one of this packages that you will be wondering how did you live without it beforehands.
+If you use Emacs, you must try smartparens. I strongly regret not trying it out earlier.
+It's one of this packages that you will be wondering how did you live without it.
 
-There are two competetive packages in this area - smartparens and paredit.
-I didn't try paredit, but from what I heard, smartparens works better for non-lisp.
-I use it all the time now, in all languages, not only lisp.
+It helps navigating and editing "parentheses" group much better.
+When I first saw it I thought it will be useful for lisp or just small expressions in other langugaes.
+It's actually useful for navigating classes and functions in all programming languages.
+
+There are two competitive packages in this area - smartparens and paredit.
+I didn't try paredit, but from what I heard, smartparens works better for non-lisp code.
+I use it all the time now, in all programming languages, not only lisp.
 
 Configuring it to work well with evil mode took me a while.
 * Two evil-smartparens packages
@@ -27,7 +30,7 @@ I had much easier time remembering them, since they have evil mode equivalent.
 It's not on melpa, so I had to add it manually to my elisp config.
 Name evil-smartparens conflicts with the package from melpa, so I had to rename it
 to evil-second-smartparens.
-* My configurtion
+* My configuration
 #+BEGIN_SRC clojure :results output
 (require 'smartparens)
 (require 'evil-smartparens)
@@ -37,23 +40,24 @@ to evil-second-smartparens.
 
 (smartparens-global-mode t)
 (evil-second-smartparens-mode t)
-(smartparens-strict-mode t)
 (show-smartparens-global-mode t)
+(smartparens-strict-mode t)
 
-;; (add-hook 'clojure-mode-hook #'evil-smartparens-mode)
-(add-hook 'emacs-lisp-mode-hook #'evil-smartparens-mode)
+(add-hook 'prog-mode-hook #'evil-smartparens-mode)
+(add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
+(add-hook 'org-mode-hook #'evil-smartparens-mode)
+(add-hook 'org-mode-hook 'turn-on-smartparens-strict-mode)
 
 (add-hook
  'smartparens-enabled-hook #'evil-smartparens-mode)
 
 (provide 'smartparens-setup)
 
-  (setq sp-show-pair-from-inside t)
-
+(setq sp-show-pair-from-inside t)
 #+END_SRC
 * How I learned how to use it
-=M-x describe-keymap evil-smartparens-mode-map= only makes current evil commands work better with smartparens.
-It primary purpose is to not let evil unbalance the parantheses when using the =(smartparens-strict-mode t)=.
+=M-x describe-key-map evil-smartparens-mode-map= only makes current evil commands work better with smartparens.
+It primary purpose is to not let evil unbalance the parentheses when using the =(smartparens-strict-mode t)=.
 
 I simply looked at keys bound by the https://github.com/jschaf/evil-smartparens/ and call =describe-function= 
 on all of them and try them on some elisp code.

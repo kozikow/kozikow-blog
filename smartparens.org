@@ -30,8 +30,8 @@ It doesn't modify behavior of existing evil commands, but just adds an "evil fee
 They work much better for me than the default smartparens keybindings and
 I had much easier time remembering them, since they have evil mode equivalent.
 *** Installation
-It's not on melpa, so I had to add it manually to my elisp config.
-Name evil-smartparens conflicts with the package from melpa, so I had to rename it
+It's not on melpa, so I had to manually add the elisp code.
+Name of the package, evil-smartparens, conflicts with the package from melpa, so I had to rename it
 to evil-second-smartparens.
 * My configuration
 #+BEGIN_SRC clojure :results output

@@ -1,21 +1,24 @@
+#+BLOG: wordpress
+#+POSTID: 659
+#+DATE: [2016-06-18 Sat 23:39]
 #+OPTIONS: toc:3
 #+OPTIONS: todo:t
-#+TITLE: Smartparens emacs package is super awesome
+#+TITLE: Smartparens is super awesome, especially with evil mode
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
 If you use Emacs, you must try smartparens. I strongly regret not trying it out earlier.
 It's one of this packages that you will be wondering how did you live without it.
 
-It helps navigating and editing "parentheses" group much better.
+It helps navigating and editing "parentheses" groups much better.
 When I first saw it I thought it will be useful for lisp or just small expressions in other langugaes.
 It's actually useful for navigating classes and functions in all programming languages.
+It's not as useful as in lisp, but it's still very useful.
 
 There are two competitive packages in this area - smartparens and paredit.
 I didn't try paredit, but from what I heard, smartparens works better for non-lisp code.
-I use it all the time now, in all programming languages, not only lisp.
 
-Configuring it to work well with evil mode took me a while.
+Configuring it to work well with evil mode took me a bit.
 * Two evil-smartparens packages
 ** evil-smartparens from melpa
 [[https://melpa.org/#/evil-smartparens][Melpa link.]] Installed via the =M-x package-install evil-smartparens=.

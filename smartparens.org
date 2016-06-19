@@ -21,6 +21,9 @@ I didn't try paredit, but from what I heard, smartparens works better for non-li
 
 Configuring it to work well with evil mode took me a bit.
 * Two evil-smartparens packages
+After installing base smartparens package, there is a bit of work to make it work well with evil mode.
+There are actually two packages named the same way, evil-smartparens, and both are useful and improve
+different aspects of integration with evil mode.
 ** evil-smartparens from melpa
 [[https://melpa.org/#/evil-smartparens][Melpa link.]] Installed via the =M-x package-install evil-smartparens=.
 It makes current evil commands work better with evil-smartparens.
@@ -33,17 +36,17 @@ I had much easier time remembering them, since they have evil mode equivalent.
 *** Installation
 It's not on melpa, so I had to manually add the elisp code.
 Name of the package, evil-smartparens, conflicts with the package from melpa, so I had to rename it
-to evil-second-smartparens.
+to evil-smartparens-keybindings.
 * My configuration
 #+BEGIN_SRC clojure :results output
 (require 'smartparens)
 (require 'evil-smartparens)
-(require 'evil-second-smartparens)
+(require 'evil-smartparens-keybindings)
 
 (require 'smartparens-config)
 
 (smartparens-global-mode t)
-(evil-second-smartparens-mode t)
+(evil-smartparens-keybindings-mode t)
 (show-smartparens-global-mode t)
 (smartparens-strict-mode t)
 

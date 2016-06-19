@@ -12,9 +12,8 @@ It's one of this packages that you will be wondering how did you live without it
 
 It helps navigating and editing "parentheses" groups much better.
 When I first saw it I thought it will be useful for lisp or just small expressions in other langugaes.
-It's actually useful for navigating classes and functions in all programming languages,
-especially since it supports more parantheses groups than just =()=.
-It's not as useful as in lisp, but it's still very useful.
+The more language relies parentheses of any kind (e.g. =()= or ={}=), the more useful it is.
+It is life changer in lisp, very useful in C++ and java and only sometimes useful in python.
 
 There are two competitive packages in this area - smartparens and paredit.
 I didn't try paredit, but from what I heard, smartparens works better for non-lisp code.
@@ -70,3 +69,7 @@ You may take a look at it to see which evil commands will behave differently.
 New functions provided by smartparens are the important part.
 I looked through all keys bound by the https://github.com/jschaf/evil-smartparens/, call =describe-function= on each
 and try them on some code (especially lisp).
+
+One thing that you may not be immediately aware of is that many of the "edit" commands work well with =.= command in evil mode.
+You can try it by creating parantheses, place cursor inside sexp and type "zfl" and ".".
+

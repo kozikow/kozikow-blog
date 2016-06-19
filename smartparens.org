@@ -61,6 +61,8 @@ to evil-second-smartparens.
 * How I learned how to use it
 =M-x describe-key-map evil-smartparens-mode-map= only makes current evil commands work better with smartparens.
 It primary purpose is to not let evil unbalance the parentheses when using the =(smartparens-strict-mode t)=.
+You may take a look which evil commands will behave differently.
 
-I simply looked at keys bound by the https://github.com/jschaf/evil-smartparens/ and call =describe-function= 
-on all of them and try them on some elisp code.
+New functions provided by smartparens are the important part.
+I looked through all keys bound by the https://github.com/jschaf/evil-smartparens/, call =describe-function= on each
+and try them on some code (especially lisp).

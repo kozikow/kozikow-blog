@@ -12,7 +12,8 @@ It's one of this packages that you will be wondering how did you live without it
 
 It helps navigating and editing "parentheses" groups much better.
 When I first saw it I thought it will be useful for lisp or just small expressions in other langugaes.
-It's actually useful for navigating classes and functions in all programming languages.
+It's actually useful for navigating classes and functions in all programming languages,
+especially since it supports more parantheses groups than just =()=.
 It's not as useful as in lisp, but it's still very useful.
 
 There are two competitive packages in this area - smartparens and paredit.

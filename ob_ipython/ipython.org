@@ -281,15 +281,13 @@ Afterwards, you may assign result table to variable, edit it with org spreadshee
 
 ** Share code between code blocks
 Using the [[http://orgmode.org/manual/Noweb-reference-syntax.html][Noweb reference syntax]]:
-#+NAME: init_block
-#+BEGIN_SRC ipython :session
+#+BEGIN_SRC ipython :session blog
   constant=20
   def some_function(x):
     return constant * x
 #+END_SRC
 
-#+BEGIN_SRC ipython :session :noweb yes :results output
-  <<init_block>>
+#+BEGIN_SRC ipython :session blog :noweb yes :results output
   print some_function(30)
 #+END_SRC
 

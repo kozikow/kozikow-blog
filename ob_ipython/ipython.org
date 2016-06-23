@@ -248,12 +248,13 @@ You also need to tell src block to interpret results directly with =:results out
 
 #+BEGIN_SRC ipython :session :exports both :var table=data_table :results output raw drawer :noweb yes
   def arr_to_org(arr):
-    line = "|".join(str(item) for item in arr)
-    return "|{}|".format(line)
+      line = "|".join(str(item) for item in arr)
+      return "|{}|".format(line)
+
 
   def df_to_org(df):
-    return "\n".join([arr_to_org(df.columns)] +
-    [arr_to_org(row) for row in df.values])
+      return "\n".join([arr_to_org(df.columns)] +
+                       [arr_to_org(row) for row in df.values])
 
 
   import matplotlib.pyplot as plt
@@ -262,7 +263,7 @@ You also need to tell src block to interpret results directly with =:results out
   %matplotlib inline
 
   df = pd.DataFrame(table[1:], columns=table[0])
-  df.y = df.y.apply(lambda y: y*2)
+  df.y = df.y.apply(lambda y: y * 2)
   print df_to_org(df)
 #+END_SRC
 
@@ -280,23 +281,33 @@ You also need to tell src block to interpret results directly with =:results out
 Afterwards, you may assign result table to variable, edit it with org spreadsheet capabilities and use in other python script.
 
 ** Share code between code blocks
-Using the [[http://orgmode.org/manual/Noweb-reference-syntax.html][Noweb reference syntax]]:
-#+BEGIN_SRC ipython :session blog
-  constant=20
+Since all code is executed within the same ipython kernel, 
+it's enough to put blocks one after another.
+#+BEGIN_SRC ipython :session :results output :exports both
+  constant = 30
+
+
   def some_function(x):
-    return constant * x
+      return constant * x
 #+END_SRC
 
-#+BEGIN_SRC ipython :session blog :noweb yes :results output
+#+RESULTS:
+
+#+BEGIN_SRC ipython :session :results output
   print some_function(30)
 #+END_SRC
 
 #+RESULTS:
-: 600
+: 900
 
 ** TODO [#A] Connect to existing ipython kernel
-How it currently
-Create kernel with:
+I added support of connecting to existing ipython kernel in 
+https://github.com/gregsexton/ob-ipython/pull/71/files.
+
+You can start an ipython kernel on a server with lots of ram and cpu and
+connect it to a local lightweight machine running emacs.
+
+Create kernel using (outside of the org mode, as it blocks):
 #+BEGIN_SRC python
   #!/usr/bin/env python
   import os
@@ -310,16 +321,16 @@ Create kernel with:
   app.start()
 #+END_SRC
 
+It will give you a connection json file name.
+Pass it as a session name.
 
-# Connect with (somehow pass this to ipython):
-# #+BEGIN_SRC bash
-#   ipython console --existing kernel-509.json
-# #+END_SRC
+#+BEGIN_SRC ipython :session kernel-8520.json :results output
+  print print_me
+#+END_SRC
 
-# Get json from previous command.
-# #+BEGIN_SRC ipython :session :existing kernel-17575.json :results output
-#   print print_me
-# #+END_SRC
+#+RESULTS:
+: Running in previously started kernel.
+
 ** TODO Use global constant
 
 # #+CONSTANTS: message="Hello world"

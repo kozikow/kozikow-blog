@@ -8,7 +8,7 @@
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
 If you use Emacs, you must try smartparens. I strongly regret not trying it out earlier.
-It's one of those packages that you will be wondering how did you live without it.
+It's one of this packages that you will be wondering how did you live without it.
 
 It helps navigating and editing "parentheses" groups much better.
 When I first saw it I thought it will be useful for lisp or just small expressions in other langugaes.
@@ -72,8 +72,4 @@ and try them on some code (especially lisp).
 
 One thing that you may not be immediately aware of is that many of the "edit" commands work well with =.= command in evil mode.
 You can try it by creating parantheses, place cursor inside sexp and type "zfl" and ".".
-* TODO Things I didn't try
-** paredit
-** evil-cleverparens
-** evil-lisp-state
-https://github.com/syl20bnr/evil-lisp-state
+

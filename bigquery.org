@@ -5,15 +5,16 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
-[[https://github.com/blog/2201-making-open-source-data-more-available%20][Today github announced new big query tables]] that lets you query github repos using big query.
-I found about it from [[https://news.ycombinator.com/item?id=12004442][hacker news.]] [[http://google-opensource.blogspot.co.uk/2016/06/github-on-bigquery-analyze-all-code.html][Announcement from Google.]]
+[[https://github.com/blog/2201-making-open-source-data-more-available%20][Today github announced new big query tables]] that let you query data about github repos using big query.
+I found about it from [[https://news.ycombinator.com/item?id=12004442][hacker news.]] [[http://google-opensource.blogspot.co.uk/2016/06/github-on-bigquery-analyze-all-code.html][AAlso see announcement from Google.]]
 The killer new feature is the ability to query the contents of all files stored on github.
 
 [[https://gist.github.com/abo-abo/9607099][In contrast to old big query with top starred repos]] I will list all packages required in any
-elisp file, rather than just repositories written in emacs lisp.
+elisp file, rather than just repositories written in emacs lisp. This will include built in
+emacs packages or packages not stored on github.
 * Bias towards repos with license
 As [[https://news.ycombinator.com/item?id=12004644][this hacker news]] post mentions, only repos with license are indexed.
-That will bias results towards emacs packages rather than personal emacs configs people put on github.
+That will bias the result towards packages rather than personal emacs configs people put on github.
 * Query on sample_contents
 sample_contents only contains 10% sample of github files.
 It also contain pre-joined data between tables contents and files.

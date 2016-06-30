@@ -49,7 +49,7 @@ Full query:
 
 #+BEGIN_SRC sql :results output
   SELECT
-    TOP(line, 500),
+    TOP(line, 2000),
     COUNT(*) AS c
   FROM (
     SELECT
@@ -85,7 +85,7 @@ Couple of big query tricks to make it work:
 * Results (of the [[*Query on full data][Query on full data]])
 Full list of top 2000 is at https://github.com/kozikow/kozikow-blog/blob/master/packages_2000.csv.
 
-Small subset of packages with 1000+ usages:
+Packages with 1000+ usages:
 | package                             | count |
 |-------------------------------------+-------|
 | (require 'cl-lib)                   | 18901 |

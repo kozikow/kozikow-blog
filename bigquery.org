@@ -12,6 +12,8 @@ The killer new feature is the ability to query the contents of all files stored 
 [[https://gist.github.com/abo-abo/9607099][In contrast to old big query with top starred repos]] I will list all packages required in any
 elisp file, rather than just repositories written in emacs lisp. This will include built in
 emacs packages or packages not stored on github.
+
+If you are impatient you can jump directly to [[*Results%20(of%20the%20%5B%5B*Query%20on%20full%20data%5D%5BQuery%20on%20full%20data%5D%5D)][Results.]]
 * Bias towards repos with license
 As [[https://news.ycombinator.com/item?id=12004644][this hacker news]] post mentions, only repos with license are indexed.
 That will bias the result towards packages rather than personal emacs configs people put on github.
@@ -79,7 +81,8 @@ Couple of big query tricks to make it work:
 - Filtering data prior to join in sub-query reduces memory usage.
 - Regexps and globs are expensive. Use LEFT/RIGHT as a faster version.
 - Avoid reading files without .el or .emacs extension to go around 1TB freebie scan limit.
-  
+
+* Results (of the [[*Query on full data][Query on full data]])
 Full list of top 2000 is at https://github.com/kozikow/kozikow-blog/blob/master/packages_2000.csv.
 
 Small subset of packages with 1000+ usages:

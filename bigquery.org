@@ -79,7 +79,7 @@ Couple of big query tricks to make it work:
 - Regexps and globs are expensive. Use LEFT/RIGHT as a faster version.
 - Avoid reading files without .el or .emacs extension to go around 1TB freebie scan limit.
   
-Full list of top 500 is at https://github.com/kozikow/kozikow-blog/blob/master/packages_full.csv.
+Full list of top 2000 is at https://github.com/kozikow/kozikow-blog/blob/master/packages_2000.csv.
 
 Small subset of packages with 1000+ usages:
 | package                             | count |

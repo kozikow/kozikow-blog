@@ -6,7 +6,7 @@
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
 [[https://github.com/blog/2201-making-open-source-data-more-available%20][Today github announced new big query tables]] that lets you query github repos using big query.
-I found about it from [[https://news.ycombinator.com/item?id=12004442][hacker news.]] 
+I found about it from [[https://news.ycombinator.com/item?id=12004442][hacker news.]] [[http://google-opensource.blogspot.co.uk/2016/06/github-on-bigquery-analyze-all-code.html][Announcement from Google.]]
 The killer new feature is the ability to query the contents of all files stored on github.
 
 [[https://gist.github.com/abo-abo/9607099][In contrast to old big query with top starred repos]] I will list all packages required in any
@@ -15,7 +15,7 @@ elisp file, rather than just repositories written in emacs lisp.
 As [[https://news.ycombinator.com/item?id=12004644][this hacker news]] post mentions, only repos with license are indexed.
 That will bias results towards emacs packages rather than personal emacs configs people put on github.
 * Query on sample_contents
-sample_contents only contains 10% sample.
+sample_contents only contains 10% sample of github files.
 It also contain pre-joined data between tables contents and files.
 It's good for data exploration before running the bigger query on the full dataset.
 
@@ -40,7 +40,7 @@ It's good for data exploration before running the bigger query on the full datas
       LIMIT 500;
 #+END_SRC
 
-* Query with inlines
+* Query on full data
 contents contains all files, but require join with files to get file path.
 Full query:
 
@@ -78,7 +78,10 @@ Couple of big query tricks to make it work:
 - Filtering data prior to join in sub-query reduces memory usage.
 - Regexps and globs are expensive. Use LEFT/RIGHT as a faster version.
 - Avoid reading files without .el or .emacs extension to go around 1TB freebie scan limit.
+  
+Full list of top 500 is at https://github.com/kozikow/kozikow-blog/blob/master/packages_full.csv.
 
+Small subset of packages with 1000+ usages:
 | package                             | count |
 |-------------------------------------+-------|
 | (require 'cl-lib)                   | 18901 |
@@ -164,110 +167,3 @@ Couple of big query tricks to make it work:
 | (require 'semantic/ctxt)            |  1008 |
 | (require 'help-mode)                |  1006 |
 | (require 'gnus-int)                 |  1001 |
-| (require 'browse-url)               |   996 |
-| (require 'semantic/wisent)          |   992 |
-| (require 'derived)                  |   988 |
-| (require 'ob-comint)                |   960 |
-| (require 'tex)                      |   955 |
-| (require 'flymake)                  |   953 |
-| (require 'gnus-start)               |   943 |
-| (require 'sendmail)                 |   940 |
-| (require 'nxml-util)                |   938 |
-| (require 'shell)                    |   935 |
-| (require 'srecode)                  |   929 |
-| (require 'sb-rss)                   |   929 |
-| (require 'timer)                    |   926 |
-| (require 'expand-region-core)       |   920 |
-| (require 'srecode/dictionary)       |   912 |
-| (require 'ido)                      |   900 |
-| (require 'mail-parse)               |   888 |
-| (require 'reftex)                   |   885 |
-| (require 'advice)                   |   871 |
-| (require 'macroexp)                 |   863 |
-| (require 'rmail)                    |   845 |
-| (require 'log-edit)                 |   845 |
-| (require 'semantic/tag)             |   838 |
-| (require 'semantic/lex)             |   836 |
-| (require 'mail-utils)               |   836 |
-| (require 'xmltok)                   |   833 |
-| (require 'mh-scan)                  |   819 |
-| (require 'pp)                       |   806 |
-| (require 'time-date)                |   799 |
-| (require 'semantic/find)            |   789 |
-| (require 'newcomment)               |   789 |
-| (require 'cider-interaction)        |   770 |
-| (require 'eldoc)                    |   742 |
-| (require 'url-http)                 |   731 |
-| (require 'ediff-init)               |   730 |
-| (require 'w3m)                      |   728 |
-| (require 'clojure-mode)             |   728 |
-| (require 'gnus-group)               |   725 |
-| (require 'esh-mode)                 |   725 |
-| (require 'rng-util)                 |   721 |
-| (require 'ede/pmake)                |   720 |
-| (require 'server)                   |   714 |
-| (require 'ox-publish)               |   714 |
-| (require 'org-exp)                  |   714 |
-| (require 'color-theme-tomorrow)     |   713 |
-| (require 'cus-edit)                 |   712 |
-| (require 'ob-ref)                   |   701 |
-| (require 'ecb-layout)               |   699 |
-| (require 'cider-compat)             |   685 |
-| (require 'org-src)                  |   680 |
-| (require 'org-agenda)               |   675 |
-| (require 'haskell-session)          |   673 |
-| (require 'haskell-process)          |   671 |
-| (require 'esh-opt)                  |   671 |
-| (require 'f)                        |   670 |
-| (require 'rx)                       |   666 |
-| (require 'yasnippet)                |   662 |
-| (require 'cider-util)               |   657 |
-| (require 'calc)                     |   656 |
-| (require 'semantic/db-find)         |   649 |
-| (require 'ruby-mode)                |   643 |
-| (require 'ede/proj)                 |   643 |
-| (require 'srecode/insert)           |   640 |
-| (require 'pcvs-util)                |   637 |
-| (require 'eudc)                     |   630 |
-| (require 'ecb-common-browser)       |   627 |
-| (require 'seq)                      |   621 |
-| (require 'cl-generic)               |   619 |
-| (require 'rfc2047)                  |   617 |
-| (require 'mmm-auto)                 |   613 |
-| (require 'auto-complete-config)     |   613 |
-| (require 'grep)                     |   609 |
-| (require 'evil-common)              |   605 |
-| (require 'org-table)                |   604 |
-| (require 'flycheck)                 |   604 |
-| (require 'jabber-util)              |   603 |
-| (require 'assoc)                    |   596 |
-| (require 'load-relative)            |   594 |
-| (require 'mailcap)                  |   592 |
-| (require 'color-theme)              |   588 |
-| (require 'regexp-opt)               |   585 |
-| (require 'ox-html)                  |   585 |
-| (require 'dbus)                     |   583 |
-| (require 'gnus-msg)                 |   581 |
-| (require 'bytecomp)                 |   575 |
-| (require 'w3m-util)                 |   571 |
-| (require 'mouse)                    |   569 |
-| (require 'electric)                 |   569 |
-| (require 'lisp-mnt)                 |   564 |
-| (require 'gnus-win)                 |   564 |
-| (require 'semantic-lex)             |   559 |
-| (require 'popup)                    |   558 |
-| (require 'smie)                     |   556 |
-| (require 'backquote)                |   556 |
-| (require 'uniquify)                 |   552 |
-| (require 'mode-local)               |   550 |
-| (require 'mmm-vars)                 |   542 |
-| (require 'ebnf-otz)                 |   540 |
-| (require 'pulse)                    |   536 |
-| (require 'info)                     |   528 |
-| (require 'mm-url)                   |   517 |
-| (require 'go-mode)                  |   517 |
-| (require 'semantic/symref)          |   515 |
-| (require 'haskell-interactive-mode) |   515 |
-| (require 'haskell-font-lock)        |   514 |
-| (require 'cus-face)                 |   511 |
-| (require 'eieio-opt)                |   507 |

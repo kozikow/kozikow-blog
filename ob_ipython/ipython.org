@@ -300,7 +300,7 @@ it's enough to put blocks one after another.
 #+RESULTS:
 : 900
 
-** TODO [#A] Connect to existing ipython kernel
+** Connect to existing ipython kernel
 I added support of connecting to existing ipython kernel in 
 https://github.com/gregsexton/ob-ipython/pull/71/files.
 

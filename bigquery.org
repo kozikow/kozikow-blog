@@ -6,14 +6,15 @@
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
 [[https://github.com/blog/2201-making-open-source-data-more-available%20][Today github announced new big query tables]] that let you query data about github repos using big query.
-I found about it from [[https://news.ycombinator.com/item?id=12004442][hacker news.]] [[http://google-opensource.blogspot.co.uk/2016/06/github-on-bigquery-analyze-all-code.html][AAlso see announcement from Google.]]
+I found about it from [[https://news.ycombinator.com/item?id=12004442][hacker news.]] [[http://google-opensource.blogspot.co.uk/2016/06/github-on-bigquery-analyze-all-code.html][Also see announcement from Google.]]
 The killer new feature is the ability to query the contents of all files stored on github.
+
+I will use it to list top packages required in elisp files on github.
+If you are impatient you can jump directly to [[*Results%20(of%20the%20%5B%5B*Query%20on%20full%20data%5D%5BQuery%20on%20full%20data%5D%5D)][Results.]]
 
 [[https://gist.github.com/abo-abo/9607099][In contrast to old big query with top starred repos]] I will list all packages required in any
 elisp file, rather than just repositories written in emacs lisp. This will include built in
 emacs packages or packages not stored on github.
-
-If you are impatient you can jump directly to [[*Results%20(of%20the%20%5B%5B*Query%20on%20full%20data%5D%5BQuery%20on%20full%20data%5D%5D)][Results.]]
 * Bias towards repos with license
 As [[https://news.ycombinator.com/item?id=12004644][this hacker news]] post mentions, only repos with license are indexed.
 That will bias the result towards packages rather than personal emacs configs people put on github.

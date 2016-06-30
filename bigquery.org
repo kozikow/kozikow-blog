@@ -11,6 +11,7 @@ The killer new feature is the ability to query the contents of all files stored 
 
 I will use it to list top packages required in elisp files on github.
 If you are impatient you can jump directly to [[*Results%20(of%20the%20%5B%5B*Query%20on%20full%20data%5D%5BQuery%20on%20full%20data%5D%5D)][Results.]]
+To run a query go to [[https://bigquery.cloud.google.com/dataset/bigquery-public-data:github_repos][big query console]] and click "Compose Query".
 
 [[https://gist.github.com/abo-abo/9607099][In contrast to old big query with top starred repos]] I will list all packages required in any
 elisp file, rather than just repositories written in emacs lisp. This will include built in
@@ -50,7 +51,7 @@ Full query:
 
 #+BEGIN_SRC sql :results output
   SELECT
-    TOP(line, 2000),
+    TOP(line, 5000),
     COUNT(*) AS c
   FROM (
     SELECT
@@ -76,15 +77,17 @@ Full query:
       AND RIGHT(line, 1) == ")");
 #+END_SRC
 
+Thanks to all optimizations getting top 5000 packages takes only 60 seconds.
+
 I have been getting a few errors, including =Error: Resources exceeded during query execution.= for a while.
-Couple of big query tricks to make it work:
-- TOP/COUNT is faster than GROUP BY/ORDER
+It required a couple of big query tricks to make it work
+- TOP/COUNT is faster than GROUP BY/ORDER/LIMIT.
 - Filtering data prior to join in sub-query reduces memory usage.
-- Regexps and globs are expensive. Use LEFT/RIGHT as a faster version.
-- Avoid reading files without .el or .emacs extension to go around 1TB freebie scan limit.
+- Regexps and globs are expensive. LEFT/RIGHT is much faster.
+- Avoid scanning files without .el or .emacs extension (thanks to filtering done by join).
 
 * Results (of the [[*Query on full data][Query on full data]])
-Full list of top 2000 is at https://github.com/kozikow/kozikow-blog/blob/master/packages_2000.csv.
+Full list of top 5000 is at https://github.com/kozikow/kozikow-blog/blob/master/github_emacs_packages_5000.csv .
 
 Packages with 1000+ usages:
 | package                             | count |

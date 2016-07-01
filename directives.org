@@ -1,5 +1,6 @@
 #+BLOG: wordpress
 #+POSTID: 699
+#+OPTIONS: toc:3
 #+DATE: [2016-07-01 Fri 10:52]
 #+TITLE: Top angular directives on github
 #+AUTHOR: Robert Kozikowski
@@ -7,9 +8,68 @@
 All github contents recently got query-able by the Google BigQuery. See my other post about it:
 https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/ .
 
-I don't use angular recently, but my coworkers do, so based on our chat in pub I decided to query top angular directives on github.
+I don't use angular recently, but my coworkers do. 
+Based on our chat in pub I decided to query top angular directives on github.
 
-* Top usages in all repository
+* Unique usage per repository in top repositories with example usage
+Counting unique usage is expensive and I am out of my free quota for this month.
+I calculated in "how many different repos is this directive used" with example usage only on sample of top popular repositories.
+
+#+BEGIN_SRC sql :results output
+  SELECT
+    REGEXP_EXTRACT(line, r".*[^a-zA-Z](ng-[a-zA-Z0-9-]+).*") AS line,
+    COUNT(DISTINCT(sample_repo_name)) AS count_distinct_repos,
+    CONCAT( "https://github.com/", FIRST(sample_repo_name), "/blob/", REGEXP_EXTRACT(FIRST(sample_ref), r"refs/heads/(.*)$"), "/", FIRST(sample_path)) AS example_url,
+  FROM (
+    SELECT
+      SPLIT(content, '\n') line,
+      sample_repo_name,
+      sample_path,
+      sample_ref
+    FROM
+      [bigquery-public-data:github_repos.sample_contents]
+    WHERE
+      (sample_path LIKE '%.html'
+        OR sample_path LIKE '%.ng')
+    HAVING
+      line CONTAINS 'ng-')
+  GROUP BY
+    1
+  ORDER BY
+    count_distinct_repos DESC
+  LIMIT
+    500;
+#+END_SRC
+
+[[https://docs.google.com/spreadsheets/d/19iYNqbqqwKnSfJC3dLwvsMgB3LIoAKeuvKAuOOs2L9Q/edit?usp=sharing][Full results on google docs.]]
+Top 20 results:
+
+| line          | count_distinct_repos | example_url                                                                                                                               |
+|---------------+----------------------+-------------------------------------------------------------------------------------------------------------------------------------------|
+| ng-click      |                 1087 | https://github.com/getlantern/lantern/blob/devel/lantern-ui/app/partials/modals.html                                                      |
+| ng-model      |                  877 | https://github.com/classeur/classeur/blob/master/src/optional/zenMode/zenModeSettings.html                                                |
+| ng-repeat     |                  876 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/tutorial/step_06.html |
+| ng-show       |                  700 | https://github.com/getlantern/lantern/blob/devel/lantern-ui/app/partials/modals.html                                                      |
+| ng-controller |                  608 | https://github.com/google/generator-goro/blob/master/app/templates/_index.html                                                            |
+| ng-class      |                  588 | https://github.com/algorithm-ninja/cmsocial/blob/master/cmsocial-web/views/pagination.html                                                |
+| ng-if         |                  560 | https://github.com/getlantern/lantern/blob/devel/lantern-ui/app/partials/modals.html                                                      |
+| ng-app        |                  439 | https://github.com/open-craft/opencraft/blob/master/registration/templates/registration/registration.html                                 |
+| ng-hide       |                  324 | https://github.com/algorithm-ninja/cmsocial/blob/master/cmsocial-web/views/pagination.html                                                |
+| ng-disabled   |                  314 | https://github.com/taironas/gonawin/blob/master/gonawin/app/components/tournament/edit.html                                               |
+| ng-submit     |                  243 | https://github.com/mcn-team/media-collection/blob/master/webapp/main/public/modules/users/views/authentication/signup.client.view.html    |
+| ng-include    |                  223 | https://github.com/couchbase/cbft/blob/master/ns_server_static/fts/fts_new.html                                                           |
+| ng-src        |                  223 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/tutorial/step_06.html |
+| ng-change     |                  214 | https://github.com/getlantern/lantern/blob/devel/lantern-ui/app/partials/modals.html                                                      |
+| ng-href       |                  203 | https://github.com/getlantern/www.getlantern.org/blob/master/app/docs/Installing.html                                                     |
+| ng-bind       |                  192 | https://github.com/GrumpyWizards/ngBlog/blob/master/src/theme/templates/home.tpl.html                                                     |
+| ng-init       |                  166 | https://github.com/leomicheloni/angularjs-lab/blob/master/examples/ejemplo5/index.html                                                    |
+| ng-bind-html  |                  163 | https://github.com/getlantern/lantern/blob/devel/lantern-ui/app/partials/modals.html                                                      |
+| ng-view       |                  159 | https://github.com/dimagi/commcare-hq/blob/master/corehq/messaging/smsbackends/telerivet/templates/telerivet/telerivet_setup.html         |
+| ng-options    |                  158 | https://github.com/davidhay25/FHIRSampleCreator/blob/master/modalTemplates/clientConfig.html                                              |
+
+* Top usages in all repositories
+Previous query was looking only at the sample of data.
+This query looks through all files accessible on github.
 
 #+BEGIN_SRC sql :results output
   SELECT
@@ -61,57 +121,4 @@ Top 20 results:
 | ng-template    |  108241 |
 | ng-change      |  101197 |
 | ng-bind-html   |   89604 |
-
-* Unique usage per repository in top repositories
-Counting unique usage is expensive and I am out of my free quota for this month.
-I calculated in "how many different repos is this directive used", rather than just raw count.
-It's more robust to some project using some directive a lot.
-
-#+BEGIN_SRC sql :results output
-  SELECT
-    REGEXP_EXTRACT(line, r".*[^a-zA-Z](ng-[a-zA-Z0-9-]+).*") AS line,
-    COUNT(DISTINCT(sample_repo_name)) AS count
-  FROM (
-    SELECT
-      SPLIT(content, '\n') line,
-      sample_repo_name
-    FROM
-      [bigquery-public-data:github_repos.sample_contents]
-    WHERE
-      (sample_path LIKE '%.html'
-        OR sample_path LIKE '%.ng')
-    HAVING
-      line CONTAINS 'ng-')
-  GROUP BY
-    1
-  ORDER BY
-    count DESC
-  LIMIT
-    500;
-#+END_SRC
-
-[[https://docs.google.com/spreadsheets/d/1b53UiXAxjpPwkQrlP71DcWNoaXpy_XZkQxOfmuZhwdE/edit?usp=sharing][Full results in google docs]].
-Top 20 results:
-| line          | count |
-|---------------+-------|
-| ng-click      |  1087 |
-| ng-model      |   877 |
-| ng-repeat     |   876 |
-| ng-show       |   700 |
-| ng-controller |   608 |
-| ng-class      |   588 |
-| ng-if         |   560 |
-| ng-app        |   439 |
-| ng-hide       |   324 |
-| ng-disabled   |   314 |
-| ng-submit     |   243 |
-| ng-include    |   223 |
-| ng-src        |   223 |
-| ng-change     |   214 |
-| ng-href       |   203 |
-| ng-bind       |   192 |
-| ng-init       |   166 |
-| ng-bind-html  |   163 |
-| ng-view       |   159 |
-| ng-options    |   158 |
 

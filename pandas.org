@@ -152,7 +152,7 @@ Top 20 results:
 | sqrt              |  1100 |
 | sparse.linalg     |  1056 |
 
-* Top Pandas Data Frame Functions 
+* Top pandas data frame functions 
 Results are again approximate and based on the heuristic assumption that data frames are usually named with the suffix "df".
 To filter out noise, only files containing "import pandas" and matching regexp ".*df\s=.*pandas" are included.
 

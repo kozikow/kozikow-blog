@@ -14,8 +14,7 @@ They are quite big, so it may be hard to distinguish between functions you would
 
 Using the new github data on BigQuery I calculated the most popular numpy, scipy and pandas functions.
 I have found a few functions that I should have been using that I have not been aware of.
-
-It would also be very cool to sort code completions in python packages based on the frequency on github.
+It would be very cool to sort code completions in python packages based on the frequency on github.
 
 I will be using pre-extracted data with python file contents from https://bigquery.cloud.google.com/dataset/fh-bigquery:github_extracts.
 

@@ -8,14 +8,16 @@ All github contents recently got query-able by the Google BigQuery. See my other
 https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/ .
 
 I don't use angular recently, but my coworkers do, so based on our chat in pub I decided to query top angular directives on github.
-Query:
+
+* Top usages in all repository
+
 #+BEGIN_SRC sql :results output
   SELECT
     TOP(line, 500),
     COUNT(*) AS c
   FROM (
     SELECT
-      REGEXP_EXTRACT((SPLIT(contents.content, '\n')), ".*(\bng-[a-zA-Z0-9-]+).*") line,
+      REGEXP_EXTRACT((SPLIT(contents.content, '\n')), r".*[^a-zA-Z](ng-[a-zA-Z0-9-]+).*") line,
       contents.id AS id
     FROM
       [bigquery-public-data:github_repos.contents] AS contents
@@ -34,108 +36,82 @@ Query:
       line CONTAINS "ng-");
 #+END_SRC
 
-[[https://docs.google.com/spreadsheets/d/19I_VN3GqxcUhGPKn-8OhMIT5WONHlZ1pAaPGAjqj8aI/edit?usp=sharing][Full results in google docs.]] Top 100 results:
+[[https://docs.google.com/spreadsheets/d/1udLxsIGRGa15ICS0eDseeI5FXP7hao6e-xL6Zvrttpc/edit?usp=sharing][Full results on google docs.]]
+Top 20 results:
 
-| directive                       |   count |
-|---------------------------------+---------|
-| ng-left                         | 7530427 |
-| ng-click                        | 1570801 |
-| ng-right                        | 1492590 |
-| ng-model                        | 1360790 |
-| ng-show                         |  960979 |
-| ng-top                          |  906962 |
-| ng-bottom                       |  867565 |
-| ng-point                        |  852316 |
-| ng-repeat                       |  696165 |
-| ng-if                           |  599157 |
-| ng-controller                   |  591433 |
-| ng-class                        |  536965 |
-| ng-js                           |  474571 |
-| ng-app                          |  472097 |
-| ng-if-branch                    |  428451 |
-| ng-toggle                       |  424266 |
-| ng-status                       |  419552 |
-| ng-collapsed                    |  418345 |
-| ng-mode                         |  344068 |
-| ng-bind                         |  283416 |
-| ng-description                  |  273161 |
-| ng-started                      |  270029 |
-| ng-hide                         |  217335 |
-| ng-this-helper                  |  210072 |
-| ng-disabled                     |  169233 |
-| ng-java                         |  150565 |
-| ng-the-class                    |  146574 |
-| ng-cart                         |  142013 |
-| ng-javascript                   |  136063 |
-| ng-include                      |  125764 |
-| ng-init                         |  125561 |
-| ng-submit                       |  118080 |
-| ng-switch-when                  |  110983 |
-| ng-template                     |  110738 |
-| ng-href                         |  109297 |
-| ng-src                          |  108536 |
-| ng--                            |  103710 |
-| ng-change                       |  102029 |
-| ng-text                         |   96869 |
-| ng-options                      |   94395 |
-| ng-message                      |   92900 |
-| ng-o                            |   91196 |
-| ng-bind-html                    |   89584 |
-| ng-bg                           |   87144 |
-| ng-i                            |   83184 |
-| ng-html                         |   81109 |
-| ng-function                     |   78583 |
-| ng-sub                          |   77445 |
-| ng-css                          |   77224 |
-| ng-cloak                        |   75168 |
-| ng-data                         |   74199 |
-| ng-view                         |   68171 |
-| ng-groups                       |   66378 |
-| ng-bitmaps                      |   65882 |
-| ng-slide                        |   64697 |
-| ng-1                            |   62448 |
-| ng-style                        |   62018 |
-| ng-int-                         |   59117 |
-| ng-d                            |   57491 |
-| ng-sign                         |   56798 |
-| ng-md-icon                      |   55057 |
-| ng-small                        |   52987 |
-| ng-switch                       |   46754 |
-| ng-list                         |   45135 |
-| ng-devices                      |   44313 |
-| ng-module                       |   44018 |
-| ng-none                         |   44012 |
-| ng-box                          |   40839 |
-| ng-a-table                      |   40238 |
-| ng-entity                       |   39376 |
-| ng-Options                      |   39015 |
-| ng-not-javascript               |   37997 |
-| ng-up                           |   36548 |
-| ng-value                        |   35978 |
-| ng-link                         |   35406 |
-| ng-blocks                       |   35315 |
-| ng-Point                        |   35305 |
-| ng-color                        |   34680 |
-| ng-space                        |   34346 |
-| ng-2                            |   34098 |
-| ng-pysrc                        |   33312 |
-| ng-layouts                      |   33046 |
-| ng-messages                     |   33000 |
-| ng-transclude                   |   32687 |
-| ng-required                     |   32344 |
-| ng-pages                        |   31861 |
-| ng-org                          |   31229 |
-| ng-preferences                  |   30150 |
-| ng-term                         |   30052 |
-| ng-session-data                 |   29979 |
-| ng-preferences-in-a-config-file |   29973 |
-| ng-border                       |   29820 |
-| ng-work                         |   29491 |
-| ng-combinators                  |   29470 |
-| ng-label                        |   29189 |
-| ng-pluralize                    |   28694 |
-| ng-table                        |   27945 |
-| ng-set-text                     |   27430 |
-| ng-tables                       |   27239 |
-| ng-medium                       |   27028 |
-| ng-indicator                    |   26734 |
+| directive      |   count |
+|----------------+---------|
+| ng-click       | 1572920 |
+| ng-model       | 1355222 |
+| ng-show        |  962245 |
+| ng-repeat      |  697010 |
+| ng-if          |  601903 |
+| ng-controller  |  591669 |
+| ng-app         |  460875 |
+| ng-class       |  452863 |
+| ng-bind        |  283218 |
+| ng-hide        |  217121 |
+| ng-disabled    |  168468 |
+| ng-include     |  125913 |
+| ng-init        |  125508 |
+| ng-submit      |  118507 |
+| ng-switch-when |  111254 |
+| ng-href        |  109513 |
+| ng-src         |  108365 |
+| ng-template    |  108241 |
+| ng-change      |  101197 |
+| ng-bind-html   |   89604 |
+
+* Unique usage per repository in top repositories
+Counting unique usage is expensive and I am out of my free quota for this month.
+I calculated in "how many different repos is this directive used", rather than just raw count.
+It's more robust to some project using some directive a lot.
+
+#+BEGIN_SRC sql :results output
+  SELECT
+    REGEXP_EXTRACT(line, r".*[^a-zA-Z](ng-[a-zA-Z0-9-]+).*") AS line,
+    COUNT(DISTINCT(sample_repo_name)) AS count
+  FROM (
+    SELECT
+      SPLIT(content, '\n') line,
+      sample_repo_name
+    FROM
+      [bigquery-public-data:github_repos.sample_contents]
+    WHERE
+      (sample_path LIKE '%.html'
+        OR sample_path LIKE '%.ng')
+    HAVING
+      line CONTAINS 'ng-')
+  GROUP BY
+    1
+  ORDER BY
+    count DESC
+  LIMIT
+    500;
+#+END_SRC
+
+[[https://docs.google.com/spreadsheets/d/1b53UiXAxjpPwkQrlP71DcWNoaXpy_XZkQxOfmuZhwdE/edit?usp=sharing][Full results in google docs]].
+Top 20 results:
+| line          | count |
+|---------------+-------|
+| ng-click      |  1087 |
+| ng-model      |   877 |
+| ng-repeat     |   876 |
+| ng-show       |   700 |
+| ng-controller |   608 |
+| ng-class      |   588 |
+| ng-if         |   560 |
+| ng-app        |   439 |
+| ng-hide       |   324 |
+| ng-disabled   |   314 |
+| ng-submit     |   243 |
+| ng-include    |   223 |
+| ng-src        |   223 |
+| ng-change     |   214 |
+| ng-href       |   203 |
+| ng-bind       |   192 |
+| ng-init       |   166 |
+| ng-bind-html  |   163 |
+| ng-view       |   159 |
+| ng-options    |   158 |
+

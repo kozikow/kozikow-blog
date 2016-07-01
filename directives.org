@@ -69,7 +69,9 @@ Top 20 results:
 
 * Unique usage per repository in top repositories with example usage
 Counting unique usage is expensive and I am out of my free quota for this month.
-I calculated in "how many different repos is this directive used" with example usage only on sample of top popular repositories.
+This query runs on a smaller table that only contains 10% random sample of files from top 130k top popular repositories.
+
+It will calculate "how many unique repos use this directive" and add a link to an example usage. 
 
 #+BEGIN_SRC sql :results output
   SELECT

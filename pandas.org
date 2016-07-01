@@ -1,7 +1,8 @@
 #+BLOG: wordpress
 #+POSTID: 704
+#+OPTIONS: toc:3
 #+DATE: [2016-07-01 Fri 18:54]
-#+TITLE: Top pandas functions used in github repos
+#+TITLE: Top pandas, numpy and scipy functions used in github repos
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction

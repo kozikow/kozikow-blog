@@ -214,4 +214,4 @@ Packages with 1000+ usages:
 * Things to improve 
 In sampled query I counted unique repos that reference given library.
 In full query I just counted number of times given line appeared in any emacs file.
-Calculating distinct repos in full query would be complex as it would require additional join.
+It is better to count unique repos, but calculating distinct repos on a full query would require additional join.

@@ -72,9 +72,9 @@ I calculated in "how many different repos is this directive used" with example u
 
 #+BEGIN_SRC sql :results output
   SELECT
-    REGEXP_EXTRACT(line, r".*[^a-zA-Z](ng-[a-zA-Z0-9-]+).*") AS line,
+    REGEXP_EXTRACT(line, r".*[ <]+(ng-[a-zA-Z0-9-]+).*") AS line,
     COUNT(DISTINCT(sample_repo_name)) AS count_distinct_repos,
-    CONCAT( "https://github.com/", FIRST(sample_repo_name), "/blob/", REGEXP_EXTRACT(FIRST(sample_ref), r"refs/heads/(.*)$"), "/", FIRST(sample_path)) AS example_url,
+    CONCAT("https://github.com/", FIRST(sample_repo_name), "/blob/", REGEXP_EXTRACT(FIRST(sample_ref), r"refs/heads/(.*)$"), "/", FIRST(sample_path)) AS example_url,
   FROM (
     SELECT
       SPLIT(content, '\n') line,

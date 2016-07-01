@@ -7,7 +7,7 @@
 All github contents recently got query-able by the Google BigQuery. See my other post about it:
 https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/ .
 
-I don't use angular recently, but out of curiosity I queried top angular directives on github.
+I don't use angular recently, but my coworkers do, so based on our chat in pub I decided to query top angular directives on github.
 Query:
 #+BEGIN_SRC sql :results output
   SELECT

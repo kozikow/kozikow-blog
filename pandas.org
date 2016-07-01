@@ -1,0 +1,159 @@
+#+BLOG: wordpress
+#+POSTID: 704
+#+DATE: [2016-07-01 Fri 18:54]
+#+TITLE: Top pandas functions used in github repos
+#+AUTHOR: Robert Kozikowski
+#+EMAIL: r.kozikowski@gmail.com
+* Introduction
+Github recently introduced file contents query-able on Google BigQuery. My first post with the general introduction about it: https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/ .
+
+I use pandas a lot in my day to day work. I decided to look for top pandas functions used in github repos.
+Just by reading documentation it may be hard to distinguish between functions that you use once in a while and functions that you would use all the time.
+This may serve as a guide for useful things that you might not have been aware of. I found a few useful functions.
+
+I will be using pre-extracted data with python file contents from https://bigquery.cloud.google.com/dataset/fh-bigquery:github_extracts.
+
+* Top Pandas functions
+Results are approximate and based on the heuristic assumption that people usually prefix python pandas functions by "pd." or "pandas.".
+
+#+BEGIN_SRC sql :results output
+  SELECT
+    TOP(REGEXP_EXTRACT(LTRIM(line), r"^pandas|pd([a-zA-Z-_0-9\.]+)"), 500) as pandas_function,
+    COUNT(*)
+  FROM (SELECT
+      SPLIT(content, '\n') AS line,
+  FROM [fh-bigquery:github_extracts.contents_py]
+  WHERE
+    content CONTAINS "import pandas"
+  HAVING
+    LEFT(LTRIM(line),3) == "pd."
+    OR LEFT(LTRIM(line),7) == "pandas.");
+#+END_SRC
+
+[[https://docs.google.com/spreadsheets/d/11X2j_EqXeUqAUYFzhfOIWm5upDsqRjOsL7YpDoYmcJQ/edit?usp=sharing][Full results are in google docs.]] Top results:
+
+| pandas_function                          | count |
+|------------------------------------------+-------|
+| .DataFrame                               |  1693 |
+| .set_option                              |  1122 |
+| .Timestamp                               |   896 |
+| .Series                                  |   686 |
+| .eval                                    |   246 |
+| .concat                                  |   178 |
+| .to_datetime                             |   172 |
+| .Index                                   |   152 |
+| .date_range                              |   137 |
+| .merge                                   |   120 |
+| .NaT                                     |   117 |
+| .isnull                                  |    82 |
+| .read_csv                                |    75 |
+| .to_pickle                               |    70 |
+| .read_table                              |    64 |
+| .options.mode.chained_assignment         |    64 |
+| .rolling_mean                            |    49 |
+| .reset_option                            |    49 |
+| .Period                                  |    43 |
+| .DatetimeIndex                           |    38 |
+| .TimeSeries                              |    34 |
+| .options.display.float_format            |    31 |
+| .options.display.mpl_style               |    30 |
+| .options.display.max_rows                |    30 |
+| .Timedelta                               |    28 |
+| .MultiIndex.from_tuples                  |    28 |
+| .crosstab                                |    22 |
+| .util.testing.assert_frame_equal         |    21 |
+| .np.array                                |    21 |
+| .value_counts                            |    18 |
+| .options.display.max_columns             |    18 |
+| .offsets.Minute                          |    18 |
+| .MultiIndex                              |    18 |
+| .to_timedelta                            |    17 |
+| .read_hdf                                |    17 |
+| .Grouper                                 |    17 |
+| .util.testing.assert_series_equal        |    16 |
+| .offsets.Hour                            |    16 |
+| .computation.expressions.set_use_numexpr |    15 |
+| .IndexSlice                              |    15 |
+| .to_msgpack                              |    14 |
+| .plot_params                             |    14 |
+| .options.display.width                   |    14 |
+| .scatter_matrix                          |    12 |
+| .melt                                    |    12 |
+| .DataFrame.sample                        |    12 |
+| .Categorical.from_codes                  |    12 |
+| .offsets.Second                          |    11 |
+| .status                                  |    10 |
+| .options.display.expand_frame_repr       |    10 |
+| .get_dummies                             |    10 |
+| .datetime                                |    10 |
+| .core.frame.DataFrame.to_html            |    10 |
+| .core.format.header_style                |    10 |
+| .Series.plot                             |    10 |
+| .read_excel                              |     9 |
+
+* Top data frame functions 
+Results are again approximate and based on the heuristic assumption that data frames are usually named with the suffix "df".
+To filter out noise, only files containing "import pandas" and matching regexp ".*df\s=.*pandas" are included.
+
+#+BEGIN_SRC sql :results output
+  SELECT
+    TOP(REGEXP_EXTRACT(line, r"df([a-zA-Z-_\.]+)"), 500) AS pandas_function,
+    COUNT(*)
+  FROM (
+    SELECT
+      SPLIT(content, '\n') AS line,
+    FROM
+      [fh-bigquery:github_extracts.contents_py]
+    WHERE
+      content CONTAINS "import pandas"
+      and REGEXP_MATCH(content, r".*df\s=.*pandas") 
+    HAVING
+      line CONTAINS "df.")
+  HAVING LENGTH(pandas_function) > 1;
+#+END_SRC
+
+[[https://docs.google.com/spreadsheets/d/1QiWBm9YI-5BhkdSxvOioKwWH924s5DePMZOJu6zt5EM/edit?usp=sharing][Full results are in google docs.]] Top results:
+
+| data_frame_function | count |
+|---------------------+-------|
+| .columns            |  1712 |
+| .index              |   441 |
+| .loc                |   352 |
+| .to_csv             |   344 |
+| .groupby            |   319 |
+| .set_index          |   241 |
+| .x                  |   226 |
+| .values             |   208 |
+| .drop               |   203 |
+| .divisions          |   197 |
+| .ix                 |   165 |
+| .fillna             |   158 |
+| .dropna             |   147 |
+| .iterrows           |   123 |
+| .append             |   120 |
+| .iloc               |   119 |
+| .shape              |   117 |
+| .to_html            |    93 |
+| .rename             |    93 |
+| .sort               |    92 |
+| .compute            |    92 |
+| .apply              |    92 |
+| .sum                |    89 |
+| ._name              |    76 |
+| .T                  |    74 |
+| .to_string          |    65 |
+| .get_division       |    65 |
+| .itertuples         |    62 |
+| .to_hdf             |    61 |
+| .npartitions        |    61 |
+| .dask               |    61 |
+| .a                  |    59 |
+| .to_dict            |    58 |
+| .pivot_table        |    58 |
+| .empty              |    57 |
+| .index.name         |    54 |
+| .std                |    53 |
+| .x.repartition      |    52 |
+| .repartition        |    52 |
+| .reset_index        |    51 |
+| .head               |    51 |

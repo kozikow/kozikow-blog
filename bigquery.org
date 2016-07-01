@@ -6,7 +6,7 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
-[[https://github.com/blog/2201-making-open-source-data-more-available%20][Today github announced new BigQuery tables]] that let you query data about github repos using he BigQuery.
+[[https://github.com/blog/2201-making-open-source-data-more-available%20][Today github announced new BigQuery tables]] that let you query data about github repos using the BigQuery.
 I found about it from [[https://news.ycombinator.com/item?id=12004442][hacker news.]] [[http://google-opensource.blogspot.co.uk/2016/06/github-on-bigquery-analyze-all-code.html][Also see announcement from Google.]]
 The killer new feature is the ability to query the contents of all files stored on github.
 
@@ -27,43 +27,44 @@ It's good for data exploration before running the bigger query on the full datas
 
 #+BEGIN_SRC sql :results output
   SELECT
-      line,
-      COUNT(*) c
+    line,
+    COUNT(DISTINCT(sample_repo_name)) as count
   FROM (
-      SELECT line, id
-      FROM (
-          SELECT
-              SPLIT(content, '\n') line,
-              id
-          FROM [bigquery-public-data:github_repos.sample_contents]
-          WHERE
-              (sample_path LIKE '%.el' OR
-                  sample_path LIKE '%.emacs')
-          HAVING line LIKE '(require%)')
-      GROUP BY 1, 2)
-  GROUP BY 1
-  ORDER BY c DESC
-      LIMIT 10;
+    SELECT
+      SPLIT(content, '\n') line,
+      sample_repo_name
+    FROM
+      [bigquery-public-data:github_repos.sample_contents]
+    WHERE
+      (sample_path LIKE '%.el'
+        OR sample_path LIKE '%.emacs')
+    HAVING
+      line LIKE '(require%)')
+  GROUP BY
+    1
+  ORDER BY
+    count DESC
+  LIMIT
+    10;
 #+END_SRC
 
 Top 10 results:
-
-| package              | count |
+| line                 | count |
 |----------------------+-------|
-| (require 'cl-lib)    |    60 |
-| (require 'ert)       |    43 |
-| (require 'org)       |    39 |
-| (require 'ob)        |    30 |
-| (require 'semantic)  |    28 |
-| (require 'cl)        |    27 |
-| (require 'gnus)      |    25 |
-| (require 'comint)    |    24 |
-| (require 'calc-macs) |    20 |
-| (require 'gnus-util) |    20 |
+| (require 'cl-lib)    |    32 |
+| (require 'ert)       |    22 |
+| (require 'cl)        |    20 |
+| (require 'comint)    |    19 |
+| (require 'org)       |    14 |
+| (require 'font-lock) |    13 |
+| (require 'compile)   |    11 |
+| (require 'eieio)     |    10 |
+| (require 'package)   |     9 |
+| (require 'dash)      |     9 |
 
-Since the top entry got only 60 hits it made me worry that sample size is too small.
+Since the top entry got only 32 hits it made me worry that sample size is too small.
 
-Emacs is not that popular and only 266 emacs repos are included in sample_contents.
+Only 266 emacs repos are included in sample_contents:
 #+BEGIN_SRC sql :results output
   SELECT
     COUNT(DISTINCT(sample_repo_name))
@@ -209,3 +210,8 @@ Packages with 1000+ usages:
 | (require 'semantic/ctxt)            |  1008 |
 | (require 'help-mode)                |  1006 |
 | (require 'gnus-int)                 |  1001 |
+
+* Things to improve 
+In sampled query I counted unique repos that reference given library.
+In full query I just counted number of times given line appeared in any emacs file.
+Calculating distinct repos in full query would be complex as it would require additional join.

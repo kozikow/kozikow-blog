@@ -5,22 +5,22 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
-[[https://github.com/blog/2201-making-open-source-data-more-available%20][Today github announced new big query tables]] that let you query data about github repos using big query.
+[[https://github.com/blog/2201-making-open-source-data-more-available%20][Today github announced new BigQuery tables]] that let you query data about github repos using he BigQuery.
 I found about it from [[https://news.ycombinator.com/item?id=12004442][hacker news.]] [[http://google-opensource.blogspot.co.uk/2016/06/github-on-bigquery-analyze-all-code.html][Also see announcement from Google.]]
 The killer new feature is the ability to query the contents of all files stored on github.
 
 I will use it to list top packages required in elisp files on github.
 If you are impatient you can jump directly to [[*Results%20(of%20the%20%5B%5B*Query%20on%20full%20data%5D%5BQuery%20on%20full%20data%5D%5D)][Results.]]
-To run a query go to [[https://bigquery.cloud.google.com/dataset/bigquery-public-data:github_repos][big query console]] and click "Compose Query".
+To run a query go to [[https://bigquery.cloud.google.com/dataset/bigquery-public-data:github_repos][BigQuery console]] and click "Compose Query".
 
-[[https://gist.github.com/abo-abo/9607099][In contrast to old big query with top starred repos]] I will list all packages required in any
+[[https://gist.github.com/abo-abo/9607099][In contrast to old BigQuery with top starred repos]] I will list all packages required in any
 elisp file, rather than just repositories written in emacs lisp. This will include built in
 emacs packages or packages not stored on github.
 * Bias towards repos with license
 As [[https://news.ycombinator.com/item?id=12004644][this hacker news]] post mentions, only repos with license are indexed.
 That will bias the result towards packages rather than personal emacs configs people put on github.
 * Query on sample_contents
-sample_contents only contains 10% sample of github files.
+sample_contents only contains files from 10% top starred repos.
 It also contain pre-joined data between tables contents and files.
 It's good for data exploration before running the bigger query on the full dataset.
 
@@ -47,7 +47,7 @@ It's good for data exploration before running the bigger query on the full datas
 
 * Query on full data
 contents contains all files, but require join with files to get file path.
-Full query:
+My query:
 
 #+BEGIN_SRC sql :results output
   SELECT
@@ -80,7 +80,7 @@ Full query:
 Thanks to all optimizations getting top 5000 packages takes only 60 seconds.
 
 I have been getting a few errors, including =Error: Resources exceeded during query execution.= for a while.
-It required a couple of big query tricks to make it work
+It required a couple of BigQuery tricks to make it work
 - TOP/COUNT is faster than GROUP BY/ORDER/LIMIT.
 - Filtering data prior to join in sub-query reduces memory usage.
 - Regexps and globs are expensive. LEFT/RIGHT is much faster.

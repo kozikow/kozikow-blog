@@ -1,5 +1,6 @@
 #+BLOG: wordpress
 #+POSTID: 677
+#+OPTIONS: toc:3
 #+DATE: [2016-06-29 Wed 23:46]
 #+TITLE: Top emacs packages used in github repos
 #+AUTHOR: Robert Kozikowski
@@ -10,7 +11,7 @@ I found about it from [[https://news.ycombinator.com/item?id=12004442][hacker ne
 The killer new feature is the ability to query the contents of all files stored on github.
 
 I will use it to list top packages required in elisp files on github.
-If you are impatient you can jump directly to [[*Results%20(of%20the%20%5B%5B*Query%20on%20full%20data%5D%5BQuery%20on%20full%20data%5D%5D)][Results.]]
+If you are impatient you can jump directly to [[*Results][Results]].
 To run a query go to [[https://bigquery.cloud.google.com/dataset/bigquery-public-data:github_repos][BigQuery console]] and click "Compose Query".
 
 [[https://gist.github.com/abo-abo/9607099][In contrast to old BigQuery with top starred repos]] I will list all packages required in any
@@ -23,8 +24,6 @@ That will bias the result towards packages rather than personal emacs configs pe
 sample_contents only contains 10% sample files from top 130k repos according to stars.
 It also contain pre-joined data between tables contents and files.
 It's good for data exploration before running the bigger query on the full dataset.
-
-For some languages, 10% sample would be enough to discover patterns, but very few Emacs repos have been found.
 
 #+BEGIN_SRC sql :results output
   SELECT
@@ -62,7 +61,7 @@ Top 10 results:
 | (require 'calc-macs) |    20 |
 | (require 'gnus-util) |    20 |
 
-First entry getting only 60 hits made me worry that sample size is too small.
+Since the top entry got only 60 hits it made me worry that sample size is too small.
 
 Emacs is not that popular and only 266 emacs repos are included in sample_contents.
 #+BEGIN_SRC sql :results output
@@ -80,7 +79,7 @@ Emacs is not that popular and only 266 emacs repos are included in sample_conten
 
 That made me think that I need to query the unsampled data.
 
-* Query on full data
+* Query on full, unsampled, data
 contents contains all files, but require join with files to get file path.
 My query:
 
@@ -121,7 +120,7 @@ It required a couple of BigQuery tricks to make it work
 - Regexps and globs are expensive. LEFT/RIGHT is much faster.
 - Avoid scanning files without .el or .emacs extension (thanks to filtering done by join).
 
-* Results (of the [[*Query on full data][Query on full data]])
+* Results 
 Full list of top 5000 is at https://github.com/kozikow/kozikow-blog/blob/master/github_emacs_packages_5000.csv .
 
 Packages with 1000+ usages:

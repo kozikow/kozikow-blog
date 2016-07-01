@@ -10,7 +10,7 @@ All github contents recently got query-able by the Google BigQuery. See my other
 https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/ .
 
 I don't use angular recently, but my coworkers do. 
-Based on our chat in pub I decided to query top angular directives on github.
+Based on our chat in a pub I decided to find out the top angular directives on github.
 * Top usages in all repositories
 Previous query was looking only at the sample of data.
 This query looks through all files accessible on github.
@@ -21,7 +21,8 @@ This query looks through all files accessible on github.
     COUNT(*) AS c
   FROM (
     SELECT
-      REGEXP_EXTRACT((SPLIT(contents.content, '\n')), r".*[^a-zA-Z](ng-[a-zA-Z0-9-]+).*") line,
+      REGEXP_EXTRACT((SPLIT(contents.content, '\n')),
+            r".*[^a-zA-Z](ng-[a-zA-Z0-9-]+).*") line,
       contents.id AS id
     FROM
       [bigquery-public-data:github_repos.contents] AS contents
@@ -74,7 +75,12 @@ I calculated in "how many different repos is this directive used" with example u
   SELECT
     REGEXP_EXTRACT(line, r".*[ <]+(ng-[a-zA-Z0-9-]+).*") AS line,
     COUNT(DISTINCT(sample_repo_name)) AS count_distinct_repos,
-    CONCAT("https://github.com/", FIRST(sample_repo_name), "/blob/", REGEXP_EXTRACT(FIRST(sample_ref), r"refs/heads/(.*)$"), "/", FIRST(sample_path)) AS example_url,
+    CONCAT("https://github.com/",
+        FIRST(sample_repo_name),
+        "/blob/",
+        REGEXP_EXTRACT(FIRST(sample_ref), r"refs/heads/(.*)$"),
+        "/",
+        FIRST(sample_path)) AS example_url,
   FROM (
     SELECT
       SPLIT(content, '\n') line,
@@ -98,6 +104,7 @@ I calculated in "how many different repos is this directive used" with example u
 
 [[https://docs.google.com/spreadsheets/d/1E2AahOQiewBmJTJuB4wT6hp84zcOwx7tv7VJ4-2JyGA/edit?usp=sharing][Full results on google docs.]]
 Top 20 results:
+
 | line          | count_distinct_repos | example_url                                                                                                                                                                    |
 |---------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | ng-click      |                 1040 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/guide/dev_guide.services.injecting_controllers.html        |

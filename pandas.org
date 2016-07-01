@@ -18,140 +18,183 @@ It would be very cool to sort code completions in python packages based on the f
 
 I will be using pre-extracted data with python file contents from https://bigquery.cloud.google.com/dataset/fh-bigquery:github_extracts.
 
+Example usages assume that file points to master branch, so it may be sometimes broken until https://twitter.com/kozikow/status/749016021852418048 gets resolved.
+
 * Top pandas functions
 Results are approximate and based on the heuristic assumption that people usually prefix python pandas functions by "pd." or "pandas.".
 
 #+BEGIN_SRC sql :results output
   SELECT
-    TOP(REGEXP_EXTRACT(line, r'[^a-zA-Z](?:pd|pandas)\.([^",\(\,\`) \':\[\]/={}]*)'),500) function,
-    COUNT(*) c
+    REGEXP_EXTRACT(line,
+          r'[^a-zA-Z](?:pd|pandas)\.([^",\(\,\`) \':\[\]/={}]*)') AS function,
+    COUNT(DISTINCT(sample_repo_name)) AS count_distinct_repos,
+    COUNT(*) as count_total,
+    CONCAT("https://github.com/",
+          FIRST(sample_repo_name),
+          "/blob/master/",
+          FIRST(sample_path)) AS example_url,
   FROM (
     SELECT
       SPLIT(content, '\n') AS line,
+      sample_path,
+      sample_repo_name
     FROM
       [fh-bigquery:github_extracts.contents_py]
     WHERE
       content CONTAINS "import pandas"
     HAVING
       NOT LEFT(LTRIM(line),1)='#'
-      AND REGEXP_MATCH(line, r'[^a-zA-Z](?:pd|pandas)\.') );
+      AND REGEXP_MATCH(line, r'[^a-zA-Z](?:pd|pandas)\.') )
+  GROUP BY 1
+  ORDER BY 2 DESC
+  LIMIT 500;
 #+END_SRC
 
-[[https://docs.google.com/spreadsheets/d/1tKksWEr9VdFMAET3Lamky5vxJVGx41EPL2bvmNQOqDk/edit?usp=sharing][Full results are in google docs.]]
+[[https://docs.google.com/spreadsheets/d/1gwq1a7v9rlte78aBo3PLoY4_-jScGVpT4de3WR7-f74/edit?usp=sharing][Full result list in google docs.]]
 Top 20 results:
 
-| function            | count |
-|---------------------+-------|
-| DataFrame           | 47478 |
-| Series              | 19124 |
-| read_csv            | 17567 |
-| concat              |  7456 |
-| Timestamp           |  7029 |
-| date_range          |  3233 |
-| to_datetime         |  3176 |
-| Index               |  2772 |
-| merge               |  2642 |
-| util.testing        |  1856 |
-| read_table          |  1683 |
-| DatetimeIndex       |  1629 |
-| isnull              |  1459 |
-| DataFrame.from_dict |  1455 |
-| NaT                 |  1268 |
-| compat              |  1100 |
-| Categorical         |  1027 |
-| read_pickle         |   970 |
-| read_excel          |   946 |
-| eval                |   933 |
+#+ATTR_HTML: :style "max-width:100%; table-layout: fixed;"
+| function               | count_distinct_repos | count_total | example_url                                                                      |
+|                        |                      |             | <20>                                                                             |
+|------------------------+----------------------+-------------+----------------------------------------------------------------------------------|
+| DataFrame              |                 5486 |       47478 | https://github.com/konchris/RunMeas/blob/master/RunMeas/Buffer.py                |
+| read_csv               |                 4056 |       17567 | https://github.com/fcollman/MakeAT/blob/master/make_make_file.py                 |
+| Series                 |                 2248 |       19124 | https://github.com/AllenDowney/ThinkBayes2/blob/master/code/thinkplot.py         |
+| concat                 |                 1869 |        7456 | https://github.com/mhallsmoore/qstrader/blob/master/price_handler/price_handler.py |
+| to_datetime            |                  774 |        3176 | https://github.com/cbyn/bitpredict/blob/master/model/features.py                 |
+| merge                  |                  650 |        2642 | https://github.com/dmnfarrell/mirnaseq/blob/master/mirdeep2.py                   |
+| date_range             |                  548 |        3233 | https://github.com/and2egg/philharmonic/blob/master/philharmonic/simulator/environment.py |
+| read_table             |                  499 |        1683 | https://github.com/cdeboever3/cdpybio/blob/master/cdpybio/express.py             |
+| util.testing           |                  477 |        1856 | https://github.com/sauloal/cnidaria/blob/master/scripts/venv/lib/python2.7/site-packages/pandas/tseries/tests/test_timeseries_legacy.py |
+| isnull                 |                  468 |        1459 | https://github.com/Weissger/ext2rdf/blob/master/src/RDFConverter/TripleStructureConverter.py |
+| DataFrame.from_dict    |                  399 |        1455 | https://github.com/mdbartos/vic_utils/blob/master/deprecated/mohseni_reg.py      |
+| Timestamp              |                  387 |        7029 | https://github.com/paulperry/quant/blob/master/vti_agg_7030.py                   |
+| DatetimeIndex          |                  336 |        1629 | https://github.com/readevalprint/zipline/blob/master/zipline/utils/tradingcalendar.py |
+| Index                  |                  322 |        2772 | https://github.com/caseyclements/dask/blob/master/dask/dataframe/shuffle.py      |
+| read_excel             |                  302 |         946 | https://github.com/DaveBackus/Data_Bootcamp/blob/master/Code/Lab/SPF_forecasts.py |
+| notnull                |                  284 |         713 | https://github.com/DataViva/dataviva-scripts/blob/master/scripts/secex_monthly/_rdo_temp.py |
+| DataFrame.from_csv     |                  265 |         802 | https://github.com/idbedead/RNA-sequence-tools/blob/master/RNA_Seq_analysis/make_monocle_data_js.py |
+| HDFStore               |                  251 |         783 | https://github.com/konchris/TDMS2HDF5/blob/master/TDMS2HDF5/tdms2hdf5.py         |
+| DataFrame.from_records |                  249 |         534 | https://github.com/phaustin/A405/blob/master/notebooks/python/dropgrowC.py       |
+| MultiIndex.from_tuples |                  237 |         744 | https://github.com/ZoomerAnalytics/xlwings/blob/master/xlwings/tests/test_xlwings.py |
+| rolling_mean           |                  233 |         651 | https://github.com/Ernestyj/PyStudy/blob/master/finance/DaysTest/DaysDataPrepare.py |
+
 * Top numpy functions
 Results are again approximate and it's a simple string replace from the pandas version.
 
 #+BEGIN_SRC sql :results output
   SELECT
-    TOP(REGEXP_EXTRACT(line, r'[^a-zA-Z](?:np|numpy)\.([^",\(\,\`) \':\[\]/={}]*)'),500) function,
-    COUNT(*) c
+    REGEXP_EXTRACT(line,
+          r'[^a-zA-Z](?:np|numpy)\.([^",\(\,\`) \':\[\]/={}]*)') AS function,
+    COUNT(DISTINCT(sample_repo_name)) AS count_distinct_repos,
+    COUNT(*) as count_total,
+    CONCAT("https://github.com/",
+          FIRST(sample_repo_name),
+          "/blob/master/",
+          FIRST(sample_path)) AS example_url,
   FROM (
     SELECT
       SPLIT(content, '\n') AS line,
+      sample_path,
+      sample_repo_name
     FROM
       [fh-bigquery:github_extracts.contents_py]
     WHERE
       content CONTAINS "import numpy"
     HAVING
       NOT LEFT(LTRIM(line),1)='#'
-      AND REGEXP_MATCH(line, r'[^a-zA-Z](?:np|numpy)\.') );
+      AND REGEXP_MATCH(line, r'[^a-zA-Z](?:np|numpy)\.') )
+  GROUP BY 1
+  ORDER BY 2 DESC
+  LIMIT 500;
 #+END_SRC
 
-[[https://docs.google.com/spreadsheets/d/1vnLzxw18derkNrB2XWmsI7oO7xMzmFjkNAnZvCrz_4I/edit?usp=sharing][Full results in google docs]].
+[[https://docs.google.com/spreadsheets/d/13Q-a8YWfCqlOr23hBEAWHordwvbHoO51s1DqjYBfLp4/edit?usp=sharing][Full result list in Google docs.]]
 Top 20 results:
 
-| function    |  count |
-|-------------+--------|
-| array       | 604263 |
-| zeros       | 280579 |
-| arange      | 158705 |
-| dot         |  90422 |
-| sum         |  85793 |
-| asarray     |  82563 |
-| ones        |  80998 |
-| sqrt        |  77810 |
-| ndarray     |  71141 |
-| linspace    |  62970 |
-| where       |  56778 |
-| mean        |  56402 |
-| empty       |  51718 |
-| nan         |  46614 |
-| abs         |  43168 |
-| exp         |  42446 |
-| all         |  38571 |
-| allclose    |  37450 |
-| dtype       |  36794 |
-| concatenate |  36532 |
-| float32     |  34060 |
+#+ATTR_HTML: :style "max-width:100%; table-layout: fixed;"
+| function    | count_distinct_repos | count_total | example_url                                                                      |
+|             |                      |             | <80>                                                                             |
+|-------------+----------------------+-------------+----------------------------------------------------------------------------------|
+| array       |                23877 |      604263 | https://github.com/AlexBourassa/Generic_UI/blob/master/Widgets/GraphWidget/Fitter.py |
+| zeros       |                19406 |      280579 | https://github.com/buzz/sniegabuda-raspi/blob/master/transformations.py          |
+| arange      |                13587 |      158705 | https://github.com/jamesp/jpy/blob/master/jpy/maths/derive.py                    |
+| sqrt        |                10297 |       77810 | https://github.com/Messaoud-Boudjada/dipy/blob/master/dipy/tracking/local/localtracking.py |
+| ones        |                10028 |       80998 | https://github.com/iamtrask/keras/blob/master/keras/models.py                    |
+| sum         |                 9829 |       85793 | https://github.com/buzz/sniegabuda-raspi/blob/master/transformations.py          |
+| mean        |                 9773 |       56402 | https://github.com/buzz/sniegabuda-raspi/blob/master/transformations.py          |
+| linspace    |                 8769 |       62970 | https://github.com/Titan-C/learn-dmft/blob/master/examples/plot_ipt_coex.py      |
+| asarray     |                 7745 |       82563 | https://github.com/ratnania/caid/blob/master/caid-gui/viewer.py                  |
+| ndarray     |                 7617 |       71141 | https://github.com/eirikgje/healpy/blob/master/healpy/pixelfunc.py               |
+| dot         |                 7386 |       90422 | https://github.com/Messaoud-Boudjada/dipy/blob/master/dipy/tracking/local/localtracking.py |
+| exp         |                 6979 |       42446 | https://github.com/pkgw/pwkit/blob/master/pwkit/dulk_models.py                   |
+| abs         |                 6979 |       43168 | https://github.com/eirikgje/healpy/blob/master/healpy/pixelfunc.py               |
+| where       |                 6781 |       56778 | https://github.com/buzz/sniegabuda-raspi/blob/master/transformations.py          |
+| empty       |                 6632 |       51718 | https://github.com/Messaoud-Boudjada/dipy/blob/master/dipy/tracking/local/localtracking.py |
+| max         |                 6533 |       31860 | https://github.com/live-clones/dolfin-adjoint/blob/master/tests_dolfin/mantle_convection/retrieve_demo.py |
+| concatenate |                 6425 |       36532 | https://github.com/Messaoud-Boudjada/dipy/blob/master/dipy/tracking/local/localtracking.py |
+| log         |                 5742 |       33105 | https://github.com/pkgw/pwkit/blob/master/pwkit/dulk_models.py                   |
+| sin         |                 5302 |       25481 | https://github.com/jamesp/jpy/blob/master/jpy/maths/derive.py                    |
+| vstack      |                 5251 |       25913 | https://github.com/buzz/sniegabuda-raspi/blob/master/transformations.py          |
+| min         |                 5064 |       21231 | https://github.com/gwpy/seismon/blob/master/seismon/psd.py                       |
 
 * Top scipy functions
 Results are again approximate and it's a simple string replace from the numpy version.
 
 #+BEGIN_SRC sql :results output
   SELECT
-    TOP(REGEXP_EXTRACT(line, r'[^a-zA-Z](?:sp|scipy)\.([^",\(\,\`) \':\[\]/={}]*)'),500) function,
-    COUNT(*) c
+    REGEXP_EXTRACT(line,
+          r'[^a-zA-Z](?:sp|scipy)\.([^",\(\,\`) \':\[\]/={}]*)') AS function,
+    COUNT(DISTINCT(sample_repo_name)) AS count_distinct_repos,
+    COUNT(*) as count_total,
+    CONCAT("https://github.com/",
+          FIRST(sample_repo_name),
+          "/blob/master/",
+          FIRST(sample_path)) AS example_url,
   FROM (
     SELECT
       SPLIT(content, '\n') AS line,
+      sample_path,
+      sample_repo_name
     FROM
       [fh-bigquery:github_extracts.contents_py]
     WHERE
       content CONTAINS "import scipy"
     HAVING
       NOT LEFT(LTRIM(line),1)='#'
-      AND REGEXP_MATCH(line, r'[^a-zA-Z](?:sp|scipy)\.') );
+      AND REGEXP_MATCH(line, r'[^a-zA-Z](?:sp|scipy)\.') )
+  GROUP BY 1
+  ORDER BY 2 DESC
+  LIMIT 500;
 #+END_SRC
 
-[[https://docs.google.com/spreadsheets/d/1ngTMdVsojx5MOaz-zF1TSQuTbMZBAmbxGefCkGBEVMM/edit?usp=sharing][Full results in google docs.]]
+[[https://docs.google.com/spreadsheets/d/1UuuDwQaO68vx0e5R0gxRxMKwBnPwa9n_2wcX5CWH13o/edit?usp=sharing][Full result list in google docs.]]
 Top 20 results:
-| function          | count |
-|-------------------+-------|
-| sparse            |  6500 |
-| stats             |  5717 |
-| array             |  3873 |
-| io                |  3079 |
-| linalg            |  3047 |
-| optimize          |  2788 |
-| csr_matrix        |  2541 |
-| zeros             |  2502 |
-| issparse          |  2309 |
-| ndimage           |  2196 |
-| interpolate       |  2022 |
-| signal            |  1883 |
-| special           |  1792 |
-| io.loadmat        |  1501 |
-| sparse.csr_matrix |  1305 |
-| csc_matrix        |  1150 |
-| misc              |  1135 |
-| arange            |  1123 |
-| dot               |  1121 |
-| sqrt              |  1100 |
-| sparse.linalg     |  1056 |
+
+#+ATTR_HTML: :style "max-width:100%; table-layout: fixed;"
+| function          | count_distinct_repos | count_total | example_url                                                                      |
+|                   |                      |             | <80>                                                                             |
+|-------------------+----------------------+-------------+----------------------------------------------------------------------------------|
+| stats             |                 2281 |        5717 | https://github.com/geophysics/mtpy/blob/master/mtpy/modeling/occam2d.py          |
+| sparse            |                 1706 |        6500 | https://github.com/tscholak/smbkmeans/blob/master/tfidf_smbkmeans.py             |
+| optimize          |                 1531 |        2788 | https://github.com/cni/t1fit/blob/master/t1_fitter.py                            |
+| io                |                 1218 |        3079 | https://github.com/wojtekwalczak/FB_datalab/blob/master/lib/most_distinctive.py  |
+| linalg            |                 1199 |        3047 | https://github.com/lesteve/scikit-learn/blob/master/sklearn/utils/arpack.py      |
+| interpolate       |                  972 |        2022 | https://github.com/geophysics/mtpy/blob/master/mtpy/modeling/occam2d.py          |
+| special           |                  968 |        1792 | https://github.com/liberatorqjw/scikit-learn/blob/master/sklearn/utils/fixes.py  |
+| signal            |                  915 |        1883 | https://github.com/garibaldu/radioblobs/blob/master/code/code_1d/old_and_extra/score_GA.py |
+| ndimage           |                  864 |        2196 | https://github.com/cni/t1fit/blob/master/t1_fitter.py                            |
+| misc              |                  650 |        1135 | https://github.com/sillvan/hyperspy/blob/master/hyperspy/drawing/_markers/point.py |
+| integrate         |                  574 |         986 | https://github.com/kleskjr/scipy/blob/master/scipy/stats/tests/test_distributions.py |
+| sparse.linalg     |                  495 |        1056 | https://github.com/lesteve/scikit-learn/blob/master/sklearn/utils/arpack.py      |
+| spatial.distance  |                  469 |         721 | https://github.com/wjchen84/rapprentice/blob/master/rapprentice/registration.py  |
+| spatial           |                  420 |         766 | https://github.com/delmic/odemis/blob/master/src/odemis/acq/align/coordinates.py |
+| io.loadmat        |                  414 |        1501 | https://github.com/jdsika/TUM_SmartCardLab/blob/master/DPA/benchmark.py          |
+| sparse.csr_matrix |                  401 |        1305 | https://github.com/waterponey/scikit-learn/blob/master/scikits/learn/svm/tests/test_sparse.py |
+| org               |                  369 |         894 | https://github.com/chiotlune/ext/blob/master/gnuradio-3.7.0.1/gr-filter/examples/fir_filter_ccc.py |
+| csr_matrix        |                  361 |        2541 | https://github.com/tscholak/smbkmeans/blob/master/tfidf_smbkmeans.py             |
+| array             |                  352 |        3873 | https://github.com/PMBio/limix/blob/master/limix/deprecated/io/data_util.py      |
+| issparse          |                  334 |        2309 | https://github.com/thilbern/scikit-learn/blob/master/sklearn/linear_model/stochastic_gradient.py |
 
 * Top pandas data frame functions 
 Results are again approximate and based on the heuristic assumption that data frames are usually named with the suffix "df".
@@ -176,6 +219,7 @@ To filter out noise, only files containing "import pandas" and matching regexp "
 
 [[https://docs.google.com/spreadsheets/d/1QiWBm9YI-5BhkdSxvOioKwWH924s5DePMZOJu6zt5EM/edit?usp=sharing][Full results are in google docs.]] Top 20 results:
 
+#+ATTR_HTML: :style "max-width:100%; table-layout: fixed;"
 | data_frame_function | count |
 |---------------------+-------|
 | .columns            |  1712 |
@@ -201,4 +245,4 @@ To filter out noise, only files containing "import pandas" and matching regexp "
 | .compute            |    92 |
 
 * Attribution 
-My first version was improved upon by Felipe and suggested [[https://kozikow.wordpress.com/2016/07/01/top-pandas-functions-used-in-github-repos/#comment-99][in the comment.]]
+Regular expression used to extract function have improved upon by Felipe [[https://kozikow.wordpress.com/2016/07/01/top-pandas-functions-used-in-github-repos/#comment-99][in the comment.]]

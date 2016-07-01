@@ -96,30 +96,27 @@ I calculated in "how many different repos is this directive used" with example u
     500;
 #+END_SRC
 
-[[https://docs.google.com/spreadsheets/d/19iYNqbqqwKnSfJC3dLwvsMgB3LIoAKeuvKAuOOs2L9Q/edit?usp=sharing][Full results on google docs.]]
+[[https://docs.google.com/spreadsheets/d/1E2AahOQiewBmJTJuB4wT6hp84zcOwx7tv7VJ4-2JyGA/edit?usp=sharing][Full results on google docs.]]
 Top 20 results:
-
-| line          | count_distinct_repos | example_url                                        |
-|               |                      | <50>                                               |
-|---------------+----------------------+----------------------------------------------------|
-| ng-click      |                 1087 | https://github.com/getlantern/lantern/blob/devel/lantern-ui/app/partials/modals.html |
-| ng-model      |                  877 | https://github.com/classeur/classeur/blob/master/src/optional/zenMode/zenModeSettings.html |
-| ng-repeat     |                  876 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/tutorial/step_06.html |
-| ng-show       |                  700 | https://github.com/getlantern/lantern/blob/devel/lantern-ui/app/partials/modals.html |
-| ng-controller |                  608 | https://github.com/google/generator-goro/blob/master/app/templates/_index.html |
-| ng-class      |                  588 | https://github.com/algorithm-ninja/cmsocial/blob/master/cmsocial-web/views/pagination.html |
-| ng-if         |                  560 | https://github.com/getlantern/lantern/blob/devel/lantern-ui/app/partials/modals.html |
-| ng-app        |                  439 | https://github.com/open-craft/opencraft/blob/master/registration/templates/registration/registration.html |
-| ng-hide       |                  324 | https://github.com/algorithm-ninja/cmsocial/blob/master/cmsocial-web/views/pagination.html |
-| ng-disabled   |                  314 | https://github.com/taironas/gonawin/blob/master/gonawin/app/components/tournament/edit.html |
-| ng-submit     |                  243 | https://github.com/mcn-team/media-collection/blob/master/webapp/main/public/modules/users/views/authentication/signup.client.view.html |
-| ng-include    |                  223 | https://github.com/couchbase/cbft/blob/master/ns_server_static/fts/fts_new.html |
-| ng-src        |                  223 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/tutorial/step_06.html |
-| ng-change     |                  214 | https://github.com/getlantern/lantern/blob/devel/lantern-ui/app/partials/modals.html |
-| ng-href       |                  203 | https://github.com/getlantern/www.getlantern.org/blob/master/app/docs/Installing.html |
-| ng-bind       |                  192 | https://github.com/GrumpyWizards/ngBlog/blob/master/src/theme/templates/home.tpl.html |
-| ng-init       |                  166 | https://github.com/leomicheloni/angularjs-lab/blob/master/examples/ejemplo5/index.html |
-| ng-bind-html  |                  163 | https://github.com/getlantern/lantern/blob/devel/lantern-ui/app/partials/modals.html |
-| ng-view       |                  159 | https://github.com/dimagi/commcare-hq/blob/master/corehq/messaging/smsbackends/telerivet/templates/telerivet/telerivet_setup.html |
-| ng-options    |                  158 | https://github.com/davidhay25/FHIRSampleCreator/blob/master/modalTemplates/clientConfig.html |
-
+| line          | count_distinct_repos | example_url                                                                                                                                                                    |
+|---------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ng-click      |                 1040 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/guide/dev_guide.services.injecting_controllers.html        |
+| ng-repeat     |                  827 | https://github.com/claroline/Distribution/blob/master/main/core/Resources/modules/facets/Partial/panel_roles_form.html                                                         |
+| ng-model      |                  823 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/guide/dev_guide.services.injecting_controllers.html        |
+| ng-show       |                  662 | https://github.com/BoxUpp/boxupp/blob/master/page/templates/vmConfigurations.html                                                                                              |
+| ng-class      |                  560 | https://github.com/streamdataio/streamdataio-js/blob/master/stockmarket-angular/index.html                                                                                     |
+| ng-controller |                  559 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/guide/dev_guide.services.injecting_controllers.html        |
+| ng-if         |                  536 | https://github.com/Groupmates-co/groupmates/blob/master/app/assets/javascripts/groupmates/mates/mates-tpl.html                                                                 |
+| ng-app        |                  421 | https://github.com/streamdataio/streamdataio-js/blob/master/stockmarket-angular/index.html                                                                                     |
+| ng-hide       |                  290 | https://github.com/BoxUpp/boxupp/blob/master/page/templates/vmConfigurations.html                                                                                              |
+| ng-disabled   |                  287 | https://github.com/JekyllWriter/JekyllWriter/blob/master/layout/proxy.html                                                                                                     |
+| ng-submit     |                  222 | https://github.com/Groupmates-co/groupmates/blob/master/app/assets/javascripts/groupmates/mates/mates-tpl.html                                                                 |
+| ng-src        |                  211 | https://github.com/Groupmates-co/groupmates/blob/master/app/assets/javascripts/groupmates/mates/mates-tpl.html                                                                 |
+| ng-include    |                  205 | https://github.com/pixelpark/ppnet/blob/master/app/views/map.html                                                                                                              |
+| ng-change     |                  198 | https://github.com/mmautner/github-email-thief/blob/master/app/views/search_codes.html                                                                                         |
+| ng-href       |                  187 | https://github.com/asm-products/octobox/blob/master/public/views/content/file/modal.html                                                                                       |
+| ng-bind       |                  173 | https://github.com/BoxUpp/boxupp/blob/master/page/templates/vmConfigurations.html                                                                                              |
+| ng-bind-html  |                  150 | https://github.com/LeoLombardi/tos-laimas-compass/blob/master/tos-laimas-compass-win32-x64/resources/app/node_modules/ui-select/docs/examples/demo-select2-with-bootstrap.html |
+| ng-init       |                  146 | https://github.com/asm-products/octobox/blob/master/public/views/content/file/modal.html                                                                                       |
+| ng-view       |                  145 | https://github.com/TheWildHorse/MovieNight/blob/master/public/index.html                                                                                                       |
+| ng-options    |                  142 | https://github.com/mmautner/github-email-thief/blob/master/app/views/search_codes.html                                                                                         |

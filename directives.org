@@ -11,6 +11,69 @@ https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos
 
 I don't use angular recently, but my coworkers do. 
 Based on our chat in a pub I decided to find out the top angular directives on github.
+* Unique usage per repository in top repositories with example usage
+Counting unique usage is expensive and I am out of my free quota for this month.
+This query runs on a smaller table that only contains 10% random sample of files from top 130k top popular repositories.
+
+It will calculate "how many unique repos use this directive" and add a link to an example usage. 
+
+#+BEGIN_SRC sql :results output
+  SELECT
+    REGEXP_EXTRACT(line, r".*[ <]+(ng-[a-zA-Z0-9-]+).*") AS line,
+    COUNT(DISTINCT(sample_repo_name)) AS count_distinct_repos,
+    CONCAT("https://github.com/",
+        FIRST(sample_repo_name),
+        "/blob/",
+        REGEXP_EXTRACT(FIRST(sample_ref), r"refs/heads/(.*)$"),
+        "/",
+        FIRST(sample_path)) AS example_url,
+  FROM (
+    SELECT
+      SPLIT(content, '\n') line,
+      sample_repo_name,
+      sample_path,
+      sample_ref
+    FROM
+      [bigquery-public-data:github_repos.sample_contents]
+    WHERE
+      (sample_path LIKE '%.html'
+        OR sample_path LIKE '%.ng')
+    HAVING
+      line CONTAINS 'ng-')
+  GROUP BY
+    1
+  ORDER BY
+    count_distinct_repos DESC
+  LIMIT
+    500;
+#+END_SRC
+
+[[https://docs.google.com/spreadsheets/d/1E2AahOQiewBmJTJuB4wT6hp84zcOwx7tv7VJ4-2JyGA/edit?usp=sharing][Full results on google docs.]]
+Top 20 results:
+
+#+ATTR_HTML: :style "max-width:100%; table-layout: fixed;"
+| line          | count_distinct_repos | example_url                                                                                                                                                                    |
+|---------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ng-click      |                 1040 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/guide/dev_guide.services.injecting_controllers.html        |
+| ng-repeat     |                  827 | https://github.com/claroline/Distribution/blob/master/main/core/Resources/modules/facets/Partial/panel_roles_form.html                                                         |
+| ng-model      |                  823 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/guide/dev_guide.services.injecting_controllers.html        |
+| ng-show       |                  662 | https://github.com/BoxUpp/boxupp/blob/master/page/templates/vmConfigurations.html                                                                                              |
+| ng-class      |                  560 | https://github.com/streamdataio/streamdataio-js/blob/master/stockmarket-angular/index.html                                                                                     |
+| ng-controller |                  559 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/guide/dev_guide.services.injecting_controllers.html        |
+| ng-if         |                  536 | https://github.com/Groupmates-co/groupmates/blob/master/app/assets/javascripts/groupmates/mates/mates-tpl.html                                                                 |
+| ng-app        |                  421 | https://github.com/streamdataio/streamdataio-js/blob/master/stockmarket-angular/index.html                                                                                     |
+| ng-hide       |                  290 | https://github.com/BoxUpp/boxupp/blob/master/page/templates/vmConfigurations.html                                                                                              |
+| ng-disabled   |                  287 | https://github.com/JekyllWriter/JekyllWriter/blob/master/layout/proxy.html                                                                                                     |
+| ng-submit     |                  222 | https://github.com/Groupmates-co/groupmates/blob/master/app/assets/javascripts/groupmates/mates/mates-tpl.html                                                                 |
+| ng-src        |                  211 | https://github.com/Groupmates-co/groupmates/blob/master/app/assets/javascripts/groupmates/mates/mates-tpl.html                                                                 |
+| ng-include    |                  205 | https://github.com/pixelpark/ppnet/blob/master/app/views/map.html                                                                                                              |
+| ng-change     |                  198 | https://github.com/mmautner/github-email-thief/blob/master/app/views/search_codes.html                                                                                         |
+| ng-href       |                  187 | https://github.com/asm-products/octobox/blob/master/public/views/content/file/modal.html                                                                                       |
+| ng-bind       |                  173 | https://github.com/BoxUpp/boxupp/blob/master/page/templates/vmConfigurations.html                                                                                              |
+| ng-bind-html  |                  150 | https://github.com/LeoLombardi/tos-laimas-compass/blob/master/tos-laimas-compass-win32-x64/resources/app/node_modules/ui-select/docs/examples/demo-select2-with-bootstrap.html |
+| ng-init       |                  146 | https://github.com/asm-products/octobox/blob/master/public/views/content/file/modal.html                                                                                       |
+| ng-view       |                  145 | https://github.com/TheWildHorse/MovieNight/blob/master/public/index.html                                                                                                       |
+| ng-options    |                  142 | https://github.com/mmautner/github-email-thief/blob/master/app/views/search_codes.html                                                                                         |
 * Top usages in all repositories
 Previous query was looking only at the sample of data.
 This query looks through all files accessible on github.
@@ -67,25 +130,30 @@ Top 20 results:
 | ng-change      |  101197 |
 | ng-bind-html   |   89604 |
 
-* Unique usage per repository in top repositories with example usage
-Counting unique usage is expensive and I am out of my free quota for this month.
-This query runs on a smaller table that only contains 10% random sample of files from top 130k top popular repositories.
+* Custom directives
+I tried a heuristic for finding custom directives - extract all html tags and look at relative 
+frequency in files that have any "ng-" tag vs all html files.
+It's based on the assumption that "ng-" is ubiquitous in angular html, but not that frequent otherwise.
 
-It will calculate "how many unique repos use this directive" and add a link to an example usage. 
+Even if parsing html with regexps is faulty, it is roughly correct for frequency analysis purpose.
+
+It found directives from [[http://ionicframework.com/docs/api/directive/ionContent/][ionic framework]] or [[https://angular-ui.github.io/bootstrap/][bootstrap]] or [[https://github.com/danialfarid/ng-file-upload][ng-file-upload]].
 
 #+BEGIN_SRC sql :results output
   SELECT
-    REGEXP_EXTRACT(line, r".*[ <]+(ng-[a-zA-Z0-9-]+).*") AS line,
-    COUNT(DISTINCT(sample_repo_name)) AS count_distinct_repos,
+    REGEXP_EXTRACT(LTRIM(line), r".*[ </]+([a-zA-Z0-9-]{3,}).*") as tag,
+    COUNT(1) / SUM(IF(probably_angular, 1, 0)) AS html_to_angular_ratio,
+    COUNT(DISTINCT(sample_repo_name)) AS distinct_repository_count,
     CONCAT("https://github.com/",
         FIRST(sample_repo_name),
         "/blob/",
         REGEXP_EXTRACT(FIRST(sample_ref), r"refs/heads/(.*)$"),
         "/",
-        FIRST(sample_path)) AS example_url,
+        FIRST(sample_path)) AS example_url
   FROM (
     SELECT
       SPLIT(content, '\n') line,
+      REGEXP_MATCH(content, r".*[ <]+ng-[a-zA-Z0-9-]+.*") AS probably_angular,
       sample_repo_name,
       sample_path,
       sample_ref
@@ -95,37 +163,41 @@ It will calculate "how many unique repos use this directive" and add a link to a
       (sample_path LIKE '%.html'
         OR sample_path LIKE '%.ng')
     HAVING
-      line CONTAINS 'ng-')
+      line CONTAINS '<')
   GROUP BY
     1
+  HAVING
+    html_to_angular_ratio < 1.5
   ORDER BY
-    count_distinct_repos DESC
+    distinct_count DESC
   LIMIT
-    500;
+    1000;
 #+END_SRC
 
-[[https://docs.google.com/spreadsheets/d/1E2AahOQiewBmJTJuB4wT6hp84zcOwx7tv7VJ4-2JyGA/edit?usp=sharing][Full results on google docs.]]
-Top 20 results:
+[[https://docs.google.com/spreadsheets/d/1CTinfgwIo5Mnow536XO-4YHMkTLiUWca5ixiAYpXHX0/edit?usp=sharing][All results in google docs, including ng- entries.]]
+Top 20 results excluding the entries that start with ng-:
 
-| line          | count_distinct_repos | example_url                                                                                                                                                                    |
-|---------------+----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ng-click      |                 1040 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/guide/dev_guide.services.injecting_controllers.html        |
-| ng-repeat     |                  827 | https://github.com/claroline/Distribution/blob/master/main/core/Resources/modules/facets/Partial/panel_roles_form.html                                                         |
-| ng-model      |                  823 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/guide/dev_guide.services.injecting_controllers.html        |
-| ng-show       |                  662 | https://github.com/BoxUpp/boxupp/blob/master/page/templates/vmConfigurations.html                                                                                              |
-| ng-class      |                  560 | https://github.com/streamdataio/streamdataio-js/blob/master/stockmarket-angular/index.html                                                                                     |
-| ng-controller |                  559 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/guide/dev_guide.services.injecting_controllers.html        |
-| ng-if         |                  536 | https://github.com/Groupmates-co/groupmates/blob/master/app/assets/javascripts/groupmates/mates/mates-tpl.html                                                                 |
-| ng-app        |                  421 | https://github.com/streamdataio/streamdataio-js/blob/master/stockmarket-angular/index.html                                                                                     |
-| ng-hide       |                  290 | https://github.com/BoxUpp/boxupp/blob/master/page/templates/vmConfigurations.html                                                                                              |
-| ng-disabled   |                  287 | https://github.com/JekyllWriter/JekyllWriter/blob/master/layout/proxy.html                                                                                                     |
-| ng-submit     |                  222 | https://github.com/Groupmates-co/groupmates/blob/master/app/assets/javascripts/groupmates/mates/mates-tpl.html                                                                 |
-| ng-src        |                  211 | https://github.com/Groupmates-co/groupmates/blob/master/app/assets/javascripts/groupmates/mates/mates-tpl.html                                                                 |
-| ng-include    |                  205 | https://github.com/pixelpark/ppnet/blob/master/app/views/map.html                                                                                                              |
-| ng-change     |                  198 | https://github.com/mmautner/github-email-thief/blob/master/app/views/search_codes.html                                                                                         |
-| ng-href       |                  187 | https://github.com/asm-products/octobox/blob/master/public/views/content/file/modal.html                                                                                       |
-| ng-bind       |                  173 | https://github.com/BoxUpp/boxupp/blob/master/page/templates/vmConfigurations.html                                                                                              |
-| ng-bind-html  |                  150 | https://github.com/LeoLombardi/tos-laimas-compass/blob/master/tos-laimas-compass-win32-x64/resources/app/node_modules/ui-select/docs/examples/demo-select2-with-bootstrap.html |
-| ng-init       |                  146 | https://github.com/asm-products/octobox/blob/master/public/views/content/file/modal.html                                                                                       |
-| ng-view       |                  145 | https://github.com/TheWildHorse/MovieNight/blob/master/public/index.html                                                                                                       |
-| ng-options    |                  142 | https://github.com/mmautner/github-email-thief/blob/master/app/views/search_codes.html                                                                                         |
+#+ATTR_HTML: :style "max-width:100%; table-layout: fixed;"
+| tag                | html_to_angular_ratio | distinct_repository_count | example_url                                                                                                                                                                                |
+|--------------------+-----------------------+---------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| translate          |     1.083752093802345 |                       143 | https://github.com/getlantern/lantern/blob/devel/lantern-ui/app/partials/modals.html                                                                                                       |
+| ion-content        |     1.445945945945946 |                       126 | https://github.com/learning-layers/sardroid/blob/master/app/templates/contacts.html                                                                                                        |
+| md-button          |    1.0827922077922079 |                        95 | https://github.com/deltaepsilon/quiver-cms/blob/master/app/views/address-dialog.html                                                                                                       |
+| ion-view           |    1.1403508771929824 |                        91 | https://github.com/learning-layers/sardroid/blob/master/app/templates/contacts.html                                                                                                        |
+| ui-sref            |    1.1811023622047243 |                        86 | https://github.com/GrumpyWizards/ngBlog/blob/master/src/theme/templates/home.tpl.html                                                                                                      |
+| flex               |    1.4377510040160641 |                        84 | https://github.com/deltaepsilon/quiver-cms/blob/master/app/views/address-dialog.html                                                                                                       |
+| md-content         |    1.1014492753623188 |                        72 | https://github.com/mominsamir/smDateTimeRangePicker/blob/master/dist/picker/date-picker-service.html                                                                                       |
+| orderBy            |    1.1157894736842104 |                        69 | https://github.com/GoogleCloudPlatform/Data-Pipeline/blob/master/app/static/components/help/stages.ng                                                                                      |
+| md-toolbar         |    1.1333333333333333 |                        59 | https://github.com/itsyouonline/identityserver/blob/master/siteservice/website/components/user/views/addressdialog.html                                                                    |
+| md-icon            |    1.1838235294117647 |                        58 | https://github.com/itsyouonline/identityserver/blob/master/siteservice/website/components/user/views/addressdialog.html                                                                    |
+| md-input-container |    1.0051413881748072 |                        55 | https://github.com/deltaepsilon/quiver-cms/blob/master/app/views/address-dialog.html                                                                                                       |
+| endbower           |    1.1948051948051948 |                        47 | https://github.com/Poniverse/Poniverse.net/blob/master/src/client/specs.html                                                                                                               |
+| ion-nav-view       |    1.4461538461538461 |                        47 | https://github.com/WizardFactory/TodayWeather/blob/master/client/www/templates/tabs.html                                                                                                   |
+| ctrl               |     1.244186046511628 |                        44 | https://github.com/gamejolt/gamejolt/blob/master/src/app/components/client/package-card-buttons/package-card-buttons.html                                                                  |
+| ion-nav-buttons    |    1.0483870967741935 |                        40 | https://github.com/Minds/mobile/blob/master/www/templates/newsfeed/view.html                                                                                                               |
+| ion-header-bar     |     1.044776119402985 |                        39 | https://github.com/learning-layers/sardroid/blob/master/app/templates/contacts.html                                                                                                        |
+| md-dialog          |     1.106060606060606 |                        38 | https://github.com/deltaepsilon/quiver-cms/blob/master/app/views/address-dialog.html                                                                                                       |
+| data-ng-click      |    1.4778761061946903 |                        38 | https://github.com/theborakompanioni/angular-keenio/blob/master/demo/dashboards/app/partials/demos.html                                                                                    |
+| md-list            |    1.0930232558139534 |                        36 | https://github.com/mw-ferretti/angular-resource-tastypie/blob/master/examples/frontend/usability_app/bower_components/angular-resource-tastypie/examples/frontend/usability_app/index.html |
+| angularjs          |    1.4838709677419355 |                        34 | https://github.com/ngageoint/mapcache-server/blob/master/public/app/about/about.html                                                                                                       |
+| ion-nav-bar        |     1.105263157894737 |                        33 | https://github.com/HTBox/allReady/blob/master/AllReadyApp/Mobile-App/www/index.html                                                                                                        |

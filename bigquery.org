@@ -17,6 +17,8 @@ To run a query go to [[https://bigquery.cloud.google.com/dataset/bigquery-public
 [[https://gist.github.com/abo-abo/9607099][In contrast to old BigQuery with top starred repos]] I will list all packages required in any
 elisp file, rather than just repositories written in emacs lisp. This will include built in
 emacs packages or packages not stored on github.
+
+Revision history of this blog post [[https://github.com/kozikow/kozikow-blog/blob/master/bigquery.org][is stored on github.]]
 * Bias towards repos with license
 As [[https://news.ycombinator.com/item?id=12004644][this hacker news]] post mentions, only repos with license are indexed.
 That will bias the result towards packages rather than personal emacs configs people put on github.

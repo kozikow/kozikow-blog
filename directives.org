@@ -17,6 +17,8 @@ Even if parsing html with regexps is faulty, it is correct enough for frequency 
 Third section, [[*Custom directives][Custom directives]], uses a heuristic to find custom angular directives.
 You can use it to find popular directives you have not been aware of.
 
+Revision history of this post is [[https://github.com/kozikow/kozikow-blog/blob/master/directives.org][stored on github]].
+
 You may also look at [[*My other posts analyzing github using BigQuery][my other posts analyzing github using BigQuery]].
 
 * Unique usage per repository in top repositories with example usage
@@ -139,12 +141,13 @@ Top 20 results:
 | ng-bind-html   |   89604 |
 * Custom directives
 I tried a heuristic for finding custom directives - extract all html tags and look at relative 
-frequency in all html files vs "probably angular html".
+frequency in all html files vs "probably angular html" files.
 
 "Probably angular html" is based on the assumption that "ng-" is ubiquitous in angular html, but not that frequent otherwise.
-Also some angular files use the .ng extension.
+Also some angular files use the .ng extension. This method is going to obviously have some false positives and negatives.
+I looked through top results prior to the filtering and it was surprisingly accurate.
 
-I am again using the sampled sample_contents since I ran out of free quota.
+I am again using the sampled sample_contents, since I ran out of free quota.
 
 
 #+BEGIN_SRC sql :results output

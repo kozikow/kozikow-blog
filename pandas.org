@@ -18,7 +18,7 @@ It would be very cool to sort code completions in python packages based on the f
 
 I will be using pre-extracted data with python file contents from https://bigquery.cloud.google.com/dataset/fh-bigquery:github_extracts.
 
-Example usages assume that file points to master branch, so it may be sometimes broken until https://twitter.com/kozikow/status/749016021852418048 gets resolved.
+URL to example usage assumes that file points to master branch, so it may be sometimes broken until https://twitter.com/kozikow/status/749016021852418048 gets resolved.
 
 * Top pandas functions
 Results are approximate and based on the heuristic assumption that people usually prefix python pandas functions by "pd." or "pandas.".

@@ -12,8 +12,12 @@ You can execute the BigQuery queries at [[https://bigquery.cloud.google.com/data
 
 I used it to find top angular directives used on github.
 In first two sections I only list "ng-" directives. 
-Third section, [[*Custom directives][Custom directives]], includes heuristic that also includes custom angular directives.
+Even if parsing html with regexps is faulty, it is correct enough for frequency analysis.
+
+Third section, [[*Custom directives][Custom directives]], uses a heuristic to find custom angular directives.
 You can use it to find popular directives you have not been aware of.
+
+You may also look at [[*My other posts analyzing github using BigQuery][my other posts analyzing github using BigQuery]].
 
 * Unique usage per repository in top repositories with example usage
 Counting unique usage is expensive and I am out of my free quota for this month.
@@ -135,12 +139,12 @@ Top 20 results:
 | ng-bind-html   |   89604 |
 * Custom directives
 I tried a heuristic for finding custom directives - extract all html tags and look at relative 
-frequency in files that have any "ng-" tag vs all html files.
-It's based on the assumption that "ng-" is ubiquitous in angular html, but not that frequent otherwise.
-Also some angular files have .ng extension.
+frequency in all html files vs "probably angular html".
 
-Even if parsing html with regexps is faulty, it is correct enough for frequency analysis purpose.
-I am again using the sampled table due to the free quota limits.
+"Probably angular html" is based on the assumption that "ng-" is ubiquitous in angular html, but not that frequent otherwise.
+Also some angular files use the .ng extension.
+
+I am again using the sampled sample_contents since I ran out of free quota.
 
 
 #+BEGIN_SRC sql :results output
@@ -209,7 +213,7 @@ Top 20 results excluding the entries that start with ng-:
 | ui-view            |    1.1590909090909092 |                        33 | https://github.com/mattspaulding/angular-material-kitchen-sink/blob/master/index.html                                                                     |
 | ion-nav-bar        |     1.105263157894737 |                        33 | https://github.com/smartcommunitylab/sco.viaggia/blob/master/viaggia-mobile/www/templates/menu.html                                                       |
 
-* Other posts
+* My other posts analyzing github using BigQuery
 You may also take a look at my other posts:
 - [[https://kozikow.wordpress.com/2016/07/01/top-pandas-functions-used-in-github-repos/#comment-99][Top pandas, numpy and scipy functions used in github repos.]]
 - [[https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/][Top emacs packages used in github repos.]]

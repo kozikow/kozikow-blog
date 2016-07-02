@@ -10,7 +10,7 @@ Github recently introduced all files query-able on the Google BigQuery.
 My first post with the general introduction about it: https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/ .
 
 numpy, scipy and pandas are popular python packages for data analysis.
-They are quite big, so it may be hard to distinguish between functions you would use all the time and functions that you use once in a while just from reading the documentation.
+They are quite big, so it may be hard to distinguish between functions you would use all the time and functions that you use once in a while.
 
 Using the new github data on BigQuery I calculated the most popular numpy, scipy and pandas functions.
 I have found a few functions that I should have been using that I have not been aware of.

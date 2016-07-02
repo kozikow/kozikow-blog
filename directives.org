@@ -149,7 +149,7 @@ I am again using the sampled sample_contents since I ran out of free quota.
 
 #+BEGIN_SRC sql :results output
   SELECT
-    REGEXP_EXTRACT(LTRIM(line), r".*(?:^|[ </]+)([a-zA-Z-]{3,}).*") as tag,
+    tag,
     COUNT(1) / SUM(IF(probably_angular, 1, 0)) AS html_to_angular_ratio,
     COUNT(DISTINCT(sample_repo_name)) AS distinct_repository_count,
     CONCAT("https://github.com/",
@@ -160,7 +160,9 @@ I am again using the sampled sample_contents since I ran out of free quota.
         FIRST(sample_path)) AS example_url
   FROM (
     SELECT
-      SPLIT(content, '\n') line,
+      SPLIT(REGEXP_REPLACE(
+          REGEXP_REPLACE(content, r"['\"\\\/]+[a-zA-Z-]*", ""), 
+          r"[^a-zA-Z-]+", " "), " ") AS tag,
       (REGEXP_MATCH(content,
            r".*[ <]+ng-[a-zA-Z0-9-]+.*")
        OR sample_path LIKE '%.ng') AS probably_angular,
@@ -171,9 +173,7 @@ I am again using the sampled sample_contents since I ran out of free quota.
       [bigquery-public-data:github_repos.sample_contents]
     WHERE
       (sample_path LIKE '%.html'
-        OR sample_path LIKE '%.ng')
-    HAVING
-      line CONTAINS '<')
+        OR sample_path LIKE '%.ng'))
   GROUP BY
     1
   HAVING
@@ -184,34 +184,34 @@ I am again using the sampled sample_contents since I ran out of free quota.
     1000;
 #+END_SRC
 
-[[https://docs.google.com/spreadsheets/d/1FZWK9o-wK29ha4kTlN4MJuFtDJi-6rcUNK12EKAerBs/edit#gid=1605983361][All results in google docs, including ng- entries.]]
+[[https://docs.google.com/spreadsheets/d/1-qKrIxap_dT4d-PPrIkEOGWNgoeEMvgfuOzH33O0-xo/edit?usp=sharing][All results in google docs, including ng- entries.]]
+
 For example, it found directives from [[http://ionicframework.com/docs/api/directive/ionContent/][ionic framework,]] [[https://angular-ui.github.io/bootstrap/][bootstrap]] or [[https://github.com/danialfarid/ng-file-upload][ng-file-upload]].
 Top 20 results excluding the entries that start with ng-:
 
 #+ATTR_HTML: :style "max-width:100%; table-layout: fixed;"
-| tag                | html_to_angular_ratio | distinct_repository_count | example_url                                                                                                                                               |
-|--------------------+-----------------------+---------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| translate          |    1.1043382756727074 |                       154 | https://github.com/pjmolina/event-backend/blob/master/public/index.html                                                                                   |
-| ion-content        |     1.445945945945946 |                       126 | https://github.com/bbleds/Ionic-Notes/blob/master/www/templates/notes.html                                                                                |
-| md-button          |    1.0827922077922079 |                        95 | https://github.com/Nandtel/GearService/blob/master/src/main/webapp/app/header/header.html                                                                 |
-| ion-view           |    1.1403508771929824 |                        91 | https://github.com/bbleds/Ionic-Notes/blob/master/www/templates/notes.html                                                                                |
-| ui-sref            |    1.1811023622047243 |                        86 | https://github.com/codefordc/clean-slate/blob/gh-pages/views/home.html                                                                                    |
-| flex               |    1.4457831325301205 |                        85 | https://github.com/Nandtel/GearService/blob/master/src/main/webapp/app/header/header.html                                                                 |
-| md-content         |    1.1014492753623188 |                        72 | https://github.com/Nandtel/GearService/blob/master/src/main/webapp/app/header/header.html                                                                 |
-| orderBy            |    1.1157894736842104 |                        69 | https://github.com/chkr1011/CK.HomeAutomation/blob/master/App/HA4IoT.WebApp/Views/SensorsOverviewTemplate.html                                            |
-| md-toolbar         |    1.1333333333333333 |                        59 | https://github.com/FlowForwarding/loom/blob/master/tapestry/apps/tapestry/priv/www/new/app/components/monitor/nci-monitor.html                            |
-| md-icon            |    1.1838235294117647 |                        58 | https://github.com/Nandtel/GearService/blob/master/src/main/webapp/app/header/header.html                                                                 |
-| md-input-container |    1.0051413881748072 |                        55 | https://github.com/openstack/kloudbuster/blob/master/kb_server/public/ui/views/run.html                                                                   |
-| endbower           |    1.1948051948051948 |                        47 | https://github.com/NextCenturyCorporation/neon-gtd/blob/master/client/scatterPlotWidget.html                                                              |
-| ion-nav-view       |    1.4461538461538461 |                        47 | https://github.com/smartcommunitylab/sco.viaggia/blob/master/viaggia-mobile/www/templates/menu.html                                                       |
-| ctrl               |     1.244186046511628 |                        44 | https://github.com/openstack/neutron-lbaas-dashboard/blob/master/neutron_lbaas_dashboard/static/dashboard/project/lbaasv2/workflow/listener/listener.html |
-| ion-nav-buttons    |    1.0483870967741935 |                        40 | https://github.com/CloudBoost/whatsapp/blob/master/www/templates/chat-detail.html                                                                         |
-| ion-header-bar     |     1.044776119402985 |                        39 | https://github.com/danielzen/todo-ng-pouchdb/blob/master/www/index.orig.html                                                                              |
-| md-dialog          |     1.106060606060606 |                        38 | https://github.com/deltaepsilon/quiver-cms/blob/master/app/views/address-dialog.html                                                                      |
-| md-list            |    1.0930232558139534 |                        36 | https://github.com/lifeemotions/knx.net/blob/master/site/src/index.html                                                                                   |
-| angularjs          |    1.4838709677419355 |                        34 | https://github.com/ngageoint/mapcache-server/blob/master/public/app/about/about.html                                                                      |
-| ui-view            |    1.1590909090909092 |                        33 | https://github.com/mattspaulding/angular-material-kitchen-sink/blob/master/index.html                                                                     |
-| ion-nav-bar        |     1.105263157894737 |                        33 | https://github.com/smartcommunitylab/sco.viaggia/blob/master/viaggia-mobile/www/templates/menu.html                                                       |
+| tag                | html_to_angular_ratio | distinct_repository_count | example_url                                                                                                                                                                                                                                  |
+|--------------------+-----------------------+---------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ui-sref            |    1.1605095541401274 |                       195 | https://github.com/tatool/tatool-web/blob/master/app/views/doc/dev-executable-additional.html                                                                                                                                                |
+| orderBy            |     1.345821325648415 |                       194 | https://github.com/lightwerk/SurfCaptain/blob/master/Resources/Public/Scripts/SurfCaptainApp/Templates/Projects.html                                                                                                                         |
+| ui-view            |    1.2525252525252526 |                       146 | https://github.com/genome/civic-client/blob/master/src/app/views/events/genes/summary/geneSummary.tpl.html                                                                                                                                   |
+| ion-content        |    1.4666666666666666 |                       126 | https://github.com/gaplo917/hkepc-ionic-reader/blob/master/www/templates/features/mypost/my.post.html                                                                                                                                        |
+| md-button          |    1.1246056782334384 |                        98 | https://github.com/ctodmia/africaexpress/blob/master/client/views/shopView.html                                                                                                                                                              |
+| ion-view           |     1.167785234899329 |                        92 | https://github.com/gaplo917/hkepc-ionic-reader/blob/master/www/templates/features/mypost/my.post.html                                                                                                                                        |
+| md-content         |    1.1631578947368422 |                        73 | https://github.com/nozelrosario/Dcare/blob/master/www/views/vitals/trend.html                                                                                                                                                                |
+| limitTo            |    1.1935483870967742 |                        71 | https://github.com/mmautner/github-email-thief/blob/master/app/views/search_codes.html                                                                                                                                                       |
+| layout-align       |     1.065155807365439 |                        70 | https://github.com/nozelrosario/Dcare/blob/master/www/views/vitals/trend.html                                                                                                                                                                |
+| md-icon            |    1.2275862068965517 |                        61 | https://github.com/ctodmia/africaexpress/blob/master/client/views/shopView.html                                                                                                                                                              |
+| md-toolbar         |    1.1401869158878504 |                        60 | https://github.com/ctodmia/africaexpress/blob/master/client/views/shopView.html                                                                                                                                                              |
+| md-input-container |     1.006896551724138 |                        55 | https://github.com/deltaepsilon/quiver-cms/blob/master/app/views/address-dialog.html                                                                                                                                                         |
+| view-title         |    1.1805555555555556 |                        52 | https://github.com/dragosthealex/hackerLite/blob/master/www/templates/tab-dash.html                                                                                                                                                          |
+| is-open            |                  1.25 |                        52 | https://github.com/eclipse/dirigible/blob/master/org.eclipse.dirigible/org.eclipse.dirigible.parent/ide/org.eclipse.dirigible.ide.workspace.wizard.project/src/org/eclipse/dirigible/ide/workspace/wizard/project/getstarted/user_books.html |
+| ion-nav-view       |    1.4788732394366197 |                        48 | https://github.com/randdusing/ng-cordova-bluetoothle/blob/master/example/index.html                                                                                                                                                          |
+| endbower           |    1.1898734177215189 |                        47 | https://github.com/kwk/docker-registry-frontend/blob/v2/app/index.html                                                                                                                                                                       |
+| pristine           |    1.2988505747126438 |                        44 | https://github.com/gnavarro77/angular-shiro/blob/master/demo/index.html                                                                                                                                                                      |
+| total-items        |    1.0178571428571428 |                        43 | https://github.com/mingchuno/golden-cache/blob/master/ui/app/views/topics.html                                                                                                                                                               |
+| templateUrl        |    1.2736842105263158 |                        42 | https://github.com/dimagi/commcare-hq/blob/master/corehq/messaging/smsbackends/telerivet/templates/telerivet/telerivet_setup.html                                                                                                            |
+| ion-nav-buttons    |    1.0806451612903225 |                        41 | https://github.com/gaplo917/hkepc-ionic-reader/blob/master/www/templates/features/mypost/my.post.html                                                                                                                                        |
 
 * My other posts analyzing github using BigQuery
 You may also take a look at my other posts:

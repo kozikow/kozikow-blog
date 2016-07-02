@@ -135,9 +135,10 @@ I tried a heuristic for finding custom directives - extract all html tags and lo
 frequency in files that have any "ng-" tag vs all html files.
 It's based on the assumption that "ng-" is ubiquitous in angular html, but not that frequent otherwise.
 
-Even if parsing html with regexps is faulty, it is roughly correct for frequency analysis purpose.
+Even if parsing html with regexps is faulty, it is correct enough for frequency analysis purpose.
+I am again using the sampled table due to the free quota limits.
 
-It found directives from [[http://ionicframework.com/docs/api/directive/ionContent/][ionic framework]] or [[https://angular-ui.github.io/bootstrap/][bootstrap]] or [[https://github.com/danialfarid/ng-file-upload][ng-file-upload]].
+For example, it found directives from [[http://ionicframework.com/docs/api/directive/ionContent/][ionic framework]] or [[https://angular-ui.github.io/bootstrap/][bootstrap]] or [[https://github.com/danialfarid/ng-file-upload][ng-file-upload]].
 
 #+BEGIN_SRC sql :results output
   SELECT

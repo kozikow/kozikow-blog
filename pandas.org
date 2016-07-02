@@ -7,7 +7,7 @@
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
 Github recently introduced all files query-able on the Google BigQuery.
-My first post with the general introduction about it: https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/ .
+[[https://github.com/blog/2201-making-open-source-data-more-available%2520][See the announcement from github.]] You can execute the BigQuery queries at [[https://bigquery.cloud.google.com/dataset/bigquery-public-data:github_repos][the BigQuery console]].
 
 numpy, scipy and pandas are popular python packages for data analysis.
 They are quite big, so it may be hard to distinguish between functions you would use all the time and functions that you use once in a while.
@@ -246,3 +246,7 @@ To filter out noise, only files containing "import pandas" and matching regexp "
 
 * Attribution 
 Regular expression used to extract function have improved upon by Felipe [[https://kozikow.wordpress.com/2016/07/01/top-pandas-functions-used-in-github-repos/#comment-99][in the comment.]]
+* Other posts
+You may also take a look at my other posts:
+- [[https://kozikow.wordpress.com/2016/07/01/top-angular-directives-on-github/][Top angular directives on github.]]
+- [[https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/][Top emacs packages used in github repos.]]

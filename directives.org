@@ -161,7 +161,7 @@ I am again using the sampled sample_contents since I ran out of free quota.
   FROM (
     SELECT
       SPLIT(REGEXP_REPLACE(
-          REGEXP_REPLACE(content, r"['\"\\\/]+[a-zA-Z-]*", ""), 
+          REGEXP_REPLACE(content, r"['\"\\\/\$]+[a-zA-Z-]*", ""), 
           r"[^a-zA-Z-]+", " "), " ") AS tag,
       (REGEXP_MATCH(content,
            r".*[ <]+ng-[a-zA-Z0-9-]+.*")
@@ -184,7 +184,7 @@ I am again using the sampled sample_contents since I ran out of free quota.
     1000;
 #+END_SRC
 
-[[https://docs.google.com/spreadsheets/d/1-qKrIxap_dT4d-PPrIkEOGWNgoeEMvgfuOzH33O0-xo/edit?usp=sharing][All results in google docs, including ng- entries.]]
+[[https://docs.google.com/spreadsheets/d/18Cepa3rO30yOE7XJh9OdKWkRkQVgYLSWAsb-09zXfOM/edit?usp=sharing][All results in google docs, including ng- entries.]]
 
 For example, it found directives from [[http://ionicframework.com/docs/api/directive/ionContent/][ionic framework,]] [[https://angular-ui.github.io/bootstrap/][bootstrap]] or [[https://github.com/danialfarid/ng-file-upload][ng-file-upload]].
 Top 20 results excluding the entries that start with ng-:
@@ -193,7 +193,7 @@ Top 20 results excluding the entries that start with ng-:
 | tag                | html_to_angular_ratio | distinct_repository_count | example_url                                                                                                                                                                                                                                  |
 |--------------------+-----------------------+---------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | ui-sref            |    1.1605095541401274 |                       195 | https://github.com/tatool/tatool-web/blob/master/app/views/doc/dev-executable-additional.html                                                                                                                                                |
-| orderBy            |     1.345821325648415 |                       194 | https://github.com/lightwerk/SurfCaptain/blob/master/Resources/Public/Scripts/SurfCaptainApp/Templates/Projects.html                                                                                                                         |
+| orderBy            |     1.345821325648415 |                       194 | https://github.com/globaleaks/GlobaLeaks/blob/master/client/app/views/admin/users.html                                                                                                                                                       |
 | ui-view            |    1.2525252525252526 |                       146 | https://github.com/genome/civic-client/blob/master/src/app/views/events/genes/summary/geneSummary.tpl.html                                                                                                                                   |
 | ion-content        |    1.4666666666666666 |                       126 | https://github.com/gaplo917/hkepc-ionic-reader/blob/master/www/templates/features/mypost/my.post.html                                                                                                                                        |
 | md-button          |    1.1246056782334384 |                        98 | https://github.com/ctodmia/africaexpress/blob/master/client/views/shopView.html                                                                                                                                                              |
@@ -203,15 +203,16 @@ Top 20 results excluding the entries that start with ng-:
 | layout-align       |     1.065155807365439 |                        70 | https://github.com/nozelrosario/Dcare/blob/master/www/views/vitals/trend.html                                                                                                                                                                |
 | md-icon            |    1.2275862068965517 |                        61 | https://github.com/ctodmia/africaexpress/blob/master/client/views/shopView.html                                                                                                                                                              |
 | md-toolbar         |    1.1401869158878504 |                        60 | https://github.com/ctodmia/africaexpress/blob/master/client/views/shopView.html                                                                                                                                                              |
-| md-input-container |     1.006896551724138 |                        55 | https://github.com/deltaepsilon/quiver-cms/blob/master/app/views/address-dialog.html                                                                                                                                                         |
-| view-title         |    1.1805555555555556 |                        52 | https://github.com/dragosthealex/hackerLite/blob/master/www/templates/tab-dash.html                                                                                                                                                          |
+| md-input-container |     1.006896551724138 |                        55 | https://github.com/dmoll1974/targets-io/blob/master/public/modules/products/views/edit-product.client.view.html                                                                                                                              |
 | is-open            |                  1.25 |                        52 | https://github.com/eclipse/dirigible/blob/master/org.eclipse.dirigible/org.eclipse.dirigible.parent/ide/org.eclipse.dirigible.ide.workspace.wizard.project/src/org/eclipse/dirigible/ide/workspace/wizard/project/getstarted/user_books.html |
-| ion-nav-view       |    1.4788732394366197 |                        48 | https://github.com/randdusing/ng-cordova-bluetoothle/blob/master/example/index.html                                                                                                                                                          |
+| view-title         |    1.1805555555555556 |                        52 | https://github.com/lanyu-op/ionic-cordova-case/blob/master/www/app/templates/tabs/tab-account.html                                                                                                                                           |
+| ion-nav-view       |    1.4788732394366197 |                        48 | https://github.com/otelnov/pushNews/blob/master/www/index.html                                                                                                                                                                               |
 | endbower           |    1.1898734177215189 |                        47 | https://github.com/kwk/docker-registry-frontend/blob/v2/app/index.html                                                                                                                                                                       |
-| pristine           |    1.2988505747126438 |                        44 | https://github.com/gnavarro77/angular-shiro/blob/master/demo/index.html                                                                                                                                                                      |
 | total-items        |    1.0178571428571428 |                        43 | https://github.com/mingchuno/golden-cache/blob/master/ui/app/views/topics.html                                                                                                                                                               |
 | templateUrl        |    1.2736842105263158 |                        42 | https://github.com/dimagi/commcare-hq/blob/master/corehq/messaging/smsbackends/telerivet/templates/telerivet/telerivet_setup.html                                                                                                            |
 | ion-nav-buttons    |    1.0806451612903225 |                        41 | https://github.com/gaplo917/hkepc-ionic-reader/blob/master/www/templates/features/mypost/my.post.html                                                                                                                                        |
+| ion-header-bar     |    1.0819672131147542 |                        39 | https://github.com/nozelrosario/Dcare/blob/master/www/views/vitals/trend.html                                                                                                                                                                |
+| md-list            |    1.2195121951219512 |                        39 | https://github.com/radioit/radioit-desktop/blob/master/app/static/view/bangumi.detail.html                                                                                                                                                   |
 
 * My other posts analyzing github using BigQuery
 You may also take a look at my other posts:

@@ -6,11 +6,15 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
-All github contents recently got query-able by the Google BigQuery. See my other post about it:
-https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/ .
+All github contents recently got query-able by the Google BigQuery. 
+[[https://github.com/blog/2201-making-open-source-data-more-available%2520][See the announcement from github.]]
+You can execute the BigQuery queries at [[https://bigquery.cloud.google.com/dataset/bigquery-public-data:github_repos][the BigQuery console]].
 
-I don't use angular recently, but my coworkers do. 
-Based on our chat in a pub I decided to find out the top angular directives on github.
+I used it to find top angular directives used on github.
+In first two sections I only list "ng-" directives. 
+Third section, [[*Custom directives][Custom directives]], includes heuristic that also includes custom angular directives.
+You can use it to find popular directives you have not been aware of.
+
 * Unique usage per repository in top repositories with example usage
 Counting unique usage is expensive and I am out of my free quota for this month.
 This query runs on a smaller table that only contains 10% random sample of files from top 130k top popular repositories.
@@ -129,7 +133,6 @@ Top 20 results:
 | ng-template    |  108241 |
 | ng-change      |  101197 |
 | ng-bind-html   |   89604 |
-
 * Custom directives
 I tried a heuristic for finding custom directives - extract all html tags and look at relative 
 frequency in files that have any "ng-" tag vs all html files.
@@ -138,7 +141,6 @@ It's based on the assumption that "ng-" is ubiquitous in angular html, but not t
 Even if parsing html with regexps is faulty, it is correct enough for frequency analysis purpose.
 I am again using the sampled table due to the free quota limits.
 
-For example, it found directives from [[http://ionicframework.com/docs/api/directive/ionContent/][ionic framework]] or [[https://angular-ui.github.io/bootstrap/][bootstrap]] or [[https://github.com/danialfarid/ng-file-upload][ng-file-upload]].
 
 #+BEGIN_SRC sql :results output
   SELECT
@@ -154,7 +156,8 @@ For example, it found directives from [[http://ionicframework.com/docs/api/direc
   FROM (
     SELECT
       SPLIT(content, '\n') line,
-      REGEXP_MATCH(content, r".*[ <]+ng-[a-zA-Z0-9-]+.*") AS probably_angular,
+      REGEXP_MATCH(content,
+          r".*[ <]+ng-[a-zA-Z0-9-]+.*") AS probably_angular,
       sample_repo_name,
       sample_path,
       sample_ref
@@ -176,6 +179,7 @@ For example, it found directives from [[http://ionicframework.com/docs/api/direc
 #+END_SRC
 
 [[https://docs.google.com/spreadsheets/d/1CTinfgwIo5Mnow536XO-4YHMkTLiUWca5ixiAYpXHX0/edit?usp=sharing][All results in google docs, including ng- entries.]]
+For example, it found directives from [[http://ionicframework.com/docs/api/directive/ionContent/][ionic framework,]] [[https://angular-ui.github.io/bootstrap/][bootstrap]] or [[https://github.com/danialfarid/ng-file-upload][ng-file-upload]].
 Top 20 results excluding the entries that start with ng-:
 
 #+ATTR_HTML: :style "max-width:100%; table-layout: fixed;"
@@ -202,3 +206,9 @@ Top 20 results excluding the entries that start with ng-:
 | md-list            |    1.0930232558139534 |                        36 | https://github.com/mw-ferretti/angular-resource-tastypie/blob/master/examples/frontend/usability_app/bower_components/angular-resource-tastypie/examples/frontend/usability_app/index.html |
 | angularjs          |    1.4838709677419355 |                        34 | https://github.com/ngageoint/mapcache-server/blob/master/public/app/about/about.html                                                                                                       |
 | ion-nav-bar        |     1.105263157894737 |                        33 | https://github.com/HTBox/allReady/blob/master/AllReadyApp/Mobile-App/www/index.html                                                                                                        |
+
+* Other posts
+You may also take a look at my other posts:
+- [[https://kozikow.wordpress.com/2016/07/01/top-pandas-functions-used-in-github-repos/#comment-99][Top pandas, numpy and scipy functions used in github repos.]]
+- [[https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/][Top emacs packages used in github repos.]]
+

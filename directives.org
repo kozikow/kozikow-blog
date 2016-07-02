@@ -137,6 +137,7 @@ Top 20 results:
 I tried a heuristic for finding custom directives - extract all html tags and look at relative 
 frequency in files that have any "ng-" tag vs all html files.
 It's based on the assumption that "ng-" is ubiquitous in angular html, but not that frequent otherwise.
+Also some angular files have .ng extension.
 
 Even if parsing html with regexps is faulty, it is correct enough for frequency analysis purpose.
 I am again using the sampled table due to the free quota limits.
@@ -156,8 +157,9 @@ I am again using the sampled table due to the free quota limits.
   FROM (
     SELECT
       SPLIT(content, '\n') line,
-      REGEXP_MATCH(content,
-          r".*[ <]+ng-[a-zA-Z0-9-]+.*") AS probably_angular,
+      (REGEXP_MATCH(content,
+           r".*[ <]+ng-[a-zA-Z0-9-]+.*")
+       OR sample_path LIKE '%.ng') AS probably_angular,
       sample_repo_name,
       sample_path,
       sample_ref

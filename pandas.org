@@ -6,13 +6,13 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
-Github recently introduced all files query-able on the Google BigQuery.
+Github recently introduced all files query-able on the Google BigQuery, SQL-like distributed query engine.
 [[https://github.com/blog/2201-making-open-source-data-more-available%2520][See the announcement from github.]] You can execute the BigQuery queries at [[https://bigquery.cloud.google.com/dataset/bigquery-public-data:github_repos][the BigQuery console]].
 
 numpy, scipy and pandas are popular python packages for data analysis.
 They are quite big, so it may be hard to distinguish between functions you would use all the time and functions that you use once in a while.
 
-Using the new github data on BigQuery I calculated the most popular numpy, scipy and pandas functions.
+Using the new github data on BigQuery I calculated the most popular numpy, scipy and pandas functions used in github repos.
 I have found a few functions that I should have been using that I have not been aware of.
 It would be very cool to sort code completions in python packages based on the frequency on github.
 

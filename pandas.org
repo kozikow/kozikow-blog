@@ -6,22 +6,45 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
+** New github data on BigQuery
 Github recently introduced all files query-able on the Google BigQuery, SQL-like distributed query engine.
 [[https://github.com/blog/2201-making-open-source-data-more-available%2520][See the announcement from github.]] You can execute the BigQuery queries at [[https://bigquery.cloud.google.com/dataset/bigquery-public-data:github_repos][the BigQuery console]].
 
+** What is numpy, scipy and pandas and why top functions are useful?
 numpy, scipy and pandas are popular python packages for data analysis.
 They are quite big, so it may be hard to distinguish between functions you would use all the time and functions that you use once in a while.
 
+I have found a few pandas functions that I should have been using for a long time and I was doing things "the wrong way".
+I must admit that I somehow missed pandas =.iloc(x)= function and I have been doing =.reset_index()[x]=.
+
+It would also be very cool to sort code completions in python packages based on the frequency on github.
+** Methodology
 Using the new github data on BigQuery I calculated the most popular numpy, scipy and pandas functions and modules used in github repos.
-I have found a few functions that I should have been using that I have not been aware of. 
-It would be very cool to sort code completions in python packages based on the frequency on github.
 
+Results are approximate. I firstly look for python files that import pandas (or numpy and scipy in the respective section).
+Then I extract the regular expression:
+#+BEGIN_SRC python :results output
+  r'[^a-zA-Z](?:pd|pandas)\.([^",\(\,\`) \':\[\]/={}]*)'
+#+END_SRC
+
+It simply looks for all characters following the =pd.= or =pandas.= except the negated character group.
+My priority was to avoid false negatives, so there are some false positives like =pandas.pydata.org=.
+It may sometimes include modules from parsing the import lines, e.g. =import scipy.io=.
+
+** Data source
 I will be using pre-extracted data with python file contents from https://bigquery.cloud.google.com/dataset/fh-bigquery:github_extracts.
+It is a smaller BigQuery table that contains only python files stored on github.
 
-URL to example usage assumes that file points to master branch, so it may be sometimes broken until https://twitter.com/kozikow/status/749016021852418048 gets resolved.
+** Link to example usage
+URL to example usage may be sometimes broken.
+It assumes that the file points to master branch.
+Other tables, like sample_contents include the branch (sample_ref), that lets me to generate the correct link.
 
+contents_py only lists repository and file path, so until the https://twitter.com/kozikow/status/749016021852418048 gets resolved
+I am generating the link based on the assumption that file is stored in the master branch.
+
+** This post on github
 Revision history of this blog post is [[https://github.com/kozikow/kozikow-blog/blob/master/pandas.org][stored on github.]]
-
 * Top pandas functions
 Results are approximate and based on the heuristic assumption that people usually prefix python pandas functions by "pd." or "pandas.".
 

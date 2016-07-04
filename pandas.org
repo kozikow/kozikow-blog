@@ -17,7 +17,7 @@ They are quite big, so it may be hard to distinguish between functions you would
 My reaction to majority of entries was "well, duh, obviously", but there were a few entries that I somehow missed and I was doing things the wrong way.
 For example, I must admit that I somehow missed pandas =.iloc= function and I have been doing =.reset_index= instead to get the n-th row.
 
-It would also be very cool to sort code completions in python packages based on the frequency on github.
+It would also be very cool to sort code completions in python packages based on the frequency on github and I may hack something for Emacs soon.
 ** Methodology
 Using the new github data on BigQuery I calculated the most popular numpy, scipy and pandas functions and modules used in github repos.
 
@@ -28,11 +28,11 @@ Then I extract the regular expression:
 #+END_SRC
 
 It looks for all characters following the =pd.= or =pandas.= except the negated character group.
-** May include modules or some false positives
+** It may include modules or some false positives
 When constructing regular expression, my priority was to avoid false negatives, so there are some false positives like =pandas.pydata.org=.
 It may sometimes include modules from parsing the import lines, like it would parse out "io" from =import scipy.io=.
 ** Data source
-I will be using pre-extracted data with python file contents from https://bigquery.cloud.google.com/dataset/fh-bigquery:github_extracts.
+I will be using table contents_py from https://bigquery.cloud.google.com/dataset/fh-bigquery:github_extracts.
 It is a smaller BigQuery table that contains only python files stored on github.
 
 ** Link to example usage
@@ -40,8 +40,12 @@ URL to example usage may be sometimes broken.
 It assumes that the file points to master branch.
 Other tables, like sample_contents include the branch (sample_ref), that lets me to generate the correct link.
 
-contents_py only lists repository and file path, so until the https://twitter.com/kozikow/status/749016021852418048 gets resolved
-I am generating the link based on the assumption that file is stored in the master branch.
+contents_py only lists repository and file path. Until the https://twitter.com/kozikow/status/749016021852418048 gets resolved
+I am generating the link based on the assumption that all files are in the master branch.
+
+I could potentially also link to the exact line number. In current table schema it would be a lot of work to achieve it. 
+It would be much easier if the content would be exposed as a repeated field with (line contents, line number).
+I asked Google BigQuery team about it in https://twitter.com/kozikow/status/749896018381144064 .
 
 ** This post on github
 Revision history of this blog post is [[https://github.com/kozikow/kozikow-blog/blob/master/pandas.org][stored on github.]]

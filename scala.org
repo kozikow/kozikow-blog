@@ -1,0 +1,16 @@
+
+#+BEGIN_SRC sql :results output
+  SELECT
+    line,
+    SUBSTR(line, 7)
+  FROM (
+    SELECT
+      SPLIT(content, '\n') AS line
+    FROM
+      [bigquery-public-data:github_repos.sample_contents]
+    WHERE
+      RIGHT(sample_path, 6) == ".scala"
+    HAVING
+      LEFT(LTRIM(line), 7) == "import ")
+  LIMIT 100;
+#+END_SRC

@@ -2,7 +2,7 @@
 #+POSTID: 699
 #+OPTIONS: toc:3
 #+DATE: [2016-07-01 Fri 10:52]
-#+TITLE: Top angular directives on github
+#+TITLE: Top angular directives on github, including custom directives
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction

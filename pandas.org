@@ -14,8 +14,8 @@ Github recently introduced all files query-able using the Google BigQuery, SQL-l
 numpy, scipy and pandas are popular python packages for data analysis.
 They are quite big, so it may be hard to distinguish between functions you would use all the time and functions that you use once in a while.
 
-My reaction to majority of entries was "well, duh, obviously", but there were a few entries that I somehow missed and I was doing things the wrong way.
-For example, I must admit that I somehow missed pandas =.iloc= function and I have been doing =.reset_index= instead to get the n-th row.
+When looking at results in this post, my reaction to majority of entries was "well, duh, obviously", but there were a few entries that I somehow missed and I was doing things the wrong way.
+For example, I must shamefully admit that I somehow missed pandas =.iloc= function and I have been doing =.reset_index= instead to get the n-th row.
 
 It would also be very cool to sort code completions in python packages based on the frequency on github and I may hack something for Emacs soon.
 ** Methodology

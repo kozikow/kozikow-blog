@@ -2,7 +2,7 @@
 #+POSTID: 704
 #+OPTIONS: toc:3
 #+DATE: [2016-07-01 Fri 18:54]
-#+TITLE: Top pandas, numpy and scipy functions used in github repos
+#+TITLE: Top pandas, numpy and scipy functions and modules used in github repos
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
@@ -12,8 +12,8 @@ Github recently introduced all files query-able on the Google BigQuery, SQL-like
 numpy, scipy and pandas are popular python packages for data analysis.
 They are quite big, so it may be hard to distinguish between functions you would use all the time and functions that you use once in a while.
 
-Using the new github data on BigQuery I calculated the most popular numpy, scipy and pandas functions used in github repos.
-I have found a few functions that I should have been using that I have not been aware of.
+Using the new github data on BigQuery I calculated the most popular numpy, scipy and pandas functions and modules used in github repos.
+I have found a few functions that I should have been using that I have not been aware of. 
 It would be very cool to sort code completions in python packages based on the frequency on github.
 
 I will be using pre-extracted data with python file contents from https://bigquery.cloud.google.com/dataset/fh-bigquery:github_extracts.
@@ -56,30 +56,78 @@ Results are approximate and based on the heuristic assumption that people usuall
 Top 20 results:
 
 #+ATTR_HTML: :style "max-width:100%; table-layout: fixed;"
-| function               | count_distinct_repos | count_total | example_url                                                                      |
-|                        |                      |             | <20>                                                                             |
-|------------------------+----------------------+-------------+----------------------------------------------------------------------------------|
-| DataFrame              |                 5486 |       47478 | https://github.com/konchris/RunMeas/blob/master/RunMeas/Buffer.py                |
-| read_csv               |                 4056 |       17567 | https://github.com/fcollman/MakeAT/blob/master/make_make_file.py                 |
-| Series                 |                 2248 |       19124 | https://github.com/AllenDowney/ThinkBayes2/blob/master/code/thinkplot.py         |
+| function               | count_distinct_repos | count_total | example_url          |
+|                        |                      |             | <20>                 |
+|------------------------+----------------------+-------------+----------------------|
+| DataFrame              |                 5486 |       47478 | https://github.com/konchris/RunMeas/blob/master/RunMeas/Buffer.py |
+| read_csv               |                 4056 |       17567 | https://github.com/fcollman/MakeAT/blob/master/make_make_file.py |
+| Series                 |                 2248 |       19124 | https://github.com/AllenDowney/ThinkBayes2/blob/master/code/thinkplot.py |
 | concat                 |                 1869 |        7456 | https://github.com/mhallsmoore/qstrader/blob/master/price_handler/price_handler.py |
-| to_datetime            |                  774 |        3176 | https://github.com/cbyn/bitpredict/blob/master/model/features.py                 |
-| merge                  |                  650 |        2642 | https://github.com/dmnfarrell/mirnaseq/blob/master/mirdeep2.py                   |
+| to_datetime            |                  774 |        3176 | https://github.com/cbyn/bitpredict/blob/master/model/features.py |
+| merge                  |                  650 |        2642 | https://github.com/dmnfarrell/mirnaseq/blob/master/mirdeep2.py |
 | date_range             |                  548 |        3233 | https://github.com/and2egg/philharmonic/blob/master/philharmonic/simulator/environment.py |
-| read_table             |                  499 |        1683 | https://github.com/cdeboever3/cdpybio/blob/master/cdpybio/express.py             |
+| read_table             |                  499 |        1683 | https://github.com/cdeboever3/cdpybio/blob/master/cdpybio/express.py |
 | util.testing           |                  477 |        1856 | https://github.com/sauloal/cnidaria/blob/master/scripts/venv/lib/python2.7/site-packages/pandas/tseries/tests/test_timeseries_legacy.py |
 | isnull                 |                  468 |        1459 | https://github.com/Weissger/ext2rdf/blob/master/src/RDFConverter/TripleStructureConverter.py |
-| DataFrame.from_dict    |                  399 |        1455 | https://github.com/mdbartos/vic_utils/blob/master/deprecated/mohseni_reg.py      |
-| Timestamp              |                  387 |        7029 | https://github.com/paulperry/quant/blob/master/vti_agg_7030.py                   |
+| DataFrame.from_dict    |                  399 |        1455 | https://github.com/mdbartos/vic_utils/blob/master/deprecated/mohseni_reg.py |
+| Timestamp              |                  387 |        7029 | https://github.com/paulperry/quant/blob/master/vti_agg_7030.py |
 | DatetimeIndex          |                  336 |        1629 | https://github.com/readevalprint/zipline/blob/master/zipline/utils/tradingcalendar.py |
-| Index                  |                  322 |        2772 | https://github.com/caseyclements/dask/blob/master/dask/dataframe/shuffle.py      |
+| Index                  |                  322 |        2772 | https://github.com/caseyclements/dask/blob/master/dask/dataframe/shuffle.py |
 | read_excel             |                  302 |         946 | https://github.com/DaveBackus/Data_Bootcamp/blob/master/Code/Lab/SPF_forecasts.py |
 | notnull                |                  284 |         713 | https://github.com/DataViva/dataviva-scripts/blob/master/scripts/secex_monthly/_rdo_temp.py |
 | DataFrame.from_csv     |                  265 |         802 | https://github.com/idbedead/RNA-sequence-tools/blob/master/RNA_Seq_analysis/make_monocle_data_js.py |
-| HDFStore               |                  251 |         783 | https://github.com/konchris/TDMS2HDF5/blob/master/TDMS2HDF5/tdms2hdf5.py         |
-| DataFrame.from_records |                  249 |         534 | https://github.com/phaustin/A405/blob/master/notebooks/python/dropgrowC.py       |
+| HDFStore               |                  251 |         783 | https://github.com/konchris/TDMS2HDF5/blob/master/TDMS2HDF5/tdms2hdf5.py |
+| DataFrame.from_records |                  249 |         534 | https://github.com/phaustin/A405/blob/master/notebooks/python/dropgrowC.py |
 | MultiIndex.from_tuples |                  237 |         744 | https://github.com/ZoomerAnalytics/xlwings/blob/master/xlwings/tests/test_xlwings.py |
 | rolling_mean           |                  233 |         651 | https://github.com/Ernestyj/PyStudy/blob/master/finance/DaysTest/DaysDataPrepare.py |
+
+* Top pandas data frame functions 
+Results are again approximate and based on the heuristic assumption that data frames are usually named with the suffix "df".
+To filter out noise, only files containing "import pandas" and matching regexp ".*df\s=.*pandas" are included.
+
+#+BEGIN_SRC sql :results output
+  SELECT
+    TOP(REGEXP_EXTRACT(line, r"df([a-zA-Z-_\.]+)"), 500) AS pandas_function,
+    COUNT(*)
+  FROM (
+    SELECT
+      SPLIT(content, '\n') AS line,
+    FROM
+      [fh-bigquery:github_extracts.contents_py]
+    WHERE
+      content CONTAINS "import pandas"
+      and REGEXP_MATCH(content, r".*df\s=.*pandas") 
+    HAVING
+      line CONTAINS "df.")
+  HAVING LENGTH(pandas_function) > 1;
+#+END_SRC
+
+[[https://docs.google.com/spreadsheets/d/1QiWBm9YI-5BhkdSxvOioKwWH924s5DePMZOJu6zt5EM/edit?usp=sharing][Full results are in google docs.]] Top 20 results:
+
+#+ATTR_HTML: :style "max-width:100%; table-layout: fixed;"
+| data_frame_function | count |
+|---------------------+-------|
+| .columns            |  1712 |
+| .index              |   441 |
+| .loc                |   352 |
+| .to_csv             |   344 |
+| .groupby            |   319 |
+| .set_index          |   241 |
+| .x                  |   226 |
+| .values             |   208 |
+| .drop               |   203 |
+| .divisions          |   197 |
+| .ix                 |   165 |
+| .fillna             |   158 |
+| .dropna             |   147 |
+| .iterrows           |   123 |
+| .append             |   120 |
+| .iloc               |   119 |
+| .shape              |   117 |
+| .to_html            |    93 |
+| .rename             |    93 |
+| .sort               |    92 |
+| .compute            |    92 |
 
 * Top numpy functions
 Results are again approximate and it's a simple string replace from the pandas version.
@@ -197,54 +245,6 @@ Top 20 results:
 | csr_matrix        |                  361 |        2541 | https://github.com/tscholak/smbkmeans/blob/master/tfidf_smbkmeans.py             |
 | array             |                  352 |        3873 | https://github.com/PMBio/limix/blob/master/limix/deprecated/io/data_util.py      |
 | issparse          |                  334 |        2309 | https://github.com/thilbern/scikit-learn/blob/master/sklearn/linear_model/stochastic_gradient.py |
-
-* Top pandas data frame functions 
-Results are again approximate and based on the heuristic assumption that data frames are usually named with the suffix "df".
-To filter out noise, only files containing "import pandas" and matching regexp ".*df\s=.*pandas" are included.
-
-#+BEGIN_SRC sql :results output
-  SELECT
-    TOP(REGEXP_EXTRACT(line, r"df([a-zA-Z-_\.]+)"), 500) AS pandas_function,
-    COUNT(*)
-  FROM (
-    SELECT
-      SPLIT(content, '\n') AS line,
-    FROM
-      [fh-bigquery:github_extracts.contents_py]
-    WHERE
-      content CONTAINS "import pandas"
-      and REGEXP_MATCH(content, r".*df\s=.*pandas") 
-    HAVING
-      line CONTAINS "df.")
-  HAVING LENGTH(pandas_function) > 1;
-#+END_SRC
-
-[[https://docs.google.com/spreadsheets/d/1QiWBm9YI-5BhkdSxvOioKwWH924s5DePMZOJu6zt5EM/edit?usp=sharing][Full results are in google docs.]] Top 20 results:
-
-#+ATTR_HTML: :style "max-width:100%; table-layout: fixed;"
-| data_frame_function | count |
-|---------------------+-------|
-| .columns            |  1712 |
-| .index              |   441 |
-| .loc                |   352 |
-| .to_csv             |   344 |
-| .groupby            |   319 |
-| .set_index          |   241 |
-| .x                  |   226 |
-| .values             |   208 |
-| .drop               |   203 |
-| .divisions          |   197 |
-| .ix                 |   165 |
-| .fillna             |   158 |
-| .dropna             |   147 |
-| .iterrows           |   123 |
-| .append             |   120 |
-| .iloc               |   119 |
-| .shape              |   117 |
-| .to_html            |    93 |
-| .rename             |    93 |
-| .sort               |    92 |
-| .compute            |    92 |
 
 * Attribution 
 Regular expression used to extract function have improved upon by Felipe [[https://kozikow.wordpress.com/2016/07/01/top-pandas-functions-used-in-github-repos/#comment-99][in the comment.]]

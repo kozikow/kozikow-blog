@@ -38,7 +38,7 @@ It is a smaller BigQuery table that contains only python files stored on github.
 ** Link to example usage
 URL to example usage may be sometimes broken.
 It assumes that the file points to master branch.
-Other tables, like sample_contents include the branch (sample_ref), that lets me to generate the correct link.
+Other tables, like sample_contents include the branch in a field sample_ref, what lets me to generate the correct link.
 
 contents_py only lists repository and file path. Until the https://twitter.com/kozikow/status/749016021852418048 gets resolved
 I am generating the link based on the assumption that all files are in the master branch.

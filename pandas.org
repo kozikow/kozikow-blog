@@ -87,47 +87,58 @@ To filter out noise, only files containing "import pandas" and matching regexp "
 
 #+BEGIN_SRC sql :results output
   SELECT
-    TOP(REGEXP_EXTRACT(line, r"df([a-zA-Z-_\.]+)"), 500) AS pandas_function,
-    COUNT(*)
+    REGEXP_EXTRACT(line, r"df\.([a-zA-Z-_\.]+)") AS pandas_function,
+    COUNT(DISTINCT(sample_repo_name)) AS count_distinct_repos,
+    CONCAT("https://github.com/",
+            FIRST(sample_repo_name),
+            "/blob/master/",
+            FIRST(sample_path)) AS example_url
   FROM (
     SELECT
       SPLIT(content, '\n') AS line,
+      sample_path,
+      sample_repo_name
     FROM
       [fh-bigquery:github_extracts.contents_py]
     WHERE
       content CONTAINS "import pandas"
-      and REGEXP_MATCH(content, r".*df\s=.*pandas") 
+      and REGEXP_MATCH(content, r".*df\s=.*(?:pandas|pd)\.") 
     HAVING
       line CONTAINS "df.")
-  HAVING LENGTH(pandas_function) > 1;
+  GROUP BY 1
+  HAVING LENGTH(pandas_function) > 1
+  ORDER BY 2 DESC
+  LIMIT 1000;
 #+END_SRC
 
-[[https://docs.google.com/spreadsheets/d/1QiWBm9YI-5BhkdSxvOioKwWH924s5DePMZOJu6zt5EM/edit?usp=sharing][Full results are in google docs.]] Top 20 results:
+[[https://docs.google.com/spreadsheets/d/1Ji6oN1aLWJtq8MfdqypqQ6JjhHartj6qA043pYizu1A/edit?usp=sharing][Full result list in Google Docs.]]
+Top 20 results:
 
 #+ATTR_HTML: :style "max-width:100%; table-layout: fixed;"
-| data_frame_function | count |
-|---------------------+-------|
-| .columns            |  1712 |
-| .index              |   441 |
-| .loc                |   352 |
-| .to_csv             |   344 |
-| .groupby            |   319 |
-| .set_index          |   241 |
-| .x                  |   226 |
-| .values             |   208 |
-| .drop               |   203 |
-| .divisions          |   197 |
-| .ix                 |   165 |
-| .fillna             |   158 |
-| .dropna             |   147 |
-| .iterrows           |   123 |
-| .append             |   120 |
-| .iloc               |   119 |
-| .shape              |   117 |
-| .to_html            |    93 |
-| .rename             |    93 |
-| .sort               |    92 |
-| .compute            |    92 |
+| pandas_function | count_distinct_repos | example_url                                                                                                                                         |
+|-----------------+----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| columns         |                 1290 | https://github.com/fialhorenato/Vermont_V2_ViewER_MutatiON_Tool/blob/master/LSCWeb/venv/lib/python2.7/site-packages/pandas/io/tests/test_parsers.py |
+| index           |                  958 | https://github.com/fialhorenato/Vermont_V2_ViewER_MutatiON_Tool/blob/master/LSCWeb/venv/lib/python2.7/site-packages/pandas/io/tests/test_parsers.py |
+| to_csv          |                  945 | https://github.com/fialhorenato/Vermont_V2_ViewER_MutatiON_Tool/blob/master/LSCWeb/venv/lib/python2.7/site-packages/pandas/io/tests/test_parsers.py |
+| loc             |                  729 | https://github.com/fialhorenato/Vermont_V2_ViewER_MutatiON_Tool/blob/master/LSCWeb/venv/lib/python2.7/site-packages/pandas/io/tests/test_parsers.py |
+| groupby         |                  614 | https://github.com/fepz/AyCC/blob/master/process_results.py                                                                                         |
+| set_index       |                  571 | https://github.com/LinJM/clothesDetection/blob/master/caffe-fast-rcnn/python/detect.py                                                              |
+| drop            |                  473 | https://github.com/lukassnoek/skbold/blob/master/skbold/exp_model/parse_presentation_logfile.py                                                     |
+| ix              |                  450 | https://github.com/fialhorenato/Vermont_V2_ViewER_MutatiON_Tool/blob/master/LSCWeb/venv/lib/python2.7/site-packages/pandas/io/tests/test_parsers.py |
+| iloc            |                  418 | https://github.com/fialhorenato/Vermont_V2_ViewER_MutatiON_Tool/blob/master/LSCWeb/venv/lib/python2.7/site-packages/pandas/io/tests/test_parsers.py |
+| shape           |                  387 | https://github.com/sdpython/ensae_projects/blob/master/_unittests/ut_data/test_data_helper.py                                                       |
+| iterrows        |                  348 | https://github.com/rmhyman/DataScience/blob/master/Lesson1/titanic_data_heuristic1.py                                                               |
+| sort            |                  341 | https://github.com/CGATOxford/cgat/blob/master/scripts/data2spike.py                                                                                |
+| append          |                  340 | https://github.com/MadsJensen/CAA/blob/master/calc_ali.py                                                                                           |
+| copy            |                  298 | https://github.com/wavelets/lifelines/blob/master/tests/test_estimation.py                                                                          |
+| rename          |                  288 | https://github.com/Kirubaharan/hydrology/blob/master/Lake_bathymetry/dt_bathymetry/bathymetry_gps_merge.py                                          |
+| reset_index     |                  283 | https://github.com/fialhorenato/Vermont_V2_ViewER_MutatiON_Tool/blob/master/LSCWeb/venv/lib/python2.7/site-packages/pandas/io/tests/test_parsers.py |
+| apply           |                  278 | https://github.com/lukovkin/ufcnn-keras/blob/master/models/UFCNN_predict.py                                                                         |
+| dropna          |                  273 | https://github.com/nelsonag/openmc/blob/master/openmc/filter.py                                                                                     |
+| head            |                  263 | https://github.com/Kirubaharan/hydrology/blob/master/Lake_bathymetry/dt_bathymetry/bathymetry_gps_merge.py                                          |
+| values          |                  259 | https://github.com/fialhorenato/Vermont_V2_ViewER_MutatiON_Tool/blob/master/LSCWeb/venv/lib/python2.7/site-packages/pandas/io/tests/test_parsers.py |
+| fillna          |                  228 | https://github.com/thesgc/cbh_chembl_ws_extension/blob/master/cbh_chembl_ws_extension/serializers.py                                                |
+| plot            |                  203 | https://github.com/DaveBackus/Data_Bootcamp/blob/master/Code/Python/bootcamp_pandas-input.py                                                        |
 
 * Top numpy functions
 Results are again approximate and it's a simple string replace from the pandas version.

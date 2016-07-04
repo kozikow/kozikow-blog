@@ -6,31 +6,31 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
-** New github data on BigQuery
-Github recently introduced all files query-able on the Google BigQuery, SQL-like distributed query engine.
+** Github data on Google BigQuery
+Github recently introduced all files query-able using the Google BigQuery, SQL-like distributed query engine.
 [[https://github.com/blog/2201-making-open-source-data-more-available%2520][See the announcement from github.]] You can execute the BigQuery queries at [[https://bigquery.cloud.google.com/dataset/bigquery-public-data:github_repos][the BigQuery console]].
 
 ** What is numpy, scipy and pandas and why top functions are useful?
 numpy, scipy and pandas are popular python packages for data analysis.
 They are quite big, so it may be hard to distinguish between functions you would use all the time and functions that you use once in a while.
 
-I have found a few pandas functions that I should have been using for a long time and I was doing things "the wrong way".
-I must admit that I somehow missed pandas =.iloc(x)= function and I have been doing =.reset_index()[x]=.
+My reaction to majority of entries was "well, duh, obviously", but there were a few entries that I somehow missed and I was doing things the wrong way.
+For example, I must admit that I somehow missed pandas =.iloc= function and I have been doing =.reset_index= instead to get the n-th row.
 
 It would also be very cool to sort code completions in python packages based on the frequency on github.
 ** Methodology
 Using the new github data on BigQuery I calculated the most popular numpy, scipy and pandas functions and modules used in github repos.
 
-Results are approximate. I firstly look for python files that import pandas (or numpy and scipy in the respective section).
+Results are approximate. I firstly look for python files that import pandas (or numpy/scipy in their respective sections).
 Then I extract the regular expression:
 #+BEGIN_SRC python :results output
   r'[^a-zA-Z](?:pd|pandas)\.([^",\(\,\`) \':\[\]/={}]*)'
 #+END_SRC
 
-It simply looks for all characters following the =pd.= or =pandas.= except the negated character group.
-My priority was to avoid false negatives, so there are some false positives like =pandas.pydata.org=.
-It may sometimes include modules from parsing the import lines, e.g. =import scipy.io=.
-
+It looks for all characters following the =pd.= or =pandas.= except the negated character group.
+** May include modules or some false positives
+When constructing regular expression, my priority was to avoid false negatives, so there are some false positives like =pandas.pydata.org=.
+It may sometimes include modules from parsing the import lines, like it would parse out "io" from =import scipy.io=.
 ** Data source
 I will be using pre-extracted data with python file contents from https://bigquery.cloud.google.com/dataset/fh-bigquery:github_extracts.
 It is a smaller BigQuery table that contains only python files stored on github.
@@ -45,7 +45,7 @@ I am generating the link based on the assumption that file is stored in the mast
 
 ** This post on github
 Revision history of this blog post is [[https://github.com/kozikow/kozikow-blog/blob/master/pandas.org][stored on github.]]
-* Top pandas functions
+* Top pandas functions and modules
 Results are approximate and based on the heuristic assumption that people usually prefix python pandas functions by "pd." or "pandas.".
 
 #+BEGIN_SRC sql :results output
@@ -163,7 +163,7 @@ Top 20 results:
 | fillna          |                  228 | https://github.com/thesgc/cbh_chembl_ws_extension/blob/master/cbh_chembl_ws_extension/serializers.py                                                |
 | plot            |                  203 | https://github.com/DaveBackus/Data_Bootcamp/blob/master/Code/Python/bootcamp_pandas-input.py                                                        |
 
-* Top numpy functions
+* Top numpy functions and modules
 Results are again approximate and it's a simple string replace from the pandas version.
 
 #+BEGIN_SRC sql :results output
@@ -222,7 +222,7 @@ Top 20 results:
 | vstack      |                 5251 |       25913 | https://github.com/buzz/sniegabuda-raspi/blob/master/transformations.py          |
 | min         |                 5064 |       21231 | https://github.com/gwpy/seismon/blob/master/seismon/psd.py                       |
 
-* Top scipy functions
+* Top scipy functions and modules
 Results are again approximate and it's a simple string replace from the numpy version.
 
 #+BEGIN_SRC sql :results output
@@ -286,3 +286,4 @@ Regular expression used to extract function have improved upon by Felipe [[https
 You may also take a look at my other posts:
 - [[https://kozikow.wordpress.com/2016/07/01/top-angular-directives-on-github/][Top angular directives on github.]]
 - [[https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/][Top emacs packages used in github repos.]]
+  

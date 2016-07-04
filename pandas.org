@@ -83,7 +83,7 @@ Top 20 results:
 
 * Top pandas data frame functions 
 Results are again approximate and based on the heuristic assumption that data frames are usually named with the suffix "df".
-To filter out noise, only files containing "import pandas" and matching regexp ".*df\s=.*pandas" are included.
+To filter out noise, only files containing "import pandas" and matching regexp r".*df\s=.*(?:pandas|pd)\." are included.
 
 #+BEGIN_SRC sql :results output
   SELECT

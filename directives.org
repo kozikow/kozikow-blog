@@ -190,18 +190,15 @@ I am again using the sampled sample_contents, since I ran out of free quota.
 [[https://docs.google.com/spreadsheets/d/1I_xjckcIXjphioEg6m7rV5JXJlzqg4OnvamjxCiCKPE/edit?usp=sharing][All results in google docs, including ng- entries.]]
 
 For example, it found directives from [[http://ionicframework.com/docs/api/directive/ionContent/][ionic framework,]] [[https://angular-ui.github.io/bootstrap/][bootstrap]] or [[https://github.com/danialfarid/ng-file-upload][ng-file-upload]].
-Top 20 results excluding the entries that start with ng-:
+Top 20 results excluding the entries that start with ng- or =*angular*=:
 
 #+ATTR_HTML: :style "max-width:100%; table-layout: fixed;"
 | tag            | html_to_angular_ratio | distinct_repository_count | example_url                                                                                                                                                             |
 |----------------+-----------------------+---------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | translate      |    1.9265236377444466 |                       729 | https://github.com/getlantern/lantern/blob/devel/lantern-ui/app/index.html                                                                                              |
-| angular        |    1.6708615682478218 |                       293 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/guide/dev_guide.services.injecting_controllers.html |
 | novalidate     |                 1.625 |                       251 | https://github.com/bonitasoft/bonita-ui-designer/blob/master/frontend/app/js/assets/asset-popup.html                                                                    |
-| Angular        |     1.486810551558753 |                       244 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/guide/dev_guide.services.injecting_controllers.html |
 | ui-sref        |    1.1605095541401274 |                       195 | https://github.com/tatool/tatool-web/blob/master/app/views/doc/dev-executable-additional.html                                                                           |
 | orderBy        |     1.345821325648415 |                       194 | https://github.com/georchestra/georchestra/blob/15.12/ldapadmin/src/main/webapp/privateui/lib/angular/docs/partials/tutorial/step_06.html                               |
-| AngularJS      |    1.8712328767123287 |                       166 | https://github.com/ngageoint/mapcache-server/blob/master/public/app/about/about.html                                                                                    |
 | ui-view        |    1.2525252525252526 |                       146 | https://github.com/cityofasheville/simplicity-ui/blob/master/app/index.html                                                                                             |
 | ion-content    |    1.4666666666666666 |                       126 | https://github.com/gaplo917/hkepc-ionic-reader/blob/master/www/templates/features/mypost/my.post.html                                                                   |
 | endbuild       |    1.6071428571428572 |                       105 | https://github.com/kwk/docker-registry-frontend/blob/v2/app/index.html                                                                                                  |

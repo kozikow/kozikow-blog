@@ -1,0 +1,25 @@
+
+Top seaborn plots:
+
+| function     | count_distinct_repos | count_total | example_url                                                                                                       |
+|--------------+----------------------+-------------+-------------------------------------------------------------------------------------------------------------------|
+| distplot     |                  113 |         328 | https://github.com/CacconeLabYale/gloria_soria_ddRAD_2015/blob/master/src/gs_ddRAD2015/scripts/ld_figures.py      |
+| kdeplot      |                   80 |         337 | https://github.com/CacconeLabYale/gloria_soria_ddRAD_2015/blob/master/src/gs_ddRAD2015/scripts/ld_figures.py      |
+| boxplot      |                   70 |         214 | https://github.com/johnhw/pypuffersphere/blob/master/calibration/analyse_calibration.py                           |
+| barplot      |                   63 |         197 | https://github.com/eleweek/dataisbeautiful/blob/master/downvoted_submissions.py                                   |
+| violinplot   |                   63 |         272 | https://github.com/cwu2011/seaborn/blob/master/seaborn/categorical.py                                             |
+| factorplot   |                   51 |         159 | https://github.com/Geosyntec/wqio/blob/master/wqio/viz.py                                                         |
+| jointplot    |                   50 |         114 | https://github.com/CacconeLabYale/gloria_soria_ddRAD_2015/blob/master/src/gs_ddRAD2015/scripts/ld_figures.py      |
+| regplot      |                   45 |         169 | https://github.com/tlnagy/ms-analysis/blob/master/run_analysis.py                                                 |
+| lmplot       |                   35 |         110 | https://github.com/sdvillal/manysources/blob/master/manysources/analyses/substructures.py                         |
+| tsplot       |                   33 |          79 | https://github.com/czhuang/ChordRipple/blob/master/app/Database.py                                                |
+| stripplot    |                   28 |         182 | https://github.com/yao-matrix/mProto/blob/master/kaggle/distracted_driver/visualize/stripplot.py                  |
+| pairplot     |                   27 |          80 | https://github.com/kyleam/seaborn/blob/master/seaborn/linearmodels.py                                             |
+| pointplot    |                   23 |         167 | https://github.com/cwu2011/seaborn/blob/master/seaborn/categorical.py                                             |
+| countplot    |                   21 |          73 | https://github.com/cwu2011/seaborn/blob/master/seaborn/categorical.py                                             |
+| corrplot     |                    8 |           8 | https://github.com/qbilius/conv-exp/blob/master/stefania/run.py                                                   |
+| palplot      |                    7 |          94 | https://github.com/CacconeLabYale/gloria_soria_ddRAD_2015/blob/master/src/gs_ddRAD2015/scripts/ld_figures.py      |
+| swarmplot    |                    7 |          37 | https://github.com/HighEnergyDataScientests/bnpcompetition/blob/master/feature_analysis/pairwise_feature_plots.py |
+| rugplot      |                    7 |          11 | https://github.com/lucashtnguyen/wqio/blob/master/wqio/core/samples.py                                            |
+| lvplot       |                    6 |          52 | https://github.com/breichholf/seaborn/blob/master/seaborn/categorical.py                                          |
+| interactplot |                    5 |           5 | https://github.com/vascotenner/holoviews/blob/master/holoviews/plotting/mpl/seaborn.py                            |

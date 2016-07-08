@@ -1,0 +1,145 @@
+#+BLOG: wordpress
+#+POSTID: 789
+#+TITLE: More advanced github code search
+#+DATE: <2016-06-06 Mon>
+#+AUTHOR: Robert Kozikowski
+#+EMAIL: r.kozikowski@gmail.com
+* Introduction
+Documentation is not always enough and I like to search for code examples on github.
+
+For example, today I wanted to search what different numpy functions people would pass to the custom aggfunc parameter in the pandas pivot_table. 
+
+When searching for things like "pivot_table aggfunc np", the built-in github search does some kind of "OR" matching with some heurestic scoring.
+It sometimes returns lines only matching aggfunc or only pivot_table.
+
+I extracted a BigQuery table [[https://bigquery.cloud.google.com/table/wide-silo-135723:kozikow_github.data_py][{kozikow_github.data_py}]] that makes it easier to just search github for code examples.
+Each row have a field "line" with a line contents and an url to this line in github. It also have a prev_line and next_line contents.
+
+You have a free 1TB of data scans on BigQuery, so you are very unlikely to run out of the quota by querying my table.
+
+The table is targeted for scientific python, but it would be simple string replace of the [[*SQL generating the table][SQL query]] to get the table for any other framework or language.
+Instructions how to generate your public table are at [[*How to generate your own public table][How to generate your own public table.]]
+
+* Demo
+You can run the query at the [[https://bigquery.cloud.google.com/table/wide-silo-135723:kozikow_github.data_py][BigQuery console]], but you may need to register first.
+ 
+#+BEGIN_SRC sql :results output
+  SELECT
+    line,
+    url
+  FROM [wide-silo-135723:kozikow_github.data_py]
+  WHERE
+     REGEXP_MATCH(line, r"(?:pd|pandas).*pivot_table")
+     AND (REGEXP_MATCH(line, r"aggfunc.*(?:np|numpy)"))
+  LIMIT 20;
+#+END_SRC
+
+| line                                                                                                                                                                  | url                                                                                                           |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------|
+| meta_df = pd.pivot_table(meta_df, values=""reads"", rows=index, aggfunc=np.sum) "                                                                                     | https://github.com/brwnj/repertoire/blob/master/repertoire/metacompare.py#L40                                 |
+| temp = pd.pivot_table(temp, values=""reads"", rows=index, aggfunc=np.sum) "                                                                                           | https://github.com/brwnj/repertoire/blob/master/repertoire/metacompare.py#L48                                 |
+| fp = pd.pivot_table(f, values='count', index='Entry Exit GroupID', columns='AgeEnteredBucket', aggfunc=np.sum, fill_value=0) "                                        | https://github.com/dssg/homelessness-public/blob/master/clean.py#L442                                         |
+| table = pd.tools.pivot.pivot_table(df, rows=['week'], cols=['swimlane'], values='count', aggfunc=np.count_nonzero) "                                                  | https://github.com/worldofchris/jlf/blob/master/jlf_stats/metrics.py#L173                                     |
+| print grid_to_string(pd.DataFrame.pivot_table(df, values='Size', index=[field + ' Method' for field in fields], columns=['Compressor'], aggfunc=np.min)) "            | https://github.com/batterseapower/timeseries-compression/blob/master/python/analyse.py#L44                    |
+| transpositions = pd.DataFrame.pivot_table(df[df['Compressor'] == compressor], values='Size', index=[field + ' Codec'], columns=[field + ' Method'], aggfunc=np.min) " | https://github.com/batterseapower/timeseries-compression/blob/master/python/analyse.py#L56                    |
+| printable_df = pd.DataFrame.pivot_table(df, values='Size', index=[field + ' Codec', field + ' Method'], columns=['Compressor'], aggfunc=np.min) "                     | https://github.com/batterseapower/timeseries-compression/blob/master/python/analyse.py#L73                    |
+| printable_df = pd.DataFrame.pivot_table(df, values='Size', index=[field + ' Codec'], columns=[field + ' Method'], aggfunc=np.min) "                                   | https://github.com/batterseapower/timeseries-compression/blob/master/python/analyse.py#L76                    |
+| #dfQB = pd.pivot_table(dfQB,index=['name'],aggfunc=np.sum).reset_index() "                                                                                            | https://github.com/kpolimis/nflPlayerPerformance/blob/master/notebooks/plots_3year.py#L49                     |
+| dfs.append(index_converter(pd.pivot_table(x, index=index_field, aggfunc=np.sum), 'sum_var')) "                                                                        | https://github.com/khughitt/Pharmacogenomics_Prediction_Pipeline_P3/blob/master/tools/pipeline_helpers.py#L34 |
+| dfs.append(index_converter(pd.pivot_table(x, index=index_field, aggfunc=np.mean), 'mean_var')) "                                                                      | https://github.com/khughitt/Pharmacogenomics_Prediction_Pipeline_P3/blob/master/tools/pipeline_helpers.py#L35 |
+| dfs.append(index_converter(pd.pivot_table(x[x>0],  index=index_field, aggfunc=np.sum),  'sum_pos')) "                                                                 | https://github.com/khughitt/Pharmacogenomics_Prediction_Pipeline_P3/blob/master/tools/pipeline_helpers.py#L62 |
+
+I found a new numpy function, np.count_nonzero.
+
+* SQL generating the table
+
+#+BEGIN_SRC sql :results output
+  SELECT
+      file_id,
+      line,
+      line_number,
+      url,
+      LAG(line, 1) OVER (
+          PARTITION BY file_id ORDER BY line_number) AS prev_line,
+      LEAD(line, 1) OVER (
+          PARTITION BY file_id ORDER BY line_number) AS next_line,
+  FROM (SELECT
+      line,
+      file_id,
+      RTRIM(line),
+      POSITION(line) AS line_number,
+      CONCAT("https://github.com/",
+              sample_repo_name,
+              "/blob/master/",
+              sample_path, "#L",
+              STRING(POSITION(line))) AS url,
+      FROM (SELECT
+          id AS file_id,
+          # Add a space after each line.
+          # It is required to ensure correct line numbering.
+          SPLIT(REPLACE(content, "\n", " \n"), "\n") AS line,
+          sample_repo_name,
+          sample_path,
+      FROM
+          [fh-bigquery:github_extracts.contents_py]
+      WHERE
+          content CONTAINS "import pandas"
+          OR content CONTAINS "import numpy"
+          OR content CONTAINS "import scipy"
+          OR content CONTAINS "import scikit"
+          OR content CONTAINS "import sklearn"))
+#+END_SRC
+It took 47 seconds to generate it.
+
+* How to generate your own public table
+In [[https://bigquery.cloud.google.com/table/wide-silo-135723:kozikow_github.data_py][BigQuery]] console, after creating and choosing the project:
+- On the left side bar, click dash near your project and click "Create new dataset"
+- Click dash near the new dataset and "Share Dataset". 
+- In Add People section add "All Authenticated users" -> view
+- In query window go to "Show options"
+- Choose a Destination Table (you can create a new one) and click "Allow Large results"
+- Press Run Query
+* Caveat - each link points to master
+Other tables, like sample_contents include the branch in a field sample_ref, what lets me to generate the correct link.
+contents_py misses this field, so I am assuming that file points to the master branch. On the bright side, it's very rarely an issue.
+
+My other blog post, [[https://kozikow.wordpress.com/2016/07/01/top-angular-directives-on-github/][top angular directives on github,]] generates links pointing to the correct branch.
+Felipe, if you are reading this, can you please add field sample_ref to contents_py?
+* Storage cost
+Table is only 21 GB in size, so I will pay 42 cents per month to store it, 0.02$ per GB based on https://cloud.google.com/bigquery/pricing.
+I am still using cloud storage [[https://cloud.google.com/free-trial/][free trial]], so it's still free.
+
+* TODO Repeated field
+#+BEGIN_SRC sql :results output
+  SELECT
+      file_id,
+      url,
+      NEST(line),
+      NEST( line_number ),
+  FROM (SELECT
+      line,
+      file_id,
+      RTRIM(line),
+      POSITION(line) AS line_number,
+       CONCAT("https://github.com/",
+              sample_repo_name,
+              "/blob/master/",
+              sample_path) AS url
+      FROM (SELECT
+          id AS file_id,
+          # Add a space after each line.
+          # It is required to ensure correct line numbering.
+          SPLIT(REPLACE(content, "\n", " \n"), "\n") AS line,
+          sample_repo_name,
+          sample_path,
+      FROM
+          [fh-bigquery:github_extracts.contents_py]
+      WHERE
+          content CONTAINS "import pandas"
+          OR content CONTAINS "import numpy"
+          OR content CONTAINS "import scipy"
+          OR content CONTAINS "import scikit"
+          OR content CONTAINS "import sklearn"))
+  GROUP BY 1,2;
+#+END_SRC
+

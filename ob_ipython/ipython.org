@@ -1,5 +1,6 @@
 #+BLOG: wordpress
-#+POSTID: 430
+#+POSTID: 802
+#+BLOG: wordpress
 #+OPTIONS: toc:3
 #+OPTIONS: todo:t
 #+TITLE: Very powerful data analysis environment - org mode with ob-ipython
@@ -140,6 +141,10 @@ There are many more. Some urls to look at:
   (browse-url-emacs
    "http://kitchingroup.cheme.cmu.edu/org/2014/08/08/What-we-are-using-org-mode-for.org")
 #+END_SRC
+
+#+RESULTS:
+: #<buffer What-we-are-using-org-mode-for.org>
+
 - http://orgmode.org/
 - http://doc.norang.ca/org-mode.html
 - http://pages.sachachua.com/.emacs.d/Sacha.html
@@ -158,6 +163,9 @@ If you don't run those, you may run into troubles.
    pip install --upgrade pyzmq
    pip install --upgrade jupyter
 #+END_SRC
+
+#+RESULTS:
+
 ** Install ob-ipython
 org mode should be bundled with your emacs installation.
 If you are new to emacs, you can install packages using =M-x package-install=.
@@ -173,6 +181,10 @@ Add to your Emacs config:
   ;;; display/update images in the buffer after I evaluate
   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 #+END_SRC
+#+RESULTS:
+| org-display-inline-images |
+
+
 * Troubleshooting
 ** Verify that restarting ipython doesn't help.
 #+BEGIN_SRC emacs-lisp
@@ -241,6 +253,7 @@ So far I have been using custom elisp code, but a few things can be nicer about 
 
 #+RESULTS:
 [[file:plot.png]]
+
 ** Org table -> Pandas -> Org table
 You have to write small reusable snippet to print pandas to org format.
 You can add it to your builtin ipython code snippets.
@@ -269,13 +282,13 @@ You also need to tell src block to interpret results directly with =:results out
 
 #+RESULTS:
 :RESULTS:
-| date             |  x |  y |
-| <2016-06-15 Wed> |  1 |  2 |
-| <2016-06-16 Thu> |  2 |  4 |
-| <2016-06-17 Fri> |  4 |  6 |
-| <2016-06-18 Sat> |  8 |  8 |
-| <2016-06-19 Sun> | 16 | 10 |
-| <2016-06-20 Mon> | 32 | 12 |
+| date             |  x |  y |  z |
+| <2016-06-15 Wed> |  1 |  2 |  1 |
+| <2016-06-16 Thu> |  2 |  4 |  2 |
+| <2016-06-17 Fri> |  4 |  6 |  3 |
+| <2016-06-18 Sat> |  8 |  8 |  4 |
+| <2016-06-19 Sun> | 16 | 10 | 30 |
+| <2016-06-20 Mon> | 32 | 12 | 40 |
 :END:
 
 Afterwards, you may assign result table to variable, edit it with org spreadsheet capabilities and use in other python script.
@@ -300,7 +313,7 @@ it's enough to put blocks one after another.
 #+RESULTS:
 : 900
 
-** Connect to existing ipython kernel
+** TODO Connect to existing ipython kernel
 I added support of connecting to existing ipython kernel in 
 https://github.com/gregsexton/ob-ipython/pull/71/files.
 
@@ -324,11 +337,12 @@ Create kernel using (outside of the org mode, as it blocks):
 It will give you a connection json file name.
 Pass it as a session name.
 
-#+BEGIN_SRC ipython :session kernel-8520.json :results output
-  print print_me
-#+END_SRC
+#+BEGIN_EXAMPLE
+  ,#+BEGIN_SRC ipython :session kernel-8520.json 
+    print print_me
+  ,#+END_SRC
+#+END_EXAMPLE
 
-#+RESULTS:
 : Running in previously started kernel.
 
 ** TODO Use global constant
@@ -356,6 +370,9 @@ This should work:
   (browse-url-emacs
    "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/pythonbabel.org")
 #+END_SRC
+
+#+RESULTS:
+: #<buffer pythonbabel.org>
 
 
 #+BEGIN_SRC emacs-lisp

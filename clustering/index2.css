@@ -1,0 +1,19 @@
+.node {
+    stroke: #fff;
+    stroke-width: 1.5px;
+}
+/* .link { */
+/*     stroke: #999; */
+/*     stroke-opacity: .6; */
+/* } */
+.link {
+  stroke: #ccc;
+}
+
+#anchor {
+    position: fixed;
+    /* window.scrollY */
+    top: 2851px;
+    left: 4434px;
+    width: 100%;
+}

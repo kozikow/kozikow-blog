@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}
+  \PYG{n}{p1}\PYG{p}{.}\PYG{n}{package} \PYG{k}{AS} \PYG{n}{package1}\PYG{p}{,}
+  \PYG{n}{p2}\PYG{p}{.}\PYG{n}{package} \PYG{k}{AS} \PYG{n}{package2}\PYG{p}{,}
+  \PYG{k}{COUNT}\PYG{p}{(}\PYG{o}{*}\PYG{p}{)} \PYG{k}{AS} \PYG{k}{count}
+\PYG{k}{FROM} \PYG{p}{(}\PYG{k}{SELECT}
+  \PYG{n}{id}\PYG{p}{,}
+  \PYG{n}{package}
+\PYG{k}{FROM} \PYG{n}{FLATTEN}\PYG{p}{([}\PYG{n}{wide}\PYG{o}{\PYGZhy{}}\PYG{n}{silo}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{135723}\PYG{p}{:}\PYG{n}{github\PYGZus{}clustering}\PYG{p}{.}\PYG{n}{packages\PYGZus{}in\PYGZus{}file\PYGZus{}top\PYGZus{}py}\PYG{p}{],} \PYG{n}{package}\PYG{p}{))} \PYG{k}{AS} \PYG{n}{p1}
+\PYG{k}{JOIN}
+\PYG{p}{(}\PYG{k}{SELECT}
+  \PYG{n}{id}\PYG{p}{,}
+  \PYG{n}{package}
+\PYG{k}{FROM} \PYG{p}{[}\PYG{n}{wide}\PYG{o}{\PYGZhy{}}\PYG{n}{silo}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{135723}\PYG{p}{:}\PYG{n}{github\PYGZus{}clustering}\PYG{p}{.}\PYG{n}{packages\PYGZus{}in\PYGZus{}file\PYGZus{}top\PYGZus{}py}\PYG{p}{])} \PYG{k}{AS} \PYG{n}{p2}
+\PYG{k}{ON} \PYG{p}{(}\PYG{n}{p1}\PYG{p}{.}\PYG{n}{id} \PYG{o}{==} \PYG{n}{p2}\PYG{p}{.}\PYG{n}{id}\PYG{p}{)}
+\PYG{k}{GROUP} \PYG{k}{BY} \PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{2}
+\PYG{k}{ORDER} \PYG{k}{BY} \PYG{k}{count} \PYG{k}{DESC}\PYG{p}{;}
+\end{Verbatim}

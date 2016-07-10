@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k+kn}{as} \PYG{n+nn}{pd}
+\PYG{k+kn}{import} \PYG{n+nn}{math}
+
+\PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}csv}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}edges.csv\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{pd\PYGZus{}df} \PYG{o}{=} \PYG{n}{df}\PYG{p}{[(} \PYG{n}{df}\PYG{o}{.}\PYG{n}{package1} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}pandas\PYGZdq{}} \PYG{p}{)} \PYG{o}{|} \PYG{p}{(} \PYG{n}{df}\PYG{o}{.}\PYG{n}{package2} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}pandas\PYGZdq{}} \PYG{p}{)]}
+\PYG{n}{pd\PYGZus{}df}\PYG{o}{.}\PYG{n}{loc}\PYG{p}{[}\PYG{n}{pd\PYGZus{}df}\PYG{o}{.}\PYG{n}{package1} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}pandas\PYGZdq{}}\PYG{p}{,}\PYG{l+s+s2}{\PYGZdq{}other\PYGZus{}package\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{pd\PYGZus{}df}\PYG{p}{[}\PYG{n}{pd\PYGZus{}df}\PYG{o}{.}\PYG{n}{package1} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}pandas\PYGZdq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{package2}
+\PYG{n}{pd\PYGZus{}df}\PYG{o}{.}\PYG{n}{loc}\PYG{p}{[}\PYG{n}{pd\PYGZus{}df}\PYG{o}{.}\PYG{n}{package2} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}pandas\PYGZdq{}}\PYG{p}{,}\PYG{l+s+s2}{\PYGZdq{}other\PYGZus{}package\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{pd\PYGZus{}df}\PYG{p}{[}\PYG{n}{pd\PYGZus{}df}\PYG{o}{.}\PYG{n}{package2} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}pandas\PYGZdq{}}\PYG{p}{]}\PYG{o}{.}\PYG{n}{package1}
+
+\PYG{n}{df\PYGZus{}to\PYGZus{}org}\PYG{p}{(}\PYG{n}{pd\PYGZus{}df}\PYG{o}{.}\PYG{n}{loc}\PYG{p}{[:,[}\PYG{l+s+s2}{\PYGZdq{}other\PYGZus{}package\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}count\PYGZdq{}}\PYG{p}{]])}
+
+\PYG{k}{print} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{pd\PYGZus{}df}\PYG{p}{),} \PYG{l+s+s2}{\PYGZdq{}total edges with pandas\PYGZdq{}}
+\end{Verbatim}

@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{arr\PYGZus{}to\PYGZus{}org}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{):}
+    \PYG{n}{line} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}|\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{item}\PYG{p}{)} \PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{arr}\PYG{p}{)}
+    \PYG{k}{return} \PYG{l+s+s2}{\PYGZdq{}|\PYGZob{}\PYGZcb{}|\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{line}\PYG{p}{)}
+
+
+\PYG{k}{def} \PYG{n+nf}{df\PYGZus{}to\PYGZus{}org}\PYG{p}{(}\PYG{n}{df}\PYG{p}{):}
+    \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)} \PYG{o}{\PYGZlt{}=} \PYG{l+m+mi}{5}\PYG{p}{:}
+        \PYG{k}{print} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{([}\PYG{n}{arr\PYGZus{}to\PYGZus{}org}\PYG{p}{(}\PYG{n}{df}\PYG{o}{.}\PYG{n}{columns}\PYG{p}{),} \PYG{l+s+s2}{\PYGZdq{}|\PYGZhy{}\PYGZdq{}}\PYG{p}{]} \PYG{o}{+}
+                        \PYG{p}{[}\PYG{n}{arr\PYGZus{}to\PYGZus{}org}\PYG{p}{(}\PYG{n}{row}\PYG{p}{)} \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n}{df}\PYG{o}{.}\PYG{n}{values}\PYG{p}{])}
+    \PYG{k}{else}\PYG{p}{:}
+        \PYG{k}{print} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{([}\PYG{n}{arr\PYGZus{}to\PYGZus{}org}\PYG{p}{(}\PYG{n}{df}\PYG{o}{.}\PYG{n}{columns}\PYG{p}{),} \PYG{l+s+s2}{\PYGZdq{}|\PYGZhy{}\PYGZdq{}}\PYG{p}{]} \PYG{o}{+}
+                        \PYG{p}{[}\PYG{n}{arr\PYGZus{}to\PYGZus{}org}\PYG{p}{(}\PYG{n}{row}\PYG{p}{)} \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n}{df}\PYG{o}{.}\PYG{n}{values}\PYG{p}{[:}\PYG{l+m+mi}{5}\PYG{p}{]]} \PYG{o}{+}
+                        \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}|\PYGZob{}\PYGZcb{} more rows\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{5}\PYG{p}{)])}
+\end{Verbatim}

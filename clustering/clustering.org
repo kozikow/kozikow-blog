@@ -1,25 +1,115 @@
+#+POSTID: 818
 #+OPTIONS: toc:3
 #+OPTIONS: todo:t
-#+TITLE: Clustering python packages
+#+TITLE: Visualizing relationships between python packages
 #+DATE: <2016-05-22 Sun>
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
-* TODO Cluster links
-- Scientific python (centered on numpy)
-- Testing cluster (centered on unittest)
-- Django (unsuprisingly, django)
-- Flask (flask)
-- Zope
-- Pyramid
-- Open stack (oslo, nova, webob, neutron, ironic, netaddr)
-- Gaming cluster (pygame), http://www.pygame.org/hifi.html
-- Robotics centered on rospy, nearby to scientific python. Some computational geometry packages like shapely are nearby.
-- tables and xarray as alternative to pandas
-- networkx for analysis
-- sqlalchemy closest to pyramid, in between flask and django
+* Introduction
+Using the [[https://github.com/blog/2201-making-open-source-data-more-available%2520][github data on BigQuery]] and new [[https://github.com/d3/d3-force][force layout in d3 via the Verlet numerical integration]] I implemented
+graph visualization of relationships between 3500 most popular python packages.
 
+You can see the app at http://clustering.kozikow.com?center=numpy. You can:
+- Pass different package names as a query argument in the URL.
+- Scroll the page horizontally and vertically.
+- Click a node to open the pypi. Note that not all packages are on pypi.
 
-* Create a table
+Graph properties:
+- Each node is each python package found on github. Radius is calculated in [[*DataFrame with nodes][DataFrame with nodes]] section.
+- For two packages A and B, weight of an edge is \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\), where \(|A \cap B|\) is number of occurrences of packages A and B within the same file.
+- Edges with weight smaller than 0.33 are removed.
+- Algorithm searches for minimal energy state by the Verlet Integration according to [[*Simulation parameters][simulation parameters.]]
+  
+Center contains mostly standard library and the most interesting things are on the outskirts.
+
+See the screenshot of the numpy cluster:
+
+[[file:screenshot.png][file:~/git_repos/github/kozikow-blog/clustering/screenshot.png]]
+
+Graph visualizations often lack actionable insights except looking cool.
+Types of insights you can use this for:
+- I have been exploring packages in the [[http://clustering.kozikow.com/?center=numpy][scientific python]] cluster a lot, and I found a few things I plan to use.
+- Use this to evaluate which web framework to use. You may think that [[http://clustering.kozikow.com/?center=django][django]] became too heavyweight or some other framework have dying community.
+- Find some interesting python use cases, like [[http://clustering.kozikow.com/?center=rospy][robotics cluster]].
+
+[[https://github.com/kozikow/kozikow-blog/blob/master/clustering/clustering.org][Revision history of this post is on github.]]
+
+* Analysis of specific clusters
+** [[http://clustering.kozikow.com/?center=numpy][Scientific python land]]
+  Unsurprisingly, it is centered on [[http://clustering.kozikow.com/?center=numpy][numpy]].
+  Many of scientific packages are in close proximity, like scipy, pandas, sklearn or matplotlib.
+
+  I have found package [[http://clustering.kozikow.com/?center=networkx][networkx]] and [[http://clustering.kozikow.com/?center=graph_tool][graph_tool]] in the nearby proximity, that I plan to use for analyzing data from this post.
+
+  You can see even division between statistics and machine learning, by [[http://clustering.kozikow.com/?center=sklearn][sklearn]] 
+  being surrounded by packages like [[https://pypi.python.org/pypi/xgboost][xgboost]] or theano.
+** [[http://clustering.kozikow.com/?center=rospy][Robotics land]]
+Nearby to scientific python land there is a robotics land centered at [[http://clustering.kozikow.com/?center=rospy][rospy]].
+Some computational geometry packages like [[http://clustering.kozikow.com/?center=shapely][shapely]] are nearby.
+** Web frameworks
+Web frameworks are interesting:
+- It could be said that [[http://clustering.kozikow.com/?center=sqlalchemy][sqlalchemy]] is a center of web frameworks land.
+- Found nearby, there's a massive and monolithic cluster for [[http://clustering.kozikow.com/?center=django][django]].
+- Smaller nearby clusters for [[http://clustering.kozikow.com/?center=flask][flask]] and [[http://clustering.kozikow.com/?center=pyramid][pyramid]].
+- [[http://clustering.kozikow.com/?center=pylons][pylons]], lacking cluster of it's own, in between django and sqlalchemy.
+- Small cluster for [[http://www.zope.org/][zope]], also nearby sqlalchemy
+- [[http://clustering.kozikow.com/?center=tornado][tornado]] got swallowed by big cluster of standard library, "kernel" in the middle, but is still close to other web frameworks.
+- Some smaller web frameworks like [[http://clustering.kozikow.com/?center=gluon][gluon (web2py)]] or [[http://clustering.kozikow.com/?center=tg][turbo gears]] ended up close to django, but barely visible and without clusters of their own.
+** [[http://clustering.kozikow.com/?center=nova][Open stack land]]
+Cloud computing, open stack and low level networking land centered at [[http://clustering.kozikow.com/?center=nova][nova]]
+contains packages like oslo, nova, webob, neutron, ironic or netaddr.
+** [[http://clustering.kozikow.com/?center=unittest][Testing land]]
+Centered on [[http://clustering.kozikow.com/?center=unittest][unittest]]. Some packages in the cluster are [[https://pypi.python.org/pypi/testfixtures][testfixtures]] or [[https://pypi.python.org/pypi/atomic-reactor][atomic-reactor]].
+** Gaming
+Cluster for some gaming related libraries, centered around [[http://clustering.kozikow.com/?center=pygame][pygame]]
+* Potentials for further analysis
+** Other programming languages
+Majority of the code is not specific to python. Only the first step, [[*Create a table with packages][create a table with packages,]] is specific to python.
+
+I had to do a lot of work on fitting the parameters in [[*Simulation parameters][Simulation parameters]] to make the graph look good enough.
+I suspect that I would have to do similar fitting to each language, as each language graph would have different properties.
+
+Probably majority of languages would have "heavy weight" center cluster that makes it hard to fit the parameters,
+so maybe removing the cluster like in described in [[*Reduce an effect of a heavy weight center cluster][Reduce an effect of a heavy weight center cluster]] could make algorithm
+more easily generalizeable to other languages.
+** Reduce an effect of a heavy weight center cluster
+"Standard library" cluster in the center is very heavyweight and includes many packages.
+It is also the least interesting, as everyone knows those packages, so there is little insight to be gained.
+
+Removing standard library could improve the quality of visualization.
+Removing just standard library is not easily generalizeable to other programming languages.
+
+Removing the biggest cluster as detected by clustering algorithm from [[http://scikit-learn.org/stable/modules/clustering.html][sklearn]] or [[http://networkx.readthedocs.io/en/networkx-1.11/reference/algorithms.clustering.html][networkx]] could work well.
+Alternatively, cluster nodes prior to visualization and let users hide some clusters from the javascript (and re-run the force layout simulation).
+** Reduce an effect of heavy weight packages
+In current visualization, big central packages like [[http://clustering.kozikow.com/?center=django][django]], [[http://clustering.kozikow.com/?center=numpy][numpy]], [[http://clustering.kozikow.com/?center=os][os]] and [[http://clustering.kozikow.com/?center=sys][sys]]
+dominate the graph. I believe that they dominate some of the smaller, more relevant relationships between smaller packages.
+
+I thought about replacing edge weight from \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\) by \((\frac{ |A \cap B|}{|A| * |B|})^2\), but that could end up clustering packages by size rather than by common usage.
+** Search for "Alternatives to package X", e.g. seaborn vs bokeh
+For example, it would be interesting to cluster together all python data visualization packages.
+
+Intuitively, such packages would be used in similar context, but would be rarely used together.
+They would have high correlation of their neighbor weights, but low direct edge.
+This would work in many situations, but there are some others it wouldn't handle well.
+Example case it wouldn't handle well: 
+- django built in ORM is an alternative to sqlalchemy
+- django ORM is only used in django and can be replaced by sqlalchemy
+- django ORM is not well usable in other web frameworks like flask. 
+I might got some ORM details wrong, as I don't do much web dev.
+** networkx and graph_tool packages
+Thanks to this visualization I have found about [[http://clustering.kozikow.com?center=networkx][networkx]] and graph_tool packages.
+It have some niceties for analyzing graphs.
+I plan to take a look at package dependency data using those packages.
+** Within repository relationship
+Currently, I am only looking at imports within the same file.
+It could be interesting to look at the same graph built using "within same repository" relationship.
+* Data
+- [[http://clustering.kozikow.com/graph.js][Post-processed JSON data used by d3]]
+- [[https://bigquery.cloud.google.com/dataset/wide-silo-135723:github_clustering][Publicly available BigQuery tables with all the data]]. See Reproduce section to see how each table was generated.
+* Steps to reproduce
+** Extract data from BigQuery
+*** Create a table with packages
 Save to wide-silo-135723:github_clustering.packages_in_file_py:
 #+BEGIN_SRC sql :results output
   SELECT
@@ -38,7 +128,12 @@ Save to wide-silo-135723:github_clustering.packages_in_file_py:
   GROUP BY id
   HAVING LENGTH(package) > 0;
 #+END_SRC
-* Verify a table
+
+Table will have two fields - id representing the file and repeated field with packages in the single file.
+Repeated fields are like arrays - [[http://stackoverflow.com/questions/32020714/what-does-repeated-field-in-google-bigquery-mean][the best description of repeated fields I found.]]
+
+This is the only step that is specific for python.
+*** Verify the packages_in_file_py table
 Check that imports have been correctly parsed out from some [[https://github.com/sunzhxjs/JobGIS/blob/master/lib/python2.7/site-packages/pandas/core/format.py][random file]].
 #+BEGIN_SRC sql :results output
   SELECT
@@ -53,7 +148,7 @@ Check that imports have been correctly parsed out from some [[https://github.com
 |-----------------------------------------------------------------------------------------------------+-------|
 | distutils, itertools, numpy, decimal, pandas, csv, warnings, __future__, IPython, math, locale, sys |    12 |
 
-* Filter out not popular packages
+*** Filter out not popular packages
 #+BEGIN_SRC sql :results output
   SELECT
     COUNT(DISTINCT(package))
@@ -92,7 +187,7 @@ Results are in [wide-silo-135723:github_clustering.packages_in_file_top_py].
 3501
 #+END_EXAMPLE
 
-* Generate graph edges
+*** Generate graph edges
 I will generate edges and save it to table wide-silo-135723:github_clustering.packages_in_file_edges_py.
 #+BEGIN_SRC sql :results output
     SELECT
@@ -138,7 +233,7 @@ Top 10 edges:
 | os         | subprocess | 106862 |
 | datetime   | django     |  94111 |
 
-* Filter out irrelevant edges
+*** Filter out irrelevant edges
 Quantiles of the edge weight:
 #+BEGIN_SRC sql :results output
   SELECT
@@ -153,7 +248,7 @@ Quantiles of the edge weight:
 
 In my first implementation I filtered edges out based on the total count.
 It was not a good approach, as a small relationship between two big packages
-was more likely too stay than strong relationship between too small packages.
+was more likely to stay than strong relationship between too small packages.
 
 Create wide-silo-135723:github_clustering.packages_in_file_nodes_py:
 #+BEGIN_SRC sql :results output
@@ -190,8 +285,8 @@ Create table packages_in_file_edges_top_py:
 #+END_SRC
 
 [[https://docs.google.com/spreadsheets/d/1hbQAIyDUigIsEajcpNOXbmldgfLmEqsOE729SPTVpmA/edit?usp=sharing][Full results in google docs.]]
-
-* Load csv and verify edges with pandas
+** Process data with Pandas to json
+*** Load csv and verify edges with pandas
 #+BEGIN_SRC ipython :session :noexport
   def arr_to_org(arr):
       line = "|".join(str(item) for item in arr)
@@ -237,8 +332,7 @@ Create table packages_in_file_edges_top_py:
 
 16 total edges with pandas
 :END:
-* Process edges.csv to format consumable by d3 using pandas
-** DataFrame with nodes
+*** DataFrame with nodes
 #+BEGIN_SRC ipython :session :results output raw drawer :exports both
   nodes_df = df[df.package1 == df.package2].reset_index().loc[:, ["package1", "count"]].copy()
   nodes_df["label"] = nodes_df.package1
@@ -260,7 +354,7 @@ Create table packages_in_file_edges_top_py:
 | 3460 more rows |         |            |    |               |
 :END:
 
-** Create map of node name -> id
+*** Create map of node name -> id
 #+BEGIN_SRC ipython :session :results output :exports both
   id_map = nodes_df.reset_index().set_index("package1").to_dict()["index"]
 
@@ -275,7 +369,7 @@ Create table packages_in_file_edges_top_py:
 : time          4
 : dtype: int64
 
-** Create edges data frame
+*** Create edges data frame
 #+BEGIN_SRC ipython :session :results output raw drawer :exports both
   edges_df = df.copy()
   edges_df["source"] = edges_df.package1.apply(lambda p: id_map[p])
@@ -301,7 +395,7 @@ Create table packages_in_file_edges_top_py:
 df and edges_df should be the same length:  11122 11122
 :END:
 
-** Add reversed edge
+*** Add reversed edge
 #+BEGIN_SRC ipython :session :results output raw drawer :exports both
   edges_rev_df = edges_df.copy()
   edges_rev_df.loc[:,["source", "target"]] = edges_rev_df.loc[:,["target", "source"]].values
@@ -321,7 +415,7 @@ df and edges_df should be the same length:  11122 11122
 | 22239 more rows |            |                |         |        |        |      |         |      |         |
 :END:
 
-** Truncate edges DataFrame 
+*** Truncate edges DataFrame 
 #+BEGIN_SRC ipython :session :results output raw drawer :exports both
   edges_df = edges_df[["source", "target", "strength"]]
   df_to_org(edges_df)
@@ -338,7 +432,7 @@ df and edges_df should be the same length:  11122 11122
 |             0.0 |    1.0 | 0.501429793505 |
 | 22239 more rows |        |                |
 :END:
-** After running simulation in the browser, get saved positions
+*** After running simulation in the browser, get saved positions
 The whole simulation takes a minute to stabilize.
 I could just download an image, but there are extra features like pressing the node opens pypi.
 
@@ -357,7 +451,7 @@ According to [[https://github.com/d3/d3-force/blob/master/README.md#simulation_n
 
 #+RESULTS:
 
-** Truncate nodes DataFrame
+*** Truncate nodes DataFrame
 #+BEGIN_SRC ipython :session :results output raw drawer :exports both
   # c will be collision strength
   nodes_df["c"] = pd.DataFrame([nodes_df.label.str.len() * 1.8, nodes_df.r]).max() + 5
@@ -376,7 +470,7 @@ According to [[https://github.com/d3/d3-force/blob/master/README.md#simulation_n
 |              4 | 47.2662138808 | time       | 52.2662138808 | 419.407448663 |  439.872927665 |
 | 3460 more rows |               |            |               |               |                |
 :END:
-** Save files to json
+*** Save files to json
 #+BEGIN_SRC ipython :session :results output :exports both
   # Truncate columns
   with open("graph.js", "w") as f:
@@ -386,9 +480,33 @@ According to [[https://github.com/d3/d3-force/blob/master/README.md#simulation_n
 #+END_SRC
 
 #+RESULTS:
+** Draw a graph using the new d3 Verlet Integration algorithm
+*** The physical simulation
+Simulation uses the new [[https://github.com/d3/d3/blob/master/API.md#forces-d3-force][velocity Verlet integration force graph
+in d3 v 4.0.]] Simulation takes about one minute to stabilize, so
+for viewing purposes I hard-coded the position of node after running simulation on my machine.
 
-* Potentials for further analysis
-** Use a clustering algorithm and remove the biggest cluster
-** networkx package
-** Weaken the gravity of big packages?
-** Other languages
+To re-run the simulation you can:
+- Remove fixed positions added in [[*After running simulation in the browser, get saved positions][one of pandas processing steps]].
+- Uncomment the "forces" in the [[https://github.com/kozikow/kozikow-blog/blob/master/clustering/index2.js#L2][javascript file.]]
+*** Simulation parameters
+I have been tweaking simulation parameters for a while.
+Very dense "center" of the graph is in conflict with clusters on the edge of the graph.
+
+As you may see in the current graph, nodes in the center sometimes overlap, while distance between
+nodes on the edge of a graph is big.
+
+I got as much as I could from the collision parameter and increasing it further wasn't helpful.
+Potentially I could increase gravity towards the center, but then some of the valuable "clusters"
+from edges of the graph got lumped into the big "kernel" in the center. The most promising
+approach at this point would be to try some ways of [[*Reduce an effect of a heavy weight center cluster][Reduce an effect of a heavy weight center cluster]].
+
+**** Attraction forces
+- Weight of edge between packages A and B: \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\), with distance 30
+- Gravity towards center: 0.1
+**** Repulsion forces
+- Repulsion between nodes: -400
+- Strength of nodes collision: 5
+
+# screenshot.png http://kozikow.files.wordpress.com/2016/07/screenshot.png
+# /home/kozikow/git_repos/github/kozikow-blog/clustering/screenshot.png http://kozikow.files.wordpress.com/2016/07/screenshot1.png

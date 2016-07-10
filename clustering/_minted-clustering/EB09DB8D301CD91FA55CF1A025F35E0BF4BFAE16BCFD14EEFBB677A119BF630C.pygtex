@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}
+    \PYG{n}{id}\PYG{p}{,}
+    \PYG{n}{NEST}\PYG{p}{(}\PYG{n}{package}\PYG{p}{)} \PYG{k}{AS} \PYG{n}{package}
+\PYG{k}{FROM} \PYG{p}{(}\PYG{k}{SELECT}
+        \PYG{n}{package}\PYG{p}{,}
+        \PYG{k}{count}\PYG{p}{(}\PYG{n}{id}\PYG{p}{)} \PYG{k}{AS} \PYG{k}{count}\PYG{p}{,}
+        \PYG{n}{NEST}\PYG{p}{(}\PYG{n}{id}\PYG{p}{)} \PYG{k}{AS} \PYG{n}{id}
+    \PYG{k}{FROM} \PYG{p}{[}\PYG{n}{wide}\PYG{o}{\PYGZhy{}}\PYG{n}{silo}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{135723}\PYG{p}{:}\PYG{n}{github\PYGZus{}clustering}\PYG{p}{.}\PYG{n}{packages\PYGZus{}in\PYGZus{}file\PYGZus{}py}\PYG{p}{]}
+    \PYG{k}{GROUP} \PYG{k}{BY} \PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{k}{WHERE} \PYG{k}{count} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{200}
+\PYG{k}{GROUP} \PYG{k}{BY} \PYG{n}{id}\PYG{p}{;}
+\end{Verbatim}

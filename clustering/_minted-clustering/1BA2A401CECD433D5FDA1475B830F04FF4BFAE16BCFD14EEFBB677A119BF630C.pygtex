@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}
+    \PYG{n}{package1}\PYG{p}{,}
+    \PYG{n}{package2}\PYG{p}{,}
+    \PYG{k}{count} \PYG{k}{AS} \PYG{k}{count}
+\PYG{k}{FROM} \PYG{p}{[}\PYG{n}{wide}\PYG{o}{\PYGZhy{}}\PYG{n}{silo}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{135723}\PYG{p}{:}\PYG{n}{github\PYGZus{}clustering}\PYG{p}{.}\PYG{n}{packages\PYGZus{}in\PYGZus{}file\PYGZus{}edges\PYGZus{}py}\PYG{p}{]}
+\PYG{k}{WHERE} \PYG{n}{package1} \PYG{o}{\PYGZlt{}} \PYG{n}{package2}
+\PYG{k}{ORDER} \PYG{k}{BY} \PYG{k}{count} \PYG{k}{DESC}
+\PYG{k}{LIMIT} \PYG{l+m+mi}{10}\PYG{p}{;}
+\end{Verbatim}

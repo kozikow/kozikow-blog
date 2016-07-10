@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}
+  \PYG{n}{package} \PYG{k}{AS} \PYG{n}{package}\PYG{p}{,}
+  \PYG{k}{COUNT}\PYG{p}{(}\PYG{n}{id}\PYG{p}{)} \PYG{k}{AS} \PYG{k}{count}
+\PYG{k}{FROM} \PYG{p}{[}\PYG{n}{github\PYGZus{}clustering}\PYG{p}{.}\PYG{n}{packages\PYGZus{}in\PYGZus{}file\PYGZus{}top\PYGZus{}py}\PYG{p}{]}
+\PYG{k}{GROUP} \PYG{k}{BY} \PYG{l+m+mi}{1}\PYG{p}{;}
+\end{Verbatim}

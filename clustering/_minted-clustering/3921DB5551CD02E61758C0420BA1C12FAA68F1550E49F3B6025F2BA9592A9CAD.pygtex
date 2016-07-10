@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{pos\PYGZus{}df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}json}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}fixed\PYGZhy{}positions.json\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{pos\PYGZus{}df}\PYG{o}{.}\PYG{n}{columns} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}id\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}x\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}y\PYGZdq{}}\PYG{p}{]}
+\PYG{n}{nodes\PYGZus{}df} \PYG{o}{=} \PYG{n}{nodes\PYGZus{}df}\PYG{o}{.}\PYG{n}{merge}\PYG{p}{(}\PYG{n}{pos\PYGZus{}df}\PYG{p}{,} \PYG{n}{on}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}id\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

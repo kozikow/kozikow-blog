@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} c will be collision strength}
+\PYG{n}{nodes\PYGZus{}df}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}c\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{([}\PYG{n}{nodes\PYGZus{}df}\PYG{o}{.}\PYG{n}{label}\PYG{o}{.}\PYG{n}{str}\PYG{o}{.}\PYG{n}{len}\PYG{p}{()} \PYG{o}{*} \PYG{l+m+mf}{1.8}\PYG{p}{,} \PYG{n}{nodes\PYGZus{}df}\PYG{o}{.}\PYG{n}{r}\PYG{p}{])}\PYG{o}{.}\PYG{n}{max}\PYG{p}{()} \PYG{o}{+} \PYG{l+m+mi}{5}
+\PYG{n}{nodes\PYGZus{}df} \PYG{o}{=} \PYG{n}{nodes\PYGZus{}df}\PYG{p}{[[}\PYG{l+s+s2}{\PYGZdq{}id\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}r\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}label\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}c\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}x\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}y\PYGZdq{}}\PYG{p}{]]}
+\PYG{n}{df\PYGZus{}to\PYGZus{}org}\PYG{p}{(}\PYG{n}{nodes\PYGZus{}df}\PYG{p}{)}
+\end{Verbatim}

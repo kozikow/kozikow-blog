@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{id\PYGZus{}map} \PYG{o}{=} \PYG{n}{nodes\PYGZus{}df}\PYG{o}{.}\PYG{n}{reset\PYGZus{}index}\PYG{p}{()}\PYG{o}{.}\PYG{n}{set\PYGZus{}index}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}package1\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{to\PYGZus{}dict}\PYG{p}{()[}\PYG{l+s+s2}{\PYGZdq{}index\PYGZdq{}}\PYG{p}{]}
+
+\PYG{k}{print} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{Series}\PYG{p}{(}\PYG{n}{id\PYGZus{}map}\PYG{p}{)}\PYG{o}{.}\PYG{n}{sort\PYGZus{}values}\PYG{p}{()[:}\PYG{l+m+mi}{5}\PYG{p}{]}
+\end{Verbatim}

@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}
+    \PYG{n}{GROUP\PYGZus{}CONCAT}\PYG{p}{(}\PYG{n}{package}\PYG{p}{,} \PYG{l+s+ss}{\PYGZdq{}, \PYGZdq{}}\PYG{p}{)} \PYG{k}{AS} \PYG{n}{packages}\PYG{p}{,}
+    \PYG{k}{COUNT}\PYG{p}{(}\PYG{n}{package}\PYG{p}{)} \PYG{k}{AS} \PYG{k}{count}
+\PYG{k}{FROM} \PYG{p}{[}\PYG{n}{wide}\PYG{o}{\PYGZhy{}}\PYG{n}{silo}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{135723}\PYG{p}{:}\PYG{n}{github\PYGZus{}clustering}\PYG{p}{.}\PYG{n}{packages\PYGZus{}in\PYGZus{}file\PYGZus{}py}\PYG{p}{]}
+\PYG{k}{WHERE} \PYG{n}{id} \PYG{o}{==} \PYG{l+s+ss}{\PYGZdq{}009e3877f01393ae7a4e495015c0e73b5aa48ea7\PYGZdq{}}
+\end{Verbatim}

@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}
+  \PYG{n}{id}\PYG{p}{,}
+  \PYG{n}{NEST}\PYG{p}{(}\PYG{k}{UNIQUE}\PYG{p}{(}\PYG{n}{COALESCE}\PYG{p}{(}
+      \PYG{n}{REGEXP\PYGZus{}EXTRACT}\PYG{p}{(}\PYG{n}{line}\PYG{p}{,} \PYG{n}{r}\PYG{l+s+ss}{\PYGZdq{}\PYGZca{}from ([a\PYGZhy{}zA\PYGZhy{}Z0\PYGZhy{}9\PYGZus{}\PYGZhy{}]+).*import\PYGZdq{}}\PYG{p}{),}
+      \PYG{n}{REGEXP\PYGZus{}EXTRACT}\PYG{p}{(}\PYG{n}{line}\PYG{p}{,} \PYG{n}{r}\PYG{l+s+ss}{\PYGZdq{}\PYGZca{}import ([a\PYGZhy{}zA\PYGZhy{}Z0\PYGZhy{}9\PYGZus{}\PYGZhy{}]+)\PYGZdq{}}\PYG{p}{))))} \PYG{k}{AS} \PYG{n}{package}
+\PYG{k}{FROM} \PYG{p}{(}
+  \PYG{k}{SELECT}
+    \PYG{n}{id} \PYG{k}{AS} \PYG{n}{id}\PYG{p}{,}
+    \PYG{n}{LTRIM}\PYG{p}{(}\PYG{n}{SPLIT}\PYG{p}{(}\PYG{n}{content}\PYG{p}{,} \PYG{l+s+ss}{\PYGZdq{}\PYGZbs{}n\PYGZdq{}}\PYG{p}{))} \PYG{k}{AS} \PYG{n}{line}\PYG{p}{,}
+  \PYG{k}{FROM}
+    \PYG{p}{[}\PYG{n}{fh}\PYG{o}{\PYGZhy{}}\PYG{n}{bigquery}\PYG{p}{:}\PYG{n}{github\PYGZus{}extracts}\PYG{p}{.}\PYG{n}{contents\PYGZus{}py}\PYG{p}{]}
+  \PYG{k}{HAVING}
+    \PYG{n}{line} \PYG{k}{CONTAINS} \PYG{l+s+ss}{\PYGZdq{}import\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{GROUP} \PYG{k}{BY} \PYG{n}{id}
+\PYG{k}{HAVING} \PYG{k}{LENGTH}\PYG{p}{(}\PYG{n}{package}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{;}
+\end{Verbatim}

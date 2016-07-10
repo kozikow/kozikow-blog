@@ -1,3 +1,4 @@
+// Uncomment the force parameters to re-run the simulation.
 var simulation = d3.forceSimulation(nodes)
     // .force("charge", d3.forceManyBody().strength(-400))
     // .force("link", d3.forceLink(links).distance(30).strength(function (d) {

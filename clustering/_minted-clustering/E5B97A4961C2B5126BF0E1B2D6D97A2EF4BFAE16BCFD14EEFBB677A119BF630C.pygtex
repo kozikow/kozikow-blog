@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}
+    \PYG{k}{COUNT}\PYG{p}{(}\PYG{k}{DISTINCT}\PYG{p}{(}\PYG{n}{package}\PYG{p}{))}
+\PYG{k}{FROM} \PYG{p}{[}\PYG{n}{wide}\PYG{o}{\PYGZhy{}}\PYG{n}{silo}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{135723}\PYG{p}{:}\PYG{n}{github\PYGZus{}clustering}\PYG{p}{.}\PYG{n}{packages\PYGZus{}in\PYGZus{}file\PYGZus{}top\PYGZus{}py}\PYG{p}{];}
+\end{Verbatim}

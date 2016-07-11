@@ -36,8 +36,8 @@ Types of insights you can use this for:
 - Use this to evaluate which web framework to use. You may think that [[http://clustering.kozikow.com/?center=django][django]] became too heavyweight or some other framework have dying community.
 - Find some interesting python use cases, like [[http://clustering.kozikow.com/?center=rospy][robotics cluster]].
 
-[[https://github.com/kozikow/kozikow-blog/blob/master/clustering/clustering.org][Revision history of this post is on github.]]
-
+[[https://github.com/kozikow/kozikow-blog/blob/master/clustering/clustering.org][Revision history of this post is on github]] in the [[https://kozikow.com/2016/05/21/very-powerful-data-analysis-environment-org-mode-with-ob-ipython/][org mode]].
+ 
 * Analysis of specific clusters
 ** [[http://clustering.kozikow.com/?center=numpy][Scientific python land]]
   Unsurprisingly, it is centered on [[http://clustering.kozikow.com/?center=numpy][numpy]].
@@ -539,3 +539,9 @@ approach at this point would be to try some ways of [[*Reduce an effect of a hea
 
 # screenshot.png http://kozikow.files.wordpress.com/2016/07/screenshot.png
 # /home/kozikow/git_repos/github/kozikow-blog/clustering/screenshot.png http://kozikow.files.wordpress.com/2016/07/screenshot1.png
+* Other posts
+You may be interested in my other posts analyzing github data:
+- [[https://kozikow.com/2016/07/01/top-pandas-functions-used-in-github-repos/][Top pandas, numpy and scipy functions used in github repos]]
+- [[https://kozikow.com/2016/06/05/more-advanced-github-code-search/][More advanced github code search]]
+- [[https://kozikow.com/2016/07/01/top-angular-directives-on-github/][Top angular directives on github, including custom directives]]
+- [[https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/][Top emacs packages used in github repos]]

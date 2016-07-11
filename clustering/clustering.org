@@ -89,7 +89,7 @@ Alternatively, I could cluster nodes prior to visualization and let users hide s
 In current visualization, big central packages like [[http://clustering.kozikow.com/?center=django][django]], [[http://clustering.kozikow.com/?center=numpy][numpy]], [[http://clustering.kozikow.com/?center=os][os]] and [[http://clustering.kozikow.com/?center=sys][sys]]
 dominate the graph. I believe that they dominate some of the smaller, more relevant relationships between smaller packages.
 
-I thought about replacing edge weight \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\) by \((\frac{ |A \cap B|}{|A| * |B|})^2\), but that could end up clustering packages by size rather than by common usage.
+Using the [[https://en.wikipedia.org/wiki/Pointwise_mutual_information#Normalized_pointwise_mutual_information_.28npmi.29][normalized pointwise mutual information]] seems promising.
 ** Search for "Alternatives to package X", e.g. seaborn vs bokeh
 For example, it would be interesting to cluster together all python data visualization packages.
 

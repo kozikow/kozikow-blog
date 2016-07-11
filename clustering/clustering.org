@@ -1,8 +1,8 @@
-#+POSTID: 818
-#+OPTIONS: toc:3
+#+DATE: [2016-07-10 Sun 21:24]
+#+BLOG: wordpress
+#+POSTID: 824
 #+OPTIONS: todo:t
 #+TITLE: Visualizing relationships between python packages
-#+DATE: <2016-05-22 Sun>
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
@@ -13,11 +13,13 @@ You can see the app at http://clustering.kozikow.com?center=numpy. You can:
 - Pass different package names as a query argument in the URL.
 - Scroll the page horizontally and vertically.
 - Click a node to open the pypi. Note that not all packages are on pypi.
+- I will migrate to the [[https://github.com/graphistry/pygraphistry][graphistry]] soon. It will let you mouse over the package or zoom in and out.
 
 Graph properties:
 - Each node is each python package found on github. Radius is calculated in [[*DataFrame with nodes][DataFrame with nodes]] section.
 - For two packages A and B, weight of an edge is \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\), where \(|A \cap B|\) is number of occurrences of packages A and B within the same file.
-- Edges with weight smaller than 0.33 are removed.
+  I will migrate to [[https://en.wikipedia.org/wiki/Pointwise_mutual_information][Pointwise mutual information]] soon. 
+- Edges with weight smaller than 0.1 are removed.
 - Algorithm searches for minimal energy state by the Verlet Integration according to [[*Simulation parameters][simulation parameters.]]
   
 Center contains mostly standard library and the most interesting things are on the outskirts.
@@ -51,17 +53,17 @@ Web frameworks are interesting:
 - It could be said that [[http://clustering.kozikow.com/?center=sqlalchemy][sqlalchemy]] is a center of web frameworks land.
 - Found nearby, there's a massive and monolithic cluster for [[http://clustering.kozikow.com/?center=django][django]].
 - Smaller nearby clusters for [[http://clustering.kozikow.com/?center=flask][flask]] and [[http://clustering.kozikow.com/?center=pyramid][pyramid]].
-- [[http://clustering.kozikow.com/?center=pylons][pylons]], lacking cluster of it's own, in between django and sqlalchemy.
+- [[http://clustering.kozikow.com/?center=pylons][pylons]], lacking a cluster of its own, in between django and sqlalchemy.
 - Small cluster for [[http://www.zope.org/][zope]], also nearby sqlalchemy
-- [[http://clustering.kozikow.com/?center=tornado][tornado]] got swallowed by big cluster of standard library, "kernel" in the middle, but is still close to other web frameworks.
+- [[http://clustering.kozikow.com/?center=tornado][tornado]] got swallowed by the big cluster of standard library in the middle, but is still close to other web frameworks.
 - Some smaller web frameworks like [[http://clustering.kozikow.com/?center=gluon][gluon (web2py)]] or [[http://clustering.kozikow.com/?center=tg][turbo gears]] ended up close to django, but barely visible and without clusters of their own.
 ** [[http://clustering.kozikow.com/?center=nova][Open stack land]]
 Cloud computing, open stack and low level networking land centered at [[http://clustering.kozikow.com/?center=nova][nova]]
-contains packages like oslo, nova, webob, neutron, ironic or netaddr.
+contain packages like oslo, nova, webob, neutron, ironic or netaddr.
 ** [[http://clustering.kozikow.com/?center=unittest][Testing land]]
 Centered on [[http://clustering.kozikow.com/?center=unittest][unittest]]. Some packages in the cluster are [[https://pypi.python.org/pypi/testfixtures][testfixtures]] or [[https://pypi.python.org/pypi/atomic-reactor][atomic-reactor]].
 ** Gaming
-Cluster for some gaming related libraries, centered around [[http://clustering.kozikow.com/?center=pygame][pygame]]
+Cluster for some gaming related libraries, is centered around [[http://clustering.kozikow.com/?center=pygame][pygame.]]
 * Potentials for further analysis
 ** Other programming languages
 Majority of the code is not specific to python. Only the first step, [[*Create a table with packages][create a table with packages,]] is specific to python.
@@ -80,12 +82,12 @@ Removing standard library could improve the quality of visualization.
 Removing just standard library is not easily generalizeable to other programming languages.
 
 Removing the biggest cluster as detected by clustering algorithm from [[http://scikit-learn.org/stable/modules/clustering.html][sklearn]] or [[http://networkx.readthedocs.io/en/networkx-1.11/reference/algorithms.clustering.html][networkx]] could work well.
-Alternatively, cluster nodes prior to visualization and let users hide some clusters from the javascript (and re-run the force layout simulation).
+Alternatively, I could cluster nodes prior to visualization and let users hide some clusters from the browser.
 ** Reduce an effect of heavy weight packages
 In current visualization, big central packages like [[http://clustering.kozikow.com/?center=django][django]], [[http://clustering.kozikow.com/?center=numpy][numpy]], [[http://clustering.kozikow.com/?center=os][os]] and [[http://clustering.kozikow.com/?center=sys][sys]]
 dominate the graph. I believe that they dominate some of the smaller, more relevant relationships between smaller packages.
 
-I thought about replacing edge weight from \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\) by \((\frac{ |A \cap B|}{|A| * |B|})^2\), but that could end up clustering packages by size rather than by common usage.
+I thought about replacing edge weight \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\) by \((\frac{ |A \cap B|}{|A| * |B|})^2\), but that could end up clustering packages by size rather than by common usage.
 ** Search for "Alternatives to package X", e.g. seaborn vs bokeh
 For example, it would be interesting to cluster together all python data visualization packages.
 
@@ -93,9 +95,11 @@ Intuitively, such packages would be used in similar context, but would be rarely
 They would have high correlation of their neighbor weights, but low direct edge.
 This would work in many situations, but there are some others it wouldn't handle well.
 Example case it wouldn't handle well: 
-- django built in ORM is an alternative to sqlalchemy
-- django ORM is only used in django and can be replaced by sqlalchemy
+- sqlalchemy is an alternative to django built-in ORM.
+- django ORM is only used in django.
 - django ORM is not well usable in other web frameworks like flask. 
+- other web frameworks make heavy use of flask ORM, but not django built-in ORM.
+Therefore, django ORM and sqlalchemy wouldn't have their neighbor weights correlated.
 I might got some ORM details wrong, as I don't do much web dev.
 ** networkx and graph_tool packages
 Thanks to this visualization I have found about [[http://clustering.kozikow.com?center=networkx][networkx]] and graph_tool packages.
@@ -104,6 +108,10 @@ I plan to take a look at package dependency data using those packages.
 ** Within repository relationship
 Currently, I am only looking at imports within the same file.
 It could be interesting to look at the same graph built using "within same repository" relationship.
+** Highlight when overlay
+- Highlight a node and edges when overlaying with mouse.
+- List all edges in a popup
+- Potentially let user reduce number of packages
 * Data
 - [[http://clustering.kozikow.com/graph.js][Post-processed JSON data used by d3]]
 - [[https://bigquery.cloud.google.com/dataset/wide-silo-135723:github_clustering][Publicly available BigQuery tables with all the data]]. See Reproduce section to see how each table was generated.
@@ -268,12 +276,15 @@ Create wide-silo-135723:github_clustering.packages_in_file_nodes_py:
 | time       |  359073 |
 | re         |  349309 |
 
-Create table packages_in_file_edges_top_py:
-#+BEGIN_SRC sql :results output
+Create the table packages_in_file_edges_top_py:
+#+BEGIN_SRC sql
   SELECT
       edges.package1 AS package1,
       edges.package2 AS package2,
-      edges.count / IF(nodes1.count < nodes2.count, nodes1.count, nodes2.count) AS strength,
+      # Wordpress gets confused by less than sign after nodes1.count
+      edges.count / IF(nodes1.count nodes2.count,
+          nodes1.count,
+          nodes2.count) AS strength,
       edges.count AS count
   FROM [wide-silo-135723:github_clustering.packages_in_file_edges_py] AS edges
   JOIN [wide-silo-135723:github_clustering.packages_in_file_nodes_py] AS nodes1
@@ -287,7 +298,7 @@ Create table packages_in_file_edges_top_py:
 [[https://docs.google.com/spreadsheets/d/1hbQAIyDUigIsEajcpNOXbmldgfLmEqsOE729SPTVpmA/edit?usp=sharing][Full results in google docs.]]
 ** Process data with Pandas to json
 *** Load csv and verify edges with pandas
-#+BEGIN_SRC ipython :session :noexport
+#+BEGIN_SRC ipython :session :exports none
   def arr_to_org(arr):
       line = "|".join(str(item) for item in arr)
       return "|{}|".format(line)
@@ -442,7 +453,7 @@ Download all positions after the simulation from the javascript console:
   JSON.stringify()
 #+END_EXAMPLE
 
-According to [[https://github.com/d3/d3-force/blob/master/README.md#simulation_nodes][d3 documentation]], by setting parameter "fx" and "fy" of node we will set it's fixed position.
+Join the positions x and y with edges dataframe, so they will get picked up by the d3.
 #+BEGIN_SRC ipython :session :results output :exports both
   pos_df = pd.read_json("fixed-positions.json")
   pos_df.columns = ["id", "x", "y"]
@@ -453,7 +464,7 @@ According to [[https://github.com/d3/d3-force/blob/master/README.md#simulation_n
 
 *** Truncate nodes DataFrame
 #+BEGIN_SRC ipython :session :results output raw drawer :exports both
-  # c will be collision strength
+  # c will be collision strength. Prevent labels from overlaping.
   nodes_df["c"] = pd.DataFrame([nodes_df.label.str.len() * 1.8, nodes_df.r]).max() + 5
   nodes_df = nodes_df[["id", "r", "label", "c", "x", "y"]]
   df_to_org(nodes_df)
@@ -481,14 +492,30 @@ According to [[https://github.com/d3/d3-force/blob/master/README.md#simulation_n
 
 #+RESULTS:
 ** Draw a graph using the new d3 Verlet Integration algorithm
-*** The physical simulation
+The physical simulation
 Simulation uses the new [[https://github.com/d3/d3/blob/master/API.md#forces-d3-force][velocity Verlet integration force graph
 in d3 v 4.0.]] Simulation takes about one minute to stabilize, so
 for viewing purposes I hard-coded the position of node after running simulation on my machine.
 
+The core component of the simulation is:
+#+BEGIN_SRC javascript :results output
+  var simulation = d3.forceSimulation(nodes)
+      .force("charge", d3.forceManyBody().strength(-400))
+      .force("link", d3.forceLink(links).distance(30).strength(function (d) {
+          return d.strength * d.strength;
+      }))
+      .force("collide", d3.forceCollide().radius(function(d) {
+          return d.c;
+      }).strength(5))
+      .force("x", d3.forceX().strength(0.1))
+      .force("y", d3.forceY().strength(0.1))
+      .on("tick", ticked);
+#+END_SRC
+
 To re-run the simulation you can:
 - Remove fixed positions added in [[*After running simulation in the browser, get saved positions][one of pandas processing steps]].
 - Uncomment the "forces" in the [[https://github.com/kozikow/kozikow-blog/blob/master/clustering/index2.js#L2][javascript file.]]
+
 *** Simulation parameters
 I have been tweaking simulation parameters for a while.
 Very dense "center" of the graph is in conflict with clusters on the edge of the graph.

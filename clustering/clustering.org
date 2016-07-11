@@ -6,8 +6,12 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
-Using the [[https://github.com/blog/2201-making-open-source-data-more-available%2520][github data on BigQuery]] and new [[https://github.com/d3/d3-force][force layout in d3 via the Verlet numerical integration]] I implemented
+Using the [[https://github.com/blog/2201-making-open-source-data-more-available%2520][github data on BigQuery]] and the new [[https://github.com/d3/d3-force][force layout in d3 via the velocity verlet integration]] I implemented
 graph visualization of relationships between 3500 most popular python packages.
+
+See the screenshot of the numpy cluster:
+
+[[file:screenshot.png][file:~/git_repos/github/kozikow-blog/clustering/screenshot.png]]
 
 Center cluster of "standard library" indeed looks like "a bag of wool that my cat would want to play with", but there
 are relevant clusters on the outskirts, like [[http://clustering.kozikow.com?center=numpy][scientific python]] or [[http://clustering.kozikow.com/?center=django][django]].
@@ -16,19 +20,15 @@ You can see the app at http://clustering.kozikow.com?center=numpy. You can:
 - Pass different package names as a query argument in the URL.
 - Scroll the page horizontally and vertically.
 - Click a node to open the pypi. Note that not all packages are on pypi.
-- I will migrate to the [[https://github.com/graphistry/pygraphistry][graphistry]] soon. It will let you mouse over the package or zoom in and out.
+- I will migrate it to the [[https://github.com/graphistry/pygraphistry][graphistry]] soon. It will let you zoom in/out, mouse over the package to highlight neighbors or hide clusters.
 
 Graph properties:
 - Each node is each python package found on github. Radius is calculated in [[*DataFrame with nodes][DataFrame with nodes]] section.
 - For two packages A and B, weight of an edge is \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\), where \(|A \cap B|\) is number of occurrences of packages A and B within the same file.
   I will migrate it to the [[https://en.wikipedia.org/wiki/Pointwise_mutual_information#Normalized_pointwise_mutual_information_.28npmi.29][normalized pointwise mutual information]] soon.
 - Edges with weight smaller than 0.1 are removed.
-- Algorithm searches for minimal energy state by the Verlet Integration according to [[*Simulation parameters][simulation parameters.]]
+- Algorithm searches for minimal energy state by the velocity verlet Integration according to [[*Simulation parameters][simulation parameters.]]
   
-
-See the screenshot of the numpy cluster:
-
-[[file:screenshot.png][file:~/git_repos/github/kozikow-blog/clustering/screenshot.png]]
 
 Graph visualizations often lack actionable insights except looking cool.
 Types of insights you can use this for:
@@ -493,9 +493,9 @@ Join the positions x and y with edges dataframe, so they will get picked up by t
 #+END_SRC
 
 #+RESULTS:
-** Draw a graph using the new d3 Verlet Integration algorithm
+** Draw a graph using the new d3 velocity verlet integration algorithm
 The physical simulation
-Simulation uses the new [[https://github.com/d3/d3/blob/master/API.md#forces-d3-force][velocity Verlet integration force graph
+Simulation uses the new [[https://github.com/d3/d3/blob/master/API.md#forces-d3-force][velocity verlet integration force graph
 in d3 v 4.0.]] Simulation takes about one minute to stabilize, so
 for viewing purposes I hard-coded the position of node after running simulation on my machine.
 

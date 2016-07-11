@@ -227,6 +227,65 @@ So far I have been using custom elisp code, but a few things can be nicer about 
        $0
        ,#+END_SRC
 #+END_SRC
+* Formatting numpy arrays, pandas dataframes and panels
+#+BEGIN_SRC ipython :session :results output raw drawer :exports both
+  MAX_ROWS = 10
+  MAX_COLS = 8
+  MAX_PANELS = 3
+
+
+  def arr_to_org(arr, print_all_cols=False, print_header=False):
+      if len(arr) > MAX_COLS and (not print_all_cols):
+          line = u"|".join(unicode(item) for item in arr[:MAX_COLS])
+          if print_header:
+              line += "|" + str(len(arr) - MAX_COLS) + " more columns"
+          else:
+              line += "|..."
+      else:
+          line = u"|".join(unicode(item) for item in arr)
+
+      return u"|{}|".format(line)
+
+
+  def format_index(df):
+      if df.index.names[0]:
+          return u"{} index".format(df.index.names)
+      else:
+          return u"{} index".format(df.index.dtype)
+
+
+  def df_to_org_all(df, print_all_cols=False):
+      print u"\n".join([u"|{}".format(format_index(df)) +
+                        arr_to_org(df.columns.values, print_all_cols, True)] +
+                       [u"|-"] +
+                       [u"|" + unicode(idx) + arr_to_org(row, print_all_cols, False)
+                        for (idx, row) in zip(df.index, df.values)])
+
+
+  def df_to_org(df, print_all=False):
+      if print_all or len(df) <= MAX_ROWS:
+          df_to_org_all(df, print_all)
+      else:
+          df_to_org_all(df[:MAX_ROWS], print_all)
+          print "|", len(df) - MAX_ROWS, " more rows"
+
+
+  def np_to_org(arr):
+      df_to_org(pd.DataFrame(arr))
+
+
+  def panel_to_org(panel, print_all=False):
+      idx = 0
+      for name, item in panel.iteritems():
+          if not print_all:
+              if idx >= MAX_PANELS:
+                  print "\nRemaining panels: ", panel.items[MAX_PANELS:].values
+                  break
+              idx += 1
+          print "\nPanel item ", name
+          df_to_org(item)
+#+END_SRC
+
 * Examples
 ** Org table to pandas and plotting
 #+TBLNAME: data_table
@@ -379,7 +438,6 @@ This should work:
   (browse-url-emacs
    "https://raw.githubusercontent.com/dfeich/org-babel-examples/master/python/ipython-babel.org")
 #+END_SRC
-
 * Additional configuration I plan to do
 Problems I did not resolve yet:
 ** TODO =ob-ipython-inspect= in popup

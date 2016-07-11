@@ -9,6 +9,9 @@
 Using the [[https://github.com/blog/2201-making-open-source-data-more-available%2520][github data on BigQuery]] and new [[https://github.com/d3/d3-force][force layout in d3 via the Verlet numerical integration]] I implemented
 graph visualization of relationships between 3500 most popular python packages.
 
+Center cluster of "standard library" indeed looks like "a bag of wool that my cat would want to play with", but there
+are relevant clusters on the outskirts, like [[http://clustering.kozikow.com?center=numpy][scientific python]] or [[http://clustering.kozikow.com/?center=django][django]].
+
 You can see the app at http://clustering.kozikow.com?center=numpy. You can:
 - Pass different package names as a query argument in the URL.
 - Scroll the page horizontally and vertically.
@@ -18,11 +21,10 @@ You can see the app at http://clustering.kozikow.com?center=numpy. You can:
 Graph properties:
 - Each node is each python package found on github. Radius is calculated in [[*DataFrame with nodes][DataFrame with nodes]] section.
 - For two packages A and B, weight of an edge is \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\), where \(|A \cap B|\) is number of occurrences of packages A and B within the same file.
-  I will migrate to [[https://en.wikipedia.org/wiki/Pointwise_mutual_information][Pointwise mutual information]] soon. 
+  I will migrate it to the [[https://en.wikipedia.org/wiki/Pointwise_mutual_information#Normalized_pointwise_mutual_information_.28npmi.29][normalized pointwise mutual information]] soon.
 - Edges with weight smaller than 0.1 are removed.
 - Algorithm searches for minimal energy state by the Verlet Integration according to [[*Simulation parameters][simulation parameters.]]
   
-Center contains mostly standard library and the most interesting things are on the outskirts.
 
 See the screenshot of the numpy cluster:
 

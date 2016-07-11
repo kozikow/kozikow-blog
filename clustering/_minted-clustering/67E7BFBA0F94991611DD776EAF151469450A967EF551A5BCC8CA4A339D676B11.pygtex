@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{var} \PYG{n+nx}{simulation} \PYG{o}{=} \PYG{n+nx}{d3}\PYG{p}{.}\PYG{n+nx}{forceSimulation}\PYG{p}{(}\PYG{n+nx}{nodes}\PYG{p}{)}
+    \PYG{p}{.}\PYG{n+nx}{force}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}charge\PYGZdq{}}\PYG{p}{,} \PYG{n+nx}{d3}\PYG{p}{.}\PYG{n+nx}{forceManyBody}\PYG{p}{().}\PYG{n+nx}{strength}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{400}\PYG{p}{))}
+    \PYG{p}{.}\PYG{n+nx}{force}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}link\PYGZdq{}}\PYG{p}{,} \PYG{n+nx}{d3}\PYG{p}{.}\PYG{n+nx}{forceLink}\PYG{p}{(}\PYG{n+nx}{links}\PYG{p}{).}\PYG{n+nx}{distance}\PYG{p}{(}\PYG{l+m+mi}{30}\PYG{p}{).}\PYG{n+nx}{strength}\PYG{p}{(}\PYG{k+kd}{function} \PYG{p}{(}\PYG{n+nx}{d}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{k}{return} \PYG{n+nx}{d}\PYG{p}{.}\PYG{n+nx}{strength} \PYG{o}{*} \PYG{n+nx}{d}\PYG{p}{.}\PYG{n+nx}{strength}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}))}
+    \PYG{p}{.}\PYG{n+nx}{force}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}collide\PYGZdq{}}\PYG{p}{,} \PYG{n+nx}{d3}\PYG{p}{.}\PYG{n+nx}{forceCollide}\PYG{p}{().}\PYG{n+nx}{radius}\PYG{p}{(}\PYG{k+kd}{function}\PYG{p}{(}\PYG{n+nx}{d}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{k}{return} \PYG{n+nx}{d}\PYG{p}{.}\PYG{n+nx}{c}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}).}\PYG{n+nx}{strength}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{))}
+    \PYG{p}{.}\PYG{n+nx}{force}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}x\PYGZdq{}}\PYG{p}{,} \PYG{n+nx}{d3}\PYG{p}{.}\PYG{n+nx}{forceX}\PYG{p}{().}\PYG{n+nx}{strength}\PYG{p}{(}\PYG{l+m+mf}{0.1}\PYG{p}{))}
+    \PYG{p}{.}\PYG{n+nx}{force}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}y\PYGZdq{}}\PYG{p}{,} \PYG{n+nx}{d3}\PYG{p}{.}\PYG{n+nx}{forceY}\PYG{p}{().}\PYG{n+nx}{strength}\PYG{p}{(}\PYG{l+m+mf}{0.1}\PYG{p}{))}
+    \PYG{p}{.}\PYG{n+nx}{on}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}tick\PYGZdq{}}\PYG{p}{,} \PYG{n+nx}{ticked}\PYG{p}{);}
+\end{Verbatim}

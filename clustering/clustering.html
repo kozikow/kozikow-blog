@@ -1,0 +1,1514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2016-07-11 Mon 10:17 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title>Visualizing relationships between python packages</title>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Robert Kozikowski" />
+<style type="text/css">html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block}audio:not([controls]){display:none;height:0}progress{vertical-align:baseline}[hidden],template{display:none}a{background-color:transparent;-webkit-text-decoration-skip:objects}a:active,a:hover{outline-width:0}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:inherit;font-weight:bolder}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background-color:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}svg:not(:root){overflow:hidden}code,kbd,pre,samp{font-family:monospace;font-size:1em}figure{margin:1em 40px}hr{box-sizing:content-box;height:0;overflow:visible}button,input,select,textarea{font:inherit;margin:0}optgroup{font-weight:700}button,input{overflow:visible}button,select{text-transform:none}[type=reset],[type=submit],button,html [type=button]{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-cancel-button,[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-input-placeholder{color:inherit;opacity:.54}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}body{width:95%;margin:2%;font:normal normal normal 17px/1.6em Helvetica,sans-serif;color:#333}@media (min-width:769px){body{width:700px;margin-left:5vw}}.title{margin:auto;color:#000}.subtitle,.title{text-align:center}.subtitle{font-size:medium;font-weight:700}.abstract{margin:auto;width:80%;font-style:italic}.abstract p:last-of-type:before{content:"    ";white-space:pre}.status{font-size:90%;margin:2em auto}[class^=section-number-]{margin-right:.5em}#footnotes{font-size:90%}.footpara{display:inline;margin:.2em auto}.footdef{margin-bottom:1em}.footdef sup{padding-right:.5em}a{color:#527d9a;text-decoration:none}a:hover{color:#035;border-bottom:1px dotted}figure{padding:0;margin:0;text-align:center}img{max-width:100%;vertical-align:middle}@media (min-width:769px){img{max-width:85vw;margin:auto}}.MathJax_Display{margin:0!important;width:90%!important}h1,h2,h3,h4,h5,h6{color:#a5573e;line-height:1.6em;font-family:Georgia,serif}h4,h5,h6{font-size:1em}dt{font-weight:700}table{margin:auto;border-top:2px solid;border-collapse:collapse}table,thead{border-bottom:2px solid}table td+td,table th+th{border-left:1px solid gray}table tr{border-top:1px solid #d3d3d3}td,th{padding:5px 10px;vertical-align:middle}caption.t-above{caption-side:top}caption.t-bottom{caption-side:bottom}th.org-center,th.org-left,th.org-right{text-align:center}td.org-right{text-align:right}td.org-left{text-align:left}td.org-center{text-align:center}code{padding:2px 5px;margin:auto 1px;border:1px solid #ddd;border-radius:3px;background-clip:padding-box;color:#333;font-size:80%}blockquote{margin:1em 2em;padding-left:1em;border-left:3px solid #ccc}kbd{background-color:#f7f7f7;font-size:80%;margin:0 .1em;padding:.1em .6em}.todo{color:red}.done,.todo{font-family:Lucida Console,monospace}.done{color:green}.priority{color:orange}.priority,.tag{font-family:Lucida Console,monospace}.tag{background-color:#eee;font-size:80%;font-weight:400;padding:2px}.timestamp{color:#bebebe}.timestamp-kwd{color:#5f9ea0}.org-right{margin-left:auto;margin-right:0;text-align:right}.org-left{margin-left:0;margin-right:auto;text-align:left}.org-center{margin-left:auto;margin-right:auto;text-align:center}.underline{text-decoration:underline}#postamble p,#preamble p{font-size:90%;margin:.2em}p.verse{margin-left:3%}pre{border:1px solid #ccc;box-shadow:3px 3px 3px #eee;font-family:Lucida Console,monospace;margin:1.2em;padding:8pt}pre.src{overflow:auto;padding-top:1.2em;position:relative;font-size:80%}pre.src:before{background-color:#fff;border:1px solid #000;display:none;padding:3px;position:absolute;right:10px;top:.6em}pre.src:hover:before{display:inline}pre.src-sh:before{content:'sh'}pre.src-bash:before{content:'bash'}pre.src-emacs-lisp:before{content:'Emacs Lisp'}pre.src-R:before{content:'R'}pre.src-org:before{content:'Org'}pre.src-c+:before{content:'C++'}pre.src-c:before{content:'C'}pre.src-html:before{content:'HTML'}pre.example{overflow:auto;padding-top:1.2em;position:relative;font-size:80%}.inlinetask{background:#ffc;border:2px solid gray;margin:10px;padding:10px}#org-div-home-and-up{font-size:70%;text-align:right;white-space:nowrap}.linenr{font-size:smaller}.code-highlighted{background-color:#ff0}#bibliography{font-size:90%}#bibliography table{width:100%}.creator{display:block}@media (min-width:769px){.creator{display:inline;float:right}}</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Visualizing relationships between python packages</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">1. Introduction</a></li>
+<li><a href="#Analysis-of-specific-clusters">2. Analysis of specific clusters</a>
+<ul>
+<li><a href="#-http-clustering-kozikow-com-center-numpy-Scientific-python-land-">2.1. Scientific python land</a></li>
+<li><a href="#-http-clustering-kozikow-com-center-rospy-Robotics-land-">2.2. Robotics land</a></li>
+<li><a href="#Web-frameworks">2.3. Web frameworks</a></li>
+<li><a href="#-http-clustering-kozikow-com-center-nova-Open-stack-land-">2.4. Open stack land</a></li>
+<li><a href="#-http-clustering-kozikow-com-center-unittest-Testing-land-">2.5. Testing land</a></li>
+<li><a href="#Gaming">2.6. Gaming</a></li>
+</ul>
+</li>
+<li><a href="#Potentials-for-further-analysis">3. Potentials for further analysis</a>
+<ul>
+<li><a href="#Other-programming-languages">3.1. Other programming languages</a></li>
+<li><a href="#Reduce-an-effect-of-a-heavy-weight-center-cluster">3.2. Reduce an effect of a heavy weight center cluster</a></li>
+<li><a href="#Reduce-an-effect-of-heavy-weight-packages">3.3. Reduce an effect of heavy weight packages</a></li>
+<li><a href="#Search-for-Alternatives-to-package-X-e-g-seaborn-vs-bokeh">3.4. Search for "Alternatives to package X", e.g. seaborn vs bokeh</a></li>
+<li><a href="#networkx-and-graph-tool-packages">3.5. networkx and graph_tool packages</a></li>
+<li><a href="#Within-repository-relationship">3.6. Within repository relationship</a></li>
+<li><a href="#Highlight-when-overlay">3.7. Highlight when overlay</a></li>
+</ul>
+</li>
+<li><a href="#Data">4. Data</a></li>
+<li><a href="#Steps-to-reproduce">5. Steps to reproduce</a>
+<ul>
+<li><a href="#Extract-data-from-BigQuery">5.1. Extract data from BigQuery</a>
+<ul>
+<li><a href="#Create-a-table-with-packages">5.1.1. Create a table with packages</a></li>
+<li><a href="#Verify-the-packages-in-file-py-table">5.1.2. Verify the packages_in_file_py table</a></li>
+<li><a href="#Filter-out-not-popular-packages">5.1.3. Filter out not popular packages</a></li>
+<li><a href="#Generate-graph-edges">5.1.4. Generate graph edges</a></li>
+<li><a href="#Filter-out-irrelevant-edges">5.1.5. Filter out irrelevant edges</a></li>
+</ul>
+</li>
+<li><a href="#Process-data-with-Pandas-to-json">5.2. Process data with Pandas to json</a>
+<ul>
+<li><a href="#Load-csv-and-verify-edges-with-pandas">5.2.1. Load csv and verify edges with pandas</a></li>
+<li><a href="#DataFrame-with-nodes">5.2.2. DataFrame with nodes</a></li>
+<li><a href="#Create-map-of-node-name-id">5.2.3. Create map of node name -&gt; id</a></li>
+<li><a href="#Create-edges-data-frame">5.2.4. Create edges data frame</a></li>
+<li><a href="#Add-reversed-edge">5.2.5. Add reversed edge</a></li>
+<li><a href="#Truncate-edges-DataFrame">5.2.6. Truncate edges DataFrame</a></li>
+<li><a href="#After-running-simulation-in-the-browser-get-saved-positions">5.2.7. After running simulation in the browser, get saved positions</a></li>
+<li><a href="#Truncate-nodes-DataFrame">5.2.8. Truncate nodes DataFrame</a></li>
+<li><a href="#Save-files-to-json">5.2.9. Save files to json</a></li>
+</ul>
+</li>
+<li><a href="#Draw-a-graph-using-the-new-d3-Verlet-Integration-algorithm">5.3. Draw a graph using the new d3 Verlet Integration algorithm</a>
+<ul>
+<li><a href="#Simulation-parameters">5.3.1. Simulation parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Using the <a href="https://github.com/blog/2201-making-open-source-data-more-available%20">github data on BigQuery</a> and new <a href="https://github.com/d3/d3-force">force layout in d3 via the Verlet numerical integration</a> I implemented
+graph visualization of relationships between 3500 most popular python packages.
+</p>
+
+<p>
+Center cluster of "standard library" indeed looks like "a bag of wool that my cat would want to play with", but there
+are relevant clusters on the outskirts, like <a href="http://clustering.kozikow.com?center=numpy">scientific python</a> or <a href="http://clustering.kozikow.com/?center=django">django</a>.
+</p>
+
+<p>
+You can see the app at <a href="http://clustering.kozikow.com?center=numpy">http://clustering.kozikow.com?center=numpy</a>. You can:
+</p>
+<ul class="org-ul">
+<li>Pass different package names as a query argument in the URL.</li>
+<li>Scroll the page horizontally and vertically.</li>
+<li>Click a node to open the pypi. Note that not all packages are on pypi.</li>
+<li>I will migrate to the <a href="https://github.com/graphistry/pygraphistry">graphistry</a> soon. It will let you mouse over the package or zoom in and out.</li>
+</ul>
+
+<p>
+Graph properties:
+</p>
+<ul class="org-ul">
+<li>Each node is each python package found on github. Radius is calculated in <a href="#DataFrame-with-nodes">DataFrame with nodes</a> section.</li>
+<li>For two packages A and B, weight of an edge is \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\), where \(|A \cap B|\) is number of occurrences of packages A and B within the same file.
+I will migrate it to the <a href="https://en.wikipedia.org/wiki/Pointwise_mutual_information#Normalized_pointwise_mutual_information_.28npmi.29">normalized pointwise mutual information</a> soon.</li>
+<li>Edges with weight smaller than 0.1 are removed.</li>
+<li>Algorithm searches for minimal energy state by the Verlet Integration according to <a href="#Simulation-parameters">simulation parameters.</a></li>
+</ul>
+
+
+<p>
+See the screenshot of the numpy cluster:
+</p>
+
+
+<div class="figure">
+<p><a href="screenshot.png"><img src="file:///home/kozikow/git_repos/github/kozikow-blog/clustering/screenshot.png" alt="screenshot.png" /></a>
+</p>
+</div>
+
+<p>
+Graph visualizations often lack actionable insights except looking cool.
+Types of insights you can use this for:
+</p>
+<ul class="org-ul">
+<li>I have been exploring packages in the <a href="http://clustering.kozikow.com/?center=numpy">scientific python</a> cluster a lot, and I found a few things I plan to use.</li>
+<li>Use this to evaluate which web framework to use. You may think that <a href="http://clustering.kozikow.com/?center=django">django</a> became too heavyweight or some other framework have dying community.</li>
+<li>Find some interesting python use cases, like <a href="http://clustering.kozikow.com/?center=rospy">robotics cluster</a>.</li>
+</ul>
+
+<p>
+<a href="https://github.com/kozikow/kozikow-blog/blob/master/clustering/clustering.org">Revision history of this post is on github.</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-Analysis-of-specific-clusters" class="outline-2">
+<h2 id="Analysis-of-specific-clusters"><span class="section-number-2">2</span> Analysis of specific clusters</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container--http-clustering-kozikow-com-center-numpy-Scientific-python-land-" class="outline-3">
+<h3 id="-http-clustering-kozikow-com-center-numpy-Scientific-python-land-"><span class="section-number-3">2.1</span> <a href="http://clustering.kozikow.com/?center=numpy">Scientific python land</a></h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Unsurprisingly, it is centered on <a href="http://clustering.kozikow.com/?center=numpy">numpy</a>.
+Many of scientific packages are in close proximity, like scipy, pandas, sklearn or matplotlib.
+</p>
+
+<p>
+I have found package <a href="http://clustering.kozikow.com/?center=networkx">networkx</a> and <a href="http://clustering.kozikow.com/?center=graph_tool">graph_tool</a> in the nearby proximity, that I plan to use for analyzing data from this post.
+</p>
+
+<p>
+You can see even division between statistics and machine learning, by <a href="http://clustering.kozikow.com/?center=sklearn">sklearn</a> 
+being surrounded by packages like <a href="https://pypi.python.org/pypi/xgboost">xgboost</a> or theano.
+</p>
+</div>
+</div>
+<div id="outline-container--http-clustering-kozikow-com-center-rospy-Robotics-land-" class="outline-3">
+<h3 id="-http-clustering-kozikow-com-center-rospy-Robotics-land-"><span class="section-number-3">2.2</span> <a href="http://clustering.kozikow.com/?center=rospy">Robotics land</a></h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Nearby to scientific python land there is a robotics land centered at <a href="http://clustering.kozikow.com/?center=rospy">rospy</a>.
+Some computational geometry packages like <a href="http://clustering.kozikow.com/?center=shapely">shapely</a> are nearby.
+</p>
+</div>
+</div>
+<div id="outline-container-Web-frameworks" class="outline-3">
+<h3 id="Web-frameworks"><span class="section-number-3">2.3</span> Web frameworks</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Web frameworks are interesting:
+</p>
+<ul class="org-ul">
+<li>It could be said that <a href="http://clustering.kozikow.com/?center=sqlalchemy">sqlalchemy</a> is a center of web frameworks land.</li>
+<li>Found nearby, there's a massive and monolithic cluster for <a href="http://clustering.kozikow.com/?center=django">django</a>.</li>
+<li>Smaller nearby clusters for <a href="http://clustering.kozikow.com/?center=flask">flask</a> and <a href="http://clustering.kozikow.com/?center=pyramid">pyramid</a>.</li>
+<li><a href="http://clustering.kozikow.com/?center=pylons">pylons</a>, lacking a cluster of its own, in between django and sqlalchemy.</li>
+<li>Small cluster for <a href="http://www.zope.org/">zope</a>, also nearby sqlalchemy</li>
+<li><a href="http://clustering.kozikow.com/?center=tornado">tornado</a> got swallowed by the big cluster of standard library in the middle, but is still close to other web frameworks.</li>
+<li>Some smaller web frameworks like <a href="http://clustering.kozikow.com/?center=gluon">gluon (web2py)</a> or <a href="http://clustering.kozikow.com/?center=tg">turbo gears</a> ended up close to django, but barely visible and without clusters of their own.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container--http-clustering-kozikow-com-center-nova-Open-stack-land-" class="outline-3">
+<h3 id="-http-clustering-kozikow-com-center-nova-Open-stack-land-"><span class="section-number-3">2.4</span> <a href="http://clustering.kozikow.com/?center=nova">Open stack land</a></h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+Cloud computing, open stack and low level networking land centered at <a href="http://clustering.kozikow.com/?center=nova">nova</a>
+contain packages like oslo, nova, webob, neutron, ironic or netaddr.
+</p>
+</div>
+</div>
+<div id="outline-container--http-clustering-kozikow-com-center-unittest-Testing-land-" class="outline-3">
+<h3 id="-http-clustering-kozikow-com-center-unittest-Testing-land-"><span class="section-number-3">2.5</span> <a href="http://clustering.kozikow.com/?center=unittest">Testing land</a></h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Centered on <a href="http://clustering.kozikow.com/?center=unittest">unittest</a>. Some packages in the cluster are <a href="https://pypi.python.org/pypi/testfixtures">testfixtures</a> or <a href="https://pypi.python.org/pypi/atomic-reactor">atomic-reactor</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-Gaming" class="outline-3">
+<h3 id="Gaming"><span class="section-number-3">2.6</span> Gaming</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+Cluster for some gaming related libraries, is centered around <a href="http://clustering.kozikow.com/?center=pygame">pygame.</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-Potentials-for-further-analysis" class="outline-2">
+<h2 id="Potentials-for-further-analysis"><span class="section-number-2">3</span> Potentials for further analysis</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-Other-programming-languages" class="outline-3">
+<h3 id="Other-programming-languages"><span class="section-number-3">3.1</span> Other programming languages</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Majority of the code is not specific to python. Only the first step, <a href="#Create-a-table-with-packages">create a table with packages,</a> is specific to python.
+</p>
+
+<p>
+I had to do a lot of work on fitting the parameters in <a href="#Simulation-parameters">Simulation parameters</a> to make the graph look good enough.
+I suspect that I would have to do similar fitting to each language, as each language graph would have different properties.
+</p>
+
+<p>
+Probably majority of languages would have "heavy weight" center cluster that makes it hard to fit the parameters,
+so maybe removing the cluster like in described in <a href="#Reduce-an-effect-of-a-heavy-weight-center-cluster">Reduce an effect of a heavy weight center cluster</a> could make algorithm
+more easily generalizeable to other languages.
+</p>
+</div>
+</div>
+<div id="outline-container-Reduce-an-effect-of-a-heavy-weight-center-cluster" class="outline-3">
+<h3 id="Reduce-an-effect-of-a-heavy-weight-center-cluster"><span class="section-number-3">3.2</span> Reduce an effect of a heavy weight center cluster</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+"Standard library" cluster in the center is very heavyweight and includes many packages.
+It is also the least interesting, as everyone knows those packages, so there is little insight to be gained.
+</p>
+
+<p>
+Removing standard library could improve the quality of visualization.
+Removing just standard library is not easily generalizeable to other programming languages.
+</p>
+
+<p>
+Removing the biggest cluster as detected by clustering algorithm from <a href="http://scikit-learn.org/stable/modules/clustering.html">sklearn</a> or <a href="http://networkx.readthedocs.io/en/networkx-1.11/reference/algorithms.clustering.html">networkx</a> could work well.
+Alternatively, I could cluster nodes prior to visualization and let users hide some clusters from the browser.
+</p>
+</div>
+</div>
+<div id="outline-container-Reduce-an-effect-of-heavy-weight-packages" class="outline-3">
+<h3 id="Reduce-an-effect-of-heavy-weight-packages"><span class="section-number-3">3.3</span> Reduce an effect of heavy weight packages</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+In current visualization, big central packages like <a href="http://clustering.kozikow.com/?center=django">django</a>, <a href="http://clustering.kozikow.com/?center=numpy">numpy</a>, <a href="http://clustering.kozikow.com/?center=os">os</a> and <a href="http://clustering.kozikow.com/?center=sys">sys</a>
+dominate the graph. I believe that they dominate some of the smaller, more relevant relationships between smaller packages.
+</p>
+
+<p>
+I thought about replacing edge weight \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\) by \((\frac{ |A \cap B|}{|A| * |B|})^2\), but that could end up clustering packages by size rather than by common usage.
+</p>
+</div>
+</div>
+<div id="outline-container-Search-for-Alternatives-to-package-X-e-g-seaborn-vs-bokeh" class="outline-3">
+<h3 id="Search-for-Alternatives-to-package-X-e-g-seaborn-vs-bokeh"><span class="section-number-3">3.4</span> Search for "Alternatives to package X", e.g. seaborn vs bokeh</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+For example, it would be interesting to cluster together all python data visualization packages.
+</p>
+
+<p>
+Intuitively, such packages would be used in similar context, but would be rarely used together.
+They would have high correlation of their neighbor weights, but low direct edge.
+This would work in many situations, but there are some others it wouldn't handle well.
+Example case it wouldn't handle well: 
+</p>
+<ul class="org-ul">
+<li>sqlalchemy is an alternative to django built-in ORM.</li>
+<li>django ORM is only used in django.</li>
+<li>django ORM is not well usable in other web frameworks like flask.</li>
+<li>other web frameworks make heavy use of flask ORM, but not django built-in ORM.</li>
+</ul>
+<p>
+Therefore, django ORM and sqlalchemy wouldn't have their neighbor weights correlated.
+I might got some ORM details wrong, as I don't do much web dev.
+</p>
+</div>
+</div>
+<div id="outline-container-networkx-and-graph-tool-packages" class="outline-3">
+<h3 id="networkx-and-graph-tool-packages"><span class="section-number-3">3.5</span> networkx and graph_tool packages</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+Thanks to this visualization I have found about <a href="http://clustering.kozikow.com?center=networkx">networkx</a> and graph_tool packages.
+It have some niceties for analyzing graphs.
+I plan to take a look at package dependency data using those packages.
+</p>
+</div>
+</div>
+<div id="outline-container-Within-repository-relationship" class="outline-3">
+<h3 id="Within-repository-relationship"><span class="section-number-3">3.6</span> Within repository relationship</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+Currently, I am only looking at imports within the same file.
+It could be interesting to look at the same graph built using "within same repository" relationship.
+</p>
+</div>
+</div>
+<div id="outline-container-Highlight-when-overlay" class="outline-3">
+<h3 id="Highlight-when-overlay"><span class="section-number-3">3.7</span> Highlight when overlay</h3>
+<div class="outline-text-3" id="text-3-7">
+<ul class="org-ul">
+<li>Highlight a node and edges when overlaying with mouse.</li>
+<li>List all edges in a popup</li>
+<li>Potentially let user reduce number of packages</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-Data" class="outline-2">
+<h2 id="Data"><span class="section-number-2">4</span> Data</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li><a href="http://clustering.kozikow.com/graph.js">Post-processed JSON data used by d3</a></li>
+<li><a href="https://bigquery.cloud.google.com/dataset/wide-silo-135723:github_clustering">Publicly available BigQuery tables with all the data</a>. See Reproduce section to see how each table was generated.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-Steps-to-reproduce" class="outline-2">
+<h2 id="Steps-to-reproduce"><span class="section-number-2">5</span> Steps to reproduce</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-Extract-data-from-BigQuery" class="outline-3">
+<h3 id="Extract-data-from-BigQuery"><span class="section-number-3">5.1</span> Extract data from BigQuery</h3>
+<div class="outline-text-3" id="text-5-1">
+</div><div id="outline-container-Create-a-table-with-packages" class="outline-4">
+<h4 id="Create-a-table-with-packages"><span class="section-number-4">5.1.1</span> Create a table with packages</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<p>
+Save to wide-silo-135723:github_clustering.packages_in_file_py:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span>
+  id,
+  NEST<span style="color: #839496;">(</span><span style="color: #859900;">UNIQUE</span><span style="color: #2aa198;">(</span><span style="color: #6c71c4;">COALESCE</span><span style="color: #b58900;">(</span>
+      REGEXP_EXTRACT<span style="color: #859900;">(</span>line, r"^<span style="color: #859900;">from</span> <span style="color: #268bd2;">(</span><span style="color: #839496;">[</span>a-zA-Z0-9_-<span style="color: #839496;">]</span>+<span style="color: #268bd2;">)</span>.*import"<span style="color: #859900;">)</span>,
+      REGEXP_EXTRACT<span style="color: #859900;">(</span>line, r"^import <span style="color: #268bd2;">(</span><span style="color: #839496;">[</span>a-zA-Z0-9_-<span style="color: #839496;">]</span>+<span style="color: #268bd2;">)</span>"<span style="color: #859900;">)</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span><span style="color: #839496;">)</span> <span style="color: #859900;">AS</span> package
+<span style="color: #859900;">FROM</span> <span style="color: #839496;">(</span>
+  <span style="color: #859900;">SELECT</span>
+    id <span style="color: #859900;">AS</span> id,
+    LTRIM<span style="color: #2aa198;">(</span>SPLIT<span style="color: #b58900;">(</span>content, "\n"<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span> <span style="color: #859900;">AS</span> line,
+  <span style="color: #859900;">FROM</span>
+    <span style="color: #2aa198;">[</span>fh-bigquery:github_extracts.contents_py<span style="color: #2aa198;">]</span>
+  <span style="color: #859900;">HAVING</span>
+    line <span style="color: #859900;">CONTAINS</span> "import"<span style="color: #839496;">)</span>
+<span style="color: #859900;">GROUP</span> <span style="color: #859900;">BY</span> id
+<span style="color: #859900;">HAVING</span> <span style="color: #859900;">LENGTH</span><span style="color: #839496;">(</span>package<span style="color: #839496;">)</span> &gt; 0;
+</pre>
+</div>
+
+<p>
+Table will have two fields - id representing the file and repeated field with packages in the single file.
+Repeated fields are like arrays - <a href="http://stackoverflow.com/questions/32020714/what-does-repeated-field-in-google-bigquery-mean">the best description of repeated fields I found.</a>
+</p>
+
+<p>
+This is the only step that is specific for python.
+</p>
+</div>
+</div>
+<div id="outline-container-Verify-the-packages-in-file-py-table" class="outline-4">
+<h4 id="Verify-the-packages-in-file-py-table"><span class="section-number-4">5.1.2</span> Verify the packages_in_file_py table</h4>
+<div class="outline-text-4" id="text-5-1-2">
+<p>
+Check that imports have been correctly parsed out from some <a href="https://github.com/sunzhxjs/JobGIS/blob/master/lib/python2.7/site-packages/pandas/core/format.py">random file</a>.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span>
+    GROUP_CONCAT<span style="color: #839496;">(</span>package, ", "<span style="color: #839496;">)</span> <span style="color: #859900;">AS</span> packages,
+    <span style="color: #6c71c4;">COUNT</span><span style="color: #839496;">(</span>package<span style="color: #839496;">)</span> <span style="color: #859900;">AS</span> <span style="color: #6c71c4;">count</span>
+<span style="color: #859900;">FROM</span> <span style="color: #839496;">[</span>wide-silo-135723:github_clustering.packages_in_file_py<span style="color: #839496;">]</span>
+<span style="color: #859900;">WHERE</span> id == "009e3877f01393ae7a4e495015c0e73b5aa48ea7"
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="all">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">packages</th>
+<th scope="col" class="org-right">count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">distutils, itertools, numpy, decimal, pandas, csv, warnings, <span class="underline"><span class="underline">future</span></span>, IPython, math, locale, sys</td>
+<td class="org-right">12</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-Filter-out-not-popular-packages" class="outline-4">
+<h4 id="Filter-out-not-popular-packages"><span class="section-number-4">5.1.3</span> Filter out not popular packages</h4>
+<div class="outline-text-4" id="text-5-1-3">
+<div class="org-src-container">
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span>
+  <span style="color: #6c71c4;">COUNT</span><span style="color: #839496;">(</span><span style="color: #859900;">DISTINCT</span><span style="color: #2aa198;">(</span>package<span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>
+<span style="color: #859900;">FROM</span> <span style="color: #839496;">(</span><span style="color: #859900;">SELECT</span>
+  package,
+  <span style="color: #6c71c4;">count</span><span style="color: #2aa198;">(</span>id<span style="color: #2aa198;">)</span> <span style="color: #859900;">AS</span> <span style="color: #6c71c4;">count</span>
+<span style="color: #859900;">FROM</span> <span style="color: #2aa198;">[</span>wide-silo-135723:github_clustering.packages_in_file_py<span style="color: #2aa198;">]</span>
+<span style="color: #859900;">GROUP</span> <span style="color: #859900;">BY</span> 1<span style="color: #839496;">)</span>
+<span style="color: #859900;">WHERE</span> <span style="color: #6c71c4;">count</span> &gt; 200;
+</pre>
+</div>
+
+<p>
+There are 3501 packages with at least 200 occurrences and it seems like a fine cut off point. 
+Create a filtered table, wide-silo-135723:github_clustering.packages_in_file_top_py:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span>
+    id,
+    NEST<span style="color: #839496;">(</span>package<span style="color: #839496;">)</span> <span style="color: #859900;">AS</span> package
+<span style="color: #859900;">FROM</span> <span style="color: #839496;">(</span><span style="color: #859900;">SELECT</span>
+        package,
+        <span style="color: #6c71c4;">count</span><span style="color: #2aa198;">(</span>id<span style="color: #2aa198;">)</span> <span style="color: #859900;">AS</span> <span style="color: #6c71c4;">count</span>,
+        NEST<span style="color: #2aa198;">(</span>id<span style="color: #2aa198;">)</span> <span style="color: #859900;">AS</span> id
+    <span style="color: #859900;">FROM</span> <span style="color: #2aa198;">[</span>wide-silo-135723:github_clustering.packages_in_file_py<span style="color: #2aa198;">]</span>
+    <span style="color: #859900;">GROUP</span> <span style="color: #859900;">BY</span> 1<span style="color: #839496;">)</span>
+<span style="color: #859900;">WHERE</span> <span style="color: #6c71c4;">count</span> &gt; 200
+<span style="color: #859900;">GROUP</span> <span style="color: #859900;">BY</span> id;
+</pre>
+</div>
+
+<p>
+Results are in [wide-silo-135723:github_clustering.packages_in_file_top_py].
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span>
+    <span style="color: #6c71c4;">COUNT</span><span style="color: #839496;">(</span><span style="color: #859900;">DISTINCT</span><span style="color: #2aa198;">(</span>package<span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>
+<span style="color: #859900;">FROM</span> <span style="color: #839496;">[</span>wide-silo-135723:github_clustering.packages_in_file_top_py<span style="color: #839496;">]</span>;
+</pre>
+</div>
+<pre class="example">
+3501
+</pre>
+</div>
+</div>
+
+<div id="outline-container-Generate-graph-edges" class="outline-4">
+<h4 id="Generate-graph-edges"><span class="section-number-4">5.1.4</span> Generate graph edges</h4>
+<div class="outline-text-4" id="text-5-1-4">
+<p>
+I will generate edges and save it to table wide-silo-135723:github_clustering.packages_in_file_edges_py.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span>
+  p1.package <span style="color: #859900;">AS</span> package1,
+  p2.package <span style="color: #859900;">AS</span> package2,
+  <span style="color: #6c71c4;">COUNT</span><span style="color: #839496;">(</span>*<span style="color: #839496;">)</span> <span style="color: #859900;">AS</span> <span style="color: #6c71c4;">count</span>
+<span style="color: #859900;">FROM</span> <span style="color: #839496;">(</span><span style="color: #859900;">SELECT</span>
+  id,
+  package
+<span style="color: #859900;">FROM</span> FLATTEN<span style="color: #2aa198;">(</span><span style="color: #b58900;">[</span>wide-silo-135723:github_clustering.packages_in_file_top_py<span style="color: #b58900;">]</span>, package<span style="color: #2aa198;">)</span><span style="color: #839496;">)</span> <span style="color: #859900;">AS</span> p1
+<span style="color: #859900;">JOIN</span> 
+<span style="color: #839496;">(</span><span style="color: #859900;">SELECT</span>
+  id,
+  package
+<span style="color: #859900;">FROM</span> <span style="color: #2aa198;">[</span>wide-silo-135723:github_clustering.packages_in_file_top_py<span style="color: #2aa198;">]</span><span style="color: #839496;">)</span> <span style="color: #859900;">AS</span> p2
+<span style="color: #859900;">ON</span> <span style="color: #839496;">(</span>p1.id == p2.id<span style="color: #839496;">)</span>
+<span style="color: #859900;">GROUP</span> <span style="color: #859900;">BY</span> 1,2
+<span style="color: #859900;">ORDER</span> <span style="color: #859900;">BY</span> <span style="color: #6c71c4;">count</span> <span style="color: #859900;">DESC</span>;
+</pre>
+</div>
+
+<p>
+Top 10 edges:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span>
+    package1,
+    package2,
+    <span style="color: #6c71c4;">count</span> <span style="color: #859900;">AS</span> <span style="color: #6c71c4;">count</span>
+<span style="color: #859900;">FROM</span> <span style="color: #839496;">[</span>wide-silo-135723:github_clustering.packages_in_file_edges_py<span style="color: #839496;">]</span>
+<span style="color: #859900;">WHERE</span> package1 &lt; package2
+<span style="color: #859900;">ORDER</span> <span style="color: #859900;">BY</span> <span style="color: #6c71c4;">count</span> <span style="color: #859900;">DESC</span>
+<span style="color: #859900;">LIMIT</span> 10;
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="all">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">package1</th>
+<th scope="col" class="org-left">package2</th>
+<th scope="col" class="org-right">count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">os</td>
+<td class="org-left">sys</td>
+<td class="org-right">393311</td>
+</tr>
+
+<tr>
+<td class="org-left">os</td>
+<td class="org-left">re</td>
+<td class="org-right">156765</td>
+</tr>
+
+<tr>
+<td class="org-left">os</td>
+<td class="org-left">time</td>
+<td class="org-right">156320</td>
+</tr>
+
+<tr>
+<td class="org-left">logging</td>
+<td class="org-left">os</td>
+<td class="org-right">134478</td>
+</tr>
+
+<tr>
+<td class="org-left">sys</td>
+<td class="org-left">time</td>
+<td class="org-right">133396</td>
+</tr>
+
+<tr>
+<td class="org-left">re</td>
+<td class="org-left">sys</td>
+<td class="org-right">122375</td>
+</tr>
+
+<tr>
+<td class="org-left">__future__</td>
+<td class="org-left">django</td>
+<td class="org-right">119335</td>
+</tr>
+
+<tr>
+<td class="org-left">__future__</td>
+<td class="org-left">os</td>
+<td class="org-right">109319</td>
+</tr>
+
+<tr>
+<td class="org-left">os</td>
+<td class="org-left">subprocess</td>
+<td class="org-right">106862</td>
+</tr>
+
+<tr>
+<td class="org-left">datetime</td>
+<td class="org-left">django</td>
+<td class="org-right">94111</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-Filter-out-irrelevant-edges" class="outline-4">
+<h4 id="Filter-out-irrelevant-edges"><span class="section-number-4">5.1.5</span> Filter out irrelevant edges</h4>
+<div class="outline-text-4" id="text-5-1-5">
+<p>
+Quantiles of the edge weight:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span>
+    GROUP_CONCAT<span style="color: #839496;">(</span>STRING<span style="color: #2aa198;">(</span>QUANTILES<span style="color: #b58900;">(</span><span style="color: #6c71c4;">count</span>, 11<span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span>, ", "<span style="color: #839496;">)</span>
+<span style="color: #859900;">FROM</span> <span style="color: #839496;">[</span>wide-silo-135723:github_clustering.packages_in_file_edges_py<span style="color: #839496;">]</span>;
+</pre>
+</div>
+
+<pre class="example">
+1, 1, 1, 2, 3, 4, 7, 12, 24, 70, 1005020
+</pre>
+
+<p>
+In my first implementation I filtered edges out based on the total count.
+It was not a good approach, as a small relationship between two big packages
+was more likely to stay than strong relationship between too small packages.
+</p>
+
+<p>
+Create wide-silo-135723:github_clustering.packages_in_file_nodes_py:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span>
+  package <span style="color: #859900;">AS</span> package,
+  <span style="color: #6c71c4;">COUNT</span><span style="color: #839496;">(</span>id<span style="color: #839496;">)</span> <span style="color: #859900;">AS</span> <span style="color: #6c71c4;">count</span>
+<span style="color: #859900;">FROM</span> <span style="color: #839496;">[</span>github_clustering.packages_in_file_top_py<span style="color: #839496;">]</span>
+<span style="color: #859900;">GROUP</span> <span style="color: #859900;">BY</span> 1;
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="all">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">package</th>
+<th scope="col" class="org-right">count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">os</td>
+<td class="org-right">1005020</td>
+</tr>
+
+<tr>
+<td class="org-left">sys</td>
+<td class="org-right">784379</td>
+</tr>
+
+<tr>
+<td class="org-left">django</td>
+<td class="org-right">618941</td>
+</tr>
+
+<tr>
+<td class="org-left">__future__</td>
+<td class="org-right">445335</td>
+</tr>
+
+<tr>
+<td class="org-left">time</td>
+<td class="org-right">359073</td>
+</tr>
+
+<tr>
+<td class="org-left">re</td>
+<td class="org-right">349309</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Create the table packages_in_file_edges_top_py:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sql"><span style="color: #859900;">SELECT</span>
+    edges.package1 <span style="color: #859900;">AS</span> package1,
+    edges.package2 <span style="color: #859900;">AS</span> package2,
+    # Wordpress gets confused <span style="color: #859900;">by</span> <span style="color: #859900;">less</span> <span style="color: #859900;">than</span> sign <span style="color: #859900;">after</span> nodes1.<span style="color: #6c71c4;">count</span>
+    edges.<span style="color: #6c71c4;">count</span> / IF<span style="color: #839496;">(</span>nodes1.<span style="color: #6c71c4;">count</span> nodes2.<span style="color: #6c71c4;">count</span>,
+        nodes1.<span style="color: #6c71c4;">count</span>,
+        nodes2.<span style="color: #6c71c4;">count</span><span style="color: #839496;">)</span> <span style="color: #859900;">AS</span> strength,
+    edges.<span style="color: #6c71c4;">count</span> <span style="color: #859900;">AS</span> <span style="color: #6c71c4;">count</span>
+<span style="color: #859900;">FROM</span> <span style="color: #839496;">[</span>wide-silo-135723:github_clustering.packages_in_file_edges_py<span style="color: #839496;">]</span> <span style="color: #859900;">AS</span> edges
+<span style="color: #859900;">JOIN</span> <span style="color: #839496;">[</span>wide-silo-135723:github_clustering.packages_in_file_nodes_py<span style="color: #839496;">]</span> <span style="color: #859900;">AS</span> nodes1
+    <span style="color: #859900;">ON</span> edges.package1 == nodes1.package
+<span style="color: #859900;">JOIN</span> <span style="color: #839496;">[</span>wide-silo-135723:github_clustering.packages_in_file_nodes_py<span style="color: #839496;">]</span> <span style="color: #859900;">AS</span> nodes2
+    <span style="color: #859900;">ON</span> edges.package2 == nodes2.package
+<span style="color: #859900;">HAVING</span> strength &gt; 0.33
+<span style="color: #859900;">AND</span> package1 &lt;= package2;
+</pre>
+</div>
+
+<p>
+<a href="https://docs.google.com/spreadsheets/d/1hbQAIyDUigIsEajcpNOXbmldgfLmEqsOE729SPTVpmA/edit?usp=sharing">Full results in google docs.</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-Process-data-with-Pandas-to-json" class="outline-3">
+<h3 id="Process-data-with-Pandas-to-json"><span class="section-number-3">5.2</span> Process data with Pandas to json</h3>
+<div class="outline-text-3" id="text-5-2">
+</div><div id="outline-container-Load-csv-and-verify-edges-with-pandas" class="outline-4">
+<h4 id="Load-csv-and-verify-edges-with-pandas"><span class="section-number-4">5.2.1</span> Load csv and verify edges with pandas</h4>
+<div class="outline-text-4" id="text-5-2-1">
+<div class="org-src-container">
+
+<pre class="src src-ipython"><span style="color: #859900;">import</span> pandas <span style="color: #859900;">as</span> pd
+<span style="color: #859900;">import</span> math
+
+<span style="color: #6c71c4;">df</span> = pd.read_csv<span style="color: #839496;">(</span><span style="color: #2aa198;">"edges.csv"</span><span style="color: #839496;">)</span>
+<span style="color: #6c71c4;">pd_df</span> = df<span style="color: #839496;">[</span><span style="color: #2aa198;">(</span> df.package1 == <span style="color: #2aa198;">"pandas"</span> <span style="color: #2aa198;">)</span> | <span style="color: #2aa198;">(</span> df.package2 == <span style="color: #2aa198;">"pandas"</span> <span style="color: #2aa198;">)</span><span style="color: #839496;">]</span>
+<span style="color: #6c71c4;">pd_df.loc</span><span style="color: #839496;">[</span>pd_df.package1 == <span style="color: #2aa198;">"pandas"</span>,<span style="color: #2aa198;">"other_package"</span><span style="color: #839496;">]</span> = pd_df<span style="color: #839496;">[</span>pd_df.package1 == <span style="color: #2aa198;">"pandas"</span><span style="color: #839496;">]</span>.package2
+<span style="color: #6c71c4;">pd_df.loc</span><span style="color: #839496;">[</span>pd_df.package2 == <span style="color: #2aa198;">"pandas"</span>,<span style="color: #2aa198;">"other_package"</span><span style="color: #839496;">]</span> = pd_df<span style="color: #839496;">[</span>pd_df.package2 == <span style="color: #2aa198;">"pandas"</span><span style="color: #839496;">]</span>.package1
+
+df_to_org<span style="color: #839496;">(</span>pd_df.loc<span style="color: #2aa198;">[</span>:,<span style="color: #b58900;">[</span><span style="color: #2aa198;">"other_package"</span>, <span style="color: #2aa198;">"count"</span><span style="color: #b58900;">]</span><span style="color: #2aa198;">]</span><span style="color: #839496;">)</span>
+
+<span style="color: #859900;">print</span> <span style="color: #2aa198;">"\n"</span>, <span style="color: #6c71c4;">len</span><span style="color: #839496;">(</span>pd_df<span style="color: #839496;">)</span>, <span style="color: #2aa198;">"total edges with pandas"</span>
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="all">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">other_package</th>
+<th scope="col" class="org-right">count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">pandas</td>
+<td class="org-right">33846</td>
+</tr>
+
+<tr>
+<td class="org-left">numpy</td>
+<td class="org-right">21813</td>
+</tr>
+
+<tr>
+<td class="org-left">statsmodels</td>
+<td class="org-right">1355</td>
+</tr>
+
+<tr>
+<td class="org-left">seaborn</td>
+<td class="org-right">1164</td>
+</tr>
+
+<tr>
+<td class="org-left">zipline</td>
+<td class="org-right">684</td>
+</tr>
+
+<tr>
+<td class="org-left">11 more rows</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+16 total edges with pandas
+</p>
+</div>
+</div>
+<div id="outline-container-DataFrame-with-nodes" class="outline-4">
+<h4 id="DataFrame-with-nodes"><span class="section-number-4">5.2.2</span> DataFrame with nodes</h4>
+<div class="outline-text-4" id="text-5-2-2">
+<div class="org-src-container">
+
+<pre class="src src-ipython"><span style="color: #6c71c4;">nodes_df</span> = df<span style="color: #839496;">[</span>df.package1 == df.package2<span style="color: #839496;">]</span>.reset_index<span style="color: #839496;">()</span>.loc<span style="color: #839496;">[</span>:, <span style="color: #2aa198;">[</span><span style="color: #2aa198;">"package1"</span>, <span style="color: #2aa198;">"count"</span><span style="color: #2aa198;">]</span><span style="color: #839496;">]</span>.copy<span style="color: #839496;">()</span>
+<span style="color: #6c71c4;">nodes_df</span><span style="color: #839496;">[</span><span style="color: #2aa198;">"label"</span><span style="color: #839496;">]</span> = nodes_df.package1
+<span style="color: #6c71c4;">nodes_df</span><span style="color: #839496;">[</span><span style="color: #2aa198;">"id"</span><span style="color: #839496;">]</span> = nodes_df.index
+<span style="color: #6c71c4;">nodes_df</span><span style="color: #839496;">[</span><span style="color: #2aa198;">"r"</span><span style="color: #839496;">]</span> = <span style="color: #839496;">(</span>nodes_df<span style="color: #2aa198;">[</span><span style="color: #2aa198;">"count"</span><span style="color: #2aa198;">]</span> / nodes_df<span style="color: #2aa198;">[</span><span style="color: #2aa198;">"count"</span><span style="color: #2aa198;">]</span>.<span style="color: #6c71c4;">min</span><span style="color: #2aa198;">()</span><span style="color: #839496;">)</span>.<span style="color: #6c71c4;">apply</span><span style="color: #839496;">(</span>math.sqrt<span style="color: #839496;">)</span> + 5
+nodes_df<span style="color: #839496;">[</span><span style="color: #2aa198;">"count"</span><span style="color: #839496;">]</span>.<span style="color: #6c71c4;">apply</span><span style="color: #839496;">(</span><span style="color: #859900;">lambda</span> s: <span style="color: #6c71c4;">str</span><span style="color: #2aa198;">(</span>s<span style="color: #2aa198;">)</span> + <span style="color: #2aa198;">" total usages\n"</span><span style="color: #839496;">)</span>
+df_to_org<span style="color: #839496;">(</span>nodes_df<span style="color: #839496;">)</span>
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="all">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">package1</th>
+<th scope="col" class="org-right">count</th>
+<th scope="col" class="org-left">label</th>
+<th scope="col" class="org-right">id</th>
+<th scope="col" class="org-right">r</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">os</td>
+<td class="org-right">1005020</td>
+<td class="org-left">os</td>
+<td class="org-right">0</td>
+<td class="org-right">75.711381704</td>
+</tr>
+
+<tr>
+<td class="org-left">sys</td>
+<td class="org-right">784379</td>
+<td class="org-left">sys</td>
+<td class="org-right">1</td>
+<td class="org-right">67.4690570169</td>
+</tr>
+
+<tr>
+<td class="org-left">django</td>
+<td class="org-right">618941</td>
+<td class="org-left">django</td>
+<td class="org-right">2</td>
+<td class="org-right">60.4915169887</td>
+</tr>
+
+<tr>
+<td class="org-left">__future__</td>
+<td class="org-right">445335</td>
+<td class="org-left">__future__</td>
+<td class="org-right">3</td>
+<td class="org-right">52.0701286903</td>
+</tr>
+
+<tr>
+<td class="org-left">time</td>
+<td class="org-right">359073</td>
+<td class="org-left">time</td>
+<td class="org-right">4</td>
+<td class="org-right">47.2662138808</td>
+</tr>
+
+<tr>
+<td class="org-left">3460 more rows</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-Create-map-of-node-name-id" class="outline-4">
+<h4 id="Create-map-of-node-name-id"><span class="section-number-4">5.2.3</span> Create map of node name -&gt; id</h4>
+<div class="outline-text-4" id="text-5-2-3">
+<div class="org-src-container">
+
+<pre class="src src-ipython"><span style="color: #6c71c4;">id_map</span> = nodes_df.reset_index<span style="color: #839496;">()</span>.set_index<span style="color: #839496;">(</span><span style="color: #2aa198;">"package1"</span><span style="color: #839496;">)</span>.to_dict<span style="color: #839496;">()[</span><span style="color: #2aa198;">"index"</span><span style="color: #839496;">]</span>
+
+<span style="color: #859900;">print</span> pd.Series<span style="color: #839496;">(</span>id_map<span style="color: #839496;">)</span>.sort_values<span style="color: #839496;">()[</span>:5<span style="color: #839496;">]</span>
+</pre>
+</div>
+
+<pre class="example">
+os            0
+sys           1
+django        2
+__future__    3
+time          4
+dtype: int64
+</pre>
+</div>
+</div>
+
+<div id="outline-container-Create-edges-data-frame" class="outline-4">
+<h4 id="Create-edges-data-frame"><span class="section-number-4">5.2.4</span> Create edges data frame</h4>
+<div class="outline-text-4" id="text-5-2-4">
+<div class="org-src-container">
+
+<pre class="src src-ipython"><span style="color: #6c71c4;">edges_df</span> = df.copy<span style="color: #839496;">()</span>
+<span style="color: #6c71c4;">edges_df</span><span style="color: #839496;">[</span><span style="color: #2aa198;">"source"</span><span style="color: #839496;">]</span> = edges_df.package1.<span style="color: #6c71c4;">apply</span><span style="color: #839496;">(</span><span style="color: #859900;">lambda</span> p: id_map<span style="color: #2aa198;">[</span>p<span style="color: #2aa198;">]</span><span style="color: #839496;">)</span>
+<span style="color: #6c71c4;">edges_df</span><span style="color: #839496;">[</span><span style="color: #2aa198;">"target"</span><span style="color: #839496;">]</span> = edges_df.package2.<span style="color: #6c71c4;">apply</span><span style="color: #839496;">(</span><span style="color: #859900;">lambda</span> p: id_map<span style="color: #2aa198;">[</span>p<span style="color: #2aa198;">]</span><span style="color: #839496;">)</span>
+<span style="color: #6c71c4;">edges_df</span> = edges_df.merge<span style="color: #839496;">(</span>nodes_df<span style="color: #2aa198;">[</span><span style="color: #b58900;">[</span><span style="color: #2aa198;">"id"</span>, <span style="color: #2aa198;">"count"</span><span style="color: #b58900;">]</span><span style="color: #2aa198;">]</span>, left_on=<span style="color: #2aa198;">"source"</span>, right_on=<span style="color: #2aa198;">"id"</span>, how=<span style="color: #2aa198;">"left"</span><span style="color: #839496;">)</span>
+<span style="color: #6c71c4;">edges_df</span> = edges_df.merge<span style="color: #839496;">(</span>nodes_df<span style="color: #2aa198;">[</span><span style="color: #b58900;">[</span><span style="color: #2aa198;">"id"</span>, <span style="color: #2aa198;">"count"</span><span style="color: #b58900;">]</span><span style="color: #2aa198;">]</span>, left_on=<span style="color: #2aa198;">"target"</span>, right_on=<span style="color: #2aa198;">"id"</span>, how=<span style="color: #2aa198;">"left"</span><span style="color: #839496;">)</span>
+df_to_org<span style="color: #839496;">(</span>edges_df<span style="color: #839496;">)</span>
+
+<span style="color: #859900;">print</span> <span style="color: #2aa198;">"\ndf and edges_df should be the same length: "</span>, <span style="color: #6c71c4;">len</span><span style="color: #839496;">(</span>df<span style="color: #839496;">)</span>, <span style="color: #6c71c4;">len</span><span style="color: #839496;">(</span>edges_df<span style="color: #839496;">)</span>
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="all">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">package1</th>
+<th scope="col" class="org-left">package2</th>
+<th scope="col" class="org-right">strength</th>
+<th scope="col" class="org-right">count_x</th>
+<th scope="col" class="org-right">source</th>
+<th scope="col" class="org-right">target</th>
+<th scope="col" class="org-right">id_x</th>
+<th scope="col" class="org-right">count_y</th>
+<th scope="col" class="org-right">id_y</th>
+<th scope="col" class="org-right">count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">os</td>
+<td class="org-left">os</td>
+<td class="org-right">1.0</td>
+<td class="org-right">1005020</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1005020</td>
+<td class="org-right">0</td>
+<td class="org-right">1005020</td>
+</tr>
+
+<tr>
+<td class="org-left">sys</td>
+<td class="org-left">sys</td>
+<td class="org-right">1.0</td>
+<td class="org-right">784379</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">784379</td>
+<td class="org-right">1</td>
+<td class="org-right">784379</td>
+</tr>
+
+<tr>
+<td class="org-left">django</td>
+<td class="org-left">django</td>
+<td class="org-right">1.0</td>
+<td class="org-right">618941</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">618941</td>
+<td class="org-right">2</td>
+<td class="org-right">618941</td>
+</tr>
+
+<tr>
+<td class="org-left">__future__</td>
+<td class="org-left">__future__</td>
+<td class="org-right">1.0</td>
+<td class="org-right">445335</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">445335</td>
+<td class="org-right">3</td>
+<td class="org-right">445335</td>
+</tr>
+
+<tr>
+<td class="org-left">os</td>
+<td class="org-left">sys</td>
+<td class="org-right">0.501429793505</td>
+<td class="org-right">393311</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1005020</td>
+<td class="org-right">1</td>
+<td class="org-right">784379</td>
+</tr>
+
+<tr>
+<td class="org-left">11117 more rows</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+df and edges_df should be the same length:  11122 11122
+</p>
+</div>
+</div>
+
+<div id="outline-container-Add-reversed-edge" class="outline-4">
+<h4 id="Add-reversed-edge"><span class="section-number-4">5.2.5</span> Add reversed edge</h4>
+<div class="outline-text-4" id="text-5-2-5">
+<div class="org-src-container">
+
+<pre class="src src-ipython"><span style="color: #6c71c4;">edges_rev_df</span> = edges_df.copy<span style="color: #839496;">()</span>
+edges_rev_df.loc<span style="color: #839496;">[</span>:,<span style="color: #2aa198;">[</span><span style="color: #2aa198;">"source"</span>, <span style="color: #2aa198;">"target"</span><span style="color: #2aa198;">]</span><span style="color: #839496;">]</span> = edges_rev_df.loc<span style="color: #839496;">[</span>:,<span style="color: #2aa198;">[</span><span style="color: #2aa198;">"target"</span>, <span style="color: #2aa198;">"source"</span><span style="color: #2aa198;">]</span><span style="color: #839496;">]</span>.values
+<span style="color: #6c71c4;">edges_df</span> = edges_df.append<span style="color: #839496;">(</span>edges_rev_df<span style="color: #839496;">)</span>
+df_to_org<span style="color: #839496;">(</span>edges_df<span style="color: #839496;">)</span>
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="all">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">package1</th>
+<th scope="col" class="org-left">package2</th>
+<th scope="col" class="org-right">strength</th>
+<th scope="col" class="org-right">count_x</th>
+<th scope="col" class="org-right">source</th>
+<th scope="col" class="org-right">target</th>
+<th scope="col" class="org-right">id_x</th>
+<th scope="col" class="org-right">count_y</th>
+<th scope="col" class="org-right">id_y</th>
+<th scope="col" class="org-right">count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">os</td>
+<td class="org-left">os</td>
+<td class="org-right">1.0</td>
+<td class="org-right">1005020</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1005020</td>
+<td class="org-right">0</td>
+<td class="org-right">1005020</td>
+</tr>
+
+<tr>
+<td class="org-left">sys</td>
+<td class="org-left">sys</td>
+<td class="org-right">1.0</td>
+<td class="org-right">784379</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">784379</td>
+<td class="org-right">1</td>
+<td class="org-right">784379</td>
+</tr>
+
+<tr>
+<td class="org-left">django</td>
+<td class="org-left">django</td>
+<td class="org-right">1.0</td>
+<td class="org-right">618941</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">618941</td>
+<td class="org-right">2</td>
+<td class="org-right">618941</td>
+</tr>
+
+<tr>
+<td class="org-left">__future__</td>
+<td class="org-left">__future__</td>
+<td class="org-right">1.0</td>
+<td class="org-right">445335</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">445335</td>
+<td class="org-right">3</td>
+<td class="org-right">445335</td>
+</tr>
+
+<tr>
+<td class="org-left">os</td>
+<td class="org-left">sys</td>
+<td class="org-right">0.501429793505</td>
+<td class="org-right">393311</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1005020</td>
+<td class="org-right">1</td>
+<td class="org-right">784379</td>
+</tr>
+
+<tr>
+<td class="org-left">22239 more rows</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-Truncate-edges-DataFrame" class="outline-4">
+<h4 id="Truncate-edges-DataFrame"><span class="section-number-4">5.2.6</span> Truncate edges DataFrame</h4>
+<div class="outline-text-4" id="text-5-2-6">
+<div class="org-src-container">
+
+<pre class="src src-ipython"><span style="color: #6c71c4;">edges_df</span> = edges_df<span style="color: #839496;">[</span><span style="color: #2aa198;">[</span><span style="color: #2aa198;">"source"</span>, <span style="color: #2aa198;">"target"</span>, <span style="color: #2aa198;">"strength"</span><span style="color: #2aa198;">]</span><span style="color: #839496;">]</span>
+df_to_org<span style="color: #839496;">(</span>edges_df<span style="color: #839496;">)</span>
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="all">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">source</th>
+<th scope="col" class="org-right">target</th>
+<th scope="col" class="org-right">strength</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0.0</td>
+<td class="org-right">0.0</td>
+<td class="org-right">1.0</td>
+</tr>
+
+<tr>
+<td class="org-right">1.0</td>
+<td class="org-right">1.0</td>
+<td class="org-right">1.0</td>
+</tr>
+
+<tr>
+<td class="org-right">2.0</td>
+<td class="org-right">2.0</td>
+<td class="org-right">1.0</td>
+</tr>
+
+<tr>
+<td class="org-right">3.0</td>
+<td class="org-right">3.0</td>
+<td class="org-right">1.0</td>
+</tr>
+
+<tr>
+<td class="org-right">0.0</td>
+<td class="org-right">1.0</td>
+<td class="org-right">0.501429793505</td>
+</tr>
+
+<tr>
+<td class="org-right">22239 more rows</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-After-running-simulation-in-the-browser-get-saved-positions" class="outline-4">
+<h4 id="After-running-simulation-in-the-browser-get-saved-positions"><span class="section-number-4">5.2.7</span> After running simulation in the browser, get saved positions</h4>
+<div class="outline-text-4" id="text-5-2-7">
+<p>
+The whole simulation takes a minute to stabilize.
+I could just download an image, but there are extra features like pressing the node opens pypi.
+</p>
+
+<p>
+Download all positions after the simulation from the javascript console:
+</p>
+<pre class="example">
+var positions = nodes.map(function bar (n) { return [n.id, n.x, n.y]; })
+JSON.stringify()
+</pre>
+
+<p>
+Join the positions x and y with edges dataframe, so they will get picked up by the d3.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ipython"><span style="color: #6c71c4;">pos_df</span> = pd.read_json<span style="color: #839496;">(</span><span style="color: #2aa198;">"fixed-positions.json"</span><span style="color: #839496;">)</span>
+<span style="color: #6c71c4;">pos_df.columns</span> = <span style="color: #839496;">[</span><span style="color: #2aa198;">"id"</span>, <span style="color: #2aa198;">"x"</span>, <span style="color: #2aa198;">"y"</span><span style="color: #839496;">]</span>
+<span style="color: #6c71c4;">nodes_df</span> = nodes_df.merge<span style="color: #839496;">(</span>pos_df, on=<span style="color: #2aa198;">"id"</span><span style="color: #839496;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Truncate-nodes-DataFrame" class="outline-4">
+<h4 id="Truncate-nodes-DataFrame"><span class="section-number-4">5.2.8</span> Truncate nodes DataFrame</h4>
+<div class="outline-text-4" id="text-5-2-8">
+<div class="org-src-container">
+
+<pre class="src src-ipython"><span style="color: #586e75; font-style: italic;"># </span><span style="color: #586e75; font-style: italic;">c will be collision strength. Prevent labels from overlaping.</span>
+<span style="color: #6c71c4;">nodes_df</span><span style="color: #839496;">[</span><span style="color: #2aa198;">"c"</span><span style="color: #839496;">]</span> = pd.DataFrame<span style="color: #839496;">(</span><span style="color: #2aa198;">[</span>nodes_df.label.<span style="color: #6c71c4;">str</span>.<span style="color: #6c71c4;">len</span><span style="color: #b58900;">()</span> * 1.8, nodes_df.r<span style="color: #2aa198;">]</span><span style="color: #839496;">)</span>.<span style="color: #6c71c4;">max</span><span style="color: #839496;">()</span> + 5
+<span style="color: #6c71c4;">nodes_df</span> = nodes_df<span style="color: #839496;">[</span><span style="color: #2aa198;">[</span><span style="color: #2aa198;">"id"</span>, <span style="color: #2aa198;">"r"</span>, <span style="color: #2aa198;">"label"</span>, <span style="color: #2aa198;">"c"</span>, <span style="color: #2aa198;">"x"</span>, <span style="color: #2aa198;">"y"</span><span style="color: #2aa198;">]</span><span style="color: #839496;">]</span>
+df_to_org<span style="color: #839496;">(</span>nodes_df<span style="color: #839496;">)</span>
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="all">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">id</th>
+<th scope="col" class="org-right">r</th>
+<th scope="col" class="org-left">label</th>
+<th scope="col" class="org-right">c</th>
+<th scope="col" class="org-right">x</th>
+<th scope="col" class="org-right">y</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">75.711381704</td>
+<td class="org-left">os</td>
+<td class="org-right">80.711381704</td>
+<td class="org-right">158.70817237</td>
+<td class="org-right">396.074393369</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">67.4690570169</td>
+<td class="org-left">sys</td>
+<td class="org-right">72.4690570169</td>
+<td class="org-right">362.371142521</td>
+<td class="org-right">-292.138913114</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">60.4915169887</td>
+<td class="org-left">django</td>
+<td class="org-right">65.4915169887</td>
+<td class="org-right">526.471326062</td>
+<td class="org-right">1607.83507287</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-right">52.0701286903</td>
+<td class="org-left">__future__</td>
+<td class="org-right">57.0701286903</td>
+<td class="org-right">1354.91212894</td>
+<td class="org-right">680.325432179</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">47.2662138808</td>
+<td class="org-left">time</td>
+<td class="org-right">52.2662138808</td>
+<td class="org-right">419.407448663</td>
+<td class="org-right">439.872927665</td>
+</tr>
+
+<tr>
+<td class="org-right">3460 more rows</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-Save-files-to-json" class="outline-4">
+<h4 id="Save-files-to-json"><span class="section-number-4">5.2.9</span> Save files to json</h4>
+<div class="outline-text-4" id="text-5-2-9">
+<div class="org-src-container">
+
+<pre class="src src-ipython"><span style="color: #586e75; font-style: italic;"># </span><span style="color: #586e75; font-style: italic;">Truncate columns</span>
+<span style="color: #859900;">with</span> <span style="color: #6c71c4;">open</span><span style="color: #839496;">(</span><span style="color: #2aa198;">"graph.js"</span>, <span style="color: #2aa198;">"w"</span><span style="color: #839496;">)</span> <span style="color: #859900;">as</span> f:
+    f.write<span style="color: #839496;">(</span><span style="color: #2aa198;">"var nodes = {}\n\n"</span>.<span style="color: #6c71c4;">format</span><span style="color: #2aa198;">(</span>nodes_df.to_dict<span style="color: #b58900;">(</span>orient=<span style="color: #2aa198;">"records"</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>
+    f.write<span style="color: #839496;">(</span><span style="color: #2aa198;">"var nodeIds = {}\n"</span>.<span style="color: #6c71c4;">format</span><span style="color: #2aa198;">(</span>id_map<span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>
+    f.write<span style="color: #839496;">(</span><span style="color: #2aa198;">"var links = {}\n\n"</span>.<span style="color: #6c71c4;">format</span><span style="color: #2aa198;">(</span>edges_df.to_dict<span style="color: #b58900;">(</span>orient=<span style="color: #2aa198;">"records"</span><span style="color: #b58900;">)</span><span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-Draw-a-graph-using-the-new-d3-Verlet-Integration-algorithm" class="outline-3">
+<h3 id="Draw-a-graph-using-the-new-d3-Verlet-Integration-algorithm"><span class="section-number-3">5.3</span> Draw a graph using the new d3 Verlet Integration algorithm</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+The physical simulation
+Simulation uses the new <a href="https://github.com/d3/d3/blob/master/API.md#forces-d3-force">velocity Verlet integration force graph
+in d3 v 4.0.</a> Simulation takes about one minute to stabilize, so
+for viewing purposes I hard-coded the position of node after running simulation on my machine.
+</p>
+
+<p>
+The core component of the simulation is:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-javascript"><span style="color: #859900;">var</span> <span style="color: #6c71c4;">simulation</span> = d3.forceSimulation<span style="color: #839496;">(</span>nodes<span style="color: #839496;">)</span>
+    .force<span style="color: #839496;">(</span><span style="color: #2aa198;">"charge"</span>, d3.forceManyBody<span style="color: #2aa198;">()</span>.strength<span style="color: #2aa198;">(</span>-400<span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>
+    .force<span style="color: #839496;">(</span><span style="color: #2aa198;">"link"</span>, d3.forceLink<span style="color: #2aa198;">(</span>links<span style="color: #2aa198;">)</span>.distance<span style="color: #2aa198;">(</span>30<span style="color: #2aa198;">)</span>.strength<span style="color: #2aa198;">(</span><span style="color: #859900;">function</span> <span style="color: #b58900;">(</span><span style="color: #6c71c4;">d</span><span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+        <span style="color: #859900;">return</span> d.strength * d.strength;
+    <span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>
+    .force<span style="color: #839496;">(</span><span style="color: #2aa198;">"collide"</span>, d3.forceCollide<span style="color: #2aa198;">()</span>.radius<span style="color: #2aa198;">(</span><span style="color: #859900;">function</span><span style="color: #b58900;">(</span><span style="color: #6c71c4;">d</span><span style="color: #b58900;">)</span> <span style="color: #b58900;">{</span>
+        <span style="color: #859900;">return</span> d.c;
+    <span style="color: #b58900;">}</span><span style="color: #2aa198;">)</span>.strength<span style="color: #2aa198;">(</span>5<span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>
+    .force<span style="color: #839496;">(</span><span style="color: #2aa198;">"x"</span>, d3.forceX<span style="color: #2aa198;">()</span>.strength<span style="color: #2aa198;">(</span>0.1<span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>
+    .force<span style="color: #839496;">(</span><span style="color: #2aa198;">"y"</span>, d3.forceY<span style="color: #2aa198;">()</span>.strength<span style="color: #2aa198;">(</span>0.1<span style="color: #2aa198;">)</span><span style="color: #839496;">)</span>
+    .on<span style="color: #839496;">(</span><span style="color: #2aa198;">"tick"</span>, ticked<span style="color: #839496;">)</span>;
+</pre>
+</div>
+
+<p>
+To re-run the simulation you can:
+</p>
+<ul class="org-ul">
+<li>Remove fixed positions added in <a href="#After-running-simulation-in-the-browser-get-saved-positions">one of pandas processing steps</a>.</li>
+<li>Uncomment the "forces" in the <a href="https://github.com/kozikow/kozikow-blog/blob/master/clustering/index2.js#L2">javascript file.</a></li>
+</ul>
+</div>
+
+<div id="outline-container-Simulation-parameters" class="outline-4">
+<h4 id="Simulation-parameters"><span class="section-number-4">5.3.1</span> Simulation parameters</h4>
+<div class="outline-text-4" id="text-5-3-1">
+<p>
+I have been tweaking simulation parameters for a while.
+Very dense "center" of the graph is in conflict with clusters on the edge of the graph.
+</p>
+
+<p>
+As you may see in the current graph, nodes in the center sometimes overlap, while distance between
+nodes on the edge of a graph is big.
+</p>
+
+<p>
+I got as much as I could from the collision parameter and increasing it further wasn't helpful.
+Potentially I could increase gravity towards the center, but then some of the valuable "clusters"
+from edges of the graph got lumped into the big "kernel" in the center. The most promising
+approach at this point would be to try some ways of <a href="#Reduce-an-effect-of-a-heavy-weight-center-cluster">Reduce an effect of a heavy weight center cluster</a>.
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="Attraction-forces"></a>Attraction forces<br  /><div class="outline-text-5" id="text-5-3-1-1">
+<ul class="org-ul">
+<li>Weight of edge between packages A and B: \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\), with distance 30</li>
+<li>Gravity towards center: 0.1</li>
+</ul>
+</div></li>
+<li><a id="Repulsion-forces"></a>Repulsion forces<br  /><div class="outline-text-5" id="text-5-3-1-2">
+<ul class="org-ul">
+<li>Repulsion between nodes: -400</li>
+<li>Strength of nodes collision: 5</li>
+</ul>
+</div></li></ol>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

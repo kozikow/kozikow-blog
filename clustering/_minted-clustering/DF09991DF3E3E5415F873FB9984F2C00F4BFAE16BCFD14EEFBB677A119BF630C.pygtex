@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}
+    \PYG{n}{edges}\PYG{p}{.}\PYG{n}{package1} \PYG{k}{AS} \PYG{n}{package1}\PYG{p}{,}
+    \PYG{n}{edges}\PYG{p}{.}\PYG{n}{package2} \PYG{k}{AS} \PYG{n}{package2}\PYG{p}{,}
+    \PYG{o}{\PYGZsh{}} \PYG{n}{Wordpress} \PYG{n}{gets} \PYG{n}{confused} \PYG{k}{by} \PYG{k}{less} \PYG{k}{than} \PYG{n}{sign} \PYG{k}{after} \PYG{n}{nodes1}\PYG{p}{.}\PYG{k}{count}
+    \PYG{n}{edges}\PYG{p}{.}\PYG{k}{count} \PYG{o}{/} \PYG{k}{IF}\PYG{p}{(}\PYG{n}{nodes1}\PYG{p}{.}\PYG{k}{count} \PYG{n}{nodes2}\PYG{p}{.}\PYG{k}{count}\PYG{p}{,}
+        \PYG{n}{nodes1}\PYG{p}{.}\PYG{k}{count}\PYG{p}{,}
+        \PYG{n}{nodes2}\PYG{p}{.}\PYG{k}{count}\PYG{p}{)} \PYG{k}{AS} \PYG{n}{strength}\PYG{p}{,}
+    \PYG{n}{edges}\PYG{p}{.}\PYG{k}{count} \PYG{k}{AS} \PYG{k}{count}
+\PYG{k}{FROM} \PYG{p}{[}\PYG{n}{wide}\PYG{o}{\PYGZhy{}}\PYG{n}{silo}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{135723}\PYG{p}{:}\PYG{n}{github\PYGZus{}clustering}\PYG{p}{.}\PYG{n}{packages\PYGZus{}in\PYGZus{}file\PYGZus{}edges\PYGZus{}py}\PYG{p}{]} \PYG{k}{AS} \PYG{n}{edges}
+\PYG{k}{JOIN} \PYG{p}{[}\PYG{n}{wide}\PYG{o}{\PYGZhy{}}\PYG{n}{silo}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{135723}\PYG{p}{:}\PYG{n}{github\PYGZus{}clustering}\PYG{p}{.}\PYG{n}{packages\PYGZus{}in\PYGZus{}file\PYGZus{}nodes\PYGZus{}py}\PYG{p}{]} \PYG{k}{AS} \PYG{n}{nodes1}
+    \PYG{k}{ON} \PYG{n}{edges}\PYG{p}{.}\PYG{n}{package1} \PYG{o}{==} \PYG{n}{nodes1}\PYG{p}{.}\PYG{n}{package}
+\PYG{k}{JOIN} \PYG{p}{[}\PYG{n}{wide}\PYG{o}{\PYGZhy{}}\PYG{n}{silo}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{135723}\PYG{p}{:}\PYG{n}{github\PYGZus{}clustering}\PYG{p}{.}\PYG{n}{packages\PYGZus{}in\PYGZus{}file\PYGZus{}nodes\PYGZus{}py}\PYG{p}{]} \PYG{k}{AS} \PYG{n}{nodes2}
+    \PYG{k}{ON} \PYG{n}{edges}\PYG{p}{.}\PYG{n}{package2} \PYG{o}{==} \PYG{n}{nodes2}\PYG{p}{.}\PYG{n}{package}
+\PYG{k}{HAVING} \PYG{n}{strength} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{.}\PYG{l+m+mi}{33}
+\PYG{k}{AND} \PYG{n}{package1} \PYG{o}{\PYGZlt{}=} \PYG{n}{package2}\PYG{p}{;}
+\end{Verbatim}

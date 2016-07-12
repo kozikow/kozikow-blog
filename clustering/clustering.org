@@ -6,52 +6,49 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
-Using the [[https://github.com/blog/2201-making-open-source-data-more-available%2520][github data on BigQuery]] and the new [[https://github.com/d3/d3-force][force layout in d3 via the velocity verlet integration]] I implemented
-graph visualization of relationships between 3500 most popular python packages.
+I extracted co-occurence of top 3500 python packages in github repos using the the [[https://github.com/blog/2201-making-open-source-data-more-available%2520][github data on BigQuery]]. 
+I implemented the visualization [[https://github.com/d3/d3-force][force layout in d3 via the velocity verlet integration]] as well as analyzed it using the
+http://graphistry.com/.
 
-See the screenshot of the numpy cluster:
+See the screenshot of the numpy cluster in my visualization:
 
 [[file:screenshot.png][file:~/git_repos/github/kozikow-blog/clustering/screenshot.png]]
 
-Center cluster of "standard library" indeed looks like "a bag of wool that my cat would want to play with", but there
-are relevant clusters on the outskirts, like [[http://clustering.kozikow.com?center=numpy][scientific python]] or [[http://clustering.kozikow.com/?center=django][django]].
+See just the numpy cluster extracted from the graphistry:
+[[file:graphistry.png][file:~/git_repos/github/kozikow-blog/clustering/graphistry.png]]
 
-You can see the app at http://clustering.kozikow.com?center=numpy. You can:
-- Pass different package names as a query argument in the URL.
-- Scroll the page horizontally and vertically.
-- Click a node to open the pypi. Note that not all packages are on pypi.
-- I will migrate it to the [[https://github.com/graphistry/pygraphistry][graphistry]] soon. It will let you zoom in/out, mouse over the package to highlight neighbors or hide clusters.
 
 Graph properties:
 - Each node is each python package found on github. Radius is calculated in [[*DataFrame with nodes][DataFrame with nodes]] section.
 - For two packages A and B, weight of an edge is \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\), where \(|A \cap B|\) is number of occurrences of packages A and B within the same file.
   I will migrate it to the [[https://en.wikipedia.org/wiki/Pointwise_mutual_information#Normalized_pointwise_mutual_information_.28npmi.29][normalized pointwise mutual information]] soon.
 - Edges with weight smaller than 0.1 are removed.
-- Algorithm searches for minimal energy state by the velocity verlet Integration according to [[*Simulation parameters][simulation parameters.]]
+- The d3 algorithm searches for minimal energy state by the velocity verlet Integration according to [[*Simulation parameters][simulation parameters.]]
   
+You can my app at http://clustering.kozikow.com?center=numpy. You can:
+- Pass different package names as a query argument in the URL.
+- Scroll the page horizontally and vertically.
+- Click a node to open the pypi. Note that not all packages are on pypi.
+Interesting graphistry views are in the next section, [[*Analysis of specific clusters][Analysis of specific clusters]].
 
-Graph visualizations often lack actionable insights except looking cool.
-Types of insights you can use this for:
-- I have been exploring packages in the [[http://clustering.kozikow.com/?center=numpy][scientific python]] cluster a lot, and I found a few things I plan to use.
-- Use this to evaluate which web framework to use. You may think that [[http://clustering.kozikow.com/?center=django][django]] became too heavyweight or some other framework have dying community.
+Graph visualizations often lack actionable insights except looking cool. Types of insights you can use this for:
+- Find packages you have been not aware of in the close proximity of other packages that you use.
+- Evaluate different web frameworks based on size, adoption and library availability.
 - Find some interesting python use cases, like [[http://clustering.kozikow.com/?center=rospy][robotics cluster]].
 
 [[https://github.com/kozikow/kozikow-blog/blob/master/clustering/clustering.org][Revision history of this post is on github]] in the [[https://kozikow.com/2016/05/21/very-powerful-data-analysis-environment-org-mode-with-ob-ipython/][org mode]].
  
 * Analysis of specific clusters
-** [[http://clustering.kozikow.com/?center=numpy][Scientific python land]]
-  Unsurprisingly, it is centered on [[http://clustering.kozikow.com/?center=numpy][numpy]].
-  Many of scientific packages are in close proximity, like scipy, pandas, sklearn or matplotlib.
+In addition to d3 visualization I also clustered the data using the [[https://pypi.python.org/pypi/python-igraph][python-igraph]] =community_infomap().membership= and uploaded it to graphistry.
+Ability to exclude and filter by clusters was very useful.
 
-  I have found package [[http://clustering.kozikow.com/?center=networkx][networkx]] and [[http://clustering.kozikow.com/?center=graph_tool][graph_tool]] in the nearby proximity, that I plan to use for analyzing data from this post.
-
-  You can see even division between statistics and machine learning, by [[http://clustering.kozikow.com/?center=sklearn][sklearn]] 
-  being surrounded by packages like [[https://pypi.python.org/pypi/xgboost][xgboost]] or theano.
-** [[http://clustering.kozikow.com/?center=rospy][Robotics land]]
-Nearby to scientific python land there is a robotics land centered at [[http://clustering.kozikow.com/?center=rospy][rospy]].
-Some computational geometry packages like [[http://clustering.kozikow.com/?center=shapely][shapely]] are nearby.
-** Web frameworks
+** Scientific computing cluster
+ Unsurprisingly, it is centered on numpy. It is interesting that it is possible to see divide between statistics and machine learning.
+ - [[http://clustering.kozikow.com/?center=numpy][d3 link]]
+ - [[https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=numpycluster&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=true][graphistry link]]
+** Web frameworks clusters
 Web frameworks are interesting:
+*** d3 links
 - It could be said that [[http://clustering.kozikow.com/?center=sqlalchemy][sqlalchemy]] is a center of web frameworks land.
 - Found nearby, there's a massive and monolithic cluster for [[http://clustering.kozikow.com/?center=django][django]].
 - Smaller nearby clusters for [[http://clustering.kozikow.com/?center=flask][flask]] and [[http://clustering.kozikow.com/?center=pyramid][pyramid]].
@@ -59,13 +56,23 @@ Web frameworks are interesting:
 - Small cluster for [[http://www.zope.org/][zope]], also nearby sqlalchemy
 - [[http://clustering.kozikow.com/?center=tornado][tornado]] got swallowed by the big cluster of standard library in the middle, but is still close to other web frameworks.
 - Some smaller web frameworks like [[http://clustering.kozikow.com/?center=gluon][gluon (web2py)]] or [[http://clustering.kozikow.com/?center=tg][turbo gears]] ended up close to django, but barely visible and without clusters of their own.
-** [[http://clustering.kozikow.com/?center=nova][Open stack land]]
-Cloud computing, open stack and low level networking land centered at [[http://clustering.kozikow.com/?center=nova][nova]]
-contain packages like oslo, nova, webob, neutron, ironic or netaddr.
-** [[http://clustering.kozikow.com/?center=unittest][Testing land]]
-Centered on [[http://clustering.kozikow.com/?center=unittest][unittest]]. Some packages in the cluster are [[https://pypi.python.org/pypi/testfixtures][testfixtures]] or [[https://pypi.python.org/pypi/atomic-reactor][atomic-reactor]].
-** Gaming
-Cluster for some gaming related libraries, is centered around [[http://clustering.kozikow.com/?center=pygame][pygame.]]
+*** Interesting graphistry clusters
+- [[https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=djangocluster&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=true][Django cluster]]
+- [[https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=flashcluster&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=true][Flask cluster]]
+- [[https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=twistedcluster&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=true][Twisted cluster]]
+** Other interesting clusters
+Looking at results of clustering algorithm, only "medium sized" clusters are interesting.
+A few first are obvious like clusters dominated by packages like os and sys. Very small clusters are not interesting either.
+[[https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=topclusters&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=true][Here you can see clusters between positions 5 and 30 according to size]].
+
+Some of the other clusters:
+- Testing cluster, [[http://clustering.kozikow.com/?center=unittest][d3 link]], [[https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=testclusters&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=true][graphistry cluster]]
+- Openstack cluster, [[http://clustering.kozikow.com/?center=nova][d3 link]], [[https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=stackcluster&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=true][graphistry link]]
+- [[https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=stringcluster&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=true][String parsing and formatting cluster]]
+- [[http://clustering.kozikow.com/?center=rospy][Robotics land]]
+- [[http://clustering.kozikow.com/?center=pygame][gaming cluster]]
+- [[https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=deepcluster&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=true][deep learning cluster]]
+
 * Potentials for further analysis
 ** Other programming languages
 Majority of the code is not specific to python. Only the first step, [[*Create a table with packages][create a table with packages,]] is specific to python.
@@ -85,11 +92,6 @@ Removing just standard library is not easily generalizeable to other programming
 
 Removing the biggest cluster as detected by clustering algorithm from [[http://scikit-learn.org/stable/modules/clustering.html][sklearn]] or [[http://networkx.readthedocs.io/en/networkx-1.11/reference/algorithms.clustering.html][networkx]] could work well.
 Alternatively, I could cluster nodes prior to visualization and let users hide some clusters from the browser.
-** Reduce an effect of heavy weight packages
-In current visualization, big central packages like [[http://clustering.kozikow.com/?center=django][django]], [[http://clustering.kozikow.com/?center=numpy][numpy]], [[http://clustering.kozikow.com/?center=os][os]] and [[http://clustering.kozikow.com/?center=sys][sys]]
-dominate the graph. I believe that they dominate some of the smaller, more relevant relationships between smaller packages.
-
-Using the [[https://en.wikipedia.org/wiki/Pointwise_mutual_information#Normalized_pointwise_mutual_information_.28npmi.29][normalized pointwise mutual information]] seems promising.
 ** Search for "Alternatives to package X", e.g. seaborn vs bokeh
 For example, it would be interesting to cluster together all python data visualization packages.
 
@@ -103,17 +105,9 @@ Example case it wouldn't handle well:
 - other web frameworks make heavy use of flask ORM, but not django built-in ORM.
 Therefore, django ORM and sqlalchemy wouldn't have their neighbor weights correlated.
 I might got some ORM details wrong, as I don't do much web dev.
-** networkx and graph_tool packages
-Thanks to this visualization I have found about [[http://clustering.kozikow.com?center=networkx][networkx]] and graph_tool packages.
-It have some niceties for analyzing graphs.
-I plan to take a look at package dependency data using those packages.
 ** Within repository relationship
 Currently, I am only looking at imports within the same file.
 It could be interesting to look at the same graph built using "within same repository" relationship.
-** Highlight when overlay
-- Highlight a node and edges when overlaying with mouse.
-- List all edges in a popup
-- Potentially let user reduce number of packages
 * Data
 - [[http://clustering.kozikow.com/graph.js][Post-processed JSON data used by d3]]
 - [[https://bigquery.cloud.google.com/dataset/wide-silo-135723:github_clustering][Publicly available BigQuery tables with all the data]]. See Reproduce section to see how each table was generated.
@@ -545,3 +539,6 @@ You may be interested in my other posts analyzing github data:
 - [[https://kozikow.com/2016/06/05/more-advanced-github-code-search/][More advanced github code search]]
 - [[https://kozikow.com/2016/07/01/top-angular-directives-on-github/][Top angular directives on github, including custom directives]]
 - [[https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/][Top emacs packages used in github repos]]
+
+# graphistry.png http://kozikow.files.wordpress.com/2016/07/graphistry.png
+# /home/kozikow/git_repos/github/kozikow-blog/clustering/graphistry.png http://kozikow.files.wordpress.com/2016/07/graphistry1.png

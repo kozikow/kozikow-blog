@@ -1,0 +1,451 @@
+#+DATE: [2016-07-10 Sun 21:24]
+#+TITLE: Clustering libraries in many programming languages
+#+AUTHOR: Robert Kozikowski
+#+EMAIL: r.kozikowski@gmail.com
+* Data
+- [[http://clustering.kozikow.com/graph.js][Post-processed JSON data used by d3]]
+- [[https://bigquery.cloud.google.com/dataset/wide-silo-135723:github_clustering][Publicly available BigQuery tables with all the data]]. See Reproduce section to see how each table was generated.
+* Steps to reproduce
+** Extract data from BigQuery
+*** Create a table with packages
+Save to wide-silo-135723:github_clustering.packages_in_file_py:
+#+BEGIN_SRC sql :results output
+  SELECT
+    id,
+    NEST(UNIQUE(COALESCE(
+        REGEXP_EXTRACT(line, r"^from ([a-zA-Z0-9_-]+).*import"),
+        REGEXP_EXTRACT(line, r"^import ([a-zA-Z0-9_-]+)")))) AS package
+  FROM (
+    SELECT
+      id AS id,
+      LTRIM(SPLIT(content, "\n")) AS line,
+    FROM
+      [fh-bigquery:github_extracts.contents_py]
+    HAVING
+      line CONTAINS "import")
+  GROUP BY id
+  HAVING LENGTH(package) > 0;
+#+END_SRC
+
+Table will have two fields - id representing the file and repeated field with packages in the single file.
+Repeated fields are like arrays - [[http://stackoverflow.com/questions/32020714/what-does-repeated-field-in-google-bigquery-mean][the best description of repeated fields I found.]]
+
+This is the only step that is specific for python.
+*** Verify the packages_in_file_py table
+Check that imports have been correctly parsed out from some [[https://github.com/sunzhxjs/JobGIS/blob/master/lib/python2.7/site-packages/pandas/core/format.py][random file]].
+#+BEGIN_SRC sql :results output
+  SELECT
+      GROUP_CONCAT(package, ", ") AS packages,
+      COUNT(package) AS count
+  FROM [wide-silo-135723:github_clustering.packages_in_file_py]
+  WHERE id == "009e3877f01393ae7a4e495015c0e73b5aa48ea7" 
+
+#+END_SRC
+
+| packages                                                                                            | count |
+|-----------------------------------------------------------------------------------------------------+-------|
+| distutils, itertools, numpy, decimal, pandas, csv, warnings, __future__, IPython, math, locale, sys |    12 |
+
+*** Filter out not popular packages
+#+BEGIN_SRC sql :results output
+  SELECT
+    COUNT(DISTINCT(package))
+  FROM (SELECT
+    package,
+    count(id) AS count
+  FROM [wide-silo-135723:github_clustering.packages_in_file_py]
+  GROUP BY 1)
+  WHERE count > 200;
+#+END_SRC
+
+There are 3501 packages with at least 200 occurrences and it seems like a fine cut off point. 
+Create a filtered table, wide-silo-135723:github_clustering.packages_in_file_top_py:
+
+#+BEGIN_SRC sql :results output
+  SELECT
+      id,
+      NEST(package) AS package
+  FROM (SELECT
+          package,
+          count(id) AS count,
+          NEST(id) AS id
+      FROM [wide-silo-135723:github_clustering.packages_in_file_py]
+      GROUP BY 1)
+  WHERE count > 200
+  GROUP BY id;
+#+END_SRC
+
+Results are in [wide-silo-135723:github_clustering.packages_in_file_top_py].
+#+BEGIN_SRC sql :results output
+  SELECT
+      COUNT(DISTINCT(package))
+  FROM [wide-silo-135723:github_clustering.packages_in_file_top_py];
+#+END_SRC
+#+BEGIN_EXAMPLE
+3501
+#+END_EXAMPLE
+
+*** Generate graph edges
+I will generate edges and save it to table wide-silo-135723:github_clustering.packages_in_file_edges_py.
+#+BEGIN_SRC sql :results output
+    SELECT
+      p1.package AS package1,
+      p2.package AS package2,
+      COUNT(*) AS count
+    FROM (SELECT
+      id,
+      package
+    FROM FLATTEN([wide-silo-135723:github_clustering.packages_in_file_top_py], package)) AS p1
+    JOIN 
+    (SELECT
+      id,
+      package
+    FROM [wide-silo-135723:github_clustering.packages_in_file_top_py]) AS p2
+    ON (p1.id == p2.id)
+    GROUP BY 1,2
+    ORDER BY count DESC;
+#+END_SRC
+
+Top 10 edges:
+#+BEGIN_SRC sql :results output
+  SELECT
+      package1,
+      package2,
+      count AS count
+  FROM [wide-silo-135723:github_clustering.packages_in_file_edges_py]
+  WHERE package1 < package2
+  ORDER BY count DESC
+  LIMIT 10; 
+#+END_SRC
+
+| package1   | package2   |  count |
+|------------+------------+--------|
+| os         | sys        | 393311 |
+| os         | re         | 156765 |
+| os         | time       | 156320 |
+| logging    | os         | 134478 |
+| sys        | time       | 133396 |
+| re         | sys        | 122375 |
+| __future__ | django     | 119335 |
+| __future__ | os         | 109319 |
+| os         | subprocess | 106862 |
+| datetime   | django     |  94111 |
+
+*** Filter out irrelevant edges
+Quantiles of the edge weight:
+#+BEGIN_SRC sql :results output
+  SELECT
+      GROUP_CONCAT(STRING(QUANTILES(count, 11)), ", ")
+  FROM [wide-silo-135723:github_clustering.packages_in_file_edges_py];
+
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+  1, 1, 1, 2, 3, 4, 7, 12, 24, 70, 1005020	
+#+END_EXAMPLE
+
+In my first implementation I filtered edges out based on the total count.
+It was not a good approach, as a small relationship between two big packages
+was more likely to stay than strong relationship between too small packages.
+
+Create wide-silo-135723:github_clustering.packages_in_file_nodes_py:
+#+BEGIN_SRC sql :results output
+  SELECT
+    package AS package,
+    COUNT(id) AS count
+  FROM [github_clustering.packages_in_file_top_py]
+  GROUP BY 1;
+#+END_SRC
+
+| package    |   count |
+|------------+---------|
+| os         | 1005020 |
+| sys        |  784379 |
+| django     |  618941 |
+| __future__ |  445335 |
+| time       |  359073 |
+| re         |  349309 |
+
+Create the table packages_in_file_edges_top_py:
+#+BEGIN_SRC sql
+  SELECT
+      edges.package1 AS package1,
+      edges.package2 AS package2,
+      # Wordpress gets confused by less than sign after nodes1.count
+      edges.count / IF(nodes1.count nodes2.count,
+          nodes1.count,
+          nodes2.count) AS strength,
+      edges.count AS count
+  FROM [wide-silo-135723:github_clustering.packages_in_file_edges_py] AS edges
+  JOIN [wide-silo-135723:github_clustering.packages_in_file_nodes_py] AS nodes1
+      ON edges.package1 == nodes1.package
+  JOIN [wide-silo-135723:github_clustering.packages_in_file_nodes_py] AS nodes2
+      ON edges.package2 == nodes2.package
+  HAVING strength > 0.33
+  AND package1 <= package2;
+#+END_SRC
+
+[[https://docs.google.com/spreadsheets/d/1hbQAIyDUigIsEajcpNOXbmldgfLmEqsOE729SPTVpmA/edit?usp=sharing][Full results in google docs.]]
+** Process data with Pandas to json
+*** Load csv and verify edges with pandas
+#+BEGIN_SRC ipython :session :exports none
+  def arr_to_org(arr):
+      line = "|".join(str(item) for item in arr)
+      return "|{}|".format(line)
+
+
+  def df_to_org(df):
+      if len(df) <= 5:
+          print "\n".join([arr_to_org(df.columns), "|-"] +
+                          [arr_to_org(row) for row in df.values])
+      else:
+          print "\n".join([arr_to_org(df.columns), "|-"] +
+                          [arr_to_org(row) for row in df.values[:5]] +
+                          ["|{} more rows".format(len(df) - 5)])
+#+END_SRC
+
+#+RESULTS:
+
+#+BEGIN_SRC ipython :session :results output raw drawer :exports both
+  import pandas as pd
+  import math
+
+  df = pd.read_csv("edges.csv")
+  pd_df = df[( df.package1 == "pandas" ) | ( df.package2 == "pandas" )]
+  pd_df.loc[pd_df.package1 == "pandas","other_package"] = pd_df[pd_df.package1 == "pandas"].package2
+  pd_df.loc[pd_df.package2 == "pandas","other_package"] = pd_df[pd_df.package2 == "pandas"].package1
+
+  df_to_org(pd_df.loc[:,["other_package", "count"]])
+
+  print "\n", len(pd_df), "total edges with pandas"
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+| other_package | count |
+|---------------+-------|
+| pandas        | 33846 |
+| numpy         | 21813 |
+| statsmodels   |  1355 |
+| seaborn       |  1164 |
+| zipline       |   684 |
+| 11 more rows  |       |
+
+16 total edges with pandas
+:END:
+*** DataFrame with nodes
+#+BEGIN_SRC ipython :session :results output raw drawer :exports both
+  nodes_df = df[df.package1 == df.package2].reset_index().loc[:, ["package1", "count"]].copy()
+  nodes_df["label"] = nodes_df.package1
+  nodes_df["id"] = nodes_df.index
+  nodes_df["r"] = (nodes_df["count"] / nodes_df["count"].min()).apply(math.sqrt) + 5
+  nodes_df["count"].apply(lambda s: str(s) + " total usages\n")
+  df_to_org(nodes_df)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+| package1       |   count | label      | id |             r |
+|----------------+---------+------------+----+---------------|
+| os             | 1005020 | os         |  0 |  75.711381704 |
+| sys            |  784379 | sys        |  1 | 67.4690570169 |
+| django         |  618941 | django     |  2 | 60.4915169887 |
+| __future__     |  445335 | __future__ |  3 | 52.0701286903 |
+| time           |  359073 | time       |  4 | 47.2662138808 |
+| 3460 more rows |         |            |    |               |
+:END:
+
+*** Create map of node name -> id
+#+BEGIN_SRC ipython :session :results output :exports both
+  id_map = nodes_df.reset_index().set_index("package1").to_dict()["index"]
+
+  print pd.Series(id_map).sort_values()[:5]
+#+END_SRC
+
+#+RESULTS:
+: os            0
+: sys           1
+: django        2
+: __future__    3
+: time          4
+: dtype: int64
+
+*** Create edges data frame
+#+BEGIN_SRC ipython :session :results output raw drawer :exports both
+  edges_df = df.copy()
+  edges_df["source"] = edges_df.package1.apply(lambda p: id_map[p])
+  edges_df["target"] = edges_df.package2.apply(lambda p: id_map[p])
+  edges_df = edges_df.merge(nodes_df[["id", "count"]], left_on="source", right_on="id", how="left")
+  edges_df = edges_df.merge(nodes_df[["id", "count"]], left_on="target", right_on="id", how="left")
+  df_to_org(edges_df)
+  
+  print "\ndf and edges_df should be the same length: ", len(df), len(edges_df)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+| package1        | package2   |       strength | count_x | source | target | id_x | count_y | id_y |   count |
+|-----------------+------------+----------------+---------+--------+--------+------+---------+------+---------|
+| os              | os         |            1.0 | 1005020 |      0 |      0 |    0 | 1005020 |    0 | 1005020 |
+| sys             | sys        |            1.0 |  784379 |      1 |      1 |    1 |  784379 |    1 |  784379 |
+| django          | django     |            1.0 |  618941 |      2 |      2 |    2 |  618941 |    2 |  618941 |
+| __future__      | __future__ |            1.0 |  445335 |      3 |      3 |    3 |  445335 |    3 |  445335 |
+| os              | sys        | 0.501429793505 |  393311 |      0 |      1 |    0 | 1005020 |    1 |  784379 |
+| 11117 more rows |            |                |         |        |        |      |         |      |         |
+
+df and edges_df should be the same length:  11122 11122
+:END:
+
+*** Add reversed edge
+#+BEGIN_SRC ipython :session :results output raw drawer :exports both
+  edges_rev_df = edges_df.copy()
+  edges_rev_df.loc[:,["source", "target"]] = edges_rev_df.loc[:,["target", "source"]].values
+  edges_df = edges_df.append(edges_rev_df)
+  df_to_org(edges_df)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+| package1        | package2   |       strength | count_x | source | target | id_x | count_y | id_y |   count |
+|-----------------+------------+----------------+---------+--------+--------+------+---------+------+---------|
+| os              | os         |            1.0 | 1005020 |      0 |      0 |    0 | 1005020 |    0 | 1005020 |
+| sys             | sys        |            1.0 |  784379 |      1 |      1 |    1 |  784379 |    1 |  784379 |
+| django          | django     |            1.0 |  618941 |      2 |      2 |    2 |  618941 |    2 |  618941 |
+| __future__      | __future__ |            1.0 |  445335 |      3 |      3 |    3 |  445335 |    3 |  445335 |
+| os              | sys        | 0.501429793505 |  393311 |      0 |      1 |    0 | 1005020 |    1 |  784379 |
+| 22239 more rows |            |                |         |        |        |      |         |      |         |
+:END:
+
+*** Truncate edges DataFrame 
+#+BEGIN_SRC ipython :session :results output raw drawer :exports both
+  edges_df = edges_df[["source", "target", "strength"]]
+  df_to_org(edges_df)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+|          source | target |       strength |
+|-----------------+--------+----------------|
+|             0.0 |    0.0 |            1.0 |
+|             1.0 |    1.0 |            1.0 |
+|             2.0 |    2.0 |            1.0 |
+|             3.0 |    3.0 |            1.0 |
+|             0.0 |    1.0 | 0.501429793505 |
+| 22239 more rows |        |                |
+:END:
+*** Truncate nodes DataFrame
+#+BEGIN_SRC ipython :session :results output raw drawer :exports both
+  # c will be collision strength. Prevent labels from overlaping.
+  nodes_df["c"] = pd.DataFrame([nodes_df.label.str.len() * 1.8, nodes_df.r]).max() + 5
+  nodes_df = nodes_df[["id", "r", "label", "c"]]
+  df_to_org(nodes_df)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+|             id |             r | label      |             c |
+|----------------+---------------+------------+---------------|
+|              0 |  75.711381704 | os         |  80.711381704 |
+|              1 | 67.4690570169 | sys        | 72.4690570169 |
+|              2 | 60.4915169887 | django     | 65.4915169887 |
+|              3 | 52.0701286903 | __future__ | 57.0701286903 |
+|              4 | 47.2662138808 | time       | 52.2662138808 |
+| 3460 more rows |               |            |               |
+:END:
+*** Save files to json
+#+BEGIN_SRC ipython :session :results output :exports both
+  # Truncate columns
+  with open("graph.js", "w") as f:
+      f.write("var nodes = {}\n\n".format(nodes_df.to_dict(orient="records")))
+      f.write("var nodeIds = {}\n".format(id_map))
+      f.write("var links = {}\n\n".format(edges_df.to_dict(orient="records")))
+#+END_SRC
+
+#+RESULTS:
+
+#+RESULTS:{{{results(==)}}}
+** Send data to graphistry 
+*** Import and register with registry
+Instrutions how to get your key are at https://github.com/graphistry/pygraphistry.
+#+BEGIN_SRC ipython :session :results output :exports both
+  import os.path
+  import graphistry
+
+  with open(os.path.expanduser("~/graphistry_key.txt"), "r") as f:
+    graphistry.register(key=f.read())
+#+END_SRC
+
+#+RESULTS:
+*** Read df
+#+BEGIN_SRC ipython :session :results output raw drawer :exports both
+  import pandas as pd
+  import math
+
+  df = pd.read_csv("edges.csv")
+
+  #df_to_org(pd_df.loc[:,["other_package", "count"]])
+  #print "\n", len(pd_df), "total edges with pandas"
+
+  rev_df = df.copy()
+  rev_df.loc[:,["package1", "package2"]] = rev_df.loc[:,["package2", "package1"]].values
+  df = df.append(rev_df)
+
+  df_to_org(df)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+| package1        | package2   |       strength |   count |
+|-----------------+------------+----------------+---------|
+| os              | os         |            1.0 | 1005020 |
+| sys             | sys        |            1.0 |  784379 |
+| django          | django     |            1.0 |  618941 |
+| __future__      | __future__ |            1.0 |  445335 |
+| os              | sys        | 0.501429793505 |  393311 |
+| 22239 more rows |            |                |         |
+:END:
+*** Nodes df
+#+BEGIN_SRC ipython :session :results output raw drawer :exports both
+  ndf = df[df.package1 == df.package2][['package1', 'count']]
+  df_to_org(ndf)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+| package1       |   count |
+|----------------+---------|
+| os             | 1005020 |
+| sys            |  784379 |
+| django         |  618941 |
+| __future__     |  445335 |
+| time           |  359073 |
+| 6925 more rows |         |
+:END:
+
+*** Plot
+
+#+BEGIN_SRC ipython :session :results output :exports both
+
+  df['value'] = df['count']
+
+  plotter = graphistry.bind(source="package1", destination="package2")
+
+  ig = plotter.pandas2igraph(df)
+  ig.vs['pagerank'] = ig.pagerank()
+  ig.vs['community'] = ig.community_infomap().membership
+
+  node_order = pd.DataFrame(ig.vs["__nodeid__"])
+  node_order.columns = ["package1"]
+  node_order = node_order.reset_index()
+  node_order = node_order.merge(ndf, left_on="package1", right_on="package1", how="left")
+  node_order = node_order.drop_duplicates()
+
+  ig.vs['size'] = node_order['count'].values
+
+  #html2 = plotter.bind(point_color='community', point_size='size').plot(ig)
+  #print html2.data
+#+END_SRC
+
+#+RESULTS:
+
+

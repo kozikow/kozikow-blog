@@ -1,0 +1,9 @@
+https://www.quora.com/What-is-best-for-graph-rendering-sigma-js-or-d3-js-Why
+* Vega
+http://vega.github.io/
+* Sigma.js
+http://thewhyaxis.info/hairball/
+* Graphistry
+* d3
+http://engineering.ayasdi.com/2015/01/09/converting-a-d3-visualization-to-webgl-how-and-why/
+* Grapher

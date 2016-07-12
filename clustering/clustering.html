@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2016-07-11 Mon 10:17 -->
+<!-- 2016-07-12 Tue 01:10 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title>Visualizing relationships between python packages</title>
@@ -89,23 +89,26 @@ for the JavaScript code in this tag.
 <li><a href="#Introduction">1. Introduction</a></li>
 <li><a href="#Analysis-of-specific-clusters">2. Analysis of specific clusters</a>
 <ul>
-<li><a href="#-http-clustering-kozikow-com-center-numpy-Scientific-python-land-">2.1. Scientific python land</a></li>
-<li><a href="#-http-clustering-kozikow-com-center-rospy-Robotics-land-">2.2. Robotics land</a></li>
-<li><a href="#Web-frameworks">2.3. Web frameworks</a></li>
-<li><a href="#-http-clustering-kozikow-com-center-nova-Open-stack-land-">2.4. Open stack land</a></li>
-<li><a href="#-http-clustering-kozikow-com-center-unittest-Testing-land-">2.5. Testing land</a></li>
-<li><a href="#Gaming">2.6. Gaming</a></li>
+<li><a href="#Scientific-computing-cluster">2.1. Scientific computing cluster</a>
+<ul>
+<li><a href="#Numpy-pandas-and-scipy-cluster">2.1.1. Numpy, pandas and scipy cluster</a></li>
+</ul>
+</li>
+<li><a href="#Web-frameworks-clusters">2.2. Web frameworks clusters</a>
+<ul>
+<li><a href="#d3-links">2.2.1. d3 links</a></li>
+<li><a href="#graphistry-links">2.2.2. graphistry links</a></li>
+</ul>
+</li>
+<li><a href="#Other-interesting-clusters">2.3. Other interesting clusters</a></li>
 </ul>
 </li>
 <li><a href="#Potentials-for-further-analysis">3. Potentials for further analysis</a>
 <ul>
 <li><a href="#Other-programming-languages">3.1. Other programming languages</a></li>
 <li><a href="#Reduce-an-effect-of-a-heavy-weight-center-cluster">3.2. Reduce an effect of a heavy weight center cluster</a></li>
-<li><a href="#Reduce-an-effect-of-heavy-weight-packages">3.3. Reduce an effect of heavy weight packages</a></li>
-<li><a href="#Search-for-Alternatives-to-package-X-e-g-seaborn-vs-bokeh">3.4. Search for "Alternatives to package X", e.g. seaborn vs bokeh</a></li>
-<li><a href="#networkx-and-graph-tool-packages">3.5. networkx and graph_tool packages</a></li>
-<li><a href="#Within-repository-relationship">3.6. Within repository relationship</a></li>
-<li><a href="#Highlight-when-overlay">3.7. Highlight when overlay</a></li>
+<li><a href="#Search-for-Alternatives-to-package-X-e-g-seaborn-vs-bokeh">3.3. Search for "Alternatives to package X", e.g. seaborn vs bokeh</a></li>
+<li><a href="#Within-repository-relationship">3.4. Within repository relationship</a></li>
 </ul>
 </li>
 <li><a href="#Data">4. Data</a></li>
@@ -133,13 +136,14 @@ for the JavaScript code in this tag.
 <li><a href="#Save-files-to-json">5.2.9. Save files to json</a></li>
 </ul>
 </li>
-<li><a href="#Draw-a-graph-using-the-new-d3-Verlet-Integration-algorithm">5.3. Draw a graph using the new d3 Verlet Integration algorithm</a>
+<li><a href="#Draw-a-graph-using-the-new-d3-velocity-verlet-integration-algorithm">5.3. Draw a graph using the new d3 velocity verlet integration algorithm</a>
 <ul>
 <li><a href="#Simulation-parameters">5.3.1. Simulation parameters</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li><a href="#Other-posts">6. Other posts</a></li>
 </ul>
 </div>
 </div>
@@ -147,39 +151,13 @@ for the JavaScript code in this tag.
 <h2 id="Introduction"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-Using the <a href="https://github.com/blog/2201-making-open-source-data-more-available%20">github data on BigQuery</a> and new <a href="https://github.com/d3/d3-force">force layout in d3 via the Verlet numerical integration</a> I implemented
-graph visualization of relationships between 3500 most popular python packages.
+I extracted co-occurence of top 3500 python packages in github repos using the the <a href="https://github.com/blog/2201-making-open-source-data-more-available%20">github data on BigQuery</a>. 
+I implemented the visualization <a href="https://github.com/d3/d3-force">force layout in d3 via the velocity verlet integration</a> as well as analyzed it using the
+<a href="http://graphistry.com/">http://graphistry.com/</a>.
 </p>
 
 <p>
-Center cluster of "standard library" indeed looks like "a bag of wool that my cat would want to play with", but there
-are relevant clusters on the outskirts, like <a href="http://clustering.kozikow.com?center=numpy">scientific python</a> or <a href="http://clustering.kozikow.com/?center=django">django</a>.
-</p>
-
-<p>
-You can see the app at <a href="http://clustering.kozikow.com?center=numpy">http://clustering.kozikow.com?center=numpy</a>. You can:
-</p>
-<ul class="org-ul">
-<li>Pass different package names as a query argument in the URL.</li>
-<li>Scroll the page horizontally and vertically.</li>
-<li>Click a node to open the pypi. Note that not all packages are on pypi.</li>
-<li>I will migrate to the <a href="https://github.com/graphistry/pygraphistry">graphistry</a> soon. It will let you mouse over the package or zoom in and out.</li>
-</ul>
-
-<p>
-Graph properties:
-</p>
-<ul class="org-ul">
-<li>Each node is each python package found on github. Radius is calculated in <a href="#DataFrame-with-nodes">DataFrame with nodes</a> section.</li>
-<li>For two packages A and B, weight of an edge is \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\), where \(|A \cap B|\) is number of occurrences of packages A and B within the same file.
-I will migrate it to the <a href="https://en.wikipedia.org/wiki/Pointwise_mutual_information#Normalized_pointwise_mutual_information_.28npmi.29">normalized pointwise mutual information</a> soon.</li>
-<li>Edges with weight smaller than 0.1 are removed.</li>
-<li>Algorithm searches for minimal energy state by the Verlet Integration according to <a href="#Simulation-parameters">simulation parameters.</a></li>
-</ul>
-
-
-<p>
-See the screenshot of the numpy cluster:
+See the screenshot of the numpy cluster in my visualization:
 </p>
 
 
@@ -189,17 +167,45 @@ See the screenshot of the numpy cluster:
 </div>
 
 <p>
-Graph visualizations often lack actionable insights except looking cool.
-Types of insights you can use this for:
+See just the numpy cluster extracted from the graphistry:
+<a href="graphistry.png"><img src="file:///home/kozikow/git_repos/github/kozikow-blog/clustering/graphistry.png" alt="graphistry.png" /></a>
+</p>
+
+
+<p>
+Graph properties:
 </p>
 <ul class="org-ul">
-<li>I have been exploring packages in the <a href="http://clustering.kozikow.com/?center=numpy">scientific python</a> cluster a lot, and I found a few things I plan to use.</li>
-<li>Use this to evaluate which web framework to use. You may think that <a href="http://clustering.kozikow.com/?center=django">django</a> became too heavyweight or some other framework have dying community.</li>
+<li>Each node is each python package found on github. Radius is calculated in <a href="#DataFrame-with-nodes">DataFrame with nodes</a> section.</li>
+<li>For two packages A and B, weight of an edge is \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\), where \(|A \cap B|\) is number of occurrences of packages A and B within the same file.
+I will migrate it to the <a href="https://en.wikipedia.org/wiki/Pointwise_mutual_information#Normalized_pointwise_mutual_information_.28npmi.29">normalized pointwise mutual information</a> soon.</li>
+<li>Edges with weight smaller than 0.1 are removed.</li>
+<li>Algorithm searches for minimal energy state by the velocity verlet Integration according to <a href="#Simulation-parameters">simulation parameters.</a></li>
+</ul>
+
+<p>
+You can my app at <a href="http://clustering.kozikow.com?center=numpy">http://clustering.kozikow.com?center=numpy</a>. You can:
+</p>
+<ul class="org-ul">
+<li>Pass different package names as a query argument in the URL.</li>
+<li>Scroll the page horizontally and vertically.</li>
+<li>Click a node to open the pypi. Note that not all packages are on pypi.</li>
+</ul>
+<p>
+Interesting graphistry views are in the next section, <a href="#Analysis-of-specific-clusters">Analysis of specific clusters</a>.
+</p>
+
+<p>
+Graph visualizations often lack actionable insights except looking cool. Types of insights you can use this for:
+</p>
+<ul class="org-ul">
+<li>Find packages you have been not aware of in the close proximity of other packages that you use.</li>
+<li>Evaluate different web frameworks based on size, adoption and library availability.</li>
 <li>Find some interesting python use cases, like <a href="http://clustering.kozikow.com/?center=rospy">robotics cluster</a>.</li>
 </ul>
 
 <p>
-<a href="https://github.com/kozikow/kozikow-blog/blob/master/clustering/clustering.org">Revision history of this post is on github.</a>
+<a href="https://github.com/kozikow/kozikow-blog/blob/master/clustering/clustering.org">Revision history of this post is on github</a> in the <a href="https://kozikow.com/2016/05/21/very-powerful-data-analysis-environment-org-mode-with-ob-ipython/">org mode</a>.
 </p>
 </div>
 </div>
@@ -207,36 +213,52 @@ Types of insights you can use this for:
 <div id="outline-container-Analysis-of-specific-clusters" class="outline-2">
 <h2 id="Analysis-of-specific-clusters"><span class="section-number-2">2</span> Analysis of specific clusters</h2>
 <div class="outline-text-2" id="text-2">
-</div><div id="outline-container--http-clustering-kozikow-com-center-numpy-Scientific-python-land-" class="outline-3">
-<h3 id="-http-clustering-kozikow-com-center-numpy-Scientific-python-land-"><span class="section-number-3">2.1</span> <a href="http://clustering.kozikow.com/?center=numpy">Scientific python land</a></h3>
+<p>
+In addition to d3 visualization I also clustered the data using the <a href="https://pypi.python.org/pypi/python-igraph">python-igraph</a> <code>community_infomap().membership</code> and uploaded it to graphistry.
+Ability to exclude and filter by clusters was very useful.
+</p>
+</div>
+
+<div id="outline-container-Scientific-computing-cluster" class="outline-3">
+<h3 id="Scientific-computing-cluster"><span class="section-number-3">2.1</span> Scientific computing cluster</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
-Unsurprisingly, it is centered on <a href="http://clustering.kozikow.com/?center=numpy">numpy</a>.
-Many of scientific packages are in close proximity, like scipy, pandas, sklearn or matplotlib.
-</p>
-
-<p>
-I have found package <a href="http://clustering.kozikow.com/?center=networkx">networkx</a> and <a href="http://clustering.kozikow.com/?center=graph_tool">graph_tool</a> in the nearby proximity, that I plan to use for analyzing data from this post.
-</p>
-
-<p>
-You can see even division between statistics and machine learning, by <a href="http://clustering.kozikow.com/?center=sklearn">sklearn</a> 
-being surrounded by packages like <a href="https://pypi.python.org/pypi/xgboost">xgboost</a> or theano.
+Unsurprisingly, it is centered on <a href="http://clustering.kozikow.com/?center=numpy">numpy (d3 link)</a>.
 </p>
 </div>
+
+<div id="outline-container-Numpy-pandas-and-scipy-cluster" class="outline-4">
+<h4 id="Numpy-pandas-and-scipy-cluster"><span class="section-number-4">2.1.1</span> Numpy, pandas and scipy cluster</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<style>
+.iframe-rwd  {
+    position: relative;
+    padding-bottom: 65.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
+}
+
+.iframe-rwd iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+</style>
+<div class="iframe-rwd">
+<iframe src="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=numpycluster&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=false"></iframe>
 </div>
-<div id="outline-container--http-clustering-kozikow-com-center-rospy-Robotics-land-" class="outline-3">
-<h3 id="-http-clustering-kozikow-com-center-rospy-Robotics-land-"><span class="section-number-3">2.2</span> <a href="http://clustering.kozikow.com/?center=rospy">Robotics land</a></h3>
+</div>
+</div>
+</div>
+<div id="outline-container-Web-frameworks-clusters" class="outline-3">
+<h3 id="Web-frameworks-clusters"><span class="section-number-3">2.2</span> Web frameworks clusters</h3>
 <div class="outline-text-3" id="text-2-2">
-<p>
-Nearby to scientific python land there is a robotics land centered at <a href="http://clustering.kozikow.com/?center=rospy">rospy</a>.
-Some computational geometry packages like <a href="http://clustering.kozikow.com/?center=shapely">shapely</a> are nearby.
-</p>
-</div>
-</div>
-<div id="outline-container-Web-frameworks" class="outline-3">
-<h3 id="Web-frameworks"><span class="section-number-3">2.3</span> Web frameworks</h3>
-<div class="outline-text-3" id="text-2-3">
+</div><div id="outline-container-d3-links" class="outline-4">
+<h4 id="d3-links"><span class="section-number-4">2.2.1</span> d3 links</h4>
+<div class="outline-text-4" id="text-2-2-1">
 <p>
 Web frameworks are interesting:
 </p>
@@ -251,32 +273,45 @@ Web frameworks are interesting:
 </ul>
 </div>
 </div>
-<div id="outline-container--http-clustering-kozikow-com-center-nova-Open-stack-land-" class="outline-3">
-<h3 id="-http-clustering-kozikow-com-center-nova-Open-stack-land-"><span class="section-number-3">2.4</span> <a href="http://clustering.kozikow.com/?center=nova">Open stack land</a></h3>
-<div class="outline-text-3" id="text-2-4">
+<div id="outline-container-graphistry-links" class="outline-4">
+<h4 id="graphistry-links"><span class="section-number-4">2.2.2</span> graphistry links</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<ul class="org-ul">
+<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=djangocluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=false">Django cluster</a></li>
+<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=flashcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=false">Flask cluster</a></li>
+<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=twistedcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=false">Twisted cluster</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-Other-interesting-clusters" class="outline-3">
+<h3 id="Other-interesting-clusters"><span class="section-number-3">2.3</span> Other interesting clusters</h3>
+<div class="outline-text-3" id="text-2-3">
 <p>
-Cloud computing, open stack and low level networking land centered at <a href="http://clustering.kozikow.com/?center=nova">nova</a>
-contain packages like oslo, nova, webob, neutron, ironic or netaddr.
+Looking at results of clustering algorithm, only "medium sized" clusters are interesting.
+A few first are obvious like clusters dominated by packages like os and sys. Very small clusters are not interesting either.
+Here you can see clusters between positions 5 and 30 according to size:
 </p>
+</style>
+<div class="iframe-rwd">
+<iframe src="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=topclusters&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=false"></iframe>
 </div>
-</div>
-<div id="outline-container--http-clustering-kozikow-com-center-unittest-Testing-land-" class="outline-3">
-<h3 id="-http-clustering-kozikow-com-center-unittest-Testing-land-"><span class="section-number-3">2.5</span> <a href="http://clustering.kozikow.com/?center=unittest">Testing land</a></h3>
-<div class="outline-text-3" id="text-2-5">
+
 <p>
-Centered on <a href="http://clustering.kozikow.com/?center=unittest">unittest</a>. Some packages in the cluster are <a href="https://pypi.python.org/pypi/testfixtures">testfixtures</a> or <a href="https://pypi.python.org/pypi/atomic-reactor">atomic-reactor</a>.
+Some of the other clusters:
 </p>
+<ul class="org-ul">
+<li>Testing cluster, <a href="http://clustering.kozikow.com/?center=unittest">d3 link</a>, <a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=testclusters&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=false">graphistry cluster</a></li>
+<li>Openstack cluster, <a href="http://clustering.kozikow.com/?center=nova">d3 link</a>, <a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=stackcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=false">graphistry link</a></li>
+<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=stringcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=false">String parsing and formatting cluster</a></li>
+<li><a href="http://clustering.kozikow.com/?center=rospy">Robotics land</a></li>
+<li><a href="http://clustering.kozikow.com/?center=pygame">gaming cluster</a></li>
+<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=deepcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=false">deep learning cluster</a></li>
+</ul>
 </div>
 </div>
-<div id="outline-container-Gaming" class="outline-3">
-<h3 id="Gaming"><span class="section-number-3">2.6</span> Gaming</h3>
-<div class="outline-text-3" id="text-2-6">
-<p>
-Cluster for some gaming related libraries, is centered around <a href="http://clustering.kozikow.com/?center=pygame">pygame.</a>
-</p>
 </div>
-</div>
-</div>
+
 <div id="outline-container-Potentials-for-further-analysis" class="outline-2">
 <h2 id="Potentials-for-further-analysis"><span class="section-number-2">3</span> Potentials for further analysis</h2>
 <div class="outline-text-2" id="text-3">
@@ -318,22 +353,9 @@ Alternatively, I could cluster nodes prior to visualization and let users hide s
 </p>
 </div>
 </div>
-<div id="outline-container-Reduce-an-effect-of-heavy-weight-packages" class="outline-3">
-<h3 id="Reduce-an-effect-of-heavy-weight-packages"><span class="section-number-3">3.3</span> Reduce an effect of heavy weight packages</h3>
-<div class="outline-text-3" id="text-3-3">
-<p>
-In current visualization, big central packages like <a href="http://clustering.kozikow.com/?center=django">django</a>, <a href="http://clustering.kozikow.com/?center=numpy">numpy</a>, <a href="http://clustering.kozikow.com/?center=os">os</a> and <a href="http://clustering.kozikow.com/?center=sys">sys</a>
-dominate the graph. I believe that they dominate some of the smaller, more relevant relationships between smaller packages.
-</p>
-
-<p>
-I thought about replacing edge weight \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\) by \((\frac{ |A \cap B|}{|A| * |B|})^2\), but that could end up clustering packages by size rather than by common usage.
-</p>
-</div>
-</div>
 <div id="outline-container-Search-for-Alternatives-to-package-X-e-g-seaborn-vs-bokeh" class="outline-3">
-<h3 id="Search-for-Alternatives-to-package-X-e-g-seaborn-vs-bokeh"><span class="section-number-3">3.4</span> Search for "Alternatives to package X", e.g. seaborn vs bokeh</h3>
-<div class="outline-text-3" id="text-3-4">
+<h3 id="Search-for-Alternatives-to-package-X-e-g-seaborn-vs-bokeh"><span class="section-number-3">3.3</span> Search for "Alternatives to package X", e.g. seaborn vs bokeh</h3>
+<div class="outline-text-3" id="text-3-3">
 <p>
 For example, it would be interesting to cluster together all python data visualization packages.
 </p>
@@ -356,33 +378,13 @@ I might got some ORM details wrong, as I don't do much web dev.
 </p>
 </div>
 </div>
-<div id="outline-container-networkx-and-graph-tool-packages" class="outline-3">
-<h3 id="networkx-and-graph-tool-packages"><span class="section-number-3">3.5</span> networkx and graph_tool packages</h3>
-<div class="outline-text-3" id="text-3-5">
-<p>
-Thanks to this visualization I have found about <a href="http://clustering.kozikow.com?center=networkx">networkx</a> and graph_tool packages.
-It have some niceties for analyzing graphs.
-I plan to take a look at package dependency data using those packages.
-</p>
-</div>
-</div>
 <div id="outline-container-Within-repository-relationship" class="outline-3">
-<h3 id="Within-repository-relationship"><span class="section-number-3">3.6</span> Within repository relationship</h3>
-<div class="outline-text-3" id="text-3-6">
+<h3 id="Within-repository-relationship"><span class="section-number-3">3.4</span> Within repository relationship</h3>
+<div class="outline-text-3" id="text-3-4">
 <p>
 Currently, I am only looking at imports within the same file.
 It could be interesting to look at the same graph built using "within same repository" relationship.
 </p>
-</div>
-</div>
-<div id="outline-container-Highlight-when-overlay" class="outline-3">
-<h3 id="Highlight-when-overlay"><span class="section-number-3">3.7</span> Highlight when overlay</h3>
-<div class="outline-text-3" id="text-3-7">
-<ul class="org-ul">
-<li>Highlight a node and edges when overlaying with mouse.</li>
-<li>List all edges in a popup</li>
-<li>Potentially let user reduce number of packages</li>
-</ul>
 </div>
 </div>
 </div>
@@ -1435,12 +1437,12 @@ df_to_org<span style="color: #839496;">(</span>nodes_df<span style="color: #8394
 </div>
 </div>
 </div>
-<div id="outline-container-Draw-a-graph-using-the-new-d3-Verlet-Integration-algorithm" class="outline-3">
-<h3 id="Draw-a-graph-using-the-new-d3-Verlet-Integration-algorithm"><span class="section-number-3">5.3</span> Draw a graph using the new d3 Verlet Integration algorithm</h3>
+<div id="outline-container-Draw-a-graph-using-the-new-d3-velocity-verlet-integration-algorithm" class="outline-3">
+<h3 id="Draw-a-graph-using-the-new-d3-velocity-verlet-integration-algorithm"><span class="section-number-3">5.3</span> Draw a graph using the new d3 velocity verlet integration algorithm</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 The physical simulation
-Simulation uses the new <a href="https://github.com/d3/d3/blob/master/API.md#forces-d3-force">velocity Verlet integration force graph
+Simulation uses the new <a href="https://github.com/d3/d3/blob/master/API.md#forces-d3-force">velocity verlet integration force graph
 in d3 v 4.0.</a> Simulation takes about one minute to stabilize, so
 for viewing purposes I hard-coded the position of node after running simulation on my machine.
 </p>
@@ -1507,6 +1509,21 @@ approach at this point would be to try some ways of <a href="#Reduce-an-effect-o
 </ul>
 </div></li></ol>
 </div>
+</div>
+</div>
+
+<div id="outline-container-Other-posts" class="outline-2">
+<h2 id="Other-posts"><span class="section-number-2">6</span> Other posts</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+You may be interested in my other posts analyzing github data:
+</p>
+<ul class="org-ul">
+<li><a href="https://kozikow.com/2016/07/01/top-pandas-functions-used-in-github-repos/">Top pandas, numpy and scipy functions used in github repos</a></li>
+<li><a href="https://kozikow.com/2016/06/05/more-advanced-github-code-search/">More advanced github code search</a></li>
+<li><a href="https://kozikow.com/2016/07/01/top-angular-directives-on-github/">Top angular directives on github, including custom directives</a></li>
+<li><a href="https://kozikow.wordpress.com/2016/06/29/top-emacs-packages-used-in-github-repos/">Top emacs packages used in github repos</a></li>
+</ul>
 </div>
 </div>
 </div>

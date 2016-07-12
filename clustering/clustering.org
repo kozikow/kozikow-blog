@@ -10,18 +10,19 @@ I extracted co-occurence of top 3500 python packages in github repos using the t
 I implemented the visualization [[https://github.com/d3/d3-force][force layout in d3 via the velocity verlet integration]] as well as analyzed it using the
 http://graphistry.com/.
 
-See the screenshot of the numpy cluster in my visualization:
+See the screenshot of the numpy cluster in my visualization (click image for live version):
 
-[[file:screenshot.png][file:~/git_repos/github/kozikow-blog/clustering/screenshot.png]]
+[[http://clustering.kozikow.com?center=numpy][file:~/git_repos/github/kozikow-blog/clustering/screenshot.png]]
 
-See just the numpy cluster extracted from the graphistry:
-[[file:graphistry.png][file:~/git_repos/github/kozikow-blog/clustering/graphistry.png]]
+See just the numpy cluster extracted from the graphistry (click image for live version):
+[[https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=numpycluster&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=true][file:~/git_repos/github/kozikow-blog/clustering/graphistry.png]]
 
 
 Graph properties:
 - Each node is each python package found on github. Radius is calculated in [[*DataFrame with nodes][DataFrame with nodes]] section.
 - For two packages A and B, weight of an edge is \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\), where \(|A \cap B|\) is number of occurrences of packages A and B within the same file.
-  I will migrate it to the [[https://en.wikipedia.org/wiki/Pointwise_mutual_information#Normalized_pointwise_mutual_information_.28npmi.29][normalized pointwise mutual information]] soon.
+  I will migrate it to the [[https://en.wikipedia.org/wiki/Pointwise_mutual_information#Normalized_pointwise_mutual_information_.28npmi.29][normalized pointwise mutual information]] soon,
+  since it is a bit hard to calculate it using the BigQuery.
 - Edges with weight smaller than 0.1 are removed.
 - The d3 algorithm searches for minimal energy state by the velocity verlet Integration according to [[*Simulation parameters][simulation parameters.]]
   
@@ -33,7 +34,7 @@ Interesting graphistry views are in the next section, [[*Analysis of specific cl
 
 Graph visualizations often lack actionable insights except looking cool. Types of insights you can use this for:
 - Find packages you have been not aware of in the close proximity of other packages that you use.
-- Evaluate different web frameworks based on size, adoption and library availability.
+- Evaluate different web development frameworks based on size, adoption and library availability (e.g. [[https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=flashcluster&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=true][Flask]] vs [[https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=djangocluster&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=true][django]]).
 - Find some interesting python use cases, like [[http://clustering.kozikow.com/?center=rospy][robotics cluster]].
 
 [[https://github.com/kozikow/kozikow-blog/blob/master/clustering/clustering.org][Revision history of this post is on github]] in the [[https://kozikow.com/2016/05/21/very-powerful-data-analysis-environment-org-mode-with-ob-ipython/][org mode]].
@@ -43,7 +44,7 @@ In addition to d3 visualization I also clustered the data using the [[https://py
 Ability to exclude and filter by clusters was very useful.
 
 ** Scientific computing cluster
- Unsurprisingly, it is centered on numpy. It is interesting that it is possible to see divide between statistics and machine learning.
+ Unsurprisingly, it is centered on numpy. It is interesting that it is possible to see the divide between statistics and machine learning.
  - [[http://clustering.kozikow.com/?center=numpy][d3 link]]
  - [[https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=numpycluster&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=true][graphistry link]]
 ** Web frameworks clusters
@@ -80,23 +81,13 @@ Majority of the code is not specific to python. Only the first step, [[*Create a
 I had to do a lot of work on fitting the parameters in [[*Simulation parameters][Simulation parameters]] to make the graph look good enough.
 I suspect that I would have to do similar fitting to each language, as each language graph would have different properties.
 
-Probably majority of languages would have "heavy weight" center cluster that makes it hard to fit the parameters,
-so maybe removing the cluster like in described in [[*Reduce an effect of a heavy weight center cluster][Reduce an effect of a heavy weight center cluster]] could make algorithm
-more easily generalizeable to other languages.
-** Reduce an effect of a heavy weight center cluster
-"Standard library" cluster in the center is very heavyweight and includes many packages.
-It is also the least interesting, as everyone knows those packages, so there is little insight to be gained.
-
-Removing standard library could improve the quality of visualization.
-Removing just standard library is not easily generalizeable to other programming languages.
-
-Removing the biggest cluster as detected by clustering algorithm from [[http://scikit-learn.org/stable/modules/clustering.html][sklearn]] or [[http://networkx.readthedocs.io/en/networkx-1.11/reference/algorithms.clustering.html][networkx]] could work well.
-Alternatively, I could cluster nodes prior to visualization and let users hide some clusters from the browser.
+I will be working on analyzing Java and Scala next.
 ** Search for "Alternatives to package X", e.g. seaborn vs bokeh
 For example, it would be interesting to cluster together all python data visualization packages.
 
 Intuitively, such packages would be used in similar context, but would be rarely used together.
 They would have high correlation of their neighbor weights, but low direct edge.
+
 This would work in many situations, but there are some others it wouldn't handle well.
 Example case it wouldn't handle well: 
 - sqlalchemy is an alternative to django built-in ORM.
@@ -105,9 +96,15 @@ Example case it wouldn't handle well:
 - other web frameworks make heavy use of flask ORM, but not django built-in ORM.
 Therefore, django ORM and sqlalchemy wouldn't have their neighbor weights correlated.
 I might got some ORM details wrong, as I don't do much web dev.
+
+I also plan to experiment with [[http://arxiv.org/abs/1607.00653][node2vec]] or squaring the adjacency matrix.
 ** Within repository relationship
 Currently, I am only looking at imports within the same file.
-It could be interesting to look at the same graph built using "within same repository" relationship.
+It could be interesting to look at the same graph built using "within same repository" relationship, or 
+systematically compare the "within same repository" and "within same file" relationships.
+** Join with pypi
+It could be interesting to compare usages on github with pypi downloads.
+[[https://mail.python.org/pipermail/distutils-sig/2016-May/028986.html][Pypi is also accessible on BigQuery.]]
 * Data
 - [[http://clustering.kozikow.com/graph.js][Post-processed JSON data used by d3]]
 - [[https://bigquery.cloud.google.com/dataset/wide-silo-135723:github_clustering][Publicly available BigQuery tables with all the data]]. See Reproduce section to see how each table was generated.
@@ -521,8 +518,9 @@ nodes on the edge of a graph is big.
 
 I got as much as I could from the collision parameter and increasing it further wasn't helpful.
 Potentially I could increase gravity towards the center, but then some of the valuable "clusters"
-from edges of the graph got lumped into the big "kernel" in the center. The most promising
-approach at this point would be to try some ways of [[*Reduce an effect of a heavy weight center cluster][Reduce an effect of a heavy weight center cluster]].
+from edges of the graph got lumped into the big "kernel" in the center.
+
+Plotting some big clusters separately worked well to solve this problem.
 
 **** Attraction forces
 - Weight of edge between packages A and B: \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\), with distance 30

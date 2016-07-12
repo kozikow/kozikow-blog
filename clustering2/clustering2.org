@@ -425,7 +425,6 @@ Instrutions how to get your key are at https://github.com/graphistry/pygraphistr
 *** Plot
 
 #+BEGIN_SRC ipython :session :results output :exports both
-
   df['value'] = df['count']
 
   plotter = graphistry.bind(source="package1", destination="package2")
@@ -442,8 +441,8 @@ Instrutions how to get your key are at https://github.com/graphistry/pygraphistr
 
   ig.vs['size'] = node_order['count'].values
 
-  #html2 = plotter.bind(point_color='community', point_size='size').plot(ig)
-  #print html2.data
+  html2 = plotter.bind(point_color='community', point_size='size').plot(ig)
+  print html2.data
 #+END_SRC
 
 #+RESULTS:

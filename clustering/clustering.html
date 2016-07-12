@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2016-07-12 Tue 01:10 -->
+<!-- 2016-07-12 Tue 09:43 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title>Visualizing relationships between python packages</title>
@@ -89,15 +89,11 @@ for the JavaScript code in this tag.
 <li><a href="#Introduction">1. Introduction</a></li>
 <li><a href="#Analysis-of-specific-clusters">2. Analysis of specific clusters</a>
 <ul>
-<li><a href="#Scientific-computing-cluster">2.1. Scientific computing cluster</a>
-<ul>
-<li><a href="#Numpy-pandas-and-scipy-cluster">2.1.1. Numpy, pandas and scipy cluster</a></li>
-</ul>
-</li>
+<li><a href="#Scientific-computing-cluster">2.1. Scientific computing cluster</a></li>
 <li><a href="#Web-frameworks-clusters">2.2. Web frameworks clusters</a>
 <ul>
 <li><a href="#d3-links">2.2.1. d3 links</a></li>
-<li><a href="#graphistry-links">2.2.2. graphistry links</a></li>
+<li><a href="#Interesting-graphistry-clusters">2.2.2. Interesting graphistry clusters</a></li>
 </ul>
 </li>
 <li><a href="#Other-interesting-clusters">2.3. Other interesting clusters</a></li>
@@ -157,18 +153,18 @@ I implemented the visualization <a href="https://github.com/d3/d3-force">force l
 </p>
 
 <p>
-See the screenshot of the numpy cluster in my visualization:
+See the screenshot of the numpy cluster in my visualization (click to open live link):
 </p>
 
 
 <div class="figure">
-<p><a href="screenshot.png"><img src="file:///home/kozikow/git_repos/github/kozikow-blog/clustering/screenshot.png" alt="screenshot.png" /></a>
+<p><a href="http://clustering.kozikow.com?center=numpy"><img src="file:///home/kozikow/git_repos/github/kozikow-blog/clustering/screenshot.png" alt="screenshot.png" /></a>
 </p>
 </div>
 
 <p>
 See just the numpy cluster extracted from the graphistry:
-<a href="graphistry.png"><img src="file:///home/kozikow/git_repos/github/kozikow-blog/clustering/graphistry.png" alt="graphistry.png" /></a>
+<a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=numpycluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=true"><img src="file:///home/kozikow/git_repos/github/kozikow-blog/clustering/graphistry.png" alt="graphistry.png" /></a>
 </p>
 
 
@@ -180,7 +176,7 @@ Graph properties:
 <li>For two packages A and B, weight of an edge is \((\frac{ |A \cap B|}{min(|A|, |B|)})^2\), where \(|A \cap B|\) is number of occurrences of packages A and B within the same file.
 I will migrate it to the <a href="https://en.wikipedia.org/wiki/Pointwise_mutual_information#Normalized_pointwise_mutual_information_.28npmi.29">normalized pointwise mutual information</a> soon.</li>
 <li>Edges with weight smaller than 0.1 are removed.</li>
-<li>Algorithm searches for minimal energy state by the velocity verlet Integration according to <a href="#Simulation-parameters">simulation parameters.</a></li>
+<li>The d3 algorithm searches for minimal energy state by the velocity verlet Integration according to <a href="#Simulation-parameters">simulation parameters.</a></li>
 </ul>
 
 <p>
@@ -223,45 +219,24 @@ Ability to exclude and filter by clusters was very useful.
 <h3 id="Scientific-computing-cluster"><span class="section-number-3">2.1</span> Scientific computing cluster</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
-Unsurprisingly, it is centered on <a href="http://clustering.kozikow.com/?center=numpy">numpy (d3 link)</a>.
+Unsurprisingly, it is centered on numpy. It is interesting that it is possible to see divide between statistics and machine learning.
 </p>
-</div>
-
-<div id="outline-container-Numpy-pandas-and-scipy-cluster" class="outline-4">
-<h4 id="Numpy-pandas-and-scipy-cluster"><span class="section-number-4">2.1.1</span> Numpy, pandas and scipy cluster</h4>
-<div class="outline-text-4" id="text-2-1-1">
-<style>
-.iframe-rwd  {
-    position: relative;
-    padding-bottom: 65.25%;
-    padding-top: 30px;
-    height: 0;
-    overflow: hidden;
-}
-
-.iframe-rwd iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-</style>
-<div class="iframe-rwd">
-<iframe src="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=numpycluster&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=false"></iframe>
-</div>
-</div>
+<ul class="org-ul">
+<li><a href="http://clustering.kozikow.com/?center=numpy">d3 link</a></li>
+<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=numpycluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=true">graphistry link</a></li>
+</ul>
 </div>
 </div>
 <div id="outline-container-Web-frameworks-clusters" class="outline-3">
 <h3 id="Web-frameworks-clusters"><span class="section-number-3">2.2</span> Web frameworks clusters</h3>
 <div class="outline-text-3" id="text-2-2">
-</div><div id="outline-container-d3-links" class="outline-4">
-<h4 id="d3-links"><span class="section-number-4">2.2.1</span> d3 links</h4>
-<div class="outline-text-4" id="text-2-2-1">
 <p>
 Web frameworks are interesting:
 </p>
+</div>
+<div id="outline-container-d3-links" class="outline-4">
+<h4 id="d3-links"><span class="section-number-4">2.2.1</span> d3 links</h4>
+<div class="outline-text-4" id="text-2-2-1">
 <ul class="org-ul">
 <li>It could be said that <a href="http://clustering.kozikow.com/?center=sqlalchemy">sqlalchemy</a> is a center of web frameworks land.</li>
 <li>Found nearby, there's a massive and monolithic cluster for <a href="http://clustering.kozikow.com/?center=django">django</a>.</li>
@@ -273,13 +248,13 @@ Web frameworks are interesting:
 </ul>
 </div>
 </div>
-<div id="outline-container-graphistry-links" class="outline-4">
-<h4 id="graphistry-links"><span class="section-number-4">2.2.2</span> graphistry links</h4>
+<div id="outline-container-Interesting-graphistry-clusters" class="outline-4">
+<h4 id="Interesting-graphistry-clusters"><span class="section-number-4">2.2.2</span> Interesting graphistry clusters</h4>
 <div class="outline-text-4" id="text-2-2-2">
 <ul class="org-ul">
-<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=djangocluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=false">Django cluster</a></li>
-<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=flashcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=false">Flask cluster</a></li>
-<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=twistedcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=false">Twisted cluster</a></li>
+<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=djangocluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=true">Django cluster</a></li>
+<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=flashcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=true">Flask cluster</a></li>
+<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=twistedcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=true">Twisted cluster</a></li>
 </ul>
 </div>
 </div>
@@ -290,23 +265,19 @@ Web frameworks are interesting:
 <p>
 Looking at results of clustering algorithm, only "medium sized" clusters are interesting.
 A few first are obvious like clusters dominated by packages like os and sys. Very small clusters are not interesting either.
-Here you can see clusters between positions 5 and 30 according to size:
+<a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=topclusters&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=true">Here you can see clusters between positions 5 and 30 according to size</a>.
 </p>
-</style>
-<div class="iframe-rwd">
-<iframe src="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&type=vgraph&splashAfter=1468271796&info=true&static=true&contentKey=topclusters&play=0&center=true&menu=false&goLive=false&left=-1.44e+3&right=973&top=-478&bottom=657&poi=false"></iframe>
-</div>
 
 <p>
 Some of the other clusters:
 </p>
 <ul class="org-ul">
-<li>Testing cluster, <a href="http://clustering.kozikow.com/?center=unittest">d3 link</a>, <a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=testclusters&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=false">graphistry cluster</a></li>
-<li>Openstack cluster, <a href="http://clustering.kozikow.com/?center=nova">d3 link</a>, <a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=stackcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=false">graphistry link</a></li>
-<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=stringcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=false">String parsing and formatting cluster</a></li>
+<li>Testing cluster, <a href="http://clustering.kozikow.com/?center=unittest">d3 link</a>, <a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=testclusters&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=true">graphistry cluster</a></li>
+<li>Openstack cluster, <a href="http://clustering.kozikow.com/?center=nova">d3 link</a>, <a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=stackcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=true">graphistry link</a></li>
+<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=stringcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=true">String parsing and formatting cluster</a></li>
 <li><a href="http://clustering.kozikow.com/?center=rospy">Robotics land</a></li>
 <li><a href="http://clustering.kozikow.com/?center=pygame">gaming cluster</a></li>
-<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=deepcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=false">deep learning cluster</a></li>
+<li><a href="https://labs.graphistry.com/graph/graph.html?dataset=PyGraphistry/5R2115KURX&amp;type=vgraph&amp;splashAfter=1468271796&amp;info=true&amp;static=true&amp;contentKey=deepcluster&amp;play=0&amp;center=true&amp;menu=false&amp;goLive=false&amp;left=-1.44e+3&amp;right=973&amp;top=-478&amp;bottom=657&amp;poi=true">deep learning cluster</a></li>
 </ul>
 </div>
 </div>

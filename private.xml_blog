@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<root>
+  <item>
+    <name>Remap F19 to mod2</name>
+    <appendix>OS X doesn't have a Hyper. Remap F19 to Control + Shift + Option.</appendix>
+
+    <identifier>f19_to_ctrl_shift_opt</identifier>
+
+    <autogen>
+      --KeyToKey--
+      KeyCode::F19,
+
+      KeyCode::OPTION_L, ModifierFlag::SHIFT_L | ModifierFlag::CONTROL_L
+    </autogen>
+  </item>
+  
+  <item>
+    <name>Shift_R to Shift_R</name>
+    <appendix>(+ When you type Shift_R only, send delete)</appendix>
+    <identifier>remap.shiftR2shiftR_delete</identifier>
+    <autogen>__KeyOverlaidModifier__ KeyCode::SHIFT_R, KeyCode::SHIFT_R, KeyCode::DELETE</autogen>
+  </item>
+
+  <item>
+    <name>Left shift to Parentheses</name>
+    <appendix>Left shift, when pressed alone, type parentheses. When used with other keys it's normal shift.</appendix>
+
+    <identifier>private.left_shift_to_parens</identifier>
+
+    <autogen>--KeyOverlaidModifier-- KeyCode::SHIFT_L, ModifierFlag::SHIFT_L | ModifierFlag::NONE, KeyCode::SHIFT_L,
+    KeyCode::KEY_9, ModifierFlag::SHIFT_R,
+    KeyCode::KEY_0, ModifierFlag::SHIFT_R,
+    KeyCode::CURSOR_LEFT</autogen>
+  </item>
+
+  
+  <item>
+    <name>Left cmd to curly braces</name>
+    <appendix>Left cmd, when pressed alone, type curly braces. When used with other keys it's normal cmd.</appendix>
+
+    <identifier>private.left_cmd_to_curly_braces</identifier>
+
+    <autogen>--KeyOverlaidModifier-- KeyCode::COMMAND_L, ModifierFlag::COMMAND_L | ModifierFlag::NONE, KeyCode::COMMAND_L,
+    KeyCode::BRACKET_LEFT, ModifierFlag::SHIFT_R,
+    KeyCode::BRACKET_RIGHT, ModifierFlag::SHIFT_R,
+    KeyCode::CURSOR_LEFT</autogen>
+  </item>
+
+  <item>
+    <name>Right cmd to equal sign</name>
+    <appendix>Right cmd, when pressed alone, type equal sign. When used with other keys it's normal cmd.</appendix>
+
+    <identifier>private.right_cmd_to_equal_sign</identifier>
+
+    <autogen>--KeyOverlaidModifier-- KeyCode::COMMAND_R, ModifierFlag::COMMAND_R | ModifierFlag::NONE, KeyCode::COMMAND_R,
+    KeyCode::EQUAL
+    </autogen>
+  </item>
+
+  <item>
+    <name>Right option to plus sign</name>
+    <appendix>Right option, when pressed alone, type plus sign. When used with other keys it's normal option.</appendix>
+
+    <identifier>private.right_option_to_plus_sign</identifier>
+
+    <autogen>--KeyOverlaidModifier-- KeyCode::OPTION_R, ModifierFlag::OPTION_R | ModifierFlag::NONE, KeyCode::OPTION_R,
+    KeyCode::EQUAL, ModifierFlag::SHIFT_R
+    </autogen>
+  </item>
+  
+</root>

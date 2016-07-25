@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<root>
+
+  <item>
+    <name>Shift_R to Shift_R</name>
+    <appendix>(+ When you type Shift_R only, send delete)</appendix>
+    <identifier>remap.shiftR2shiftR_delete</identifier>
+    <autogen>__KeyOverlaidModifier__ KeyCode::SHIFT_R, KeyCode::SHIFT_R, KeyCode::DELETE</autogen>
+  </item>
+
+  <item>
+    <name>Command_R as blue keys layer</name>
+    <identifier>remap.blue_layer</identifier>
+    <autogen>__KeyToKey__ KeyCode::Q, ModifierFlag::COMMAND_R, KeyCode::KEY_1</autogen>
+    <autogen>__KeyToKey__ KeyCode::W, ModifierFlag::COMMAND_R, KeyCode::KEY_2</autogen>
+    <autogen>__KeyToKey__ KeyCode::E, ModifierFlag::COMMAND_R, KeyCode::KEY_3</autogen>
+    <autogen>__KeyToKey__ KeyCode::R, ModifierFlag::COMMAND_R, KeyCode::KEY_4</autogen>
+    <autogen>__KeyToKey__ KeyCode::T, ModifierFlag::COMMAND_R, KeyCode::KEY_5</autogen>
+    <autogen>__KeyToKey__ KeyCode::Y, ModifierFlag::COMMAND_R, KeyCode::KEY_6</autogen>
+    <autogen>__KeyToKey__ KeyCode::U, ModifierFlag::COMMAND_R, KeyCode::KEY_7</autogen>
+    <autogen>__KeyToKey__ KeyCode::I, ModifierFlag::COMMAND_R, KeyCode::KEY_8</autogen>
+    <autogen>__KeyToKey__ KeyCode::O, ModifierFlag::COMMAND_R, KeyCode::KEY_9</autogen>
+    <autogen>__KeyToKey__ KeyCode::P, ModifierFlag::COMMAND_R, KeyCode::KEY_0</autogen>
+
+    <autogen>__KeyToKey__ KeyCode::A, ModifierFlag::COMMAND_R, KeyCode::KEY_9, ModifierFlag::SHIFT_L</autogen>
+    <autogen>__KeyToKey__ KeyCode::S, ModifierFlag::COMMAND_R, KeyCode::KEY_0, ModifierFlag::SHIFT_L</autogen>
+    <autogen>__KeyToKey__ KeyCode::D, ModifierFlag::COMMAND_R, KeyCode::BRACKET_LEFT, ModifierFlag::SHIFT_L</autogen>
+    <autogen>__KeyToKey__ KeyCode::F, ModifierFlag::COMMAND_R, KeyCode::BRACKET_RIGHT, ModifierFlag::SHIFT_L</autogen>
+    <autogen>__KeyToKey__ KeyCode::G, ModifierFlag::COMMAND_R, KeyCode::BACKQUOTE</autogen>
+    <autogen>__KeyToKey__ KeyCode::H, ModifierFlag::COMMAND_R, KeyCode::CURSOR_LEFT</autogen>
+    <autogen>__KeyToKey__ KeyCode::J, ModifierFlag::COMMAND_R, KeyCode::CURSOR_DOWN</autogen>
+    <autogen>__KeyToKey__ KeyCode::K, ModifierFlag::COMMAND_R, KeyCode::CURSOR_UP</autogen>
+    <autogen>__KeyToKey__ KeyCode::L, ModifierFlag::COMMAND_R, KeyCode::CURSOR_RIGHT</autogen>
+    <autogen>__KeyToKey__ KeyCode::SEMICOLON, ModifierFlag::COMMAND_R, KeyCode::EQUAL</autogen>
+    <autogen>__KeyToKey__ KeyCode::QUOTE, ModifierFlag::COMMAND_R, KeyCode::BACKSLASH</autogen>
+
+    <autogen>__KeyToKey__ KeyCode::Z, ModifierFlag::COMMAND_R, KeyCode::BRACKET_LEFT</autogen>
+    <autogen>__KeyToKey__ KeyCode::X, ModifierFlag::COMMAND_R, KeyCode::BRACKET_RIGHT</autogen>
+    <autogen>__KeyToKey__ KeyCode::C, ModifierFlag::COMMAND_R, KeyCode::MINUS</autogen>
+    <autogen>__KeyToKey__ KeyCode::V, ModifierFlag::COMMAND_R, KeyCode::EQUAL, ModifierFlag::SHIFT_L</autogen>
+    <autogen>__KeyToKey__ KeyCode::M, ModifierFlag::COMMAND_R, KeyCode::MINUS, ModifierFlag::SHIFT_L</autogen>
+    <autogen>__KeyToKey__ KeyCode::SPACE, ModifierFlag::COMMAND_R, KeyCode::SPACE, ModifierFlag::SHIFT_L</autogen>
+  </item>
+  
+</root>

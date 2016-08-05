@@ -632,35 +632,6 @@ A few more things after rebooting:
   visudo # in this file configure your user as a sudoer
   reboot
 #+END_SRC
-** (optional) Install window manager
-Mass installing "gnome" package is against the arch philosophy,
-as it pulls many unnecessary things with it.
-If you have extra time you should pick invididual gnome packages or go for lighter WM.
-If you want an easy way out you can just:
-#+BEGIN_SRC bash :results output
-  pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils
-  echo "exec gnome-session" >> ~/.xinitrc
-  startx
-#+END_SRC
-*** Remove not used gnome packages
-Gnome pulls lots of stuff that I never used.
-You may want to uninstall some packages that you don't use from gnome:
-#+BEGIN_SRC bash :results output
-pacman -Q | grep gnome # See how much things you have just installed.
-pacman -Rc gnome-keyring gnome-contacts gnome-calculator empathy gnome-terminal
-#+END_SRC
-*** Problem with gnome-terminal not starting
-gnome-terminal worked initially, but then it refused to start.
-I much more prefer [[https://wiki.archlinux.org/index.php/Termite][termite]] as an terminal and it didn't experience the same issue.
-[[https://github.com/kozikow/kozikow-blog/blob/master/termite_config][My ~/.config/termite/config.]]
-*** Tiling window manager
-Personally, I just spend 99% of my time in 3 programs: emacs, chromium and termite+tmux.
-I do the tiling and workspace management inside Emacs or tmux. I would get minimal additional benefit out of a tiling wm.
-The only things I need from the window manager are supplied by plain gnome:
-- Switch focus to emacs/chromium/termite with [[https://www.archlinux.org/packages/community/i686/wmctrl/][wmctrl]].
-- Move window one monitor left (=gsettings set org.gnome.desktop.wm.keybindings move-to-monitor-left=) and right (=move-to-monitor-right=)
-- Auto maximize windows and remove decorations with https://aur.archlinux.org/packages/maximus/.
-*** Auto start apps
 
 ** Hardware support
 *** Input devices
@@ -760,21 +731,6 @@ In gnome, I can choose to play it over HDMI in Settings->Sound.
   mkdir -p ~/.config/autostart
   cp /usr/share/applications/emacs.desktop ~/.config/autostart # Some apps may also be in ~/.local/share/applications
 #+END_SRC
-** Screen lock
-gnome-screensaver was buggy when I tried to use it and I decided to use xscreensaver instead.
-
-If you want a xscreensaver with an image as a screensaver:
-#+BEGIN_SRC bash :results output
-  sudo pacman -S xscreensaver
-  sudo pacman -S libgnome # Required if you use gnome. Pacman do not pick it by default.
-  # See http://askubuntu.com/questions/74200/how-do-i-use-a-photos-directory-as-my-screensaver
-  xscreensaver-demo # Opens a GUI to configure
-  echo "xscreensaver -no-splash &" >> ~/.xinitrc # Make sure it's before any exec entry.
-  xscreensaver-command -lock # Command to lock screen
-#+END_SRC
-[[https://wiki.archlinux.org/index.php/XScreenSaver][Also see XScreenSaver wiki entry.]]
-You can bind it to a key in gnome settings->keyboard->custom shortcuts.
-You may also bind it using =gsettings set= command.
 ** Auto-connect to wifi
 It's nice to automatially connect to wifi when you boot, rather than run =wifi-menu= every time.
 #+BEGIN_SRC bash :results output
@@ -793,15 +749,60 @@ To disable the service and add a new wifi entry I simply use this bash alias:
     sudo systemctl enable netctl-auto@wlp4s0.service
   }
 #+END_SRC
+** My personal preferences about desktip software
+*** Window manager
+Mass installing "gnome" package is against the arch philosophy,
+as it pulls many unnecessary things with it.
+If you have extra time you should pick invididual gnome packages or go for lighter WM.
+If you want an easy way out you can just:
+#+BEGIN_SRC bash :results output
+  pacman -S gnome gnome-initial-setup xorg-xinit xterm xorg-utils
+  echo "exec gnome-session" >> ~/.xinitrc
+  startx
+#+END_SRC
+**** Remove not used gnome packages
+Gnome pulls lots of stuff that I never used.
+You may want to uninstall some packages that you don't use from gnome:
+#+BEGIN_SRC bash :results output
+pacman -Q | grep gnome # See how much things you have just installed.
+pacman -Rc gnome-keyring gnome-contacts gnome-calculator empathy gnome-terminal
+#+END_SRC
+**** Problem with gnome-terminal not starting
+gnome-terminal worked initially, but then it refused to start.
+I much more prefer [[https://wiki.archlinux.org/index.php/Termite][termite]] as an terminal and it didn't experience the same issue.
+[[https://github.com/kozikow/kozikow-blog/blob/master/termite_config][My ~/.config/termite/config.]]
+**** Tiling window manager
+Personally, I just spend 99% of my time in 3 programs: emacs, chromium and termite+tmux.
+I do the tiling and workspace management inside Emacs or tmux. I would get minimal additional benefit out of a tiling wm.
+The only things I need from the window manager are supplied by plain gnome:
+- Switch focus to emacs/chromium/termite with [[https://www.archlinux.org/packages/community/i686/wmctrl/][wmctrl]].
+- Move window one monitor left (=gsettings set org.gnome.desktop.wm.keybindings move-to-monitor-left=) and right (=move-to-monitor-right=)
+- Auto maximize windows and remove decorations with https://aur.archlinux.org/packages/maximus/.
+**** Auto start apps
+*** Screen lock
+gnome-screensaver was buggy when I tried to use it and I decided to use xscreensaver instead.
 
+If you want a xscreensaver with an image as a screensaver:
+#+BEGIN_SRC bash :results output
+  sudo pacman -S xscreensaver
+  sudo pacman -S libgnome # Required if you use gnome. Pacman do not pick it by default.
+  # See http://askubuntu.com/questions/74200/how-do-i-use-a-photos-directory-as-my-screensaver
+  xscreensaver-demo # Opens a GUI to configure
+  echo "xscreensaver -no-splash &" >> ~/.xinitrc # Make sure it's before any exec entry.
+  xscreensaver-command -lock # Command to lock screen
+#+END_SRC
+[[https://wiki.archlinux.org/index.php/XScreenSaver][Also see XScreenSaver wiki entry.]]
+You can bind it to a key in gnome settings->keyboard->custom shortcuts.
+You may also bind it using =gsettings set= command.
+*** File manager
+I didn't like the default gnome nautilus file manager and I installed thunar instead.
+*** Video player
+vlc is the most reasonable choice in this category.
 ** Things I didn't configure yet
 *** TODO [[https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon_(Gen_4)][Verify that SSD trims are aplied.]] Optimize for SSDs
 *** TODO Auto mount windows disk and choose the the ntfs implementation
 Basic mount works. I did not configure auto mounting yet.
 I've also heard that alternative ntfs impelementation, [[https://wiki.archlinux.org/index.php/NTFS-3G][NTFS-3G]], is better than kernel version.
-*** TODO Figure out power management
-Currently I just use some settings from xscreensaver
-https://wiki.archlinux.org/index.php/Power_management#Power_management_with_systemd
 *** TODO Try fingerprint sensor
 *** TODO Try card readers.
 - SimCard
@@ -811,6 +812,9 @@ https://wiki.archlinux.org/index.php/Power_management#Power_management_with_syst
 https://wiki.archlinux.org/index.php/disk_encryption
 *** TODO Benchmark battery
 Althought it seems to last pretty long.
+*** TODO Figure out power management
+Currently I just use some settings from xscreensaver
+https://wiki.archlinux.org/index.php/Power_management#Power_management_with_systemd
 * Conclusion
 At this point, you should be close to the point where distributions with graphical installer, like ubuntu, leave you.
 Congratulations, you skiped all the (Ubuntu) adware and understood how your OS works.

@@ -7,12 +7,14 @@
 #+AUTHOR: Robert Kozikowski
 #+EMAIL: r.kozikowski@gmail.com
 * Introduction
-I recently configured Arch Linux on the new Thinkpad X1 Carbon (4th generation) with dual booting to the pre-installed Windows 10 (for games I occasionally play).
+I configured Arch Linux on the new Thinkpad X1 Carbon (4th generation) with dual booting to the pre-installed Windows 10 (for games I occasionally play).
 I got close to the 100% of laptop functionality working on the Arch Linux, confirming the rumor that Thinkpads work well with Linux.
 Setup should be very similar on modern laptops with GPT/UEFI.
 
 Even if Arch wiki is very comprehensive, it needs a bit of reading to decide what is right for the particular hardware.
 Dual booting with windows and UEFI/GPT are not as well documented as the plain old linux installations.
+
+To see my thoughts after a few months of usage you can jump to [[*Conclusion][Conclusion]].
 
 [[https://raw.githubusercontent.com/kozikow/kozikow-blog/master/arch.org][This post was written in and is readable in the Emacs org mode format]].
 * Why Arch Linux?
@@ -816,10 +818,28 @@ Althought it seems to last pretty long.
 Currently I just use some settings from xscreensaver
 https://wiki.archlinux.org/index.php/Power_management#Power_management_with_systemd
 * Conclusion
-At this point, you should be close to the point where distributions with graphical installer, like ubuntu, leave you.
-Congratulations, you skiped all the (Ubuntu) adware and understood how your OS works.
+** The laptop itself
+After a few months of usage my thoughts about the laptop are:
+WQHD screen:
+- Almost all apps I use regularly handle it well, including chromium, emacs, termite (terminal), thunar and transmission
+- The only two apps that don’t handle WQHD well are xscreensaver and gimp. I feel that there would be a way of making them work if I really wanted.
 
-From now on, everything is up to the personal preference.
+Keyboard:
+After few months of I use I must say that keyboard does not feel “as good”.
+I may be overly snobish regarding keyboards, as I bought over 5 mechanical keyboards. I never expected laptop keys to feel as good as mechanical keyboard, but I slightly preferred feeling of the mac book keyboard.
+
+Others:
+- As I got used to trackpoint I find it more efficient than trackpad or mouse
+- I didn’t try the sim card of fingerprint readers yet
+- I didn’t have any other problems with anything hardware related
+- battery life seems to be ok, but I didn’t measure it
+- I believe accidental damage coverage to be a good deal. For 10% of the laptop cost I bought a 4 year coverage that will cover fixing my laptop in any scenario, even if I drop it or spill water on it.
+** Arch Linux
+I like the choice of Arch as the operating system. In addition to my laptop I also
+run arch in docker on all my servers and it’s beneficial to use the same OS at home and at work.
+
+I didn't have any big problems with running random software packages I needed at some point, including
+things like connecting to the vpn or watching movies.
 * Additional links
 ** Thinkpad Carbon arch wiki entries
 https://wiki.archlinux.org/index.php/Lenovo_ThinkPad_X1_Carbon

@@ -47,7 +47,7 @@ Even if you decide to continue writing yamls, you would be better of looking at 
 * You may need advanced dynamic configuration quicker than you think
 Even if your services are relatively simple, you will probably want to have slightly different config for development inside minikube or staging environment.
 
-* Divagation about configuration as code
+* I'd like to interject for a moment about configuration as code
 It was a long believed dogma that configuration needs to be separate from code - configuration should be in non-programming languages, like XML (old-school) or Json/yaml (new-school).
 
 Note that it is a different, although related, concept to "infrastructure as code". 

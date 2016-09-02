@@ -1,0 +1,69 @@
+#+BLOG: wordpress
+#+POSTID: 872
+#+DATE: [2016-09-02 Fri 15:54]
+#+TITLE: Using go to autogenerate kubernetes configs
+* Introduction
+I found hand-writing kubernetes configuration in yaml insufficient very quickly:
+- Fragile 
+- Implicit assumptions
+- Not self-documenting
+- Hard to navigate
+- Not dynamic
+- Editing by trial and error
+
+You may consider yaml templating templating [[https://github.com/kubernetes/kubernetes/issues/23896][discussed in this github issue]], but I believe that generating configs in go would be right for many people.
+Generating your configs using [[https://github.com/kubernetes/client-go][client-go]] is not discussed anywhere, so I decided to write this post.
+
+Disclaimer: I am golang noob. If you are impatient to see how it would look like - [[https://gist.github.com/kozikow/37ea56e9f972c6927827f4635ee162d5][here is my kubernetes config for airflow]].
+Running this go program generates the yaml configuration.
+
+* Type per Kubernetes concept
+There is a type for every kubernetes concept.
+Rather than try to guess what should go in this level of yaml, you can just look at go types.
+
+In the end, class json.NewYAMLSerializer that can transform go objects into yaml using Encode function.
+
+Even if yaml have some validation, it is not as good as static type checking.
+
+* Go is easy to setup and learn
+Airflow kubernetes config I linked above was my second program I wrote in go. 
+Configuring Emacs for IDE-like go features and writing this config just took me a few hours.
+
+golang is very easy to learn, especially if you are already proficient in some C-like language. 
+If you have spent more than few hours debugging your kubernetes config IMO it will be a good investment.
+
+* Self-documenting config
+Example use case - I am configuring the container object.
+In the yaml scenario, I would land at the [[http://kubernetes.io/docs/user-guide/configuring-containers/][configuring containers]] doc page.
+
+Compare this to the [[https://github.com/kubernetes/client-go/blob/3ccba38/1.4/pkg/api/v1/types.go#L1190][Container type in the client library]].
+
+As you might have noticed, the comments in go library provide more information.
+By using go library you can just "godef-jump" to the definition of the type you are interested in straight from your config
+and continue navigating the library in the same way. You can also get auto-completion and other IDE-like features.
+
+Even if you decide to continue writing yamls, you would be better of looking at client-go to understand what to put into your yaml.
+
+* You may need advanced dynamic configuration quicker than you think
+Even if your services are relatively simple, you will probably want to have slightly different config for development inside minikube or staging environment.
+
+* Divagation about configuration as code
+It was a long believed dogma that configuration needs to be separate from code - configuration should be in non-programming languages, like XML (old-school) or Json/yaml (new-school).
+
+Note that it is a different, although related, concept to "infrastructure as code". 
+
+Some projects decide to embrace the "Configuration as code". 
+One modern example I like is airflow. Quote from their announcement: http://nerds.airbnb.com/airflow/.
+#+BEGIN_QUOTE
+"While yaml or json job configuration would allow for any language to be used to generate Airflow pipelines, we felt that some fluidity gets lost in the translation. Being able to introspect code (ipython!, IDEs) subclass, meta-program and use import libraries to help write pipelines adds tremendous value."
+#+END_QUOTE
+
+Another famous case is dependency injection in Java.
+Spring started with xml, but through the influence of guice newer versions of spring embraced "configuration as code", abandoning the XML.
+Dagger is a step further in that direction.
+
+Kubernetes and other orchestration frameworks on some level are conceptually similar to a dependency injection framework - rather than injecting classes they inject containers.
+
+* Conclusion
+I am happy about moving my kubernetes configs to golang.
+I believe that this is the right way to configure kubernetes if you want to use it for anything moderately complex.

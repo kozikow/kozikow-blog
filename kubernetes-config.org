@@ -55,7 +55,7 @@ Note that it is a different, although related, concept to "infrastructure as cod
 Some projects decide to embrace the "Configuration as code". 
 One modern example I like is airflow. Quote from their announcement: http://nerds.airbnb.com/airflow/.
 #+BEGIN_QUOTE
-"While yaml or json job configuration would allow for any language to be used to generate Airflow pipelines, we felt that some fluidity gets lost in the translation. Being able to introspect code (ipython!, IDEs) subclass, meta-program and use import libraries to help write pipelines adds tremendous value."
+Pipeline authoring is also done in Python, which means dynamic pipeline generation from configuration files or any other source of metadata comes naturally. "Configuration as code" is a principle we stand by for this purpose. While yaml or json job configuration would allow for any language to be used to generate Airflow pipelines, we felt that some fluidity gets lost in the translation. Being able to introspect code (ipython!, IDEs) subclass, meta-program and use import libraries to help write pipelines adds tremendous value.
 #+END_QUOTE
 
 Another famous case is dependency injection in Java.

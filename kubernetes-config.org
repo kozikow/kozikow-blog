@@ -19,9 +19,9 @@ Running this go program generates the yaml configuration.
 
 * Type per Kubernetes concept
 There is a type for every kubernetes concept.
-Rather than try to guess what should go in this level of yaml, you can just look at go types.
+Go types make it much more clear what can go in the given level of yaml.
 
-In the end, class json.NewYAMLSerializer that can transform go objects into yaml using Encode function.
+golang type representing kubernetes entity can be transformed to yaml using function Encode from object created via json.NewYAMLSerializer.
 
 Even if yaml have some validation, it is not as good as static type checking.
 

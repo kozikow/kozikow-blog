@@ -1,0 +1,7 @@
+
+* Bind path
+#+BEGIN_SRC bash :results output
+  mkdir -p /home/kozikow/git_repos/github/understandwork
+  sudo chown -R docker /home/kozikow/
+  sudo mount -t vboxsf understandwork /home/kozikow/git_repos/github/understandwork
+#+END_SRC

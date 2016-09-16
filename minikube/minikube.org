@@ -1,7 +1,71 @@
+#+TITLE: Using PyCharm docker integration with minikube
+#+AUTHOR: Robert Kozikowski
+#+EMAIL: r.kozikowski@gmail.com
+* Introduction
+I will write about using docker environment from minikube VM for PyCharm integration.
+** Why use PyCharm docker integration?
+- IDE features based on python version in the docker image, like code completion, auto-imports, library navigation or type checking.
+- Debug code running inside the docker image using the PyCharm debugger.
+** Why use the same docker environment for PyCharm and minikube?
+- You don't need to build the same image twice for different docker environments or rely on docker push/pull.
+- No need to switch between docker environments.
+* Pre-requsities
+Docker, pycharm and minikube installed.
+* Set up docker in pycharm
+My =minikube docker-env=
 
-* Bind path
+#+BEGIN_EXAMPLE
+  export DOCKER_TLS_VERIFY="1"
+  export DOCKER_HOST="tcp://192.168.99.100:2376"
+  export DOCKER_CERT_PATH="/home/kozikow/.minikube/certs"
+  export DOCKER_API_VERSION="1.23"
+#+END_EXAMPLE
+
+My pycharm configuration
+
+[[file:docker_minikube_config.png][file:~/git_repos/github/kozikow/kozikow-blog/minikube/docker_minikube_config.png]]
+
+You need to replace tcp reported by docker-env with https.
+* Configure remote interpreter
+Now that pycharm knows how to connect to docker inside minikube, configure a python interpreter as described in https://www.jetbrains.com/help/pycharm/2016.1/configuring-remote-interpreters-via-docker.html .
+* Share the path with the VM
+** Problem with pycharm bindings
+
+When using docker on localhost or within the docker-machine, pycharm configure binds
+paths from localhost to the docker image.
+
+When using the minikube VM, pycharm decides to bind the path from the VM instead of localhost.
+I created bug about this: https://youtrack.jetbrains.com/issue/PY-20791#u=1473897921285 .
+
+Pycharm run configurations, that allow debugging within code running in the container, rely on 
+binding your project code to /opt/project. Currently, the only option is sharing the path
+between your localhost and the VM.
+
+It needs to be configured only once for minikube VM.
+** Configure binding in virtualbox
+If you use different VM provider you may need different settings.
+I want to share all my git repos with the virtualbox VM. I store them at /home/kozikow/git_repos.
+Firstly, I need to configure sharing in the virtualbox GUI:
+
+[[file:virtualbox_settings_blog.png][file:~/git_repos/github/kozikow/kozikow-blog/minikube/virtualbox_settings_blog.png]]
+
+** Mount paths in the VM
+
 #+BEGIN_SRC bash :results output
-  mkdir -p /home/kozikow/git_repos/github/understandwork
-  sudo chown -R docker /home/kozikow/
-  sudo mount -t vboxsf understandwork /home/kozikow/git_repos/github/understandwork
+  minikube ssh
+  mkdir -p /home/kozikow/git_repos
+  sudo chown -R docker /home/kozikow
+
+  sudo mount -t vboxsf git_repos /home/kozikow/git_repos
 #+END_SRC
+* Docker-PyCharm bugs
+The integration is still new, so there are a few bugs. It's still worth it. All bugs are in the pycharm issue tracker.
+- Your images can't have custom =ENTRYPOINT=
+- If you want to use docker compose inside the VM, it needs to be accessible under the same path on localhost and the VM. Sharing the repo with the VM covers this problem.
+* Future work
+It would be nice if I could debug images launched used =kubectl run= using pycharm.
+Images started by pycharm are not started inside kubernetes, so they can't rely on some intra-cluster features.
+
+At this point, the best way I found of debugging an image started by =kubectl run= would be manually installing
+Python Debug Server on your image as described in https://www.jetbrains.com/help/pycharm/2016.1/remote-debugging.html ,
+and connecting to it after =kubectl run=.

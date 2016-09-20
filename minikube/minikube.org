@@ -64,6 +64,34 @@ Firstly, I need to configure sharing in the virtualbox GUI:
 
   sudo mount -t vboxsf git_repos /home/kozikow/git_repos
 #+END_SRC
+* Start automatically
+Starting minikube and manually mounting paths is annoying.
+You can do it with systemd service.
+Create minikube service. My =/etc/systemd/system/minikube.service= looks like:
+#+BEGIN_EXAMPLE
+  [Unit]
+  Description=Minikube
+
+  [Service]
+  Type=oneshot
+  TimeoutStartSec=300
+  User=kozikow
+  ExecStart=/usr/local/bin/minikube start --show-libmachine-logs=true ; \
+      /usr/local/bin/minikube ssh "mkdir -p /home/kozikow/git_repos && sudo mount -t vboxsf git_repos /home/kozikow/git_repos" ; \
+      /usr/local/bin/minikube ssh "mkdir -p /home/kozikow/.config && sudo mount -t vboxsf config /home/kozikow/.config"
+  RemainAfterExit=yes
+  ExecStop=/usr/local/bin/minikube stop
+
+  [Install]
+  WantedBy=multi-user.target
+#+END_EXAMPLE
+
+#+BEGIN_SRC bash :results output
+  sudo systemctl daemon-reload
+  sudo systemctl enable minikube.service
+  sudo systemctl start minikube.service
+#+END_SRC
+
 * Docker-PyCharm bugs
 The integration is still new, so there are a few bugs. It's still worth it. All bugs are in the pycharm issue tracker.
 - Your images can't have custom =ENTRYPOINT=

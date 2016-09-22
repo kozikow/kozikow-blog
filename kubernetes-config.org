@@ -38,7 +38,7 @@ In the yaml scenario, I would land at the [[http://kubernetes.io/docs/user-guide
 
 Compare this to the [[https://github.com/kubernetes/client-go/blob/3ccba38/1.4/pkg/api/v1/types.go#L1190][Container type in the client library]].
 
-As you might have noticed, the comments in go library provide more information.
+As you might have noticed, the comments in go library provide more information about your current problem - what to put in your config.
 By using go library you can just "godef-jump" to the definition of the type you are interested in straight from your config
 and continue navigating the library in the same way. You can also get auto-completion and other IDE-like features.
 

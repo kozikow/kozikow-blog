@@ -1,5 +1,6 @@
 #+BLOG: wordpress
 #+POSTID: 888
+#+OPTIONS: toc:2
 #+DATE: [2016-09-16 Fri 20:25]
 #+TITLE: Using PyCharm docker integration with minikube
 #+AUTHOR: Robert Kozikowski
@@ -53,7 +54,7 @@ If you use different VM provider you may need different settings.
 I want to share all my git repos with the virtualbox VM. I store them at /home/kozikow/git_repos.
 Firstly, I need to configure sharing in the virtualbox GUI:
 
-[[file:virtualbox_settings_blog.png][file:~/git_repos/github/kozikow/kozikow-blog/minikube/virtualbox_settings_blog.png]]
+[[file:kube_screenshot.png][file:~/git_repos/github/kozikow/kozikow-blog/minikube/kube_screenshot.png]]
 
 ** Mount paths in the VM
 
@@ -108,3 +109,6 @@ and connecting to it after =kubectl run=.
 # /home/kozikow/git_repos/github/kozikow/kozikow-blog/minikube/docker_minikube_config.png http://kozikow.files.wordpress.com/2016/09/docker_minikube_config2.png
 # virtualbox_settings_blog.png http://kozikow.files.wordpress.com/2016/09/virtualbox_settings_blog.png
 # /home/kozikow/git_repos/github/kozikow/kozikow-blog/minikube/virtualbox_settings_blog.png http://kozikow.files.wordpress.com/2016/09/virtualbox_settings_blog1.png
+
+# kube_screenshot.png http://kozikow.files.wordpress.com/2016/09/kube_screenshot.png
+# /home/kozikow/git_repos/github/kozikow/kozikow-blog/minikube/kube_screenshot.png http://kozikow.files.wordpress.com/2016/09/kube_screenshot1.png

@@ -432,10 +432,36 @@ It's a good idea to persist the font. Add it later to =/etc/vconsole.conf=, afte
 #+END_SRC
 ** Create partitions
 *** [[*Shrink the Windows partition from Windows][I already shrinked the Windows partition from Windows]]
-*** No need for swap partition
-Since the laptop have 8 GB of RAM it's plenty.
-Since 8 GB is more than plenty for a desktop, if OS would run out of 8 GBs it likely means that some program leaks memory and it's better to fail fast.
-If I decide afterwards that I need it for features like hibernation I can always use a [[https://wiki.archlinux.org/index.php/swap#Swap_file][swap file]].
+*** Create the swap
+I thought that swap may not be necessary, but 8gb is not that much of ram nowadays.
+**** Later, after installing the system
+I created a swap file afterwards. 
+I followed instructions at https://wiki.archlinux.org/index.php?title=Swap&redirect=no#Swap_file .
+#+BEGIN_SRC bash :results output
+  fallocate -l 8192M /swapfile
+  sudo chmod 600 /swapfile
+  sudo mkswap /swapfile
+  sudo swapon /swapfile
+#+END_SRC
+You may also need to create systemd service to do it automatically.
+Create =/etc/systemd/system/swap.service=:
+#+BEGIN_EXAMPLE
+  [Unit]
+  Description=Enable swap file
+
+  [Service]
+  Type=oneshot
+  TimeoutStartSec=300
+  User=root
+  ExecStart=/usr/bin/swapon /swapfile
+  ExecStop=/usr/bin/swapoff /swapfile
+  RemainAfterExit=yes
+
+  [Install]
+  WantedBy=multi-user.target
+#+END_EXAMPLE
+
+=sudo systemctl enable swap.service=
 *** [[https://wiki.archlinux.org/index.php/EFI_System_Partition][EFI system partition]] already exists
 Since laptop came with the UEFI support, the EFI system partition already exists.
 You can check it by
